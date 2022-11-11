@@ -106,9 +106,9 @@ In short PR title must follow the format
 <type>[optional scope]: <description>
 ```
 
-where `type` can be one of the followings in [.versionrc.js](./.versionrc.js)
+where `type` can be one of the followings in [.versionrc.js](.versionrc.js)
 
-Those commits will be used to generate [CHANGELOG.md](./CHANGELOG.md) automatically before the releases.
+Those commits will be used to generate [CHANGELOG.md](CHANGELOG.md) automatically before the releases.
 
 > More info: [standard-version](https://github.com/conventional-changelog/standard-version)
 
@@ -117,7 +117,7 @@ owners to license your work under the terms of the [MIT License](https://github.
 
 # Collaborating guidelines
 
-You can find the list of all contributors in [README.md](./README.md).
+You can find the list of all contributors in [README.md](README.md).
 
 You are always welcome to discuss and propose improvements to this guideline.
 
