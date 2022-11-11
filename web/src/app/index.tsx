@@ -10,10 +10,7 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { GlobalStyle } from 'styles/global-styles';
-
 import { HomePage } from './pages/HomePage/Loadable';
-import { NotFoundPage } from './pages/NotFoundPage/Loadable';
 import { useTranslation } from 'react-i18next';
 
 export function App() {
@@ -30,9 +27,8 @@ export function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="*" element={<NotFoundPage />} />
+        {/*<Route path="*" element={<NotFoundPage />} />*/}
       </Routes>
-      <GlobalStyle />
     </BrowserRouter>
   );
 }
