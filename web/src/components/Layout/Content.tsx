@@ -4,11 +4,13 @@
  */
 
 import React, {useState, useEffect, ReactNode} from 'react'
-import Box from "@mui/material/Box";
+import Box, { BoxProps } from "@mui/material/Box";
 import {makeStyles} from "@mui/styles";
+import clsx from "clsx";
 
-interface Props {
-  children: ReactNode
+interface ContentProps extends BoxProps{
+  className?: string;
+  children: ReactNode;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -18,11 +20,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function Content({ children }: Props) {
+function Content({ className, children, ...other }: ContentProps) {
   const classes = useStyles()
 
   return (
-    <Box className={classes.root}>
+    <Box className={clsx(classes.root, className)} {...other}>
       {children}
     </Box>
   )

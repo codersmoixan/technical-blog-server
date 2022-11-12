@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
 export enum TechnicalBlogPalette {
-  main = '#0072e5',
+  main = '#262627',
   white = '#FFFFFF',
   primary = '#3e5060',
   secondary = '#6f7e8c'
@@ -14,6 +14,7 @@ export default createTheme({
     },
     background: {
       default: TechnicalBlogPalette.main,
+
     },
     text: {
       primary: TechnicalBlogPalette.primary,
@@ -25,6 +26,9 @@ export default createTheme({
     info: {
       main: TechnicalBlogPalette.main
     },
+    common: {
+      white: TechnicalBlogPalette.white
+    }
   },
   typography: {
     fontFamily: [

@@ -8,19 +8,23 @@ import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
 import Image from "next/image";
 import Logo from "public/images/logo.jpg"
-import {NAVIGATION_LIST} from "components/Layout/constant";
+import { NAVIGATION_LIST } from "components/Layout/constant";
 import type { Theme } from "@mui/material";
-import {Typography} from "@mui/material";
+import Typography from "@mui/material/Typography";
+import Buttons from "components/Buttons";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    position: 'relative',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     height: 80,
+    zIndex: 9999
   },
   content: {
     display: 'flex',
+    justifyContent: 'space-between',
     width: 1408,
   },
   list: {
@@ -48,10 +52,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   logo: {
     width: 250,
     height: 80
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: 176,
+    height: '100%'
   }
-}), {
-  name: 'NavigationBar'
-})
+}))
 
 function NavigationBar() {
   const classes = useStyles()
@@ -68,7 +77,13 @@ function NavigationBar() {
           ))}
         </Box>
         <Box className={classes.tools}>
-          <Box className={classes.search}></Box>
+          <Box className={classes.search}>
+
+          </Box>
+          <Box className={classes.buttons}>
+            <Buttons variant="outlined" disableRipple>Log in</Buttons>
+            <Buttons variant="contained" disableRipple>Sign up</Buttons>
+          </Box>
         </Box>
       </Box>
     </Box>
