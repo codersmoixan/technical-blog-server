@@ -7,51 +7,49 @@ import { useState, useEffect } from 'react'
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
 import Image from "next/image";
-import Logo from "public/images/logo.jpg"
-import { NAVIGATION_LIST } from "components/Layout/constant";
+import Logo from "public/images/logo.png"
+import {NAVIGATION_LIST, NavigationItem} from "components/Layout/constant";
 import type { Theme } from "@mui/material";
-import Typography from "@mui/material/Typography";
 import Buttons from "components/Buttons";
+import FormText from "components/Form/FormText";
+import { useRouter } from "next/router";
+import clsx from "clsx";
+import isEmpty from "lodash/isEmpty"
+import isString from "lodash/isString"
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 80,
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
     zIndex: 9999
+  },
+  focus: {
+    backgroundColor: theme.palette.common.white,
+    transition: 'all .6s'
   },
   content: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: '0 auto',
     width: 1408,
   },
-  list: {
+  menus: {
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 8),
     height: 80,
   },
-  listItem: {
-    padding: theme.spacing(0, 3),
-    height: '100%',
-    lineHeight: '80px',
-    cursor: 'pointer',
-    transition: `all .3s`,
-    '&:hover': {
-      color: theme.palette.primary.main
-    }
-  },
   tools: {
-
-  },
-  search: {
-
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: 425
   },
   logo: {
     width: 250,
-    height: 80
+    height: 45
   },
   buttons: {
     display: 'flex',
@@ -59,31 +57,76 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: 'center',
     width: 176,
     height: '100%'
+  },
+  accordion: {
+    overflow: 'hidden',
+    position: 'relative',
+    maxHeight: 0,
+    transition: 'all 1s',
+    zIndex: 9999,
+  },
+  accordionOpen: {
+    maxHeight: 300,
+    boxShadow: 'rgb(19 19 19 / 8%) 0px 2px 4px 0px',
+  },
+  accordionContent: {
+    padding: theme.spacing(3),
+    margin: '0 auto',
+    width: 980
   }
 }))
 
 function NavigationBar() {
   const classes = useStyles()
+  const router = useRouter()
+
+  const [accordionContent, setAccordionOpen] = useState<any[]>([])
+
+  const handleCheckRoute = async (tab: NavigationItem | null, type: string = 'click') => {
+    if (tab === null || type === 'leave') {
+      return setAccordionOpen([])
+    }
+
+    if (type === 'enter') {
+      return setAccordionOpen(tab.menus || [])
+    }
+
+
+    return isString(tab.route) ? router.push(tab.route) : router.push(tab.route())
+  }
+
+  const accordionOpen = isEmpty(accordionContent)
 
   return (
-    <Box className={classes.root}>
+    <Box className={clsx(classes.root, {
+      [classes.focus]: !accordionOpen
+    })}>
       <Box className={classes.content}>
         <Image src={Logo} alt="" className={classes.logo} />
-        <Box className={classes.list}>
-          {NAVIGATION_LIST.map(item => (
-            <Box key={item.id} className={classes.listItem}>
-              <Typography component="span">{item.label}</Typography>
-            </Box>
+        <Box className={classes.menus}>
+          {NAVIGATION_LIST.map(tab => (
+            <Buttons
+              key={tab.id}
+              variant="text"
+              onClick={() => handleCheckRoute(tab)}
+              onMouseEnter={() => handleCheckRoute(tab, 'enter')}
+              onMouseLeave={() => handleCheckRoute(null, 'leave')}
+            >{tab.label}</Buttons>
           ))}
         </Box>
         <Box className={classes.tools}>
-          <Box className={classes.search}>
-
-          </Box>
+          <FormText placeholder="搜索本站" label="搜索本站" />
           <Box className={classes.buttons}>
-            <Buttons variant="outlined" disableRipple>Log in</Buttons>
-            <Buttons variant="contained" disableRipple>Sign up</Buttons>
+            <Buttons variant="outlined" color="primary" disableRipple>Log in</Buttons>
+            <Buttons variant="contained" color="info" disableRipple>Sign up</Buttons>
           </Box>
+        </Box>
+      </Box>
+      <Box className={clsx(classes.accordion, {
+        [classes.accordionOpen]: !accordionOpen
+      })}>
+        <Box className={classes.accordionContent}>
+          {accordionContent.map(item => <div key={item}>{item}</div>)}
         </Box>
       </Box>
     </Box>

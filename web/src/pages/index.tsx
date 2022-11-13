@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'absolute',
     top: 0,
     left: 0,
-    marginTop: theme.spacing(-10),
     width: '100vw',
     height: '100vh',
     zIndex: -1

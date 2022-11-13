@@ -19,22 +19,30 @@ const useStyles = makeStyles((theme: Theme) => ({
     '&.MuiButtonBase-root': {
       height: 42,
       borderColor: theme.palette.primary.main,
-      textTransform: 'none'
+      textTransform: 'none',
+    },
+    '&:hover': {
+      backgroundColor: 'transparent'
+    },
+    '&.MuiButton-textPrimary, &.MuiButton-outlinedPrimary': {
+      color: theme.palette.text.primary
     },
     '&.MuiButton-contained': {
       background: theme.palette.background.default
     },
-    '&.MuiButton-outlined': {
-      color: theme.palette.text.primary
-    }
   }
 }))
 
-function Buttons({ children, className, ...other }: ButtonsProps) {
-  const classes = useStyles()
+function Buttons(props: ButtonsProps) {
+  const { children, className, ...other } = props
+  const classes = useStyles(props)
 
   return (
-    <Button className={clsx(classes.root, className)} {...other}>
+    <Button
+      className={clsx(classes.root, className)}
+      color="primary"
+      {...other}
+    >
       {children}
     </Button>
   )

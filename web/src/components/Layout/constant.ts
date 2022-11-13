@@ -1,35 +1,53 @@
-export interface NavigationListItem {
-  id: number,
+import routes from "@/src/routes";
+import type { RouteParam } from "@/src/routes";
+
+export interface NavigationItem {
+  id: string,
   label: string,
-  url?: string
+  route: string | ((id?: RouteParam) => string),
+  menus?: any[]
 }
 
-export type NavigationList = NavigationListItem[]
+export type NavigationList = NavigationItem[]
 
 export const NAVIGATION_LIST: NavigationList = [
   {
-    id: 1,
+    id: 'home',
     label: '首页',
-    url: '/'
+    route: routes.home
   },
   {
-    id: 2,
+    id: 'share',
+    label: '分享',
+    route: routes.share,
+    menus: [1, 2, 3]
+  },
+  {
+    id: 'files',
     label: '归档',
+    route: routes.files,
+    menus: [1, 2, 3, 4, 5, 6]
   },
   {
-    id: 3,
-    label: '标签'
+    id: 'tags',
+    label: '标签',
+    route: routes.tags,
+    menus: [1, 2, 3, 4, 5, 6, 7, 8]
   },
   {
-    id: 4,
+    id: 'works',
     label: '作品',
+    route: routes.works,
+    menus: [1]
   },
   {
-    id: 5,
-    label: '友链'
+    id: 'links',
+    label: '友链',
+    route: routes.links
   },
   {
-    id: 6,
-    label: '关于'
+    id: 'about',
+    label: '关于',
+    route: routes.about
   }
 ]

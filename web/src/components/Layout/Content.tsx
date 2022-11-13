@@ -5,7 +5,7 @@
 
 import React, {useState, useEffect, ReactNode} from 'react'
 import Box, { BoxProps } from "@mui/material/Box";
-import {makeStyles} from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 
 interface ContentProps extends BoxProps{
@@ -15,13 +15,14 @@ interface ContentProps extends BoxProps{
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: '0 auto',
+    margin: '80px auto 0',
     width: 1376,
   }
 }))
 
-function Content({ className, children, ...other }: ContentProps) {
-  const classes = useStyles()
+function Content(props: ContentProps) {
+  const { className, children, ...other } = props
+  const classes = useStyles(props)
 
   return (
     <Box className={clsx(classes.root, className)} {...other}>
