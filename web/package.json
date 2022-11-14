@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^1.9.0",
     "add": "^2.0.6",
     "clsx": "^1.2.1",
+    "lodash": "^4.17.21",
     "next": "13.0.3",
     "next-videos": "1.5.0",
     "react": "18.2.0",
@@ -26,6 +27,7 @@
     "yarn": "^1.22.19"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.188",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
