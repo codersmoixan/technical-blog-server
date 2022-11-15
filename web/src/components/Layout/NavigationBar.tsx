@@ -80,15 +80,15 @@ function NavigationBar() {
   const classes = useStyles()
   const router = useRouter()
 
-  const [accordionContent, setAccordionOpen] = useState<any[]>([])
+  const [accordionContent, setAccordionContent] = useState<any[]>([])
 
   const handleCheckRoute = async (tab: NavigationItem | null, type: string = 'click') => {
     if (tab === null || type === 'leave') {
-      return setAccordionOpen([])
+      return setAccordionContent([])
     }
 
     if (type === 'enter') {
-      return setAccordionOpen(tab.menus || [])
+      return setAccordionContent(tab.menus || [])
     }
 
 
