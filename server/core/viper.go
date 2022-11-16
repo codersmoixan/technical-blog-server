@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/viper"
 	"os"
 	"path/filepath"
-	internal2 "technical-blog-server/core/internal"
+	"technical-blog-server/core/internal"
 	"technical-blog-server/global"
 	"time"
 )
@@ -22,21 +22,21 @@ func Viper(path ...string) *viper.Viper {
 		flag.Parse()
 
 		if config == "" { // 判断命令行参数是否为空
-			if configEnv := os.Getenv(internal2.ConfigEnv); configEnv == "" { // 判断 internal.ConfigEnv 常量存储的环境变量是否为空
+			if configEnv := os.Getenv(internal.ConfigEnv); configEnv == "" { // 判断 internal.ConfigEnv 常量存储的环境变量是否为空
 				switch gin.Mode() {
 				case gin.DebugMode:
-					config = internal2.ConfigDebugFile
-					fmt.Printf("正在使用gin模式的%s环境,config的路径为%s\n", gin.EnvGinMode, internal2.ConfigDebugFile)
+					config = internal.ConfigDefaultFile
+					fmt.Printf("正在使用gin模式的%s环境,config的路径为%s\n", gin.DebugMode, internal.ConfigDebugFile)
 				case gin.TestMode:
-					config = internal2.ConfigTestFile
-					fmt.Printf("正在使用gin模式的%s环境,config的路径为%s\n", gin.EnvGinMode, internal2.ConfigTestFile)
+					config = internal.ConfigTestFile
+					fmt.Printf("正在使用gin模式的%s环境,config的路径为%s\n", gin.TestMode, internal.ConfigTestFile)
 				case gin.ReleaseMode:
-					config = internal2.ConfigReleaseFile
-					fmt.Printf("正在使用gin模式的%s环境,config的路径为%s\n", gin.EnvGinMode, internal2.ConfigReleaseFile)
+					config = internal.ConfigReleaseFile
+					fmt.Printf("正在使用gin模式的%s环境,config的路径为%s\n", gin.ReleaseMode, internal.ConfigReleaseFile)
 				}
 			} else { // internal.ConfigEnv 常量存储的环境变量不为空 将值赋于config
 				config = configEnv
-				fmt.Printf("正在使用%s环境变量,config的路径为%s\n", internal2.ConfigEnv, config)
+				fmt.Printf("正在使用%s环境变量,config的路径为%s\n", internal.ConfigEnv, config)
 			}
 		} else { // 命令行参数不为空 将值赋于config
 			fmt.Printf("正在使用命令行的-c参数传递的值,config的路径为%s\n", config)

@@ -1,10 +1,13 @@
 package initialize
 
 import (
+	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"os"
 	"technical-blog-server/global"
 	"technical-blog-server/initialize/internal"
+	"technical-blog-server/model/system"
 )
 
 // Gorm 初始化数据库
@@ -35,4 +38,19 @@ func GormMysql() *gorm.DB {
 
 		return db
 	}
+}
+
+// RegisterTables 注册数据库表
+func RegisterTables(db *gorm.DB) {
+	err := db.AutoMigrate(
+		system.SysApi{},
+		system.SysUser{},
+	)
+
+	if err != nil {
+		global.TB_LOG.Error("register table failed", zap.Error(err))
+		os.Exit(0)
+	}
+
+	global.TB_LOG.Info("register table success")
 }

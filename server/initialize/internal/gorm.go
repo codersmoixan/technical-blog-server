@@ -29,10 +29,7 @@ func (g *_gorm) Config() *gorm.Config {
 		Colorful:      true,
 	})
 
-	var logMode DbBase
-	if global.TB_CONFIG.System.DbType == "mysql" {
-		logMode = &global.TB_CONFIG.MySql
-	}
+	var logMode DbBase = &global.TB_CONFIG.MySql
 
 	switch logMode.GetLogMode() {
 	case "silent", "Silent":

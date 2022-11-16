@@ -14,4 +14,14 @@ func main() {
 	global.TB_LOG = core.Zap()
 	zap.ReplaceGlobals(global.TB_LOG)
 	global.TB_DB = initialize.Gorm() // gorm连接数据库
+
+	if global.TB_DB != nil {
+		initialize.RegisterTables(global.TB_DB) // 初始化表
+
+		// 程序结束前关闭数据库链接
+		db, _ := global.TB_DB.DB()
+		defer db.Close()
+	}
+
+	core.RunServer()
 }
