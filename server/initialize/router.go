@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"github.com/gin-gonic/gin"
+	"technical-blog-server/global"
 	"technical-blog-server/router"
 )
 
@@ -14,6 +15,8 @@ func Routers() *gin.Engine {
 	{
 		systemRouter.SetupUserRouter(PrivateGroup)
 	}
+
+	global.TB_LOG.Info("router register success")
 
 	return Router
 }
