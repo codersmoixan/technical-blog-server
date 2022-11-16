@@ -1,7 +1,7 @@
 package system
 
 import (
-	"github.com/google/uuid"
+	uuid "github.com/satori/go.uuid"
 	"technical-blog-server/global"
 )
 
