@@ -1,11 +1,11 @@
 package v1
 
 import (
-	system2 "technical-blog-server/api/v1/system"
+	apiSystem "technical-blog-server/api/v1/system"
 )
 
 type ApiGroup struct {
-	SystemApiGroup system2.ApiGroup
+	SystemApiGroup apiSystem.ApiGroup
 }
 
 var ApiGroupApp = new(ApiGroup)

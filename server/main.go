@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"go.uber.org/zap"
 	"technical-blog-server/core"
 	"technical-blog-server/global"
@@ -9,7 +8,6 @@ import (
 )
 
 func main() {
-	fmt.Printf("Hello Technical-blog")
 	global.TB_VP = core.Viper()
 	global.TB_LOG = core.Zap()
 	zap.ReplaceGlobals(global.TB_LOG)

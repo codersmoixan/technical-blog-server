@@ -27,3 +27,11 @@ func Result(code int, data interface{}, msg string, c *gin.Context) {
 func FailWithMessage(msg string, c *gin.Context) {
 	Result(ERROR, map[string]interface{}{}, msg, c)
 }
+
+func OkWithDetailed(data interface{}, msg string, c *gin.Context) {
+	Result(SUCCESS, data, msg, c)
+}
+
+func FailWithDetailed(data interface{}, msg string, c *gin.Context) {
+	Result(ERROR, data, msg, c)
+}
