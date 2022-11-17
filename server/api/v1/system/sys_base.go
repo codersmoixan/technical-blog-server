@@ -4,9 +4,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
 	"technical-blog-server/global"
+	response "technical-blog-server/model/common/response"
 	modelSystem "technical-blog-server/model/system"
-	"technical-blog-server/model/system/request"
-	"technical-blog-server/model/system/response"
+	requestParams "technical-blog-server/model/system/request_params"
 	"technical-blog-server/utils"
 )
 
@@ -19,7 +19,7 @@ var store = base64Captcha.DefaultMemStore
 // @produce: application/json
 // @router: /base/login
 func (b *BaseApi) Login(c *gin.Context) {
-	var param request.Login
+	var param requestParams.Login
 	_ = c.ShouldBindJSON(param)
 
 	if err := utils.Verify(param, utils.LoginRule); err != nil {

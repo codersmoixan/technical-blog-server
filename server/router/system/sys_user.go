@@ -1,12 +1,16 @@
 package system
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	v1 "technical-blog-server/api/v1"
+)
 
 type UserRouter struct{}
 
 func (s *UserRouter) SetupUserRouter(Router *gin.RouterGroup) {
 	userRouter := Router.Group("user")
+	userApi := v1.ApiGroupApp.SystemApiGroup.UserApi
 	{
-		userRouter.POST("")
+		userRouter.POST("register", userApi.Register)
 	}
 }

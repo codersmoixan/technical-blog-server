@@ -24,3 +24,10 @@ zap:
   max_age: 30
   show_line: true
   log_in_console: true
+
+system:
+  env: 'public'
+  addr: 5173
+  use_redis: false
+  oss_type: 'local'
+  db_type: 'mysql'

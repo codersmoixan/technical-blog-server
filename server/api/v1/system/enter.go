@@ -4,8 +4,10 @@ import "technical-blog-server/service"
 
 type ApiGroup struct {
 	BaseApi
+	UserApi
 }
 
 var (
-	baseService = service.ServiceGroupApp.SystemServiceGroup.BaseService
+	baseService = service.GroupApp.SystemServiceGroup.BaseService
+	userService = service.GroupApp.SystemServiceGroup.UserService
 )

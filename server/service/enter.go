@@ -2,8 +2,8 @@ package service
 
 import "technical-blog-server/service/system"
 
-type ServiceGroup struct {
+type Group struct {
 	SystemServiceGroup system.ServiceGroup
 }
 
-var ServiceGroupApp = new(ServiceGroup)
+var GroupApp = new(Group)
