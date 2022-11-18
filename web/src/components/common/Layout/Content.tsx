@@ -3,20 +3,27 @@
  * @description Content
  */
 
-import React, {useState, useEffect, ReactNode} from 'react'
+import React, { ReactNode } from 'react'
 import Box, { BoxProps } from "@mui/material/Box";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
+import type { Theme } from "@mui/material";
 
 interface ContentProps extends BoxProps{
   className?: string;
   children: ReactNode;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    margin: '80px auto 0',
-    width: 1376,
+    position: 'relative',
+    margin: '0 auto',
+    paddingTop: theme.spacing(11),
+    maxWidth: 1376,
+    [theme.breakpoints.down('lg')]: {
+      margin: '72px auto 0',
+      paddingTop: 0
+    }
   }
 }))
 
