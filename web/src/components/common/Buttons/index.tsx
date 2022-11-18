@@ -11,7 +11,8 @@ import clsx from "clsx";
 
 interface ButtonsProps extends ButtonProps{
   children: React.ReactNode,
-  className?: string
+  className?: string,
+  space?: boolean
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -28,18 +29,30 @@ const useStyles = makeStyles((theme: Theme) => ({
       color: theme.palette.text.primary
     },
     '&.MuiButton-contained': {
-      background: theme.palette.background.default
+      background: theme.palette.primary.main
     },
+  },
+  emptySpace: {
+    '&.MuiButtonBase-root': {
+      padding: 0,
+      margin: 0,
+      width: 'auto',
+      minWidth: 'auto',
+      height: 'auto',
+      minHeight: 'auto'
+    }
   }
 }))
 
 function Buttons(props: ButtonsProps) {
-  const { children, className, ...other } = props
+  const { children, className, space = true, ...other } = props
   const classes = useStyles(props)
 
   return (
     <Button
-      className={clsx(classes.root, className)}
+      className={clsx(classes.root, {
+        [classes.emptySpace]: !space
+      }, className)}
       color="primary"
       {...other}
     >

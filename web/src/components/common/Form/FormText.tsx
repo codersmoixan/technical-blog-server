@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.text.primary,
     '&.MuiFormLabel-root.Mui-focused': {
       transform: 'translate(18px, -7px) scale(0.75)',
-      color: theme.palette.text.primary
+      color: theme.palette.text.primary,
+      backgroundColor: 'transparent'
     }
   },
   input: {

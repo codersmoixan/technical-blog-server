@@ -1,34 +1,47 @@
 import { createTheme } from "@mui/material/styles";
 
-export enum TechnicalBlogPalette {
-  main = '#262627',
-  white = '#FFFFFF',
-  primary = '#3e5060',
-  secondary = '#6f7e8c'
+interface CustomThemeOptions {
+  status: {
+    white: string;
+    bgDark: string;
+    textSecondary: string
+  }
 }
 
+declare module '@mui/material/styles' {
+  interface Theme extends CustomThemeOptions {}
+  // allow configuration using `createTheme`
+  interface ThemeOptions extends CustomThemeOptions {}
+}
+
+const TB_PALETTE_MAIN = '#262627'
+const TB_PALETTE_TEXT_PRIMARY = '#3e5060'
+const TB_PALETTE_TEXT_SECONDARY = '#3e5060'
+const TB_PALETTE_BG_DEFAULT = '#fcfaf8'
+
+const TB_STATUS_WHITE = '#FFFFFF'
+const TB_STATUS_BG_DARK = '#131313'
+const TB_STATUS_COLOR_TEXT_SECONDARY = '#AAAAAA'
+
+
 export default createTheme({
+  status: {
+    white: TB_STATUS_WHITE,
+    bgDark: TB_STATUS_BG_DARK,
+    textSecondary: TB_STATUS_COLOR_TEXT_SECONDARY
+  },
   palette: {
     primary: {
-      main: TechnicalBlogPalette.main,
+      main: TB_PALETTE_MAIN,
     },
     background: {
-      default: TechnicalBlogPalette.main,
+      default: TB_PALETTE_BG_DEFAULT,
 
     },
     text: {
-      primary: TechnicalBlogPalette.primary,
-      secondary: TechnicalBlogPalette.secondary,
+      primary: TB_PALETTE_TEXT_PRIMARY,
+      secondary: TB_PALETTE_TEXT_SECONDARY,
     },
-    success: {
-      main: TechnicalBlogPalette.main
-    },
-    info: {
-      main: TechnicalBlogPalette.main
-    },
-    common: {
-      white: TechnicalBlogPalette.white
-    }
   },
   typography: {
     fontFamily: [
