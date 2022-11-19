@@ -25,16 +25,16 @@ function Index() {
   const classes = useStyles()
   const router = useRouter()
 
-  const [accordionContent, setAccordionContent] = useState<any[]>([])
   const [openDialog, setOpenDialog] = useState(false)
+  const [focusTab, setFocusTab] = useState<NavigationItem>(NAVIGATION_LIST[0])
 
   const handleCheckRoute = async (tab: NavigationItem | null, type: string = 'click') => {
     if (tab === null || type === 'leave') {
-      return setAccordionContent([])
+      return setFocusTab(NAVIGATION_LIST[0])
     }
 
     if (type === 'enter') {
-      return setAccordionContent(tab.menus || [])
+      return !isEmpty(tab.menus) && setFocusTab(tab)
     }
 
 
@@ -43,7 +43,7 @@ function Index() {
 
   const handleOpenDialog = () => setOpenDialog(true)
 
-  const accordionOpen = isEmpty(accordionContent)
+  const accordionOpen = isEmpty(focusTab.menus)
 
   return (
     <>
@@ -69,8 +69,7 @@ function Index() {
             </Box>
           </Box>
           <AccordionMenu
-            open={accordionOpen}
-            menus={accordionContent}
+            tab={focusTab}
             onMouseLeave={() => handleCheckRoute(null, 'leave')}
           />
         </Box>
