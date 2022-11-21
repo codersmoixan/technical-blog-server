@@ -22,10 +22,12 @@ import UserButtons from "components/common/Navigation/components/UserButtons";
 import AccordionMenu from "components/common/Navigation/components/AccordionMenu";
 import throttle from "lodash/throttle";
 import routes from "@/src/routes";
+import { useTheme } from "@mui/material/styles";
 
 function Index() {
   const classes = useStyles()
   const history = useRouter()
+  const theme = useTheme()
 
   const [openDialog, setOpenDialog] = useState(false)
   const [focusTab, setFocusTab] = useState<NavigationItem>(NAVIGATION_LIST[0])
@@ -76,7 +78,7 @@ function Index() {
               ))}
             </Box>
             <Box className={classes.tools}>
-              <FormText placeholder="搜索本站" label="搜索本站" />
+              <FormText label="搜索本站" bgColor={theme.status.transparent} />
               <UserButtons />
             </Box>
           </Box>

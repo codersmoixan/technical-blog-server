@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     '&.Mui-expanded': {
       margin: 0,
+    },
+    '&:last-of-type': {
+      borderBottom: 'none'
     }
   },
   summary: {
