@@ -13,10 +13,34 @@ import { makeStyles } from "@mui/styles";
 import Banner from "components/common/Layout/Banner";
 import type { Theme } from "@mui/material";
 import Menu from "components/common/Menu";
+import FormText from "components/common/Form/FormText";
+import {useTheme} from "@mui/material/styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
   content: {
-    display: 'flex'
+    display: 'flex',
+    marginTop: theme.spacing(8)
+  },
+  menu: {
+    padding: theme.spacing(3),
+    marginTop: theme.spacing(-3)
+  },
+  menuTitle: {
+    paddingBottom: theme.spacing(4),
+    borderBottom: `1px solid ${theme.status.colorSecondary}`
+  },
+  main: {
+    marginLeft: theme.spacing(8),
+    flex: 1
+  },
+  search: {
+  },
+  formText: {
+    width: '100%',
+    boxShadow: 'rgb(19 19 19 / 12%) 0px 2px 5px 0.5px',
+    '& input.MuiInputBase-input': {
+      height: 58
+    }
   }
 }))
 
@@ -67,6 +91,7 @@ const options = [
 
 function Share() {
   const classes = useStyles()
+  const theme = useTheme()
 
   return (
     <Root backdrop={CreativeGrid}>
@@ -80,7 +105,19 @@ function Share() {
           </Typography>
         </Banner>
         <Box className={classes.content}>
-          <Menu menus={options} />
+          <Box className={classes.menu}>
+            <Typography
+              variant="h3"
+              fontWeight={400}
+              className={classes.menuTitle}
+            >分类</Typography>
+            <Menu menus={options} />
+          </Box>
+          <Box className={classes.main}>
+            <Box className={classes.search}>
+              <FormText className={classes.formText} bgColor={theme.status.transparent} label="这里可以搜索你想知道的内容" />
+            </Box>
+          </Box>
         </Box>
       </Content>
     </Root>

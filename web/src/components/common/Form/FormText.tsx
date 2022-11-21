@@ -3,28 +3,41 @@
  * @description FormText
  */
 
-import React from 'react'
-import clsx from "clsx";
+import React, {  ReactNode} from 'react'
 import { makeStyles } from "@mui/styles";
 import OutlinedInput, { OutlinedInputProps } from "@mui/material/OutlinedInput";
+import { FormControl, InputLabel } from "@mui/material";
 import type { Theme } from "@mui/material";
-import {FormControl, InputLabel} from "@mui/material";
+import isString from "lodash/isString";
+import clsx from "clsx";
 
 interface FormTextProps extends OutlinedInputProps {
-  className?: string
+  className?: string;
+  label?: ReactNode | undefined;
+  bgColor?: string
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    position: 'relative'
+  },
   label: {
     '&.MuiFormLabel-root': {
-      transform: 'translate(14px, 10px) scale(1)',
+      position: 'absolute',
+      top: '50%',
+      left: 14,
+      transform: 'translateY(-50%) scale(1)',
       fontSize: 14,
       color: theme.palette.text.primary,
+      transition: 'all .3s'
     },
     '&.MuiFormLabel-root.Mui-focused': {
-      transform: 'translate(18px, -7px) scale(0.75)',
+      transform: 'scale(0.85)',
+      left: 16,
+      top: -7,
+      fontSize: 12,
       color: theme.palette.text.primary,
-      backgroundColor: 'transparent'
+      backgroundColor: theme.status.transparent
     }
   },
   input: {
@@ -44,6 +57,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontSize: 14
       },
     },
+    '& .MuiOutlinedInput-notchedOutline': {
+      backgroundColor: `${(props: FormTextProps) => props.bgColor ?? theme.status.white}`
+    },
 
     '&.Mui-focused': {
       '& .MuiOutlinedInput-notchedOutline': {
@@ -58,11 +74,12 @@ function FormText(props: FormTextProps) {
   const classes = useStyles(props)
 
   return (
-    <FormControl variant="outlined">
+    <FormControl variant="outlined" className={clsx(classes.root, className)}>
       <InputLabel className={classes.label}>{label}</InputLabel>
       <OutlinedInput
-        className={clsx(classes.input, className)}
+        className={classes.input}
         label={label}
+        placeholder={isString(label) ? label : ''}
         {...other}
       />
     </FormControl>
