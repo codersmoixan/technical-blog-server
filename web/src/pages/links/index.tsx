@@ -6,13 +6,26 @@
 import React from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Content from "components/common/Layout/Content";
+import CreativeSky from "public/images/backdrop/cretive-sky.jpeg"
+import Root from "components/common/Layout/Root";
+import Banner from "components/common/Layout/Banner";
 
 function Links() {
 
   return (
-    <Box>
-      <Typography variant="h2">Links</Typography>
-    </Box>
+    <Root backdrop={CreativeSky}>
+      <Content>
+        <Banner>
+          <Typography variant="h2" fontWeight={400}>
+            世间的黑暗与痛苦
+          </Typography>
+          <Typography variant="h2" fontWeight={400}>
+            依然有它的单纯和美好
+          </Typography>
+        </Banner>
+      </Content>
+    </Root>
   )
 }
 

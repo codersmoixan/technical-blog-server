@@ -6,13 +6,18 @@
 import React from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Root from "components/common/Layout/Root";
+import Content from "components/common/Layout/Content";
+import CreativeLines from "public/images/backdrop/creative-lines.jpeg"
 
 function About() {
 
   return (
-    <Box>
-      <Typography variant="h2">About</Typography>
-    </Box>
+    <Root backdrop={CreativeLines}>
+      <Content>
+        <Typography variant="h2">About</Typography>
+      </Content>
+    </Root>
   )
 }
 
