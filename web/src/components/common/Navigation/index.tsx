@@ -3,7 +3,7 @@
  * @description Index
  */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Box from "@mui/material/Box";
 import Image from "next/image";
 import Logo from "public/images/logo.png"
@@ -20,13 +20,24 @@ import MenuIcon from "components/common/Icons/MenuIcon";
 import MenuDrawer from "components/common/Navigation/components/MenuDrawer";
 import UserButtons from "components/common/Navigation/components/UserButtons";
 import AccordionMenu from "components/common/Navigation/components/AccordionMenu";
+import throttle from "lodash/throttle";
+import routes from "@/src/routes";
 
 function Index() {
   const classes = useStyles()
-  const router = useRouter()
+  const history = useRouter()
 
   const [openDialog, setOpenDialog] = useState(false)
   const [focusTab, setFocusTab] = useState<NavigationItem>(NAVIGATION_LIST[0])
+  const [focus, setFocus] = useState(false)
+
+  useEffect(() => {
+    const scroll = () => setFocus(window.scrollY >= 150)
+
+    window.addEventListener('scroll', throttle(scroll, 500))
+
+    return () => removeEventListener('scroll', scroll)
+  }, [])
 
   const handleCheckRoute = async (tab: NavigationItem | null, type: string = 'click') => {
     if (tab === null || type === 'leave') {
@@ -38,21 +49,22 @@ function Index() {
     }
 
 
-    return isString(tab.route) ? router.push(tab.route) : router.push(tab.route())
+    return isString(tab.route) ? history.push(tab.route) : history.push(tab.route())
   }
 
   const handleOpenDialog = () => setOpenDialog(true)
 
-  const accordionOpen = isEmpty(focusTab.menus)
+  const handleToHome = () => history.push(routes.home)
 
   return (
     <>
       <MediaVisible media="pc">
-        <Box className={clsx(classes.root, {
-          [classes.focus]: !accordionOpen
-        })}>
+        <Box
+          className={clsx(classes.root, focus ? classes.focus : classes.blur)}
+          onMouseLeave={() => handleCheckRoute(null, 'leave')}
+        >
           <Box className={classes.content}>
-            <Image src={Logo} alt="" className={classes.logo} />
+            <Image src={Logo} alt="" className={classes.logo} onClick={handleToHome} />
             <Box className={classes.menus}>
               {NAVIGATION_LIST.map(tab => (
                 <Buttons
@@ -70,13 +82,13 @@ function Index() {
           </Box>
           <AccordionMenu
             tab={focusTab}
-            onMouseLeave={() => handleCheckRoute(null, 'leave')}
+            focus={focus}
           />
         </Box>
       </MediaVisible>
       <MediaVisible media={['pad', 'mobile']}>
         <Box className={classes.root}>
-          <Image src={Logo} alt="" className={classes.logo} />
+          <Image src={Logo} alt="" className={classes.logo} onClick={handleToHome} />
           <Buttons
             variant="text"
             space={false}

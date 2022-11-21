@@ -17,11 +17,9 @@ interface ButtonsProps extends ButtonProps{
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    '&.MuiButtonBase-root': {
-      height: 42,
-      borderColor: theme.palette.primary.main,
-      textTransform: 'none',
-    },
+    height: 42,
+    borderColor: theme.palette.primary.main,
+    textTransform: 'none',
     '&:hover': {
       backgroundColor: 'transparent'
     },
@@ -50,9 +48,10 @@ function Buttons(props: ButtonsProps) {
 
   return (
     <Button
-      className={clsx(classes.root, {
+      className={clsx({
         [classes.emptySpace]: !space
       }, className)}
+      classes={{ root: classes.root }}
       color="primary"
       {...other}
     >

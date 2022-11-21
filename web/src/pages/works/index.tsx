@@ -1,24 +1,24 @@
 /**
  * @author zhengji.su
- * @description Links
+ * @description Works
  */
 
 import React from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import CreativeParallel from "public/images/backdrop/creative-parallel.jpeg"
 import Content from "components/common/Layout/Content";
-import CreativeSky from "public/images/backdrop/cretive-sky.jpeg"
 import Root from "components/common/Layout/Root";
 
-function Links() {
+function Works() {
 
   return (
-    <Root backdrop={CreativeSky}>
+    <Root backdrop={CreativeParallel}>
       <Content>
-        <Typography variant="h2">Links</Typography>
+        <Typography variant="h2">Works</Typography>
       </Content>
     </Root>
   )
 }
 
-export default Links
+export default Works

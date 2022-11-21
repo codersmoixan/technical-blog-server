@@ -6,13 +6,18 @@
 import React from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Content from "components/common/Layout/Content";
+import Root from "components/common/Layout/Root";
+import CreativeGrid from "public/images/backdrop/creative-grid.jpeg"
 
 function Share() {
 
   return (
-    <Box>
-      <Typography variant="h2">Share</Typography>
-    </Box>
+    <Root backdrop={CreativeGrid}>
+      <Content>
+        <Typography variant="h2">Share</Typography>
+      </Content>
+    </Root>
   )
 }
 

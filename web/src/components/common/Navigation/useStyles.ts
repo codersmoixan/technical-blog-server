@@ -8,7 +8,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     left: 0,
     width: '100%',
     boxSizing: 'border-box',
-    zIndex: 99,
+    zIndex: 999,
+    backgroundColor: 'rgba(255, 255, 255, 0)',
+    transition: 'all .6s',
     [theme.breakpoints.down('lg')]: {
       padding: theme.spacing(0, 3),
       display: 'flex',
@@ -19,8 +21,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   },
   focus: {
-    backgroundColor: theme.status.white,
-    transition: 'all .6s'
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+  },
+  blur: {
+    backgroundColor: 'rgba(255, 255, 255, 0)'
   },
   content: {
     display: 'flex',

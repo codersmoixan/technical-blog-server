@@ -1,24 +1,24 @@
 /**
  * @author zhengji.su
- * @description Links
+ * @description Tags
  */
 
 import React from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Content from "components/common/Layout/Content";
-import CreativeSky from "public/images/backdrop/cretive-sky.jpeg"
 import Root from "components/common/Layout/Root";
+import CreativeBleak from "public/images/backdrop/creative-bleak.jpeg"
 
-function Links() {
+function Tags() {
 
   return (
-    <Root backdrop={CreativeSky}>
+    <Root backdrop={CreativeBleak}>
       <Content>
-        <Typography variant="h2">Links</Typography>
+        <Typography variant="h2">Tags</Typography>
       </Content>
     </Root>
   )
 }
 
-export default Links
+export default Tags

@@ -1,24 +1,24 @@
 /**
  * @author zhengji.su
- * @description Links
+ * @description Files
  */
 
 import React from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Content from "components/common/Layout/Content";
-import CreativeSky from "public/images/backdrop/cretive-sky.jpeg"
 import Root from "components/common/Layout/Root";
+import CreativeVeins from "public/images/backdrop/creative-veins.jpeg"
 
-function Links() {
+function Files() {
 
   return (
-    <Root backdrop={CreativeSky}>
+    <Root backdrop={CreativeVeins}>
       <Content>
-        <Typography variant="h2">Links</Typography>
+        <Typography variant="h2">Files</Typography>
       </Content>
     </Root>
   )
 }
 
-export default Links
+export default Files

@@ -16,9 +16,11 @@ interface FormTextProps extends OutlinedInputProps {
 
 const useStyles = makeStyles((theme: Theme) => ({
   label: {
-    transform: 'translate(14px, 10px) scale(1)',
-    fontSize: 14,
-    color: theme.palette.text.primary,
+    '&.MuiFormLabel-root': {
+      transform: 'translate(14px, 10px) scale(1)',
+      fontSize: 14,
+      color: theme.palette.text.primary,
+    },
     '&.MuiFormLabel-root.Mui-focused': {
       transform: 'translate(18px, -7px) scale(0.75)',
       color: theme.palette.text.primary,
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
     '&.Mui-focused': {
       '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: theme.palette.primary.main
+        borderColor: theme.palette.primary.main,
       }
     }
   }
