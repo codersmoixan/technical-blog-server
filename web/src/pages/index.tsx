@@ -9,17 +9,17 @@ import Buttons from "components/common/Buttons";
 import {useRouter} from "next/router";
 import routes from "@/src/routes";
 import Root from "components/common/Layout/Root";
+import Banner from "components/common/Layout/Banner";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
     alignItems: "center",
     padding: theme.spacing(0, 3),
-    marginTop: theme.spacing(28)
   },
-  content: {
+  banner: {
+    justifyContent: 'flex-end',
     width: 545,
-    minHeight: 425
   },
   subtitle: {
     margin: theme.spacing(3, 0)
@@ -38,32 +38,28 @@ function Home({ a }: any) {
 
   return (
     <Root position="relative">
-      <Content>
-        <Box className={classes.root}>
-          <Box className={classes.content}>
-            <Typography variant="h2" fontWeight={400}>
-              宁可累死自己
-            </Typography>
-            <Typography variant="h2" fontWeight={400}>
-              也要卷死同行
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              classes={{ root: classes.subtitle }}
-            >
-              通过合并相近网格的几何图形，非常细致的管理实例化对象从而节省提升渲染效率。
-              车辆在道路中的进行情况会被不断追踪计算，并依据远景能见度来释放不可见的元素并使其重复使用。
-              提供一系列和质量有关的设定以满足不同设备上的渲染。
-            </Typography>
-            <Buttons
-              variant="contained"
-              className={classes.startShare}
-              onClick={handleToShare}
-            >
-              开始分享旅程
-            </Buttons>
-          </Box>
-        </Box>
+      <Content className={classes.root}>
+        <Banner className={classes.banner}>
+          <Typography variant="h2" fontWeight={400}>
+            你一路颠沛流离
+          </Typography>
+          <Typography variant="h2" fontWeight={400}>
+            到最遥远的地方旅行
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            classes={{ root: classes.subtitle }}
+          >
+            未来，就是你站在茫茫大海的这一边，遥望着海的那一边，充满好奇心，憧憬着对海那边的向往，正是对未知的不了解和向往，所以才有了去追逐未来的勇气。
+          </Typography>
+          <Buttons
+            variant="contained"
+            className={classes.startShare}
+            onClick={handleToShare}
+          >
+            开始你的旅行
+          </Buttons>
+        </Banner>
       </Content>
       <Video />
     </Root>

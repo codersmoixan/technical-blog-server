@@ -31,12 +31,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     margin: '0 auto',
-    maxWidth: 1408,
+    maxWidth: theme.status.navWidth,
   },
   menus: {
     display: 'flex',
     alignItems: 'center',
-    height: 88,
+    height: theme.status.navHeight,
   },
   tools: {
     display: 'flex',

@@ -2,12 +2,18 @@ import { createTheme } from "@mui/material/styles";
 
 interface CustomThemeOptions {
   status: {
+    backdropHeight: number;
+    navHeight: number;
+    navWidth: number;
+    contentWidth: number;
+
     white: string;
     bgDark: string;
     textSecondary: string;
     transparent: string;
     transition: (t?: number) => string;
     transitionTime: string;
+    colorSecondary: string
   }
 }
 
@@ -18,12 +24,12 @@ declare module '@mui/material/styles' {
 }
 
 const TB_PALETTE_MAIN = '#262627'
-const TB_PALETTE_TEXT_PRIMARY = '#3e5060'
 const TB_PALETTE_TEXT_SECONDARY = '#3e5060'
-const TB_PALETTE_BG_DEFAULT = '#fcfaf8'
+const TB_PALETTE_BG_DEFAULT = '#f5f1ea'
 
 const TB_STATUS_WHITE = '#FFFFFF'
 const TB_STATUS_BG_DARK = '#131313'
+const TB_STATUS_COLOR_SECONDARY = '#9ea7af'
 const TB_STATUS_COLOR_TEXT_SECONDARY = '#AAAAAA'
 const TB_STATUS_COLOR_TRANSPARENT = 'transparent'
 const TB_STATUS_TRANSITION_TIME = '.3s'
@@ -32,12 +38,18 @@ const TB_STATUS_TRANSITION = (t?: number) => t ? `all ${t}s` : `all ${TB_STATUS_
 
 const theme = createTheme({
   status: {
+    backdropHeight: 580,
+    navWidth: 1408,
+    contentWidth: 1376,
+    navHeight: 88,
+    transition: TB_STATUS_TRANSITION,
+
     white: TB_STATUS_WHITE,
     bgDark: TB_STATUS_BG_DARK,
+    colorSecondary: TB_STATUS_COLOR_SECONDARY,
     textSecondary: TB_STATUS_COLOR_TEXT_SECONDARY,
     transparent: TB_STATUS_COLOR_TRANSPARENT,
     transitionTime: TB_STATUS_TRANSITION_TIME,
-    transition: TB_STATUS_TRANSITION
   },
   palette: {
     primary: {
@@ -48,7 +60,7 @@ const theme = createTheme({
 
     },
     text: {
-      primary: TB_PALETTE_TEXT_PRIMARY,
+      primary: TB_PALETTE_MAIN,
       secondary: TB_PALETTE_TEXT_SECONDARY,
     },
   },
@@ -102,6 +114,13 @@ const theme = createTheme({
       lineHeight: 1.5
     }
   },
+  components: {
+    MuiTypography: {
+      defaultProps: {
+        color: TB_PALETTE_MAIN
+      }
+    }
+  }
 })
 
 export default theme

@@ -3,7 +3,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import store from "../store";
 
 import Navigation from "components/common/Navigation";
-import Root from "components/common/Layout/Root";
+import Footer from "components/common/Footer";
 import theme from "@/src/theme"
 
 import "reset-css"
@@ -17,6 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <Navigation />
         <Component {...pageProps} />
+        <Footer />
       </ThemeProvider>
     </Provider>
   )
