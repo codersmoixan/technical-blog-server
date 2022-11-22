@@ -3,22 +3,24 @@
  * @description Menu
  */
 
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import Box, { BoxProps } from '@mui/material/Box';
 import Accordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import { AccordionDetails, AccordionSummary } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add"
 import Buttons from "components/common/Buttons";
-import type { Theme } from "@mui/material";
 import clsx from "clsx";
+import type { Theme } from "@mui/material";
+import TransformIcon from "components/common/TransformIcon";
 
 interface MenuProps extends BoxProps{
   menus: any[];
   isBorder?: boolean;
   onNodeClick?: (options: any) => void;
-  childKey?: string
+  childKey?: string;
+  expandIcon?: ReactNode;
+  closeIcon?: ReactNode;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -73,12 +75,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: 25,
     lineHeight: '25px',
     cursor: 'pointer'
-  }
+  },
 }))
 
 function Menu(props: MenuProps) {
   const classes = useStyles(props)
-  const { menus, onNodeClick, className, childKey = 'child', ...other } = props
+  const { menus, onNodeClick, className, childKey = 'child', expandIcon, closeIcon, ...other } = props
 
   const [expanded, setExpanded] = useState<string | false>(false)
 
@@ -108,7 +110,7 @@ function Menu(props: MenuProps) {
                 space={false}
                 onClick={() => handleOpenAccordion(menu.id)}
               >
-                <AddIcon />
+                <TransformIcon focus={expanded === menu.id} originIcon={expandIcon} finishIcon={closeIcon} />
               </Buttons>
             )}
           </AccordionSummary>

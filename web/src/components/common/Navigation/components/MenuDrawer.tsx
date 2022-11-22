@@ -3,7 +3,6 @@
  * @description MenuDrawer
  */
 
-import React, { MouseEventHandler } from 'react'
 import Drawer from "@mui/material/Drawer";
 import { makeStyles } from "@mui/styles";
 import type { Theme } from "@mui/material";
@@ -15,6 +14,8 @@ import Menu from "components/common/Menu";
 import {useRouter} from "next/router";
 import {NavigationItem} from "components/common/Navigation/constant";
 import isString from "lodash/isString";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore"
 
 interface MenuDrawerProps {
   menus: any[];
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontSize: 18,
         color: theme.status.white
       },
-      '& > button': {
+      '& .accordion-icon > div': {
         color: theme.status.white
       }
     },
@@ -126,6 +127,8 @@ function MenuDrawer(props: MenuDrawerProps) {
             childKey="menus"
             className={classes.menu}
             onNodeClick={handleNodeClick}
+            expandIcon={<ExpandLess />}
+            closeIcon={<ExpandMore />}
           />
         </Box>
       </Drawer>
