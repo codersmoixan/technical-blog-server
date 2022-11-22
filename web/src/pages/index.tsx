@@ -19,7 +19,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   banner: {
     justifyContent: 'flex-end',
-    width: 545,
+    width: 484,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: theme.spacing(3),
+      justifyContent: 'flex-start',
+      width: 'auto',
+    }
   },
   subtitle: {
     margin: theme.spacing(3, 0)

@@ -16,34 +16,6 @@ import Menu from "components/common/Menu";
 import FormText from "components/common/Form/FormText";
 import {useTheme} from "@mui/material/styles";
 
-const useStyles = makeStyles((theme: Theme) => ({
-  content: {
-    display: 'flex',
-    marginTop: theme.spacing(8)
-  },
-  menu: {
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(-3)
-  },
-  menuTitle: {
-    paddingBottom: theme.spacing(4),
-    borderBottom: `1px solid ${theme.status.colorSecondary}`
-  },
-  main: {
-    marginLeft: theme.spacing(8),
-    flex: 1
-  },
-  search: {
-  },
-  formText: {
-    width: '100%',
-    boxShadow: 'rgb(19 19 19 / 12%) 0px 2px 5px 0.5px',
-    '& input.MuiInputBase-input': {
-      height: 58
-    }
-  }
-}))
-
 const options = [
   {
     id: 1,
@@ -89,19 +61,53 @@ const options = [
   }
 ]
 
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    padding: theme.spacing(3)
+  },
+  banner: {
+    alignItems: 'flex-start'
+  },
+  content: {
+    display: 'flex',
+    marginTop: theme.spacing(8)
+  },
+  menu: {
+    padding: theme.spacing(3),
+    marginTop: theme.spacing(-3)
+  },
+  menuTitle: {
+    paddingBottom: theme.spacing(4),
+    borderBottom: `1px solid ${theme.status.colorSecondary}`
+  },
+  main: {
+    marginLeft: theme.spacing(8),
+    flex: 1
+  },
+  search: {
+  },
+  formText: {
+    width: '100%',
+    boxShadow: 'rgb(19 19 19 / 12%) 0px 2px 5px 0.5px',
+    '& input.MuiInputBase-input': {
+      height: 58
+    }
+  }
+}))
+
 function Share() {
   const classes = useStyles()
   const theme = useTheme()
 
   return (
-    <Root backdrop={CreativeGrid}>
+    <Root backdrop={CreativeGrid} className={classes.root}>
       <Content>
-        <Banner>
+        <Banner className={classes.banner}>
           <Typography variant="h2" fontWeight={400}>
             总结和分享
           </Typography>
           <Typography variant="h2" fontWeight={400}>
-            总会有意想不到的收获
+            会有意想不到的收获
           </Typography>
         </Banner>
         <Box className={classes.content}>

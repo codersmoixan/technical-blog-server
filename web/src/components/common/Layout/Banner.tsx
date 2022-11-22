@@ -1,6 +1,6 @@
 /**
  * @author zhengji.su
- * @description export default Banner
+ * @description Banner
  */
 
 import Box, { BoxProps } from '@mui/material/Box';
@@ -13,16 +13,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: theme.status.backdropHeight
+    height: theme.status.backdropHeight,
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.spacing(11),
+    }
   }
 }))
 
 function Banner(props: BoxProps) {
-  const classes = useStyles()
+  const { className, children, ...other } = props
+  const classes = useStyles(props)
 
   return (
-    <Box className={clsx(classes.root, props.className)}>
-      {props.children}
+    <Box className={clsx(classes.root, className)} {...other}>
+      {children}
     </Box>
   )
 }
