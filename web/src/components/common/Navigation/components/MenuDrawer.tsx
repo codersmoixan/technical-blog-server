@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontSize: 18,
         color: theme.status.white
       },
-      '& .accordion-icon > div': {
+      '& .transform-icon > div': {
         color: theme.status.white
       }
     },

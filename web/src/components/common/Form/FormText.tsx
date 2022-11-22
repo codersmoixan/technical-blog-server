@@ -11,7 +11,7 @@ import type { Theme } from "@mui/material";
 import isString from "lodash/isString";
 import clsx from "clsx";
 
-interface FormTextProps extends OutlinedInputProps {
+export interface FormTextProps extends OutlinedInputProps {
   className?: string;
   label?: ReactNode | undefined;
   bgColor?: string
