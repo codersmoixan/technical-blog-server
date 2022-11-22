@@ -3,7 +3,7 @@
  * @description Share
  */
 
-import React from 'react'
+import React, {useRef} from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Content from "components/common/Layout/Content";
@@ -13,8 +13,8 @@ import { makeStyles } from "@mui/styles";
 import Banner from "components/common/Layout/Banner";
 import type { Theme } from "@mui/material";
 import Menu from "components/common/Menu";
-import FormText from "components/common/Form/FormText";
 import {useTheme} from "@mui/material/styles";
+import SearchFormText from "components/common/Form/SearchFormText";
 
 const options = [
   {
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   content: {
     display: 'flex',
-    marginTop: theme.spacing(8)
+    paddingTop: theme.spacing(8)
   },
   menuContainer: {
     padding: theme.spacing(3),
@@ -102,6 +102,8 @@ function Share() {
   const classes = useStyles()
   const theme = useTheme()
 
+  const boxRef = useRef()
+
   return (
     <Root backdrop={CreativeGrid} className={classes.root}>
       <Content>
@@ -113,7 +115,7 @@ function Share() {
             会有意想不到的收获
           </Typography>
         </Banner>
-        <Box className={classes.content}>
+        <Box className={classes.content} ref={boxRef}>
           <Box className={classes.menuContainer}>
             <Typography
               variant="h3"
@@ -124,7 +126,7 @@ function Share() {
           </Box>
           <Box className={classes.main}>
             <Box className={classes.search}>
-              <FormText className={classes.formText} bgColor={theme.status.transparent} label="这里可以搜索你想知道的内容" />
+              <SearchFormText className={classes.formText} bgColor={theme.status.transparent} placeholder="这里可以搜索你想知道的内容" anchorPoint={boxRef} />
             </Box>
           </Box>
         </Box>
