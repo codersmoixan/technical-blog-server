@@ -43,13 +43,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 function Buttons(props: ButtonsProps) {
-  const { children, className, space = false, ...other } = props
+  const { children, className, space = true, ...other } = props
   const classes = useStyles(props)
 
   return (
     <Button
       className={clsx({
-        [classes.emptySpace]: space
+        [classes.emptySpace]: !space
       }, className)}
       classes={{ root: classes.root }}
       color="primary"
