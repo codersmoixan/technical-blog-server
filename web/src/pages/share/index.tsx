@@ -72,9 +72,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     marginTop: theme.spacing(8)
   },
-  menu: {
+  menuContainer: {
     padding: theme.spacing(3),
     marginTop: theme.spacing(-3)
+  },
+  menu: {
+    width: 255
   },
   menuTitle: {
     paddingBottom: theme.spacing(4),
@@ -111,13 +114,13 @@ function Share() {
           </Typography>
         </Banner>
         <Box className={classes.content}>
-          <Box className={classes.menu}>
+          <Box className={classes.menuContainer}>
             <Typography
               variant="h3"
               fontWeight={400}
               className={classes.menuTitle}
             >分类</Typography>
-            <Menu menus={options} />
+            <Menu menus={options} isBorder className={classes.menu} />
           </Box>
           <Box className={classes.main}>
             <Box className={classes.search}>
