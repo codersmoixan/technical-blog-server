@@ -11,10 +11,15 @@ import Box from "@mui/material/Box";
 import CloseIcon from "components/common/Icons/CloseIcon";
 import Buttons from "components/common/Buttons";
 import UserButtons from "components/common/Navigation/components/UserButtons";
+import Menu from "components/common/Menu";
+import {useRouter} from "next/router";
+import {NavigationItem} from "components/common/Navigation/constant";
+import isString from "lodash/isString";
 
 interface MenuDrawerProps {
-  open?: boolean;
-  onClose?: MouseEventHandler
+  menus: any[];
+  open: boolean;
+  onClose?: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -60,11 +65,44 @@ const useStyles = makeStyles((theme: Theme) => ({
       backgroundColor: theme.status.white,
       color: theme.palette.primary.main
     }
+  },
+  content: {
+    padding: theme.spacing(0, 11, 0, 8)
+  },
+  menu: {
+    height: 'auto',
+    '& .MuiAccordionSummary-content': {
+      '& > p': {
+        fontSize: 18,
+        color: theme.status.white
+      },
+      '& > button': {
+        color: theme.status.white
+      }
+    },
+    '& .MuiAccordionSummary-root': {
+      height: 72
+    },
+    '& .MuiAccordionDetails-root': {
+      padding: theme.spacing(0, 2),
+      '& > a': {
+        fontSize: 16,
+        color: theme.status.white
+      }
+    }
   }
 }))
 
-function MenuDrawer({ open, onClose }: MenuDrawerProps) {
-  const classes = useStyles()
+function MenuDrawer(props: MenuDrawerProps) {
+  const { open, menus, onClose } = props
+  const classes = useStyles(props)
+  const history = useRouter()
+
+  const handleNodeClick = (options: NavigationItem) => {
+    const url = options.route
+    onClose?.()
+    return isString(url) ? history.push(url) : history.push(url())
+  }
 
   return (
     <>
@@ -82,6 +120,14 @@ function MenuDrawer({ open, onClose }: MenuDrawerProps) {
             <CloseIcon />
           </Buttons>
         </Box>
+        <Box className={classes.content}>
+          <Menu
+            menus={menus}
+            childKey="menus"
+            className={classes.menu}
+            onNodeClick={handleNodeClick}
+          />
+        </Box>
       </Drawer>
       <Drawer
         open={open}
@@ -90,7 +136,7 @@ function MenuDrawer({ open, onClose }: MenuDrawerProps) {
         classes={{
           root: classes.bottom,
           paper: classes.paper
-      }}
+        }}
       >
         <UserButtons className={classes.userButtons} />
       </Drawer>

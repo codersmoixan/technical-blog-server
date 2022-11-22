@@ -100,7 +100,11 @@ function Index() {
             <MenuIcon />
           </Buttons>
         </Box>
-        <MenuDrawer open={openDialog} onClose={() => setOpenDialog(false)} />
+        <MenuDrawer
+          menus={NAVIGATION_LIST}
+          open={openDialog}
+          onClose={() => setOpenDialog(false)}
+        />
       </MediaVisible>
     </>
   )
