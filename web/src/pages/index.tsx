@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   startShare: {
     width: 195,
-    height: 50
+    height: 50,
+    fontSize: 16
   }
 }))
 

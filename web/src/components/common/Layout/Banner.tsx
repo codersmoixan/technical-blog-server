@@ -7,9 +7,11 @@ import Box, { BoxProps } from '@mui/material/Box';
 import {makeStyles} from "@mui/styles";
 import type { Theme } from "@mui/material";
 import clsx from "clsx";
+import React from "react";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    position: 'relative',
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',

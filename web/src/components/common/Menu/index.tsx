@@ -3,31 +3,35 @@
  * @description Menu
  */
 
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import Box, { BoxProps } from '@mui/material/Box';
 import Accordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import { AccordionDetails, AccordionSummary } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add"
 import Buttons from "components/common/Buttons";
+import clsx from "clsx";
 import type { Theme } from "@mui/material";
+import TransformIcon from "components/common/TransformIcon";
 
 interface MenuProps extends BoxProps{
   menus: any[];
-  onChange?: (options: any) => void
+  isBorder?: boolean;
+  onNodeClick?: (options: any) => void;
+  childKey?: string;
+  expandIcon?: ReactNode;
+  closeIcon?: ReactNode;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     overflowY: 'scroll',
-    width: 255,
-    height: 800,
+    width: '100%',
   },
   accordion: {
     backgroundColor: theme.status.transparent,
     boxShadow: 'none',
-    borderBottom: `1px solid ${theme.status.colorSecondary}`,
+    borderBottom: `${(props: MenuProps) => props.isBorder ? `1px solid ${theme.status.colorSecondary}` : 'none'}`,
     '&.MuiPaper-root': {
       borderRadius: 0,
     },
@@ -59,34 +63,37 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: 0,
   },
   value: {
-    padding: theme.spacing(0, 2, 1)
+    padding: theme.spacing(0, 2, 1),
+    '& > a': {
+      display: 'block',
+      height: 32,
+      lineHeight: '32px'
+    }
   },
   childItem: {
     display: 'block',
     height: 25,
     lineHeight: '25px',
     cursor: 'pointer'
-  }
+  },
 }))
 
 function Menu(props: MenuProps) {
   const classes = useStyles(props)
-  const { menus, onChange } = props
+  const { menus, onNodeClick, className, childKey = 'child', expandIcon, closeIcon, ...other } = props
 
   const [expanded, setExpanded] = useState<string | false>(false)
 
-  const handleOpenAccordion =
-    (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-      setExpanded(newExpanded ? panel : false);
+  const handleOpenAccordion = (panel: string) => {
+      setExpanded(expanded === panel ? false : panel);
     };
 
   return (
-    <Box className={classes.root}>
+    <Box className={clsx(classes.root, className)} {...other}>
       {menus.map(menu => (
         <Accordion
           key={menu.id}
           expanded={expanded === menu.id}
-          onChange={handleOpenAccordion(menu.id)}
           classes={{ root: classes.accordion }}
         >
           <AccordionSummary classes={{
@@ -94,25 +101,33 @@ function Menu(props: MenuProps) {
             expanded: classes.label,
             content: classes.summaryContent
           }}>
-            <Typography>
+            <Typography onClick={() => onNodeClick?.(menu)}>
               {menu.label}
             </Typography>
-            <Buttons variant="text" space>
-              <AddIcon />
-            </Buttons>
-          </AccordionSummary>
-          <AccordionDetails classes={{ root: classes.value }}>
-            {menu.child.map((c: any) => (
-              <Typography
-                component="a"
-                key={c.id}
-                className={classes.childItem}
-                onClick={() => onChange?.(c)}
+            {menu[childKey] && (
+              <Buttons
+                variant="text"
+                space={false}
+                onClick={() => handleOpenAccordion(menu.id)}
               >
-                {c.label}
-              </Typography>
-            ))}
-          </AccordionDetails>
+                <TransformIcon focus={expanded === menu.id} originIcon={expandIcon} finishIcon={closeIcon} />
+              </Buttons>
+            )}
+          </AccordionSummary>
+          {menu[childKey] && (
+            <AccordionDetails classes={{ root: classes.value }}>
+              {menu[childKey].map((c: any) => (
+                <Typography
+                  component="a"
+                  key={c.id}
+                  className={classes.childItem}
+                  onClick={() => onNodeClick?.(c)}
+                >
+                  {c.label}
+                </Typography>
+              ))}
+            </AccordionDetails>
+          )}
         </Accordion>
       ))}
     </Box>
