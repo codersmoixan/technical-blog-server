@@ -14,7 +14,7 @@ import type { Theme } from "@mui/material";
 
 interface SearchFormTextProps extends FormTextProps {
   backdrop?: boolean;
-  anchorPoint?: MutableRefObject<ReactNode>
+  anchorPoint?: MutableRefObject<ReactNode | HTMLElement | null>
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -46,10 +46,15 @@ function SearchFormText(props: SearchFormTextProps) {
 
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     setFocus(true)
-    anchorPoint?.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    })
+    const dom = anchorPoint?.current ?? anchorPoint
+    // @ts-ignore
+    if (dom.scrollIntoView) {
+      // @ts-ignore
+      dom.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
 
     onFocus?.(event)
   }
