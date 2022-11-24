@@ -27,17 +27,17 @@ interface CatalogProps {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     position: 'relative',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       margin: theme.spacing(0, -3),
       minHeight: 72
     }
   },
   catalog: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       padding: theme.spacing(3),
       marginTop: theme.spacing(-3)
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       position: 'absolute',
       top: 0,
       left: 0,
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   menu: {
     width: 255,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width: 'auto',
       '& .MuiButtonBase-root': {
         marginRight: theme.spacing(8)

@@ -18,8 +18,8 @@ interface MediaVisibleProps{
 
 const mediaBreakpoints = {
   pc: ['lg', 'xl'],
-  pad: ['sm', 'md'],
-  mobile: ['xs']
+  pad: ['md'],
+  mobile: ['xs', 'sm']
 }
 
 const nextMedia = (media: Media) => {

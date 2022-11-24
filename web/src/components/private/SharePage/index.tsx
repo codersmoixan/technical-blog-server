@@ -98,19 +98,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: 'flex-start'
   },
   content: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'flex',
       marginTop: theme.spacing(8),
     }
   },
   main: {
     flex: 1,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(8),
     }
   },
   search: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       marginTop: theme.spacing(3)
     }
   },

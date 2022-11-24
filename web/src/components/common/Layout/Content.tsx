@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       margin: '72px auto 0',
       paddingTop: 0
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       padding: theme.spacing(0, 3, 3),
       boxSizing: 'border-box'
     }
