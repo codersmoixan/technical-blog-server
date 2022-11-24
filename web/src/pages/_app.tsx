@@ -1,10 +1,11 @@
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@mui/material/styles";
-import store from "../store";
+import Box from '@mui/material/Box';
 
 import Navigation from "components/common/Navigation";
-import Footer from "components/common/Footer";
 import theme from "@/src/theme"
+import Footer from "components/common/Footer";
+import store from "../store";
 
 import "reset-css"
 import "../assets/common.css"
@@ -16,7 +17,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <Navigation />
-        <Component {...pageProps} />
+        <Box position="relative" zIndex={9}>
+          <Component {...pageProps} />
+        </Box>
         <Footer />
       </ThemeProvider>
     </Provider>
