@@ -3,17 +3,11 @@
  * @description Share
  */
 
-import React from 'react'
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import SharePage from "components/private/SharePage";
 
 function Share() {
 
-  return (
-    <Box>
-      <Typography variant="h2">Share</Typography>
-    </Box>
-  )
+  return <SharePage />
 }
 
 export default Share
