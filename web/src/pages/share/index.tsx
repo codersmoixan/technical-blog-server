@@ -16,6 +16,8 @@ import { useTheme } from "@mui/material/styles";
 import SearchFormText from "components/common/Form/SearchFormText";
 import ArrowBack from "@mui/icons-material/ArrowBack"
 import type { Theme } from "@mui/material";
+import MediaVisible from "components/common/MediaVisible";
+import Search from "@mui/icons-material/Search"
 
 const options = [
   {
@@ -63,21 +65,38 @@ const options = [
 ]
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(3)
-    }
-  },
   banner: {
     alignItems: 'flex-start'
   },
   content: {
-    display: 'flex',
-    marginTop: theme.spacing(8)
+    [theme.breakpoints.up('sm')]: {
+      display: 'flex',
+      marginTop: theme.spacing(8),
+    }
   },
   menuContainer: {
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(-3)
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(3),
+      marginTop: theme.spacing(-3)
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      margin: theme.spacing(0, -3),
+      height: 72,
+      backgroundColor: theme.status.white
+    }
+  },
+  searchBtn: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 72,
+    height: '100%',
+    color: theme.palette.primary.main,
+    backgroundColor: theme.status.darkPeach
+  },
+  menuLabel: {
+    flex: 1,
   },
   menu: {
     width: 255
@@ -87,14 +106,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderBottom: `1px solid ${theme.status.colorSecondary}`
   },
   main: {
-    marginLeft: theme.spacing(8),
-    flex: 1
+    flex: 1,
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(8),
+    }
   },
   search: {
+    [theme.breakpoints.down('sm')]: {
+      marginTop: theme.spacing(3)
+    }
   },
   formText: {
     width: '100%',
     boxShadow: 'rgb(19 19 19 / 12%) 0px 2px 5px 0.5px',
+    '& .MuiInputBase-root': {
+      backgroundColor: theme.status.white,
+    },
     '& input.MuiInputBase-input': {
       height: 58
     }
@@ -122,10 +149,15 @@ function Share() {
   const theme = useTheme()
 
   const pointRef = useRef<HTMLElement | null>(null)
+  const searchRef = useRef<HTMLElement | null>(null)
+
+  const handleSearchFocus = () => {
+    searchRef.current?.focus()
+  }
 
   return (
     <Root backdrop={CreativeGrid}>
-      <Content className={classes.root}>
+      <Content>
         <Banner className={classes.banner}>
           <Typography variant="h2" fontWeight={400}>
             总结和分享
@@ -133,24 +165,36 @@ function Share() {
           <Typography variant="h2" fontWeight={400}>
             会有意想不到的收获
           </Typography>
-          <Box className={classes.back} ref={pointRef}>
-            <ArrowBack />
-            <Typography component="a" variant="body1" color="white">
-              返回首页
-            </Typography>
-          </Box>
+          <MediaVisible media={['pad', 'pc']}>
+            <Box className={classes.back} ref={pointRef}>
+              <ArrowBack />
+              <Typography component="a" variant="body1" color="white">
+                返回首页
+              </Typography>
+            </Box>
+          </MediaVisible>
         </Banner>
         <Box className={classes.content}>
-          <Box className={classes.menuContainer}>
-            <Typography
-              variant="h3"
-              fontWeight={400}
-              className={classes.menuTitle}
-            >
-              分类
-            </Typography>
-            <Menu menus={options} isBorder className={classes.menu} />
-          </Box>
+          <MediaVisible media={['pc', 'pad']}>
+            <Box className={classes.menuContainer}>
+              <Typography
+                variant="h3"
+                fontWeight={400}
+                className={classes.menuTitle}
+              >
+                分类
+              </Typography>
+              <Menu menus={options} isBorder className={classes.menu} />
+            </Box>
+          </MediaVisible>
+          <MediaVisible media="mobile">
+            <Box className={classes.menuContainer} ref={pointRef}>
+              <Box className={classes.menuLabel}></Box>
+              <Box className={classes.searchBtn} onClick={handleSearchFocus}>
+                <Search />
+              </Box>
+            </Box>
+          </MediaVisible>
           <Box className={classes.main}>
             <Box className={classes.search}>
               <SearchFormText
@@ -158,6 +202,9 @@ function Share() {
                 bgColor={theme.status.transparent}
                 placeholder="这里可以搜索你想知道的内容"
                 anchorPoint={pointRef}
+                inputProps={{
+                  ref: searchRef
+                }}
               />
             </Box>
           </Box>

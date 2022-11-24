@@ -3,7 +3,7 @@
  * @description SearchFormText
  */
 
-import React, { MutableRefObject, ReactNode, useRef, useState } from "react";
+import React, { MutableRefObject, ReactNode, useState } from "react";
 import Box from '@mui/material/Box';
 import { makeStyles } from "@mui/styles";
 import Backdrop from "@mui/material/Backdrop"
@@ -12,7 +12,7 @@ import clsx from "clsx";
 import Search from "@mui/icons-material/Search"
 import type { Theme } from "@mui/material";
 
-interface SearchFormTextProps extends FormTextProps {
+export interface SearchFormTextProps extends FormTextProps {
   backdrop?: boolean;
   anchorPoint?: MutableRefObject<ReactNode | HTMLElement | null>
 }
@@ -36,13 +36,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-function SearchFormText(props: SearchFormTextProps) {
+function SearchFormText (props: SearchFormTextProps) {
   const { backdrop = true, onFocus, onBlur, className, anchorPoint, ...other } = props
   const classes = useStyles(props)
 
   const [focus, setFocus] = useState(false)
-
-  const boxRef = useRef()
 
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     setFocus(true)
@@ -65,7 +63,7 @@ function SearchFormText(props: SearchFormTextProps) {
   }
 
   return (
-    <Box ref={boxRef} className={clsx(classes.root, {
+    <Box className={clsx(classes.root, {
       [classes.focus]: focus
     })}>
       <FormText

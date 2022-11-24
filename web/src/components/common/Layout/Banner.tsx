@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: theme.status.backdropHeight,
+    height: theme.status.backdropHeight - 24,
     [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(11),
     }

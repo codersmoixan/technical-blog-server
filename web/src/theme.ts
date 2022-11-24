@@ -13,7 +13,8 @@ interface CustomThemeOptions {
     transparent: string;
     transition: (t?: number) => string;
     transitionTime: string;
-    colorSecondary: string
+    colorSecondary: string;
+    darkPeach: string;
   }
 }
 
@@ -32,6 +33,8 @@ const TB_STATUS_BG_DARK = '#131313'
 const TB_STATUS_COLOR_SECONDARY = '#d8dee3'
 const TB_STATUS_COLOR_TEXT_SECONDARY = '#AAAAAA'
 const TB_STATUS_COLOR_TRANSPARENT = 'transparent'
+const TB_STATUS_DARK_PEACH = '#f8f6f1'
+
 const TB_STATUS_TRANSITION_TIME = '.3s'
 const TB_STATUS_TRANSITION = (t?: number) => t ? `all ${t}s` : `all ${TB_STATUS_TRANSITION_TIME}`
 
@@ -46,6 +49,7 @@ const theme = createTheme({
 
     white: TB_STATUS_WHITE,
     bgDark: TB_STATUS_BG_DARK,
+    darkPeach: TB_STATUS_DARK_PEACH,
     colorSecondary: TB_STATUS_COLOR_SECONDARY,
     textSecondary: TB_STATUS_COLOR_TEXT_SECONDARY,
     transparent: TB_STATUS_COLOR_TRANSPARENT,

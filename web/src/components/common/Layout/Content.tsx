@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down('lg')]: {
       margin: '72px auto 0',
       paddingTop: 0
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(3),
+      boxSizing: 'border-box'
     }
   }
 }))
