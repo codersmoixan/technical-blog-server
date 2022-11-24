@@ -5,10 +5,9 @@
 
 import React from 'react'
 import Box, { BoxProps } from '@mui/material/Box';
-import Hidden from "@mui/material/Hidden";
 import { makeStyles } from "@mui/styles";
 import type { Theme } from "@mui/material";
-import MediaVisible from "components/common/MediaVisible";
+import MediaQuery from "components/common/MediaQuery";
 
 const useStyles = makeStyles((theme: Theme) => ({
   backdropVideo: {
@@ -29,7 +28,7 @@ function Video(props: BoxProps) {
 
   return (
     <Box className={classes.backdropVideo} {...props}>
-      <MediaVisible media="pc">
+      <MediaQuery media="pc">
         <video
           autoPlay
           loop
@@ -39,8 +38,8 @@ function Video(props: BoxProps) {
         >
           <source src={require('public/video/backdrop-video.mp4')} type="video/mp4"/>
         </video>
-      </MediaVisible>
-      <MediaVisible media="pad">
+      </MediaQuery>
+      <MediaQuery media="pad">
         <video
           autoPlay
           loop
@@ -50,8 +49,8 @@ function Video(props: BoxProps) {
         >
           <source src={require('public/video/pad-backdrop-video.mp4')} type="video/mp4"/>
         </video>
-      </MediaVisible>
-      <MediaVisible media="mobile" >
+      </MediaQuery>
+      <MediaQuery media="mobile" >
         <video
           autoPlay
           loop
@@ -61,7 +60,7 @@ function Video(props: BoxProps) {
         >
           <source src={require('public/video/mobile-backdrop-video.mp4')} type="video/mp4"/>
         </video>
-      </MediaVisible>
+      </MediaQuery>
     </Box>
   )
 }

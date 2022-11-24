@@ -5,7 +5,7 @@
 
 import React, { forwardRef, ReactEventHandler, useState } from 'react'
 import Box from '@mui/material/Box';
-import MediaVisible from "components/common/MediaVisible";
+import MediaQuery from "components/common/MediaQuery";
 import Typography from "@mui/material/Typography";
 import Menu from "components/common/Menu";
 import Search from "@mui/icons-material/Search";
@@ -125,7 +125,7 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
 
   return (
     <Box className={classes.root}>
-      <MediaVisible media={['pc', 'pad']}>
+      <MediaQuery media={['pc', 'pad']}>
         <Box className={classes.catalog}>
           <Typography
             variant="h3"
@@ -136,8 +136,8 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
           </Typography>
           <Menu menus={menus} isBorder className={classes.menu} />
         </Box>
-      </MediaVisible>
-      <MediaVisible media="mobile">
+      </MediaQuery>
+      <MediaQuery media="mobile">
         <motion.div
           initial={false}
           animate={focus ? 'open' : 'closed'}
@@ -170,7 +170,7 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
             <Menu menus={menus} isBorder className={classes.menu} />
           </motion.div>
         </motion.div>
-      </MediaVisible>
+      </MediaQuery>
     </Box>
   )
 })

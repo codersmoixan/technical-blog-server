@@ -16,8 +16,7 @@ import { useTheme } from "@mui/material/styles";
 import SearchFormText from "components/common/Form/SearchFormText";
 import ArrowBack from "@mui/icons-material/ArrowBack"
 import type { Theme } from "@mui/material";
-import MediaVisible from "components/common/MediaVisible";
-import Search from "@mui/icons-material/Search"
+import MediaQuery from "components/common/MediaQuery";
 import Catalog from "components/private/SharePage/components/Catalog";
 
 const options = [
@@ -163,14 +162,14 @@ function Share() {
           <Typography variant="h2" fontWeight={400}>
             会有意想不到的收获
           </Typography>
-          <MediaVisible media={['pad', 'pc']}>
+          <MediaQuery media={['pad', 'pc']}>
             <Box className={classes.back} ref={pointRef}>
               <ArrowBack />
               <Typography component="a" variant="body1" color="white">
                 返回首页
               </Typography>
             </Box>
-          </MediaVisible>
+          </MediaQuery>
         </Banner>
         <Box className={classes.content}>
           <Catalog menus={options} onSearchFocus={handleSearchFocus} ref={pointRef} />

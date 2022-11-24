@@ -1,6 +1,6 @@
 /**
  * @author zhengji.su
- * @description MediaVisible
+ * @description MediaQuery
  */
 
 import React, { ReactNode } from 'react'
@@ -11,7 +11,7 @@ import isArray from "lodash/isArray";
 type MediaKey = 'pc' | 'pad' | 'mobile'
 type Media = MediaKey | Array<MediaKey>
 
-interface MediaVisibleProps{
+interface MediaQueryProps{
   children: ReactNode,
   media: Media
 }
@@ -33,7 +33,7 @@ const nextMedia = (media: Media) => {
   return mediaKeys.flatMap(key => key === media ? [] : mediaBreakpoints[key]) as Breakpoint[]
 }
 
-function MediaVisible({ children, media }: MediaVisibleProps) {
+function MediaQuery({ children, media }: MediaQueryProps) {
   const only = nextMedia(media)
 
   return (
@@ -43,4 +43,4 @@ function MediaVisible({ children, media }: MediaVisibleProps) {
   )
 }
 
-export default MediaVisible
+export default MediaQuery

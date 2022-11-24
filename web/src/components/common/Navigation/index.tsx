@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty"
 import isString from "lodash/isString"
-import MediaVisible from "components/common/MediaVisible";
+import MediaQuery from "components/common/MediaQuery";
 import useStyles from "components/common/Navigation/useStyles";
 import MenuIcon from "components/common/Icons/MenuIcon";
 import MenuDrawer from "components/common/Navigation/components/MenuDrawer";
@@ -60,7 +60,7 @@ function Index() {
 
   return (
     <>
-      <MediaVisible media="pc">
+      <MediaQuery media="pc">
         <Box
           className={clsx(classes.root, focus ? classes.focus : classes.blur)}
           onMouseLeave={() => handleCheckRoute(null, 'leave')}
@@ -87,8 +87,8 @@ function Index() {
             focus={focus}
           />
         </Box>
-      </MediaVisible>
-      <MediaVisible media={['pad', 'mobile']}>
+      </MediaQuery>
+      <MediaQuery media={['pad', 'mobile']}>
         <Box className={classes.root}>
           <Image src={Logo} alt="" className={classes.logo} onClick={handleToHome} />
           <Buttons
@@ -105,7 +105,7 @@ function Index() {
           open={openDialog}
           onClose={() => setOpenDialog(false)}
         />
-      </MediaVisible>
+      </MediaQuery>
     </>
   )
 }
