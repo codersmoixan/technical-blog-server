@@ -10,12 +10,14 @@ import Typography from "@mui/material/Typography";
 import Menu from "components/common/Menu";
 import Search from "@mui/icons-material/Search";
 import { makeStyles } from "@mui/styles";
-import type { Theme } from "@mui/material";
 import TransformIcon from "components/common/TransformIcon";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import clsx from "clsx";
+import Close from "@mui/icons-material/Close"
+import type { Theme } from "@mui/material";
+import Buttons from "components/common/Buttons";
 
 interface CatalogProps {
   menus: any[];
@@ -61,31 +63,55 @@ const useStyles = makeStyles((theme: Theme) => ({
   menu: {
     width: 255,
     [theme.breakpoints.down('sm')]: {
-      flex: 1,
+      width: 'auto',
+      '& .MuiButtonBase-root': {
+        marginRight: theme.spacing(8)
+      }
     }
   },
   menuLabel: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    ...theme.common.spaceBetweenCenter,
     padding: theme.spacing(0, 3),
     flex: 1,
   },
   searchBtn: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...theme.common.verticalCenter,
     width: 72,
     height: '100%',
     color: theme.palette.primary.main,
     backgroundColor: theme.status.darkPeach
   },
+  menuHeader: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: 56,
+    color: theme.palette.primary.main,
+    borderBottom: `1px solid ${theme.status.colorSecondary}`
+  },
   menuContainer: {
     padding: theme.spacing(0, 3),
-    width: '100%',
     backgroundColor: theme.status.white,
+    boxShadow: 'rgb(227 227 227) 0px 2px 4px',
   }
 }))
+
+const menuVariants: Variants = {
+  open: {
+    height: 'auto',
+    opacity: 1,
+    transition: {
+      duration: 0.3
+    }
+  },
+  closed: {
+    height: 0,
+    opacity: 0,
+    transition: {
+      duration: 0.3
+    }
+  }
+}
 
 export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProps, ref) {
   const classes = useStyles()
@@ -129,24 +155,18 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
             </Box>
           </Box>
           <motion.div
-            variants={{
-              open: {
-                display: 'block',
-                opacity: 1,
-                transition: {
-                  duration: 0.5
-                }
-              },
-              closed: {
-                display: 'none',
-                opacity: 0,
-                transition: {
-                  duration: 0.5
-                }
-              }
-            }}
+            variants={menuVariants}
             className={classes.menuContainer}
           >
+            <Box className={classes.menuHeader}>
+              <Buttons
+                variant="text"
+                space={false}
+                onClick={() => setFocus(false)}
+              >
+                <Close />
+              </Buttons>
+            </Box>
             <Menu menus={menus} isBorder className={classes.menu} />
           </motion.div>
         </motion.div>

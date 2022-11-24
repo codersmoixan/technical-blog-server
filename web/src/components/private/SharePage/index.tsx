@@ -62,6 +62,34 @@ const options = [
         label: 'docker'
       }
     ]
+  },
+  {
+    id: 4,
+    label: '人工智能',
+    child: [
+      {
+        id: 1,
+        label: '机器学习'
+      },
+      {
+        id: 2,
+        label: '算法导论'
+      }
+    ]
+  },
+  {
+    id: 5,
+    label: '大数据',
+    child: [
+      {
+        id: 1,
+        label: '大数据理论'
+      },
+      {
+        id: 2,
+        label: '算法导论'
+      }
+    ]
   }
 ]
 

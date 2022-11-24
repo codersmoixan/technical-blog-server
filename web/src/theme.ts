@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+import {CSSProperties} from "@mui/styles";
 
 interface CustomThemeOptions {
   status: {
@@ -15,6 +16,11 @@ interface CustomThemeOptions {
     transitionTime: string;
     colorSecondary: string;
     darkPeach: string;
+  };
+  common: {
+    verticalCenter: CSSProperties;
+    inlineCenter: CSSProperties;
+    spaceBetweenCenter: CSSProperties;
   }
 }
 
@@ -54,6 +60,22 @@ const theme = createTheme({
     textSecondary: TB_STATUS_COLOR_TEXT_SECONDARY,
     transparent: TB_STATUS_COLOR_TRANSPARENT,
     transitionTime: TB_STATUS_TRANSITION_TIME,
+  },
+  common: {
+    verticalCenter: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    inlineCenter: {
+      display: 'flex',
+      justifyContent: 'center'
+    },
+    spaceBetweenCenter: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    }
   },
   palette: {
     primary: {

@@ -5,17 +5,17 @@
 
 import Drawer from "@mui/material/Drawer";
 import { makeStyles } from "@mui/styles";
-import type { Theme } from "@mui/material";
 import Box from "@mui/material/Box";
 import CloseIcon from "components/common/Icons/CloseIcon";
 import Buttons from "components/common/Buttons";
 import UserButtons from "components/common/Navigation/components/UserButtons";
 import Menu from "components/common/Menu";
-import {useRouter} from "next/router";
-import {NavigationItem} from "components/common/Navigation/constant";
+import { useRouter } from "next/router";
+import { NavigationItem } from "components/common/Navigation/constant";
 import isString from "lodash/isString";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore"
+import type { Theme } from "@mui/material";
 
 interface MenuDrawerProps {
   menus: any[];
@@ -47,7 +47,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(0, 3),
     height: 72,
     textAlign: 'right',
-    lineHeight: '72px'
+    lineHeight: '72px',
+    '& > button.MuiButtonBase-root': {
+      color: theme.status.white
+    }
   },
   userButtons: {
     width: '100%',
