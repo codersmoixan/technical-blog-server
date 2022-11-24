@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       paddingTop: 0
     },
     [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(3),
+      padding: theme.spacing(0, 3, 3),
       boxSizing: 'border-box'
     }
   }

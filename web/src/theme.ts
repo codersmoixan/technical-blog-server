@@ -101,6 +101,11 @@ const theme = createTheme({
       fontWeight: 700,
       lineHeight: 1.5
     },
+    h4: {
+      fontSize: 18,
+      fontWeight: 400,
+      lineHeight: 1.5
+    },
     subtitle1: {
       fontSize: 16,
       lineHeight: 1.5

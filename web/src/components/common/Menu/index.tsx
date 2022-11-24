@@ -25,7 +25,6 @@ interface MenuProps extends BoxProps{
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    overflowY: 'scroll',
     width: '100%',
   },
   accordion: {

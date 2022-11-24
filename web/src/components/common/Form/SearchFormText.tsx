@@ -24,7 +24,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   formText: {
     position: 'relative',
-    zIndex: 99,
+    '&.focus': {
+      zIndex: 999,
+    }
   },
   focus: {
     '& .MuiInputBase-root': {
@@ -32,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   },
   backdrop: {
-    zIndex: 90
+    zIndex: 990
   }
 }))
 
@@ -69,7 +71,9 @@ function SearchFormText (props: SearchFormTextProps) {
       <FormText
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className={clsx(classes.formText, className)}
+        className={clsx(classes.formText, {
+          focus
+        }, className)}
         margin="dense"
         startAdornment={<Search />}
         {...other}
