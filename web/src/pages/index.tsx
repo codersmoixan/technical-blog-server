@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   banner: {
     justifyContent: 'flex-end',
     width: 484,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       marginTop: theme.spacing(3),
       justifyContent: 'flex-start',
       width: 'auto',

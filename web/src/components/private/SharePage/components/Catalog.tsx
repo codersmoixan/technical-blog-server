@@ -5,17 +5,19 @@
 
 import React, { forwardRef, ReactEventHandler, useState } from 'react'
 import Box from '@mui/material/Box';
-import MediaVisible from "components/common/MediaVisible";
+import MediaQuery from "components/common/MediaQuery";
 import Typography from "@mui/material/Typography";
 import Menu from "components/common/Menu";
 import Search from "@mui/icons-material/Search";
 import { makeStyles } from "@mui/styles";
-import type { Theme } from "@mui/material";
 import TransformIcon from "components/common/TransformIcon";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import clsx from "clsx";
+import Close from "@mui/icons-material/Close"
+import type { Theme } from "@mui/material";
+import Buttons from "components/common/Buttons";
 
 interface CatalogProps {
   menus: any[];
@@ -25,17 +27,17 @@ interface CatalogProps {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     position: 'relative',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       margin: theme.spacing(0, -3),
       minHeight: 72
     }
   },
   catalog: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       padding: theme.spacing(3),
       marginTop: theme.spacing(-3)
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       position: 'absolute',
       top: 0,
       left: 0,
@@ -60,32 +62,60 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   menu: {
     width: 255,
-    [theme.breakpoints.down('sm')]: {
-      flex: 1,
+    [theme.breakpoints.down('md')]: {
+      width: 'auto',
+      '& .MuiButtonBase-root': {
+        marginRight: theme.spacing(9)
+      }
     }
   },
   menuLabel: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    ...theme.common.spaceBetweenCenter,
     padding: theme.spacing(0, 3),
     flex: 1,
   },
   searchBtn: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    ...theme.common.verticalCenter,
     width: 72,
     height: '100%',
     color: theme.palette.primary.main,
     backgroundColor: theme.status.darkPeach
   },
+  menuHeader: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: 56,
+    color: theme.palette.primary.main,
+    borderBottom: `1px solid ${theme.status.colorSecondary}`
+  },
   menuContainer: {
     padding: theme.spacing(0, 3),
-    width: '100%',
     backgroundColor: theme.status.white,
+    boxShadow: 'rgb(227 227 227) 0px 2px 4px',
   }
 }))
+
+const menuVariants: Variants = {
+  open: {
+    display: 'block',
+    height: 'auto',
+    opacity: 1,
+    transition: {
+      duration: 0.3
+    }
+  },
+  closed: {
+    height: 0,
+    opacity: 0,
+    transition: {
+      duration: 0.3
+    },
+    transitionEnd: {
+      display: 'none'
+    }
+  }
+}
 
 export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProps, ref) {
   const classes = useStyles()
@@ -99,7 +129,7 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
 
   return (
     <Box className={classes.root}>
-      <MediaVisible media={['pc', 'pad']}>
+      <MediaQuery media={['pc', 'pad']}>
         <Box className={classes.catalog}>
           <Typography
             variant="h3"
@@ -110,8 +140,8 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
           </Typography>
           <Menu menus={menus} isBorder className={classes.menu} />
         </Box>
-      </MediaVisible>
-      <MediaVisible media="mobile">
+      </MediaQuery>
+      <MediaQuery media="mobile">
         <motion.div
           initial={false}
           animate={focus ? 'open' : 'closed'}
@@ -129,28 +159,22 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
             </Box>
           </Box>
           <motion.div
-            variants={{
-              open: {
-                display: 'block',
-                opacity: 1,
-                transition: {
-                  duration: 0.5
-                }
-              },
-              closed: {
-                display: 'none',
-                opacity: 0,
-                transition: {
-                  duration: 0.5
-                }
-              }
-            }}
+            variants={menuVariants}
             className={classes.menuContainer}
           >
+            <Box className={classes.menuHeader}>
+              <Buttons
+                variant="text"
+                space={false}
+                onClick={() => setFocus(false)}
+              >
+                <Close />
+              </Buttons>
+            </Box>
             <Menu menus={menus} isBorder className={classes.menu} />
           </motion.div>
         </motion.div>
-      </MediaVisible>
+      </MediaQuery>
     </Box>
   )
 })
