@@ -4,23 +4,25 @@
  */
 
 import React, { ReactNode, useState } from 'react'
-import Box, { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 import Accordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import { AccordionDetails, AccordionSummary } from "@mui/material";
 import Buttons from "components/common/Buttons";
 import clsx from "clsx";
-import type { Theme } from "@mui/material";
 import TransformIcon from "components/common/TransformIcon";
+import { motion, Variants } from "framer-motion";
+import type { Theme } from "@mui/material";
 
-interface MenuProps extends BoxProps{
+interface MenuProps{
   menus: any[];
   isBorder?: boolean;
   onNodeClick?: (options: any) => void;
   childKey?: string;
   expandIcon?: ReactNode;
   closeIcon?: ReactNode;
+  className?: string;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -39,21 +41,23 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     '&:last-of-type': {
       borderBottom: 'none'
-    }
+    },
   },
   summary: {
     padding: 0,
     '&.Mui-expanded': {
       minHeight: 'auto'
-    }
+    },
   },
   summaryContent: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    height: 56,
+    margin: 0,
     '&.Mui-expanded': {
-      margin: theme.spacing(1, 0),
-    }
+      margin: 0,
+    },
   },
   label: {
     display: 'flex',
@@ -62,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: 0,
   },
   value: {
-    padding: theme.spacing(0, 2, 1),
+    padding: theme.spacing(0, 2, 2),
     '& > a': {
       display: 'block',
       height: 32,
@@ -77,9 +81,39 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
+const itemVariants = {
+  open: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 300, damping: 24 }
+  },
+  closed: { opacity: 0, y: 20, transition: { duration: 0.2 } }
+};
+
+const rootVariants: Variants = {
+  open: {
+    clipPath: "inset(0% 0% 0% 0% round 10px)",
+    transition: {
+      type: "spring",
+      bounce: 0,
+      duration: 0.7,
+      delayChildren: 0.3,
+      staggerChildren: 0.05
+    }
+  },
+  closed: {
+    clipPath: "inset(10% 50% 90% 50% round 10px)",
+    transition: {
+      type: "spring",
+      bounce: 0,
+      duration: 0.3
+    }
+  }
+}
+
 function Menu(props: MenuProps) {
   const classes = useStyles(props)
-  const { menus, onNodeClick, className, childKey = 'child', expandIcon, closeIcon, ...other } = props
+  const { menus, onNodeClick, className, childKey = 'child', expandIcon, closeIcon } = props
 
   const [expanded, setExpanded] = useState<string | false>(false)
 
@@ -88,31 +122,38 @@ function Menu(props: MenuProps) {
     };
 
   return (
-    <Box className={clsx(classes.root, className)} {...other}>
+    <motion.div
+      className={clsx(classes.root, className)}
+      variants={rootVariants}
+    >
       {menus.map(menu => (
         <Accordion
           key={menu.id}
           expanded={expanded === menu.id}
           classes={{ root: classes.accordion }}
         >
-          <AccordionSummary classes={{
-            root: classes.summary,
-            expanded: classes.label,
-            content: classes.summaryContent
-          }}>
-            <Typography onClick={() => onNodeClick?.(menu)}>
-              {menu.label}
-            </Typography>
-            {menu[childKey] && (
-              <Buttons
-                variant="text"
-                space={false}
-                onClick={() => handleOpenAccordion(menu.id)}
-              >
-                <TransformIcon focus={expanded === menu.id} originIcon={expandIcon} finishIcon={closeIcon} />
-              </Buttons>
-            )}
-          </AccordionSummary>
+          <motion.div
+            variants={itemVariants}
+          >
+            <AccordionSummary classes={{
+              root: classes.summary,
+              expanded: classes.label,
+              content: classes.summaryContent
+            }}>
+              <Typography onClick={() => onNodeClick?.(menu)}>
+                {menu.label}
+              </Typography>
+              {menu[childKey] && (
+                <Buttons
+                  variant="text"
+                  space={false}
+                  onClick={() => handleOpenAccordion(menu.id)}
+                >
+                  <TransformIcon focus={expanded === menu.id} originIcon={expandIcon} finishIcon={closeIcon} />
+                </Buttons>
+              )}
+            </AccordionSummary>
+          </motion.div>
           {menu[childKey] && (
             <AccordionDetails classes={{ root: classes.value }}>
               {menu[childKey].map((c: any) => (
@@ -129,7 +170,7 @@ function Menu(props: MenuProps) {
           )}
         </Accordion>
       ))}
-    </Box>
+    </motion.div>
   )
 }
 
