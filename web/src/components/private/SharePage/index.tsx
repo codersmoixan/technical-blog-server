@@ -6,91 +6,20 @@
 import React, { useRef } from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Content from "components/common/Layout/Content";
-import Root from "components/common/Layout/Root";
 import CreativeGrid from "public/images/backdrop/creative-grid.jpeg"
 import { makeStyles } from "@mui/styles";
-import Banner from "components/common/Layout/Banner";
-import Menu from "components/common/Menu";
 import { useTheme } from "@mui/material/styles";
-import SearchFormText from "components/common/Form/SearchFormText";
 import ArrowBack from "@mui/icons-material/ArrowBack"
-import type { Theme } from "@mui/material";
+import Grid from "@mui/material/Grid"
 import MediaQuery from "components/common/MediaQuery";
 import Catalog from "components/private/SharePage/components/Catalog";
-
-const options = [
-  {
-    id: 1,
-    label: '前端',
-    child: [
-      {
-        id: 1,
-        label: 'react'
-      },
-      {
-        id: 2,
-        label: 'vue'
-      }
-    ]
-  },
-  {
-    id: 2,
-    label: '后端',
-    child: [
-      {
-        id: 1,
-        label: 'java'
-      },
-      {
-        id: 2,
-        label: 'go'
-      }
-    ]
-  },
-  {
-    id: 3,
-    label: '运维',
-    child: [
-      {
-        id: 1,
-        label: 'k8s'
-      },
-      {
-        id: 2,
-        label: 'docker'
-      }
-    ]
-  },
-  {
-    id: 4,
-    label: '人工智能',
-    child: [
-      {
-        id: 1,
-        label: '机器学习'
-      },
-      {
-        id: 2,
-        label: '算法导论'
-      }
-    ]
-  },
-  {
-    id: 5,
-    label: '大数据',
-    child: [
-      {
-        id: 1,
-        label: '大数据理论'
-      },
-      {
-        id: 2,
-        label: '算法导论'
-      }
-    ]
-  }
-]
+import BlogCard, { DESCRIPTION, EXPANDED } from "components/private/SharePage/components/BlogCard";
+import Content from "components/common/Layout/Content";
+import Root from "components/common/Layout/Root";
+import SearchFormText from "components/common/Form/SearchFormText";
+import Banner from "components/common/Layout/Banner";
+import { options, blogList } from "./constants"
+import type { Theme } from "@mui/material";
 
 const useStyles = makeStyles((theme: Theme) => ({
   banner: {
@@ -185,6 +114,33 @@ function Share() {
                 }}
               />
             </Box>
+            <Grid container spacing={3} py={3}>
+              {blogList.map(blog => (
+                <Grid
+                  key={blog.id}
+                  item
+                  spacing={2}
+                  xs={12}
+                  sm={6}
+                  md={6}
+                  lg={4}
+                  xl={3}
+                  display="flex"
+                  justifyContent="center"
+                >
+                  <BlogCard title={blog.title} date="2022.11.06" >
+                    <Box slot={DESCRIPTION}>
+                      <Typography>{blog.description}</Typography>
+                    </Box>
+                    <Box slot={EXPANDED}>
+                      <Typography>
+                        {blog.content}
+                      </Typography>
+                    </Box>
+                  </BlogCard>
+                </Grid>
+              ))}
+            </Grid>
           </Box>
         </Box>
       </Content>

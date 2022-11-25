@@ -46,6 +46,15 @@ const TB_STATUS_TRANSITION = (t?: number) => t ? `all ${t}s` : `all ${TB_STATUS_
 
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 500,
+      md: 800,
+      lg: 1100,
+      xl: 1350
+    }
+  },
   status: {
     backdropHeight: 580,
     navWidth: 1408,

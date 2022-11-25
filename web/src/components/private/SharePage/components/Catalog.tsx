@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down('md')]: {
       width: 'auto',
       '& .MuiButtonBase-root': {
-        marginRight: theme.spacing(8)
+        marginRight: theme.spacing(9)
       }
     }
   },
@@ -98,6 +98,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const menuVariants: Variants = {
   open: {
+    display: 'block',
     height: 'auto',
     opacity: 1,
     transition: {
@@ -109,6 +110,9 @@ const menuVariants: Variants = {
     opacity: 0,
     transition: {
       duration: 0.3
+    },
+    transitionEnd: {
+      display: 'none'
     }
   }
 }
