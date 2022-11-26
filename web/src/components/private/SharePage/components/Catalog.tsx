@@ -17,7 +17,7 @@ import clsx from "clsx";
 import Close from "@mui/icons-material/Close"
 import Buttons from "components/common/Buttons";
 import { useMediaQuery } from "@mui/material";
-import { VariantContainer, VariantContent } from "components/common/VariantContainer";
+import { Variant, VariantContent } from "components/common/Variant";
 import type { Theme } from "@mui/material";
 import type { Variants } from "framer-motion";
 
@@ -149,9 +149,9 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
           >
             分类
           </Typography>
-          <VariantContainer focus={focus}>
+          <Variant focus={focus}>
             <Menu menus={menus} isBorder className={classes.menu} />
-          </VariantContainer>
+          </Variant>
         </Box>
       </MediaQuery>
       <MediaQuery media="mobile">
@@ -170,7 +170,7 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
               <Search />
             </Box>
           </Box>
-          <VariantContainer focus={focus}>
+          <Variant focus={focus}>
             <VariantContent
               variants={menuVariants}
               className={classes.menuContainer}
@@ -186,7 +186,7 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
               </Box>
               <Menu menus={menus} isBorder className={classes.menu} />
             </VariantContent>
-          </VariantContainer>
+          </Variant>
         </Box>
       </MediaQuery>
     </Box>

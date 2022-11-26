@@ -13,7 +13,7 @@ import Buttons from "components/common/Buttons";
 import clsx from "clsx";
 import TransformIcon from "components/common/TransformIcon";
 import type { Theme } from "@mui/material";
-import { VariantContent, itemVariants } from "components/common/VariantContainer";
+import { VariantContent, itemVariants } from "components/common/Variant";
 
 interface MenuProps{
   menus: any[];

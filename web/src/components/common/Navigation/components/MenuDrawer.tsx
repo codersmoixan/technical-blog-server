@@ -16,7 +16,7 @@ import { NavigationItem } from "components/common/Navigation/constant";
 import isString from "lodash/isString";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore"
-import {itemVariants, VariantContainer, VariantContent} from "components/common/VariantContainer";
+import {itemVariants, Variant, VariantContent} from "components/common/Variant";
 import type { Theme } from "@mui/material";
 
 interface MenuDrawerProps {
@@ -137,7 +137,7 @@ function MenuDrawer(props: MenuDrawerProps) {
           </Buttons>
         </Box>
         <Box className={classes.content}>
-          <VariantContainer focus={focus}>
+          <Variant focus={focus}>
             <Menu
               menus={menus}
               childKey="menus"
@@ -146,7 +146,7 @@ function MenuDrawer(props: MenuDrawerProps) {
               expandIcon={<ExpandLess />}
               closeIcon={<ExpandMore />}
             />
-          </VariantContainer>
+          </Variant>
         </Box>
       </Drawer>
       <Drawer
@@ -158,13 +158,13 @@ function MenuDrawer(props: MenuDrawerProps) {
           paper: classes.paper
         }}
       >
-        <VariantContainer focus={focus}>
+        <Variant focus={focus}>
           <VariantContent>
             <VariantContent variants={itemVariants}>
               <UserButtons className={classes.userButtons} />
             </VariantContent>
           </VariantContent>
-        </VariantContainer>
+        </Variant>
       </Drawer>
     </>
   )
