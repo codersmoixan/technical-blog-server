@@ -3,7 +3,7 @@
  * @description Catalog
  */
 
-import React, { forwardRef, ReactEventHandler, useState } from 'react'
+import React, {forwardRef, ReactEventHandler, useEffect, useState} from 'react'
 import Box from '@mui/material/Box';
 import MediaQuery from "components/common/MediaQuery";
 import Typography from "@mui/material/Typography";
@@ -18,6 +18,7 @@ import clsx from "clsx";
 import Close from "@mui/icons-material/Close"
 import type { Theme } from "@mui/material";
 import Buttons from "components/common/Buttons";
+import {useMediaQuery} from "@mui/material";
 
 interface CatalogProps {
   menus: any[];
@@ -119,8 +120,15 @@ const menuVariants: Variants = {
 
 export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProps, ref) {
   const classes = useStyles()
+  const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"))
 
   const [focus, setFocus] = useState(false)
+
+  useEffect(() => {
+    if (mdUp) {
+      setFocus(true)
+    }
+  }, [mdUp])
 
   const handleSearchFocus = (event: React.MouseEvent) => {
     setFocus(false)
@@ -138,7 +146,12 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
           >
             分类
           </Typography>
-          <Menu menus={menus} isBorder className={classes.menu} />
+          <motion.div
+            initial={false}
+            animate={focus ? 'open' : 'closed'}
+          >
+            <Menu menus={menus} isBorder className={classes.menu} />
+          </motion.div>
         </Box>
       </MediaQuery>
       <MediaQuery media="mobile">

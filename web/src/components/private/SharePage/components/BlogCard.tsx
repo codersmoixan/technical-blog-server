@@ -23,6 +23,7 @@ import type { Theme } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import MediaQuery from "components/common/MediaQuery";
 import Box from "@mui/material/Box";
+import { motion, Variants } from "framer-motion";
 
 interface BlogCardProps {
   title: ReactNode;
@@ -51,10 +52,15 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 const useStyles = makeStyles((theme: Theme) => ({
+  motion: {
+    width: '100%',
+    height: '100%'
+  },
   root: {
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
+    height: '100%',
     boxShadow: 'rgb(240 240 240) 4px 4px 16px',
     borderRadius: 8,
     cursor: 'pointer',
@@ -96,6 +102,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   expanded: {}
 }))
 
+const variants = {
+  opacity: 1,
+  x: 0,
+  y: 0,
+  transition: { type: "spring", stiffness: 300, damping: 24 },
+  duration: 0.5
+};
+
 const findNode = (nodes: ReactElement[], key: string) => nodes.find((node: ReactElement) => node.props.slot === key)
 
 const separateChildren = (children: ReactElement[] | ReactNode): {
@@ -127,54 +141,56 @@ function BlogCard(props: BlogCardProps) {
   };
 
   return (
-    <Card className={classes.root}>
-      <Image className={classes.image} src={image} alt="" />
-      <Box className={classes.content}>
-        <Box display="flex" justifyContent="flex-start" flexDirection="column">
-          <CardHeader
-            avatar={
-              <Avatar className={classes.avatar}>
-                {avatar}
-              </Avatar>
-            }
-            title={<Typography variant="body1" className={classes.title}>{title}</Typography>}
-            subheader={<Typography variant="body1" className={classes.date}>{date}</Typography>}
-            className={classes.header}
-          />
-          {description && (
-            <CardContent className={classes.description}>
-              {description}
-            </CardContent>
-          )}
-        </Box>
-        <CardActions disableSpacing className={classes.actions}>
-          <IconButton>
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton>
-            <ShareIcon />
-          </IconButton>
-          <MediaQuery media="mobile">
-            {expanded && (
-              <ExpandMore
-                expand={isExpanded}
-                onClick={handleExpandClick}
-                aria-expanded={isExpanded}
-              >
-                <ExpandMoreIcon />
-              </ExpandMore>
+    <motion.div initial={{ opacity: 0, y: 100 }} animate={variants} className={classes.motion}>
+      <Card className={classes.root}>
+        <Image className={classes.image} src={image} alt="" />
+        <Box className={classes.content}>
+          <Box display="flex" justifyContent="flex-start" flexDirection="column">
+            <CardHeader
+              avatar={
+                <Avatar className={classes.avatar}>
+                  {avatar}
+                </Avatar>
+              }
+              title={<Typography variant="body1" className={classes.title}>{title}</Typography>}
+              subheader={<Typography variant="body1" className={classes.date}>{date}</Typography>}
+              className={classes.header}
+            />
+            {description && (
+              <CardContent className={classes.description}>
+                {description}
+              </CardContent>
             )}
-          </MediaQuery>
-        </CardActions>
-      </Box>
-      {expanded && (
-        <Collapse in={isExpanded} timeout="auto" unmountOnExit className={classes.expanded}>
-          <CardContent>
-            {expanded}
-          </CardContent>
-        </Collapse>
-      )}
-    </Card>
+          </Box>
+          <CardActions disableSpacing className={classes.actions}>
+            <IconButton>
+              <FavoriteIcon />
+            </IconButton>
+            <IconButton>
+              <ShareIcon />
+            </IconButton>
+            <MediaQuery media="mobile">
+              {expanded && (
+                <ExpandMore
+                  expand={isExpanded}
+                  onClick={handleExpandClick}
+                  aria-expanded={isExpanded}
+                >
+                  <ExpandMoreIcon />
+                </ExpandMore>
+              )}
+            </MediaQuery>
+          </CardActions>
+        </Box>
+        {expanded && (
+          <Collapse in={isExpanded} timeout="auto" unmountOnExit className={classes.expanded}>
+            <CardContent>
+              {expanded}
+            </CardContent>
+          </Collapse>
+        )}
+      </Card>
+    </motion.div>
   )
 }
 
