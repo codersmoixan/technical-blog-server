@@ -3,7 +3,7 @@
  * @description Catalog
  */
 
-import React, {forwardRef, ReactEventHandler, useEffect, useState} from 'react'
+import React, { forwardRef, ReactEventHandler, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import MediaQuery from "components/common/MediaQuery";
 import Typography from "@mui/material/Typography";
@@ -13,12 +13,13 @@ import { makeStyles } from "@mui/styles";
 import TransformIcon from "components/common/TransformIcon";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import { motion, Variants } from "framer-motion";
 import clsx from "clsx";
 import Close from "@mui/icons-material/Close"
-import type { Theme } from "@mui/material";
 import Buttons from "components/common/Buttons";
-import {useMediaQuery} from "@mui/material";
+import { useMediaQuery } from "@mui/material";
+import { VariantContainer, VariantContent } from "components/common/VariantContainer";
+import type { Theme } from "@mui/material";
+import type { Variants } from "framer-motion";
 
 interface CatalogProps {
   menus: any[];
@@ -125,14 +126,16 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
   const [focus, setFocus] = useState(false)
 
   useEffect(() => {
-    if (mdUp) {
-      setFocus(true)
-    }
+    setFocus(mdUp)
   }, [mdUp])
 
   const handleSearchFocus = (event: React.MouseEvent) => {
     setFocus(false)
     onSearchFocus?.(event)
+  }
+
+  const handleCatalogFocus = () => {
+    setFocus(!focus)
   }
 
   return (
@@ -146,24 +149,20 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
           >
             分类
           </Typography>
-          <motion.div
-            initial={false}
-            animate={focus ? 'open' : 'closed'}
-          >
+          <VariantContainer focus={focus}>
             <Menu menus={menus} isBorder className={classes.menu} />
-          </motion.div>
+          </VariantContainer>
         </Box>
       </MediaQuery>
       <MediaQuery media="mobile">
-        <motion.div
-          initial={false}
-          animate={focus ? 'open' : 'closed'}
-          className={classes.catalog}
-        >
-          <Box className={clsx(classes.content, {
-            focus: !focus
-          })} ref={ref}>
-            <Box className={classes.menuLabel} onClick={() => setFocus(!focus)}>
+        <Box className={classes.catalog}>
+          <Box
+            className={clsx(classes.content, {
+              focus: !focus
+            })}
+            ref={ref}
+          >
+            <Box className={classes.menuLabel} onClick={handleCatalogFocus}>
               <Typography variant="h4" fontWeight={400} width="80%">前端</Typography>
               <TransformIcon focus={focus} originIcon={<ExpandLess />} finishIcon={<ExpandMore />} />
             </Box>
@@ -171,22 +170,24 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
               <Search />
             </Box>
           </Box>
-          <motion.div
-            variants={menuVariants}
-            className={classes.menuContainer}
-          >
-            <Box className={classes.menuHeader}>
-              <Buttons
-                variant="text"
-                space={false}
-                onClick={() => setFocus(false)}
-              >
-                <Close />
-              </Buttons>
-            </Box>
-            <Menu menus={menus} isBorder className={classes.menu} />
-          </motion.div>
-        </motion.div>
+          <VariantContainer focus={focus}>
+            <VariantContent
+              variants={menuVariants}
+              className={classes.menuContainer}
+            >
+              <Box className={classes.menuHeader}>
+                <Buttons
+                  variant="text"
+                  space={false}
+                  onClick={() => setFocus(false)}
+                >
+                  <Close />
+                </Buttons>
+              </Box>
+              <Menu menus={menus} isBorder className={classes.menu} />
+            </VariantContent>
+          </VariantContainer>
+        </Box>
       </MediaQuery>
     </Box>
   )

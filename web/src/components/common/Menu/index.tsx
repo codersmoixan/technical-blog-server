@@ -12,8 +12,8 @@ import { AccordionDetails, AccordionSummary } from "@mui/material";
 import Buttons from "components/common/Buttons";
 import clsx from "clsx";
 import TransformIcon from "components/common/TransformIcon";
-import { motion, Variants } from "framer-motion";
 import type { Theme } from "@mui/material";
+import { VariantContent, itemVariants } from "components/common/VariantContainer";
 
 interface MenuProps{
   menus: any[];
@@ -81,36 +81,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-const itemVariants = {
-  open: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 300, damping: 24 }
-  },
-  closed: { opacity: 0, y: 20, transition: { duration: 0.2 } }
-};
-
-const rootVariants: Variants = {
-  open: {
-    clipPath: "inset(0% 0% 0% 0% round 10px)",
-    transition: {
-      type: "spring",
-      bounce: 0,
-      duration: 0.7,
-      delayChildren: 0.3,
-      staggerChildren: 0.05
-    }
-  },
-  closed: {
-    clipPath: "inset(10% 50% 90% 50% round 10px)",
-    transition: {
-      type: "spring",
-      bounce: 0,
-      duration: 0.3
-    }
-  }
-}
-
 function Menu(props: MenuProps) {
   const classes = useStyles(props)
   const { menus, onNodeClick, className, childKey = 'child', expandIcon, closeIcon } = props
@@ -122,9 +92,8 @@ function Menu(props: MenuProps) {
     };
 
   return (
-    <motion.div
+    <VariantContent
       className={clsx(classes.root, className)}
-      variants={rootVariants}
     >
       {menus.map(menu => (
         <Accordion
@@ -132,7 +101,7 @@ function Menu(props: MenuProps) {
           expanded={expanded === menu.id}
           classes={{ root: classes.accordion }}
         >
-          <motion.div
+          <VariantContent
             variants={itemVariants}
           >
             <AccordionSummary classes={{
@@ -153,7 +122,7 @@ function Menu(props: MenuProps) {
                 </Buttons>
               )}
             </AccordionSummary>
-          </motion.div>
+          </VariantContent>
           {menu[childKey] && (
             <AccordionDetails classes={{ root: classes.value }}>
               {menu[childKey].map((c: any) => (
@@ -170,7 +139,7 @@ function Menu(props: MenuProps) {
           )}
         </Accordion>
       ))}
-    </motion.div>
+    </VariantContent>
   )
 }
 

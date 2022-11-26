@@ -3,6 +3,7 @@
  * @description MenuDrawer
  */
 
+import { useEffect, useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
@@ -15,6 +16,7 @@ import { NavigationItem } from "components/common/Navigation/constant";
 import isString from "lodash/isString";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore"
+import {itemVariants, VariantContainer, VariantContent} from "components/common/VariantContainer";
 import type { Theme } from "@mui/material";
 
 interface MenuDrawerProps {
@@ -27,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   top: {
     '&.MuiDrawer-root': {
       bottom: 'initial',
-      height: 'calc(100vh - 76px)',
+      height: 'calc(100vh - 70px)',
     },
   },
   paper: {
@@ -40,8 +42,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   bottom: {
     '&.MuiDrawer-root': {
       top: 'initial',
-      height: 76,
+      height: 72,
     },
+    '&.MuiPaper-root': {
+      justifyContent: 'space-around',
+    }
   },
   header: {
     padding: theme.spacing(0, 3),
@@ -53,6 +58,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   },
   userButtons: {
+    padding: theme.spacing(0.5),
     width: '100%',
     boxSizing: 'border-box',
     justifyContent: 'center',
@@ -85,7 +91,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       }
     },
     '& .MuiAccordionSummary-root': {
-      height: 72
+      height: 65
     },
     '& .MuiAccordionDetails-root': {
       padding: theme.spacing(0, 2),
@@ -94,13 +100,19 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: theme.status.white
       }
     }
-  }
+  },
 }))
 
 function MenuDrawer(props: MenuDrawerProps) {
   const { open, menus, onClose } = props
   const classes = useStyles(props)
   const history = useRouter()
+
+  const [focus, setFocus] = useState(false)
+
+  useEffect(() => {
+    setFocus(open)
+  }, [open])
 
   const handleNodeClick = (options: NavigationItem) => {
     const url = options.route
@@ -125,14 +137,16 @@ function MenuDrawer(props: MenuDrawerProps) {
           </Buttons>
         </Box>
         <Box className={classes.content}>
-          <Menu
-            menus={menus}
-            childKey="menus"
-            className={classes.menu}
-            onNodeClick={handleNodeClick}
-            expandIcon={<ExpandLess />}
-            closeIcon={<ExpandMore />}
-          />
+          <VariantContainer focus={focus}>
+            <Menu
+              menus={menus}
+              childKey="menus"
+              className={classes.menu}
+              onNodeClick={handleNodeClick}
+              expandIcon={<ExpandLess />}
+              closeIcon={<ExpandMore />}
+            />
+          </VariantContainer>
         </Box>
       </Drawer>
       <Drawer
@@ -144,7 +158,13 @@ function MenuDrawer(props: MenuDrawerProps) {
           paper: classes.paper
         }}
       >
-        <UserButtons className={classes.userButtons} />
+        <VariantContainer focus={focus}>
+          <VariantContent>
+            <VariantContent variants={itemVariants}>
+              <UserButtons className={classes.userButtons} />
+            </VariantContent>
+          </VariantContent>
+        </VariantContainer>
       </Drawer>
     </>
   )
