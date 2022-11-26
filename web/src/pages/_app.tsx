@@ -11,6 +11,7 @@ import "reset-css"
 import "../assets/common.css"
 
 import type { AppProps } from 'next/app'
+import BasicSpeedDial from "components/common/BasicSpeedDial";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Navigation />
         <Box position="relative" zIndex={9}>
           <Component {...pageProps} />
+          <BasicSpeedDial />
         </Box>
         <Footer />
       </ThemeProvider>
