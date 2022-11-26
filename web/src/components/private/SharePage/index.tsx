@@ -67,6 +67,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginRight: theme.spacing(1),
       fontSize: 16
     }
+  },
+  gridItem: {
+    transition: 'all .3s'
   }
 }))
 
@@ -116,6 +119,7 @@ function Share() {
             </Box>
             <Grid container spacing={3} py={3}>
               {blogList.map(blog => (
+
                 <Grid
                   key={blog.id}
                   item
@@ -124,9 +128,10 @@ function Share() {
                   sm={6}
                   md={6}
                   lg={4}
-                  xl={3}
+                  xl={4}
                   display="flex"
                   justifyContent="center"
+                  className={classes.gridItem}
                 >
                   <BlogCard title={blog.title} date="2022.11.06" >
                     <Box slot={DESCRIPTION}>
