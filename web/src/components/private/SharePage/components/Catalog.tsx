@@ -16,7 +16,6 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import clsx from "clsx";
 import Close from "@mui/icons-material/Close"
 import Buttons from "components/common/Buttons";
-import { useMediaQuery } from "@mui/material";
 import { Variant, VariantContent } from "components/common/Variant";
 import type { Theme } from "@mui/material";
 import type { Variants } from "framer-motion";
@@ -63,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderBottom: `1px solid ${theme.status.colorSecondary}`
   },
   menu: {
-    width: 255,
+    width: 205,
     [theme.breakpoints.down('md')]: {
       width: 'auto',
       '& .MuiButtonBase-root': {
@@ -121,13 +120,8 @@ const menuVariants: Variants = {
 
 export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProps, ref) {
   const classes = useStyles()
-  const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"))
 
   const [focus, setFocus] = useState(false)
-
-  useEffect(() => {
-    setFocus(mdUp)
-  }, [mdUp])
 
   const handleSearchFocus = (event: React.MouseEvent) => {
     setFocus(false)
@@ -149,7 +143,7 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
           >
             分类
           </Typography>
-          <Variant focus={focus}>
+          <Variant focus>
             <Menu menus={menus} isBorder className={classes.menu} />
           </Variant>
         </Box>

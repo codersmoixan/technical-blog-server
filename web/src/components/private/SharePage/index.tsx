@@ -3,7 +3,7 @@
  * @description Share
  */
 
-import React, { useRef } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CreativeGrid from "public/images/backdrop/creative-grid.jpeg"
@@ -20,6 +20,7 @@ import SearchFormText from "components/common/Form/SearchFormText";
 import Banner from "components/common/Layout/Banner";
 import { options, blogList } from "./constants"
 import type { Theme } from "@mui/material";
+import { Variant } from "components/common/Variant";
 
 const useStyles = makeStyles((theme: Theme) => ({
   banner: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   main: {
     flex: 1,
     [theme.breakpoints.up('md')]: {
-      marginLeft: theme.spacing(8),
+      margin: theme.spacing(0, 3),
     }
   },
   search: {
@@ -77,8 +78,14 @@ function Share() {
   const classes = useStyles()
   const theme = useTheme()
 
+  const [focus, setFocus] = useState(false)
+
   const pointRef = useRef<HTMLElement | null>(null)
   const searchRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    setFocus(true)
+  }, [])
 
   const handleSearchFocus = () => {
     searchRef.current?.focus()
@@ -117,35 +124,36 @@ function Share() {
                 }}
               />
             </Box>
-            <Grid container spacing={3} py={3}>
-              {blogList.map(blog => (
-
-                <Grid
-                  key={blog.id}
-                  item
-                  spacing={2}
-                  xs={12}
-                  sm={6}
-                  md={6}
-                  lg={4}
-                  xl={4}
-                  display="flex"
-                  justifyContent="center"
-                  className={classes.gridItem}
-                >
-                  <BlogCard title={blog.title} date="2022.11.06" >
-                    <Box slot={DESCRIPTION}>
-                      <Typography>{blog.description}</Typography>
-                    </Box>
-                    <Box slot={EXPANDED}>
-                      <Typography>
-                        {blog.content}
-                      </Typography>
-                    </Box>
-                  </BlogCard>
-                </Grid>
-              ))}
-            </Grid>
+            <Variant focus={focus}>
+              <Grid container spacing={3} py={3}>
+                {blogList.map(blog => (
+                  <Grid
+                    key={blog.id}
+                    item
+                    spacing={2}
+                    xs={12}
+                    sm={6}
+                    md={6}
+                    lg={4}
+                    xl={3}
+                    display="flex"
+                    justifyContent="center"
+                    className={classes.gridItem}
+                  >
+                    <BlogCard title={blog.title} date="2022.11.06" >
+                      <Box slot={DESCRIPTION}>
+                        <Typography>{blog.description}</Typography>
+                      </Box>
+                      <Box slot={EXPANDED}>
+                        <Typography>
+                          {blog.content}
+                        </Typography>
+                      </Box>
+                    </BlogCard>
+                  </Grid>
+                ))}
+              </Grid>
+            </Variant>
           </Box>
         </Box>
       </Content>
