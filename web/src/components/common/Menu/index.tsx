@@ -4,7 +4,6 @@
  */
 
 import React, { ReactNode, useState } from 'react'
-import Box from '@mui/material/Box';
 import Accordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
@@ -12,8 +11,9 @@ import { AccordionDetails, AccordionSummary } from "@mui/material";
 import Buttons from "components/common/Buttons";
 import clsx from "clsx";
 import TransformIcon from "components/common/TransformIcon";
+import { VariantContent } from "components/common/Variant";
+import { stiffnessVariants } from "@/src/utils/variants";
 import type { Theme } from "@mui/material";
-import { VariantContent, itemVariants } from "components/common/Variant";
 
 interface MenuProps{
   menus: any[];
@@ -102,7 +102,7 @@ function Menu(props: MenuProps) {
           classes={{ root: classes.accordion }}
         >
           <VariantContent
-            variants={itemVariants}
+            variants={stiffnessVariants}
           >
             <AccordionSummary classes={{
               root: classes.summary,

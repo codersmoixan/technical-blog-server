@@ -3,7 +3,6 @@
  * @description MenuDrawer
  */
 
-import { useEffect, useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
@@ -16,7 +15,8 @@ import { NavigationItem } from "components/common/Navigation/constant";
 import isString from "lodash/isString";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore"
-import {itemVariants, Variant, VariantContent} from "components/common/Variant";
+import {Variant, VariantContent} from "components/common/Variant";
+import { stiffnessVariants } from "@/src/utils/variants";
 import type { Theme } from "@mui/material";
 
 interface MenuDrawerProps {
@@ -108,12 +108,6 @@ function MenuDrawer(props: MenuDrawerProps) {
   const classes = useStyles(props)
   const history = useRouter()
 
-  const [focus, setFocus] = useState(false)
-
-  useEffect(() => {
-    setFocus(open)
-  }, [open])
-
   const handleNodeClick = (options: NavigationItem) => {
     const url = options.route
     onClose?.()
@@ -137,7 +131,7 @@ function MenuDrawer(props: MenuDrawerProps) {
           </Buttons>
         </Box>
         <Box className={classes.content}>
-          <Variant focus={focus}>
+          <Variant focus={open}>
             <Menu
               menus={menus}
               childKey="menus"
@@ -158,9 +152,9 @@ function MenuDrawer(props: MenuDrawerProps) {
           paper: classes.paper
         }}
       >
-        <Variant focus={focus}>
+        <Variant focus={open}>
           <VariantContent>
-            <VariantContent variants={itemVariants}>
+            <VariantContent variants={stiffnessVariants}>
               <UserButtons className={classes.userButtons} />
             </VariantContent>
           </VariantContent>
