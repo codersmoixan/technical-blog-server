@@ -28,10 +28,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.status.white,
     boxShadow: 'rgb(19 19 19 / 8%) 0px 2px 4px 0px',
   },
-  accordionOpen: {
-    maxHeight: 300,
-    boxShadow: 'rgb(19 19 19 / 8%) 0px 2px 4px 0px',
-  },
   accordionContent: {
     display: 'flex',
     justifyContent: 'center',
@@ -54,7 +50,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-function AccordionMenu({ tab, ...other }: AccordionMenuProps) {
+const rootVariants = {
+  open: {
+    height: 'auto'
+  },
+  closed: {
+    height: 0
+  }
+}
+
+function AccordionMenu({ tab }: AccordionMenuProps) {
   const classes = useStyles()
   const menus = (get(tab, 'menus', [])) as MenuItem[]
 
@@ -63,14 +68,7 @@ function AccordionMenu({ tab, ...other }: AccordionMenuProps) {
   }
 
   return  (
-    <VariantContent className={classes.root} variants={{
-      open: {
-        height: 'auto'
-      },
-      closed: {
-        height: 0
-      }
-    }}>
+    <VariantContent className={classes.root} variants={rootVariants}>
       <VariantContent
         key={tab.id}
         initial={{ x: -30, opacity: 0 }}
