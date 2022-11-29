@@ -15,6 +15,9 @@ import PostAdd from '@mui/icons-material/PostAdd';
 import VerticalAlignTop from "@mui/icons-material/VerticalAlignTop";
 import { makeStyles } from "@mui/styles";
 import type { Theme } from "@mui/material";
+import {useRouter} from "next/router";
+import routes from "@/src/routes";
+import isString from "lodash/isString";
 
 const actions = [
   { id: 'link', icon: <AddLink />, name: '新增友情链接' },
@@ -34,22 +37,34 @@ const useStyles = makeStyles((theme: Theme) => ({
     zIndex: 9999,
     transition: 'all .3s',
     [theme.breakpoints.down('sm')]: {
-      bottom: 24,
-      right: 24
+      bottom: 12,
+      right: 12
     }
   }
 }))
 
 function BasicSpeedDial() {
   const classes = useStyles()
+  const history = useRouter()
+
+  const scrollToTop = () => {
+    document.body.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    })
+  }
+
+  const goToTarget = (target: string) => {
+    const route = routes[target]
+    return () => isString(route) ? history.push(route) : history.push(route())
+  }
 
   const handleAction = (type: string) => {
     if (type === 'top') {
-      document.body.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      })
+      return scrollToTop()
     }
+
+    goToTarget(type)
   }
 
   return (

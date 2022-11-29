@@ -12,15 +12,20 @@ import "../assets/common.css"
 
 import type { AppProps } from 'next/app'
 import BasicSpeedDial from "components/common/BasicSpeedDial";
+import NodeVisible from "components/common/NodeVisible";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Navigation />
+        <NodeVisible>
+          <Navigation />
+        </NodeVisible>
         <Box position="relative" zIndex={9}>
           <Component {...pageProps} />
-          <BasicSpeedDial />
+          <NodeVisible>
+            <BasicSpeedDial />
+          </NodeVisible>
         </Box>
         <Footer />
       </ThemeProvider>
