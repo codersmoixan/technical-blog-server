@@ -19,6 +19,7 @@
     "@wangeditor/editor-for-react": "^1.0.6",
     "add": "^2.0.6",
     "clsx": "^1.2.1",
+    "dayjs": "^1.11.6",
     "framer-motion": "^7.6.7",
     "lodash": "^4.17.21",
     "next": "13.0.3",
