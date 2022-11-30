@@ -7,12 +7,14 @@ import React, { useState, useEffect } from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
 import { IDomEditor, DomEditor, IToolbarConfig } from '@wangeditor/editor'
 import { makeStyles } from "@mui/styles";
-import type { Theme } from "@mui/system";
+import type { Theme } from "@mui/material";
 
 import '@wangeditor/editor/dist/css/style.css'
+import clsx from "clsx";
 
 interface ShareEditorProps {
-  onChange?: (editor: IDomEditor) => void
+  onChange?: (editor: IDomEditor) => void;
+  className?: string;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'sticky',
     top: 0,
     zIndex: 999,
-    boxShadow: 'rgb(19 19 19 / 8%) 0px 2px 4px 0px',
+    borderBottom: `1px solid ${theme.status.colorSecondary}`
   },
   editor: {
     height: '100%'
@@ -33,7 +35,7 @@ const excludeToolKey = [
   'numberedList', 'group-justify', 'group-indent', 'group-video', 'insertTable', 'todo'
 ]
 
-function ShareEditor({ onChange }: ShareEditorProps) {
+function ShareEditor({ onChange, className, ...other }: ShareEditorProps) {
   const classes = useStyles()
 
   const [editor, setEditor] = useState<IDomEditor | null>(null)
@@ -72,7 +74,7 @@ function ShareEditor({ onChange }: ShareEditorProps) {
   }, [editor])
 
   return (
-    <div className={classes.root}>
+    <div className={clsx(className, classes.root)} {...other}>
       <Toolbar
         editor={editor}
         defaultConfig={toolbarConfig}

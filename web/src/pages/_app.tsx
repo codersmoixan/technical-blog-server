@@ -8,12 +8,18 @@ import Footer from "components/common/Footer";
 import store from "../store";
 
 import "../assets/common.css"
+// import "../assets/prism.js"
 
 import type { AppProps } from 'next/app'
 import BasicSpeedDial from "components/common/BasicSpeedDial";
 import NodeVisible from "components/common/NodeVisible";
+import {useEffect} from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
+  // useEffect(() => {
+  //   Prism.highlightAll()
+  // }, [])
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
