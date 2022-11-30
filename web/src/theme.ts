@@ -16,6 +16,7 @@ interface CustomThemeOptions {
     transitionTime: string;
     colorSecondary: string;
     darkPeach: string;
+    placeholder: string;
   };
   common: {
     verticalCenter: CSSProperties;
@@ -40,6 +41,7 @@ const TB_STATUS_COLOR_SECONDARY = '#d8dee3'
 const TB_STATUS_COLOR_TEXT_SECONDARY = '#AAAAAA'
 const TB_STATUS_COLOR_TRANSPARENT = 'transparent'
 const TB_STATUS_DARK_PEACH = '#f8f6f1'
+const TB_STATUS_PLACEHOLDER = '#1d2129'
 
 const TB_STATUS_TRANSITION_TIME = '.3s'
 const TB_STATUS_TRANSITION = (t?: number) => t ? `all ${t}s` : `all ${TB_STATUS_TRANSITION_TIME}`
@@ -61,6 +63,7 @@ const theme = createTheme({
     contentWidth: 1376,
     navHeight: 88,
     transition: TB_STATUS_TRANSITION,
+    transitionTime: TB_STATUS_TRANSITION_TIME,
 
     white: TB_STATUS_WHITE,
     bgDark: TB_STATUS_BG_DARK,
@@ -68,7 +71,7 @@ const theme = createTheme({
     colorSecondary: TB_STATUS_COLOR_SECONDARY,
     textSecondary: TB_STATUS_COLOR_TEXT_SECONDARY,
     transparent: TB_STATUS_COLOR_TRANSPARENT,
-    transitionTime: TB_STATUS_TRANSITION_TIME,
+    placeholder: TB_STATUS_PLACEHOLDER
   },
   common: {
     verticalCenter: {

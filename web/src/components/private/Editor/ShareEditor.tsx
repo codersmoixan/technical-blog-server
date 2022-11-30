@@ -5,13 +5,44 @@
 
 import React, { useState, useEffect } from 'react'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
-import { IDomEditor } from '@wangeditor/editor'
-import '@wangeditor/editor/dist/css/style.css'
+import { IDomEditor, DomEditor, IToolbarConfig } from '@wangeditor/editor'
+import { makeStyles } from "@mui/styles";
+import type { Theme } from "@mui/material";
 
-function ShareEditor() {
+import '@wangeditor/editor/dist/css/style.css'
+import clsx from "clsx";
+
+interface ShareEditorProps {
+  onChange?: (editor: IDomEditor) => void;
+  className?: string;
+}
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {},
+  toolbar: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 999,
+    borderBottom: `1px solid ${theme.status.colorSecondary}`
+  },
+  editor: {
+    height: '100%'
+  }
+}))
+
+const excludeToolKey = [
+  '|', 'group-more-style', 'underline', 'italic', 'bgColor', 'fontFamily', 'lineHeight', 'bulletedList',
+  'numberedList', 'group-justify', 'group-indent', 'group-video', 'insertTable', 'todo'
+]
+
+function ShareEditor({ onChange, className, ...other }: ShareEditorProps) {
+  const classes = useStyles()
+
   const [editor, setEditor] = useState<IDomEditor | null>(null)
 
-  const toolbarConfig = {} // 菜单栏配置
+  const toolbarConfig: Partial<IToolbarConfig> = {
+
+  } // 菜单栏配置
 
   // 编辑器配置
   const editorConfig = {
@@ -20,14 +51,21 @@ function ShareEditor() {
       // 编辑器创建之后，记录 editor 实例，重要 ！！！ （有了 editor 实例，就可以执行 editor API）
       setEditor(editor)
     },
-    onChange: (editor: IDomEditor) => {
-      // editor 选区或者内容变化时，获取当前最新的的 content
-      console.log('changed', editor.children)
-    }
+    onChange: (editor: IDomEditor) => onChange?.(editor)
   }
 
   // 组件销毁时，及时销毁 editor 实例，重要！！！
   useEffect(() => {
+    if (editor !== null) {
+      const toolbarConfig = DomEditor.getToolbar(editor)?.getConfig()
+      console.log(toolbarConfig);
+      if (toolbarConfig) {
+        toolbarConfig.excludeKeys = excludeToolKey
+      }
+
+      console.log(toolbarConfig, 66);
+    }
+
     return () => {
       if (editor == null) return
       editor.destroy()
@@ -36,18 +74,15 @@ function ShareEditor() {
   }, [editor])
 
   return (
-    <div style={{ border: '1px solid #ccc', zIndex: 100}}>
-      {/* 渲染 toolbar */}
+    <div className={clsx(className, classes.root)} {...other}>
       <Toolbar
         editor={editor}
         defaultConfig={toolbarConfig}
-        style={{ borderBottom: '1px solid #ccc' }}
+        className={classes.toolbar}
       />
-
-      {/* 渲染 editor */}
       <Editor
         defaultConfig={editorConfig}
-        style={{ height: '500px' }}
+        className={classes.editor}
       />
     </div>
   )

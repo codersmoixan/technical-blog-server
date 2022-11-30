@@ -18,12 +18,17 @@ import type { Theme } from "@mui/material";
 import {useRouter} from "next/router";
 import routes from "@/src/routes";
 import isString from "lodash/isString";
+import {ReactNode} from "react";
 
-const actions = [
-  { id: 'link', icon: <AddLink />, name: '新增友情链接' },
-  { id: 'file', icon: <Queue />, name: '新增归档类型' },
-  { id: 'tag', icon: <BookmarkAdd />, name: '新增标签' },
-  { id: 'share', icon: <PostAdd />, name: '新增新的分享' },
+const actions: {
+  id: keyof (typeof routes) | 'top';
+  icon: ReactNode;
+  name?: string;
+}[] = [
+  { id: 'links', icon: <AddLink />, name: '新增友情链接' },
+  { id: 'files', icon: <Queue />, name: '新增归档类型' },
+  { id: 'tags', icon: <BookmarkAdd />, name: '新增标签' },
+  { id: 'editor', icon: <PostAdd />, name: '新增新的分享' },
   { id: 'top', icon: <VerticalAlignTop /> }
 ];
 
@@ -54,17 +59,17 @@ function BasicSpeedDial() {
     })
   }
 
-  const goToTarget = (target: string) => {
-    const route = routes[target]
-    return () => isString(route) ? history.push(route) : history.push(route())
-  }
 
-  const handleAction = (type: string) => {
+  const handleAction = (type: keyof (typeof routes) | 'top') => {
     if (type === 'top') {
       return scrollToTop()
     }
 
-    goToTarget(type)
+    const route = routes[type]
+
+    console.log(route);
+
+    return isString(route) ? history.push(route) : history.push(route())
   }
 
   return (

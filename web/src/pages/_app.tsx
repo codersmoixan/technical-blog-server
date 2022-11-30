@@ -7,14 +7,19 @@ import theme from "@/src/theme"
 import Footer from "components/common/Footer";
 import store from "../store";
 
-import "reset-css"
 import "../assets/common.css"
+// import "../assets/prism.js"
 
 import type { AppProps } from 'next/app'
 import BasicSpeedDial from "components/common/BasicSpeedDial";
 import NodeVisible from "components/common/NodeVisible";
+import {useEffect} from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
+  // useEffect(() => {
+  //   Prism.highlightAll()
+  // }, [])
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -27,7 +32,9 @@ export default function App({ Component, pageProps }: AppProps) {
             <BasicSpeedDial />
           </NodeVisible>
         </Box>
-        <Footer />
+        <NodeVisible>
+          <Footer />
+        </NodeVisible>
       </ThemeProvider>
     </Provider>
   )
