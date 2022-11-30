@@ -7,7 +7,6 @@ import theme from "@/src/theme"
 import Footer from "components/common/Footer";
 import store from "../store";
 
-import "reset-css"
 import "../assets/common.css"
 
 import type { AppProps } from 'next/app'
@@ -27,7 +26,9 @@ export default function App({ Component, pageProps }: AppProps) {
             <BasicSpeedDial />
           </NodeVisible>
         </Box>
-        <Footer />
+        <NodeVisible>
+          <Footer />
+        </NodeVisible>
       </ThemeProvider>
     </Provider>
   )
