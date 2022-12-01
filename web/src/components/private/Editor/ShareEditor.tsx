@@ -13,6 +13,10 @@ import '@wangeditor/editor/dist/css/style.css'
 import Root from "components/common/Layout/Root";
 import Box from "@mui/material/Box";
 import Buttons from "components/common/Buttons";
+import MediaQuery from "components/common/MediaQuery";
+import PublishDialog from "components/private/Editor/PublishDialog";
+
+const editorHeight = (media: string) => media === 'mobile' ? 'calc(100vh - 145px)' : 'calc(100vh - 140px)'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -31,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: 85,
     backgroundColor: theme.status.white,
     zIndex: 999,
+    [theme.breakpoints.down('sm')]: {
+      height: 65
+    }
   },
   title: {
     width: '70%',
@@ -57,16 +64,41 @@ const useStyles = makeStyles((theme: Theme) => ({
     zIndex: 999,
     borderBottom: `1px solid ${theme.status.colorSecondary}`,
     borderTop: `1px solid ${theme.status.colorSecondary}`,
+    [theme.breakpoints.down('sm')]: {
+      top: 65
+    }
   },
   editor: {
-    minHeight: '800px',
-    flex: 1,
+    minHeight: editorHeight('pc'),
+    '& .w-e-text-container': {
+      minHeight: editorHeight('pc')
+    },
+    '& .w-e-scroll': {
+      overflowY: 'inherit !important',
+      minHeight: editorHeight('pc'),
+      '& > div': {
+        minHeight: editorHeight('pc'),
+      }
+    },
+    [theme.breakpoints.down('sm')]: {
+      minHeight: editorHeight('mobile'),
+      '& .w-e-text-container': {
+        minHeight: editorHeight('mobile')
+      },
+      '& .w-e-scroll': {
+        overflowY: 'inherit !important',
+        minHeight: editorHeight('mobile'),
+        '& > div': {
+          minHeight: editorHeight('mobile'),
+        }
+      }
+    },
   },
 }))
 
 const excludeToolKey = [
   '|', 'group-more-style', 'underline', 'italic', 'bgColor', 'fontFamily', 'lineHeight', 'bulletedList',
-  'numberedList', 'group-justify', 'group-indent', 'group-video', 'insertTable', 'todo'
+  'numberedList', 'group-justify', 'group-indent', 'group-video', 'insertTable', 'todo', 'undo', 'redo', 'fullScreen'
 ]
 
 function ShareEditor() {
@@ -74,6 +106,7 @@ function ShareEditor() {
 
   const [editor, setEditor] = useState<IDomEditor | null>(null)
   const [html, setHtml] = useState('')
+  const [open, setOpen] = useState(false)
 
   const toolbarConfig: Partial<IToolbarConfig> = {
 
@@ -108,14 +141,23 @@ function ShareEditor() {
     }
   }, [editor])
 
+  const handleCloseDialog = () => setOpen(false)
+
+  const handlePublish = () => {
+    console.log(html, 6652)
+    handleCloseDialog()
+  }
+
   return (
     <Root className={classes.root}>
       <Box className={classes.header}>
         <input placeholder="请输入文章标题..." className={classes.title} />
-        <Box className={classes.actions}>
-          <Buttons variant="outlined">草稿箱</Buttons>
-          <Buttons variant="contained" className={classes.submit}>发布</Buttons>
-        </Box>
+        <MediaQuery media={['pad', 'pc']}>
+          <Box className={classes.actions}>
+            <Buttons variant="outlined">草稿箱</Buttons>
+            <Buttons variant="contained" className={classes.submit} onClick={() => setOpen(true)}>发布</Buttons>
+          </Box>
+        </MediaQuery>
       </Box>
       <Box className={classes.editorContainer}>
         <Toolbar
@@ -128,6 +170,11 @@ function ShareEditor() {
           className={classes.editor}
         />
       </Box>
+      <PublishDialog
+        open={open}
+        onPublish={handlePublish}
+        onClose={handleCloseDialog}
+      />
     </Root>
   )
 }
