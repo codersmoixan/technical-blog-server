@@ -23,6 +23,7 @@ import AccordionMenu from "components/common/Navigation/components/AccordionMenu
 import throttle from "lodash/throttle";
 import routes from "@/src/routes";
 import { useTheme } from "@mui/material/styles";
+import {Variant} from "components/common/Variant";
 
 function Index() {
   const classes = useStyles()
@@ -82,10 +83,9 @@ function Index() {
               <UserButtons />
             </Box>
           </Box>
-          <AccordionMenu
-            tab={focusTab}
-            focus={focus}
-          />
+          <Variant focus={!isEmpty(focusTab.menus)}>
+            <AccordionMenu tab={focusTab} />
+          </Variant>
         </Box>
       </MediaQuery>
       <MediaQuery media={['pad', 'mobile']}>

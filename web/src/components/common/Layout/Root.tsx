@@ -5,9 +5,9 @@
 
 import Box, { BoxProps } from '@mui/material/Box';
 import { makeStyles } from "@mui/styles";
-import type { Theme } from "@mui/material";
 import Image, { StaticImageData } from "next/image";
 import { motion } from "framer-motion";
+import type { Theme } from "@mui/material";
 
 interface RootProps extends BoxProps {
   backdrop?: string | StaticImageData;
@@ -29,12 +29,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     left: 0,
     width: '100%',
     height: theme.status.backdropHeight,
+  },
+  motion: {
+    width: '100%',
+    height: '100%'
   }
 }))
 
 function Root(props: RootProps) {
-  const classes = useStyles(props)
   const { children, backdrop = '', alt = '', animate = true, ...other } = props
+  const classes = useStyles(props)
 
   return (
     <Box className={classes.root} {...other}>
@@ -43,6 +47,7 @@ function Root(props: RootProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
+          className={classes.motion}
         >
           {backdrop && <Image src={backdrop} alt={alt} className={classes.review} />}
           {children}
