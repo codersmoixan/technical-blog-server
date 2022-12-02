@@ -25,6 +25,7 @@
     "lodash": "^4.17.21",
     "next": "13.0.3",
     "next-videos": "1.5.0",
+    "notistack": "^2.0.8",
     "prismjs": "^1.29.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
