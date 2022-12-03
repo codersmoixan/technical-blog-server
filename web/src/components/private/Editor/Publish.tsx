@@ -14,6 +14,7 @@ import TBChip from "components/common/TBChip";
 import {useState} from "react";
 import FormChipSelect from "components/common/Form/FormChipSelect";
 import ImageUpload from "components/common/Form/ImageUpload";
+import FormTextarea from "components/common/Form/FormTextarea";
 
 interface PublishProps {
   open: boolean;
@@ -89,6 +90,12 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           <Grid item xs={2}>文章封面: </Grid>
           <Grid item xs={10}>
             <ImageUpload />
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} mt={2}>
+          <Grid item xs={2}>编辑摘要: </Grid>
+          <Grid item xs={10}>
+            <FormTextarea placeholder="请输入文章摘要..." />
           </Grid>
         </Grid>
       </Box>
