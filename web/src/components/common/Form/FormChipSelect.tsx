@@ -1,21 +1,20 @@
 /**
  * @author zhengji.su
- * @description FormSelect
+ * @description FormChipSelect
  */
 
-import React, { useState, useEffect } from 'react'
+import { useState } from "react";
 import { Theme, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent, SelectProps} from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
-import {makeStyles} from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 import FormText from "components/common/Form/FormText";
+import Typography from "@mui/material/Typography";
 
-interface FormSelectProps extends SelectProps{
+interface FormChipSelectProps extends SelectProps{
   options: any[];
   value: string;
   label?: string;
@@ -23,7 +22,20 @@ interface FormSelectProps extends SelectProps{
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    width: 300
+    width: 300,
+    '& .MuiSelect-select': {
+      display: 'flex',
+      alignItems: 'center'
+    },
+    '& .MuiChip-root': {
+      height: 25,
+      borderRadius: 2,
+      backgroundColor: theme.palette.primary.main,
+      color: theme.status.white,
+      '& .MuiChip-label': {
+        fontSize: 12
+      }
+    }
   }
 }))
 
@@ -47,11 +59,11 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-function FormSelect({ label, options, placeholder }: FormSelectProps) {
+function FormChipSelect({ label, options, placeholder }: FormChipSelectProps) {
   const theme = useTheme();
   const classes = useStyles()
 
-  const [personName, setPersonName] = React.useState<string[]>([]);
+  const [personName, setPersonName] = useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -68,18 +80,29 @@ function FormSelect({ label, options, placeholder }: FormSelectProps) {
         labelId="demo-multiple-chip-label"
         id="demo-multiple-chip"
         multiple
+        displayEmpty
         value={personName}
         onChange={handleChange}
-        input={<FormText id="select-multiple-chip" placeholder={placeholder} />}
-        renderValue={(selected) => (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-            {selected.map((value) => (
-              <Chip key={value} label={value} />
-            ))}
-          </Box>
-        )}
+        input={<FormText id="select-multiple-chip" />}
+        renderValue={(selected) => {
+          console.log(selected, 4466)
+          if (selected.length === 0) {
+            return <Typography component="span" variant="body1" color={theme.status.placeholder}>{placeholder}</Typography>
+          }
+
+          return (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {selected.map((value) => (
+                <Chip key={value} label={value} />
+              ))}
+            </Box>
+          )
+        }}
         MenuProps={MenuProps}
       >
+        <MenuItem disabled value="">
+          {placeholder}
+        </MenuItem>
         {options.map((option) => (
           <MenuItem
             key={option.id}
@@ -94,4 +117,4 @@ function FormSelect({ label, options, placeholder }: FormSelectProps) {
   );
 }
 
-export default FormSelect
+export default FormChipSelect
