@@ -3,11 +3,11 @@
  * @description Content
  */
 
-import React, { ReactNode } from 'react'
 import Box, { BoxProps } from "@mui/material/Box";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import type { Theme } from "@mui/material";
+import type { ReactNode } from "react";
 
 interface ContentProps extends BoxProps{
   className?: string;

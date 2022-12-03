@@ -1,1 +1,1 @@
-export type EmptyObject = Record<string, any>
+export type EmptyObject<T = any> = Record<string, T>

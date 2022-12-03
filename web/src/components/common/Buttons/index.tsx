@@ -3,14 +3,14 @@
  * @description Buttons
  */
 
-import * as React from 'react'
 import Button, { ButtonProps } from "@mui/material/Button";
 import { makeStyles } from "@mui/styles";
 import type { Theme } from "@mui/material"
 import clsx from "clsx";
+import type { ReactNode } from "react";
 
 interface ButtonsProps extends ButtonProps{
-  children: React.ReactNode,
+  children: ReactNode,
   className?: string,
   space?: boolean
 }

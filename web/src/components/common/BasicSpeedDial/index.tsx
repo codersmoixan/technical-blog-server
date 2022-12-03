@@ -3,7 +3,6 @@
  * @description BasicSpeedDial
  */
 
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
@@ -18,7 +17,7 @@ import type { Theme } from "@mui/material";
 import {useRouter} from "next/router";
 import routes from "@/src/routes";
 import isString from "lodash/isString";
-import {ReactNode} from "react";
+import type { ReactNode } from "react";
 
 const actions: {
   id: keyof (typeof routes) | 'top';

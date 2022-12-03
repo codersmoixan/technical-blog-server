@@ -3,13 +3,13 @@
  * @description TransformIcon
  */
 
-import React, { ReactNode } from 'react'
 import Box, { BoxProps } from '@mui/material/Box';
 import clsx from "clsx";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { makeStyles } from "@mui/styles";
 import type { Theme } from "@mui/material";
+import type { ReactNode } from "react";
 
 interface TransformIconProps extends BoxProps{
   focus: boolean;

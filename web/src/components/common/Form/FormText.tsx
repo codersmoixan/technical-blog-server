@@ -3,13 +3,13 @@
  * @description FormText
  */
 
-import React, { ReactNode } from 'react'
 import { makeStyles } from "@mui/styles";
 import OutlinedInput, { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { FormControl, InputLabel } from "@mui/material";
 import type { Theme } from "@mui/material";
 import isString from "lodash/isString";
 import clsx from "clsx";
+import type { ReactNode } from "react";
 
 export interface FormTextProps extends OutlinedInputProps {
   className?: string;

@@ -3,7 +3,7 @@
  * @description Menu
  */
 
-import React, { ReactNode, useState } from 'react'
+import { useState, ReactNode } from 'react'
 import Accordion from "@mui/material/Accordion";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";

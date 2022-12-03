@@ -3,8 +3,6 @@
  * @description CenterDialog
  */
 
-import React, { ReactNode } from 'react'
-import Box from '@mui/material/Box';
 import Dialog, { DialogProps } from "@mui/material/Dialog";
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,7 +18,7 @@ interface CenterDialogProps extends DialogProps {
   cancelText?: string;
   onClose?: () => void;
   onConfirm?: () => void;
-  children?: ReactNode
+  children?: JSX.Element
 }
 
 const useStyles = makeStyles({
