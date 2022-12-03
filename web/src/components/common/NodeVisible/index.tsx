@@ -3,9 +3,9 @@
  * @description NodeVisible
  */
 
-import React, { ReactNode} from 'react'
 import {useRouter} from "next/router";
 import Box from "@mui/material/Box";
+import type { ReactNode } from "react";
 
 interface NodeVisibleProps {
   children: ReactNode;

@@ -3,7 +3,7 @@
  * @description SearchFormText
  */
 
-import React, { MutableRefObject, ReactNode, useState } from "react";
+import React, { MutableRefObject, useState } from "react";
 import Box from '@mui/material/Box';
 import { makeStyles } from "@mui/styles";
 import Backdrop from "@mui/material/Backdrop"
@@ -14,7 +14,7 @@ import type { Theme } from "@mui/material";
 
 export interface SearchFormTextProps extends FormTextProps {
   backdrop?: boolean;
-  anchorPoint?: MutableRefObject<ReactNode | HTMLElement | null>
+  anchorPoint?: MutableRefObject<JSX.Element | HTMLElement | null>
 }
 
 const useStyles = makeStyles((theme: Theme) => ({

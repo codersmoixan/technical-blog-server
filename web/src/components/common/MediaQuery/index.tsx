@@ -3,10 +3,10 @@
  * @description MediaQuery
  */
 
-import React, { ReactNode } from 'react'
 import Hidden from "@mui/material/Hidden";
 import type { Breakpoint } from "@mui/system";
 import isArray from "lodash/isArray";
+import type { ReactNode } from "react";
 
 type MediaKey = 'pc' | 'pad' | 'mobile'
 type Media = MediaKey | Array<MediaKey>
