@@ -12,7 +12,8 @@ import { makeStyles } from "@mui/styles";
 import type { Theme } from "@mui/material";
 import TBChip from "components/common/TBChip";
 import {useState} from "react";
-import FormSelect from "components/common/Form/FormSelect";
+import FormChipSelect from "components/common/Form/FormChipSelect";
+import ImageUpload from "components/common/Form/ImageUpload";
 
 interface PublishProps {
   open: boolean;
@@ -67,8 +68,8 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
     >
       <Box className={classes.root}>
         <Grid container spacing={1}>
-          <Grid item xs={1}>分类: </Grid>
-          <Grid item xs={11}>
+          <Grid item xs={2}>分类: </Grid>
+          <Grid item xs={10}>
             <Grid container spacing={2}>
               {chips.map(chip => (
                 <Grid item key={chip.id} spacing={2} xs={2}>
@@ -79,9 +80,15 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           </Grid>
         </Grid>
         <Grid container spacing={1} mt={2}>
-          <Grid item xs={1}>标签: </Grid>
-          <Grid item xs={11}>
-            <FormSelect options={tags} value="" placeholder="请选择标签" />
+          <Grid item xs={2}>标签: </Grid>
+          <Grid item xs={10}>
+            <FormChipSelect options={tags} value="" placeholder="请选择标签" />
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} mt={2}>
+          <Grid item xs={2}>文章封面: </Grid>
+          <Grid item xs={10}>
+            <ImageUpload />
           </Grid>
         </Grid>
       </Box>
