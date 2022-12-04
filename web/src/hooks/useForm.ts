@@ -8,7 +8,7 @@ const useForm = ({ mode = 'onSubmit', ...formOptions }: UseFormProps = {}) => {
   const observer = useHookForm({ ...formOptions, mode });
   const { setValue: setFormValue, ...other } = observer;
 
-  const setValue = <T = EmptyObject<string>>(option: string | T, value: string, options: SetValueConfig) => {
+  const setValue = <T = EmptyObject<string>>(option: T | string, value?: string, options?: SetValueConfig) => {
     if (!option) return;
     const setValueFunction = setFormValue;
 
