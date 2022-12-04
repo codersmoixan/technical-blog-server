@@ -18,6 +18,7 @@ import {useRouter} from "next/router";
 import routes from "@/src/routes";
 import isString from "lodash/isString";
 import type { ReactNode } from "react";
+import Link from "next/link";
 
 const actions: {
   id: keyof (typeof routes) | 'top';
@@ -27,7 +28,7 @@ const actions: {
   { id: 'links', icon: <AddLink />, name: '新增友情链接' },
   { id: 'files', icon: <Queue />, name: '新增归档类型' },
   { id: 'tags', icon: <BookmarkAdd />, name: '新增标签' },
-  { id: 'editor', icon: <PostAdd />, name: '新增新的分享' },
+  { id: 'editor', icon: <Link href={routes.editor} target="_blank"><PostAdd /></Link>, name: '新增新的分享' },
   { id: 'top', icon: <VerticalAlignTop /> }
 ];
 
@@ -62,6 +63,10 @@ function BasicSpeedDial() {
   const handleAction = (type: keyof (typeof routes) | 'top') => {
     if (type === 'top') {
       return scrollToTop()
+    }
+
+    if (type === 'editor') {
+      return
     }
 
     const route = routes[type]

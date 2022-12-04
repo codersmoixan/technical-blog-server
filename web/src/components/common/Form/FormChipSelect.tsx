@@ -59,7 +59,7 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-function FormChipSelect({ label, options, placeholder }: FormChipSelectProps) {
+function FormChipSelect({ label, options, placeholder, name }: FormChipSelectProps) {
   const theme = useTheme();
   const classes = useStyles()
 
@@ -99,6 +99,7 @@ function FormChipSelect({ label, options, placeholder }: FormChipSelectProps) {
           )
         }}
         MenuProps={MenuProps}
+        inputProps={{ name }}
       >
         <MenuItem disabled value="">
           {placeholder}
