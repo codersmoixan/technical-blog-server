@@ -1,14 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {useDropzone} from 'react-dropzone';
-import {makeStyles} from "@mui/styles";
-import {Theme} from "@mui/material";
+import { useEffect, useState } from 'react';
+import { useDropzone, Accept } from 'react-dropzone';
+import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add"
 import Typography from "@mui/material/Typography";
-import {useTheme} from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import isEmpty from "lodash/isEmpty";
+import DeleteIcon from "@mui/icons-material/Delete";
+import type { Theme } from "@mui/material";
 
-interface ImageUploadProps {}
+interface ImageUploadProps {
+  accept?: Accept;
+  onChange?: (files: File[]) => void;
+  onRemove?: (files: File[]) => void;
+  notice?: string;
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -23,43 +29,89 @@ const useStyles = makeStyles((theme: Theme) => ({
     border: `1px solid ${theme.status.disabled}`,
     borderRadius: 2
   },
+  preview: {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    '& .delete-icon': {
+      position: 'absolute',
+      top: '50%',
+      left: '50%'
+    }
+  },
   img: {
     display: 'block',
     width: '100%',
     height: '100%'
+  },
+  deleteIcon: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    margin: "auto",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0,
+    transition: 'all .3s',
+    color: theme.status.white,
+    '&:hover': {
+      opacity: 1,
+      backgroundColor: 'rgba(0, 0, 0, .5)'
+    }
   }
 }))
 
-function ImageUpload(props: ImageUploadProps) {
+function ImageUpload({
+  accept,
+  onChange,
+  onRemove,
+  notice = '建议尺寸: 1370*734px'
+}: ImageUploadProps) {
   const classes = useStyles()
   const theme = useTheme()
 
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<File[]>([]);
   const {getRootProps, getInputProps} = useDropzone({
-    accept: {
+    accept: accept ?? {
       'image/*': []
     },
     onDrop: acceptedFiles => {
-      console.log(acceptedFiles, 2233);
-      // @ts-ignore
-      setFiles(acceptedFiles.map(file => Object.assign(file, {
+      const nowFiles = acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
-      })));
-    }
+      }))
+      setFiles(nowFiles);
+      onChange?.(nowFiles)
+    },
   });
 
-  const preview = files.map((file: any) => (
-    <img
-      key={file.name}
-      src={file.preview}
-      onLoad={() => { URL.revokeObjectURL(file.preview) }}
-      className={classes.img}
-    />
+  const handleDelete = (index: number) => {
+    const newFiles = [...files];
+    URL.revokeObjectURL((newFiles[index] as any).preview);
+    newFiles.splice(index, 1);
+    setFiles(newFiles);
+    onRemove?.(newFiles)
+  }
+
+  const preview = files.map((file: any, index) => (
+    <Box key={file.name} className={classes.preview}>
+      <img
+        src={file.preview}
+        onLoad={() => { URL.revokeObjectURL(file.preview) }}
+        className={classes.img}
+        alt=""
+      />
+      <Box className={classes.deleteIcon} onClick={(event) => event.stopPropagation()}>
+        <DeleteIcon onClick={() => handleDelete(index)} />
+      </Box>
+    </Box>
   ));
 
   useEffect(() => {
     return () => files.forEach((file: any) => URL.revokeObjectURL(file.preview));
-  }, []);
+  }, [files]);
 
   return (
     <section className={classes.root}>
@@ -72,6 +124,7 @@ function ImageUpload(props: ImageUploadProps) {
           </>
         ) : preview}
       </Box>
+      {isEmpty(files) && <Typography color={theme.palette.text.secondary} mt={2}>{notice}</Typography>}
     </section>
   );
 }

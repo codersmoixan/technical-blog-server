@@ -15,6 +15,8 @@ import {useState} from "react";
 import FormChipSelect from "components/common/Form/FormChipSelect";
 import ImageUpload from "components/common/Form/ImageUpload";
 import FormTextarea from "components/common/Form/FormTextarea";
+import Form from "components/common/Form/Form";
+import useForm from "hooks/useForm";
 
 interface PublishProps {
   open: boolean;
@@ -46,13 +48,15 @@ const tags = [
 function Publish({ open = false, onClose, onPublish }: PublishProps) {
   const { notify } = useNotification()
   const classes = useStyles()
+  const { observer, handleSubmit } = useForm()
 
   const [options, setOptions] = useState({})
   const [active, setActive] = useState(0)
 
-  const handlePublish = () => {
+  const handlePublish = (options: any) => {
     notify('请输入')
     // onPublish?.()
+    console.log(options, 2233);
   }
 
   const handleCheckChip = (chip: any) => {
@@ -60,45 +64,51 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
     setActive(chip.id)
   }
 
+  const handleImageChange = () => {
+
+  }
+
   return (
     <CenterDialog
       open={open}
       onClose={onClose}
-      onConfirm={handlePublish}
+      onConfirm={handleSubmit(handlePublish)}
       title="发布文章"
     >
-      <Box className={classes.root}>
-        <Grid container spacing={1}>
-          <Grid item xs={2}>分类: </Grid>
-          <Grid item xs={10}>
-            <Grid container spacing={2}>
-              {chips.map(chip => (
-                <Grid item key={chip.id} spacing={2} xs={2}>
-                  <TBChip label={chip.label} active={chip.id === active} onClick={() => handleCheckChip(chip)} />
-                </Grid>
-              ))}
+      <Form observer={observer}>
+        <Box className={classes.root}>
+          <Grid container spacing={1}>
+            <Grid item xs={2}>分类: </Grid>
+            <Grid item xs={10}>
+              <Grid container spacing={2}>
+                {chips.map(chip => (
+                  <Grid item key={chip.id} spacing={2} xs={2}>
+                    <TBChip label={chip.label} active={chip.id === active} onClick={() => handleCheckChip(chip)} />
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid container spacing={1} mt={2}>
-          <Grid item xs={2}>标签: </Grid>
-          <Grid item xs={10}>
-            <FormChipSelect options={tags} value="" placeholder="请选择标签" />
+          <Grid container spacing={1} mt={2}>
+            <Grid item xs={2}>标签: </Grid>
+            <Grid item xs={10}>
+              <FormChipSelect name="tag" options={tags} value="" placeholder="请选择标签" onChange={handleImageChange} />
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container spacing={1} mt={2}>
-          <Grid item xs={2}>文章封面: </Grid>
-          <Grid item xs={10}>
-            <ImageUpload />
+          <Grid container spacing={1} mt={2}>
+            <Grid item xs={2}>文章封面: </Grid>
+            <Grid item xs={10}>
+              <ImageUpload />
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid container spacing={1} mt={2}>
-          <Grid item xs={2}>编辑摘要: </Grid>
-          <Grid item xs={10}>
-            <FormTextarea placeholder="请输入文章摘要..." />
+          <Grid container spacing={1} mt={2}>
+            <Grid item xs={2}>编辑摘要: </Grid>
+            <Grid item xs={10}>
+              <FormTextarea name="description" placeholder="请输入文章摘要..." />
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </Form>
     </CenterDialog>
   )
 }
