@@ -91,7 +91,16 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           <Grid container spacing={1} mt={2}>
             <Grid item xs={2}>标签: </Grid>
             <Grid item xs={10}>
-              <FormChipSelect name="tag" options={tags} value={['后端']} placeholder="请选择标签" onChange={handleImageChange} />
+              <FormChipSelect
+                name="tag"
+                options={tags}
+                value={['后端']}
+                placeholder="请选择标签"
+                onChange={handleImageChange}
+                rules={{
+                  required: '请选择文章标签'
+                }}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
@@ -103,7 +112,13 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           <Grid container spacing={1} mt={2}>
             <Grid item xs={2}>编辑摘要: </Grid>
             <Grid item xs={10}>
-              <FormTextarea name="description" placeholder="请输入文章摘要..." />
+              <FormTextarea
+                name="description"
+                placeholder="请输入文章摘要..."
+                rules={{
+                  required: '请输入文章摘要'
+                }}
+              />
             </Grid>
           </Grid>
         </Box>

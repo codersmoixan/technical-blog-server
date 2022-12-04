@@ -85,7 +85,7 @@ function FormChipSelect({ options, placeholder, name, rules, multiple }: FormChi
         multiple={multiple}
         displayEmpty
         onChange={handleChange}
-        input={<FormText id="select-multiple-chip" name={name} />}
+        input={<FormText id="select-multiple-chip" name={name} rules={rules} />}
         renderValue={(selected) => {
           if (!selected?.length) {
             return <Typography component="span" variant="body1" color={theme.status.placeholder}>{placeholder}</Typography>
