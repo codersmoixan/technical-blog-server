@@ -13,11 +13,14 @@ import Chip from '@mui/material/Chip';
 import { makeStyles } from "@mui/styles";
 import FormText from "components/common/Form/FormText";
 import Typography from "@mui/material/Typography";
+import type { EmptyObject } from "src/tb.types"
+import isString from "lodash/isString";
 
 interface FormChipSelectProps extends SelectProps{
   options: any[];
-  value: string;
   label?: string;
+  rules?: EmptyObject<any>;
+  multiple?: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -59,7 +62,7 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-function FormChipSelect({ label, options, placeholder, name }: FormChipSelectProps) {
+function FormChipSelect({ options, placeholder, name, rules, multiple }: FormChipSelectProps) {
   const theme = useTheme();
   const classes = useStyles()
 
@@ -79,27 +82,29 @@ function FormChipSelect({ label, options, placeholder, name }: FormChipSelectPro
       <Select
         labelId="demo-multiple-chip-label"
         id="demo-multiple-chip"
-        multiple
+        multiple={multiple}
         displayEmpty
-        value={personName}
         onChange={handleChange}
-        input={<FormText id="select-multiple-chip" />}
+        input={<FormText id="select-multiple-chip" name={name} />}
         renderValue={(selected) => {
-          console.log(selected, 4466)
-          if (selected.length === 0) {
+          if (!selected?.length) {
             return <Typography component="span" variant="body1" color={theme.status.placeholder}>{placeholder}</Typography>
+          }
+
+          if (isString(selected)) {
+            return <Chip label={selected} />
           }
 
           return (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
+              {selected?.map((value) => (
                 <Chip key={value} label={value} />
               ))}
             </Box>
           )
         }}
         MenuProps={MenuProps}
-        inputProps={{ name }}
+        value={personName}
       >
         <MenuItem disabled value="">
           {placeholder}

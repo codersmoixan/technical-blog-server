@@ -5,18 +5,17 @@
 
 import Box from '@mui/material/Box';
 import Grid from "@mui/material/Grid";
-import Chip from "@mui/material/Chip"
 import useNotification from "@/src/hooks/useNotification";
 import CenterDialog from "components/common/Dialog/CenterDialog";
 import { makeStyles } from "@mui/styles";
-import type { Theme } from "@mui/material";
 import TBChip from "components/common/TBChip";
-import {useState} from "react";
+import { useState } from "react";
 import FormChipSelect from "components/common/Form/FormChipSelect";
 import ImageUpload from "components/common/Form/ImageUpload";
 import FormTextarea from "components/common/Form/FormTextarea";
 import Form from "components/common/Form/Form";
 import useForm from "hooks/useForm";
+import type { Theme } from "@mui/material";
 
 interface PublishProps {
   open: boolean;
@@ -92,7 +91,7 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           <Grid container spacing={1} mt={2}>
             <Grid item xs={2}>标签: </Grid>
             <Grid item xs={10}>
-              <FormChipSelect name="tag" options={tags} value="" placeholder="请选择标签" onChange={handleImageChange} />
+              <FormChipSelect name="tag" options={tags} value={['后端']} placeholder="请选择标签" onChange={handleImageChange} />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
