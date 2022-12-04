@@ -5,9 +5,9 @@
 
 import { motion, MotionProps } from "framer-motion";
 import { contentVariants } from "@/src/utils/variants";
-import type { ReactNode } from "react";
 import clsx from "clsx";
-import {makeStyles} from "@mui/styles";
+import { makeStyles } from "@mui/styles";
+import type { ReactNode } from "react";
 
 interface VariantContentProps extends MotionProps {
   children: ReactNode;

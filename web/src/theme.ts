@@ -17,6 +17,7 @@ interface CustomThemeOptions {
     colorSecondary: string;
     darkPeach: string;
     placeholder: string;
+    disabled: string;
   };
   common: {
     verticalCenter: CSSProperties;
@@ -32,7 +33,7 @@ declare module '@mui/material/styles' {
 }
 
 const TB_PALETTE_MAIN = '#262627'
-const TB_PALETTE_TEXT_SECONDARY = '#3e5060'
+const TB_PALETTE_TEXT_SECONDARY = '#86909c'
 const TB_PALETTE_BG_DEFAULT = '#f5f1ea'
 
 const TB_STATUS_WHITE = '#FFFFFF'
@@ -41,7 +42,8 @@ const TB_STATUS_COLOR_SECONDARY = '#d8dee3'
 const TB_STATUS_COLOR_TEXT_SECONDARY = '#AAAAAA'
 const TB_STATUS_COLOR_TRANSPARENT = 'transparent'
 const TB_STATUS_DARK_PEACH = '#f8f6f1'
-const TB_STATUS_PLACEHOLDER = '#1d2129'
+const TB_STATUS_PLACEHOLDER = '#c1c5cd'
+const TB_STATUS_DISABLED = '#86909c'
 
 const TB_STATUS_TRANSITION_TIME = '.3s'
 const TB_STATUS_TRANSITION = (t?: number) => t ? `all ${t}s` : `all ${TB_STATUS_TRANSITION_TIME}`
@@ -71,7 +73,8 @@ const theme = createTheme({
     colorSecondary: TB_STATUS_COLOR_SECONDARY,
     textSecondary: TB_STATUS_COLOR_TEXT_SECONDARY,
     transparent: TB_STATUS_COLOR_TRANSPARENT,
-    placeholder: TB_STATUS_PLACEHOLDER
+    placeholder: TB_STATUS_PLACEHOLDER,
+    disabled: TB_STATUS_DISABLED
   },
   common: {
     verticalCenter: {

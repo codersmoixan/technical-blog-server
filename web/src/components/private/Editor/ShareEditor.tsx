@@ -14,7 +14,7 @@ import Root from "components/common/Layout/Root";
 import Box from "@mui/material/Box";
 import Buttons from "components/common/Buttons";
 import MediaQuery from "components/common/MediaQuery";
-import PublishDialog from "components/private/Editor/PublishDialog";
+import Publish from "components/private/Editor/Publish";
 
 const editorHeight = (media: string) => media === 'mobile' ? 'calc(100vh - 145px)' : 'calc(100vh - 140px)'
 
@@ -170,7 +170,7 @@ function ShareEditor() {
           className={classes.editor}
         />
       </Box>
-      <PublishDialog
+      <Publish
         open={open}
         onPublish={handlePublish}
         onClose={handleCloseDialog}

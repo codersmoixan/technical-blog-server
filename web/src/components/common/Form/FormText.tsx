@@ -3,18 +3,22 @@
  * @description FormText
  */
 
-import React, { ReactNode } from 'react'
 import { makeStyles } from "@mui/styles";
 import OutlinedInput, { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { FormControl, InputLabel } from "@mui/material";
 import type { Theme } from "@mui/material";
 import isString from "lodash/isString";
 import clsx from "clsx";
+import type { ReactNode } from "react";
+import useFormController from "hooks/useFormController";
+import type { EmptyObject } from "src/tb.types"
 
 export interface FormTextProps extends OutlinedInputProps {
   className?: string;
   label?: ReactNode | undefined;
-  bgColor?: string
+  bgColor?: string;
+  name?: string;
+  rules?: EmptyObject<any>
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -70,8 +74,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 function FormText(props: FormTextProps) {
-  const { className, label, ...other } = props
+  const { className, label, name, rules, ...other } = props
   const classes = useStyles(props)
+  const { fieldProps, ref } = useFormController({
+    name,
+    rules
+  })
 
   return (
     <FormControl variant="outlined" className={clsx(classes.root, className)}>
@@ -81,6 +89,8 @@ function FormText(props: FormTextProps) {
         label={label}
         placeholder={isString(label) ? label : ''}
         {...other}
+        {...fieldProps}
+        inputRef={ref}
       />
     </FormControl>
   )

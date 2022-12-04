@@ -168,7 +168,7 @@ function BlogCard(props: BlogCardProps) {
                 <ShareIcon />
               </IconButton>
               <MediaQuery media="mobile">
-                {expanded && (
+                {expanded ? (
                   <ExpandMore
                     expand={isExpanded}
                     onClick={handleExpandClick}
@@ -176,7 +176,7 @@ function BlogCard(props: BlogCardProps) {
                   >
                     <ExpandMoreIcon />
                   </ExpandMore>
-                )}
+                ) : null}
               </MediaQuery>
             </CardActions>
           </Box>

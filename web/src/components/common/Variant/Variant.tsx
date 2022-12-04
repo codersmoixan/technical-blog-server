@@ -3,7 +3,7 @@
  * @description Variant
  */
 
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import { motion, MotionProps } from "framer-motion";
 
 interface VariantProps extends MotionProps{
