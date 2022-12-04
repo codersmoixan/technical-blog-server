@@ -6,12 +6,15 @@
 import { makeStyles } from "@mui/styles";
 import OutlinedInput, { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { FormControl, InputLabel } from "@mui/material";
-import type { Theme } from "@mui/material";
 import isString from "lodash/isString";
+import isUndefined from "lodash/isUndefined"
 import clsx from "clsx";
 import type { ReactNode } from "react";
 import useFormController from "hooks/useFormController";
 import type { EmptyObject } from "src/tb.types"
+import type { Theme } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import {useTheme} from "@mui/material/styles";
 
 export interface FormTextProps extends OutlinedInputProps {
   className?: string;
@@ -68,6 +71,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     '&.Mui-focused': {
       '& .MuiOutlinedInput-notchedOutline': {
         borderColor: theme.palette.primary.main,
+      },
+      '&.Mui-error': {
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor: theme.status.error
+        },
       }
     }
   }
@@ -76,10 +84,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 function FormText(props: FormTextProps) {
   const { className, label, name, rules, ...other } = props
   const classes = useStyles(props)
-  const { fieldProps, ref } = useFormController({
+  const theme = useTheme()
+  const { fieldProps, fieldState, ref } = useFormController({
     name,
     rules
   })
+
+  const isError = !isUndefined(fieldState.error)
 
   return (
     <FormControl variant="outlined" className={clsx(classes.root, className)}>
@@ -91,7 +102,9 @@ function FormText(props: FormTextProps) {
         {...other}
         {...fieldProps}
         inputRef={ref}
+        error={isError}
       />
+      {isError && <Typography variant="caption" color={theme.status.error}>{fieldState.error?.message}</Typography>}
     </FormControl>
   )
 }

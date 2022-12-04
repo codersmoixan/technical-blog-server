@@ -18,6 +18,7 @@ interface CustomThemeOptions {
     darkPeach: string;
     placeholder: string;
     disabled: string;
+    error: string;
   };
   common: {
     verticalCenter: CSSProperties;
@@ -44,6 +45,7 @@ const TB_STATUS_COLOR_TRANSPARENT = 'transparent'
 const TB_STATUS_DARK_PEACH = '#f8f6f1'
 const TB_STATUS_PLACEHOLDER = '#c1c5cd'
 const TB_STATUS_DISABLED = '#86909c'
+const TB_STATUS_ERROR = '#d32f2f'
 
 const TB_STATUS_TRANSITION_TIME = '.3s'
 const TB_STATUS_TRANSITION = (t?: number) => t ? `all ${t}s` : `all ${TB_STATUS_TRANSITION_TIME}`
@@ -74,7 +76,8 @@ const theme = createTheme({
     textSecondary: TB_STATUS_COLOR_TEXT_SECONDARY,
     transparent: TB_STATUS_COLOR_TRANSPARENT,
     placeholder: TB_STATUS_PLACEHOLDER,
-    disabled: TB_STATUS_DISABLED
+    disabled: TB_STATUS_DISABLED,
+    error: TB_STATUS_ERROR
   },
   common: {
     verticalCenter: {
