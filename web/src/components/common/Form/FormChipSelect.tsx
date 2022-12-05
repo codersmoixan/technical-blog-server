@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 function FormChipSelect({ options, onSelect, name, rules }: ChipSelectProps) {
   const theme = useTheme()
   const classes = useStyles()
-  const { ref, fieldProps, fieldState, setValue } = useFormController({
+  const { ref, fieldProps, fieldState, setValue, clearErrors } = useFormController({
     name,
     rules
   })
@@ -56,7 +56,8 @@ function FormChipSelect({ options, onSelect, name, rules }: ChipSelectProps) {
     onSelect?.(chip)
 
     if (name) {
-      setValue(name, chip.label)
+      setValue(name, chip.id)
+      clearErrors(name)
     }
   }
 
