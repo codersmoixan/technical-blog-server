@@ -21,7 +21,8 @@ export interface FormTextProps extends OutlinedInputProps {
   label?: ReactNode | undefined;
   bgColor?: string;
   name?: string;
-  rules?: EmptyObject<any>
+  rules?: EmptyObject<any>;
+  helpText?: string;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 function FormText(props: FormTextProps) {
-  const { className, label, name, rules, ...other } = props
+  const { className, label, name, rules, error, helpText, ...other } = props
   const classes = useStyles(props)
   const theme = useTheme()
   const { fieldProps, fieldState, ref } = useFormController({
@@ -90,7 +91,7 @@ function FormText(props: FormTextProps) {
     rules
   })
 
-  const isError = !isUndefined(fieldState.error)
+  const isError = error ?? !isUndefined(fieldState.error)
 
   return (
     <FormControl variant="outlined" className={clsx(classes.root, className)}>
@@ -99,12 +100,12 @@ function FormText(props: FormTextProps) {
         className={classes.input}
         label={label}
         placeholder={isString(label) ? label : ''}
-        {...other}
         {...fieldProps}
         inputRef={ref}
         error={isError}
+        {...other}
       />
-      {isError && <Typography variant="caption" color={theme.status.error}>{fieldState.error?.message}</Typography>}
+      {isError && <Typography variant="caption" color={theme.status.error}>{helpText ?? fieldState.error?.message}</Typography>}
     </FormControl>
   )
 }

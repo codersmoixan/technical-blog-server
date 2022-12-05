@@ -9,7 +9,7 @@ import useNotification from "@/src/hooks/useNotification";
 import CenterDialog from "components/common/Dialog/CenterDialog";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
-import FormSelectChip from "components/common/Form/FormSelectChip";
+import FormSelectChip, {FormChipOptions, FormChipOptionsId} from "components/common/Form/FormSelectChip";
 import ImageUpload from "components/common/Form/ImageUpload";
 import FormTextarea from "components/common/Form/FormTextarea";
 import Form from "components/common/Form/Form";
@@ -55,7 +55,19 @@ const tags = [
 function Publish({ open = false, onClose, onPublish }: PublishProps) {
   const { notify } = useNotification()
   const classes = useStyles()
-  const { observer, handleSubmit } = useForm()
+  const { observer, handleSubmit } = useForm({
+    defaultValues: {
+      tag: '1,  2',
+      category: 1,
+      description: '2233'
+    }
+  })
+
+  // setValue({
+  //   tag: 1,
+  //   category: 1,
+  //   description: '2233'
+  // })
 
   const [cover, setCover] = useState<File[]>([])
 
@@ -82,6 +94,10 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
     resetForm()
   }
 
+  const handleSelect = (opts: FormChipOptionsId[], options?: FormChipOptions[]) => {
+    console.log(opts, options)
+  }
+
   return (
     <CenterDialog
       open={open}
@@ -102,7 +118,9 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
             <Grid item xs={10}>
               <FormSelectChip
                 name="tag"
+                multiple
                 options={tags}
+                onChange={handleSelect}
                 placeholder="请选择标签"
                 rules={{
                   required: '请选择文章标签'
