@@ -16,11 +16,19 @@ import Form from "components/common/Form/Form";
 import useForm from "hooks/useForm";
 import type { Theme } from "@mui/material";
 import FormChipSelect from "components/common/Form/FormChipSelect";
+import isEmpty from "lodash/isEmpty";
+
+export interface FormOptions {
+  category: string;
+  tag: string;
+  description: string;
+  cover: File[]
+}
 
 interface PublishProps {
   open: boolean;
   onClose?: () => void;
-  onPublish?: () => void;
+  onPublish?: (options: FormOptions) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -49,25 +57,35 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
   const classes = useStyles()
   const { observer, handleSubmit } = useForm()
 
-  const [options, setOptions] = useState({})
+  const [cover, setCover] = useState<File[]>([])
 
-  const handlePublish = (options: any) => {
-    // onPublish?.()
+  const resetForm = () => {
+    observer.reset()
+    setCover([])
   }
 
-  const handleChipChange = (chip: any) => {
-    setOptions({ ...options, category: chip.id })
+  const handlePublish = (options: any) => {
+    if (isEmpty(cover)) {
+      return notify('请上传文章封面', 'warning')
+    }
+
+    onPublish?.({ ...options, cover })
+    resetForm()
   }
 
   const handleImageChange = (files: File[]) => {
-    console.log(files, 2255)
-    setOptions({ ...options, cover: files })
+    setCover(files)
+  }
+
+  const handleClose = () => {
+    onClose?.()
+    resetForm()
   }
 
   return (
     <CenterDialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       onConfirm={handleSubmit(handlePublish)}
       title="发布文章"
     >
@@ -76,7 +94,7 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           <Grid container spacing={1}>
             <Grid item xs={2}>分类: </Grid>
             <Grid item xs={10}>
-              <FormChipSelect name="category" options={chips} onSelect={handleChipChange} rules={{ required: '请选择文章分类' }} />
+              <FormChipSelect name="category" options={chips} rules={{ required: '请选择文章分类' }} />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
@@ -85,7 +103,6 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
               <FormSelectChip
                 name="tag"
                 options={tags}
-                value={['后端']}
                 placeholder="请选择标签"
                 rules={{
                   required: '请选择文章标签'

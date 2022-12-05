@@ -14,7 +14,7 @@ import Root from "components/common/Layout/Root";
 import Box from "@mui/material/Box";
 import Buttons from "components/common/Buttons";
 import MediaQuery from "components/common/MediaQuery";
-import Publish from "components/private/Editor/Publish";
+import Publish, { FormOptions } from "components/private/Editor/Publish";
 
 const editorHeight = (media: string) => media === 'mobile' ? 'calc(100vh - 145px)' : 'calc(100vh - 140px)'
 
@@ -126,12 +126,9 @@ function ShareEditor() {
   useEffect(() => {
     if (editor !== null) {
       const toolbarConfig = DomEditor.getToolbar(editor)?.getConfig()
-      console.log(toolbarConfig);
       if (toolbarConfig) {
         toolbarConfig.excludeKeys = excludeToolKey
       }
-
-      console.log(toolbarConfig, 66);
     }
 
     return () => {
@@ -143,8 +140,8 @@ function ShareEditor() {
 
   const handleCloseDialog = () => setOpen(false)
 
-  const handlePublish = () => {
-    console.log(html, 6652)
+  const handlePublish = (options: FormOptions) => {
+    console.log(options, 6652)
     handleCloseDialog()
   }
 

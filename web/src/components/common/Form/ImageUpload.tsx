@@ -110,13 +110,16 @@ function ImageUpload({
   ));
 
   useEffect(() => {
-    return () => files.forEach((file: any) => URL.revokeObjectURL(file.preview));
-  }, [files]);
+    return () => {
+      // files.forEach((file: any) => URL.revokeObjectURL(file.preview))
+      setFiles([])
+    };
+  }, []);
 
   return (
     <section className={classes.root}>
       <Box {...getRootProps()} className={classes.select}>
-        <input {...getInputProps()} />
+        <input {...getInputProps()} name="123" />
         {isEmpty(files) ? (
           <>
             <AddIcon />
