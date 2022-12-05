@@ -8,14 +8,14 @@ import Grid from "@mui/material/Grid";
 import useNotification from "@/src/hooks/useNotification";
 import CenterDialog from "components/common/Dialog/CenterDialog";
 import { makeStyles } from "@mui/styles";
-import TBChip from "components/common/TBChip";
 import { useState } from "react";
-import FormChipSelect from "components/common/Form/FormChipSelect";
+import FormSelectChip from "components/common/Form/FormSelectChip";
 import ImageUpload from "components/common/Form/ImageUpload";
 import FormTextarea from "components/common/Form/FormTextarea";
 import Form from "components/common/Form/Form";
 import useForm from "hooks/useForm";
 import type { Theme } from "@mui/material";
+import FormChipSelect from "components/common/Form/FormChipSelect";
 
 interface PublishProps {
   open: boolean;
@@ -50,21 +50,18 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
   const { observer, handleSubmit } = useForm()
 
   const [options, setOptions] = useState({})
-  const [active, setActive] = useState(0)
 
   const handlePublish = (options: any) => {
-    notify('请输入')
     // onPublish?.()
-    console.log(options, 2233);
   }
 
-  const handleCheckChip = (chip: any) => {
-    setOptions({ ...options, file: chip.id })
-    setActive(chip.id)
+  const handleChipChange = (chip: any) => {
+    setOptions({ ...options, category: chip.id })
   }
 
-  const handleImageChange = () => {
-
+  const handleImageChange = (files: File[]) => {
+    console.log(files, 2255)
+    setOptions({ ...options, cover: files })
   }
 
   return (
@@ -79,24 +76,17 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           <Grid container spacing={1}>
             <Grid item xs={2}>分类: </Grid>
             <Grid item xs={10}>
-              <Grid container spacing={2}>
-                {chips.map(chip => (
-                  <Grid item key={chip.id} spacing={2} xs={2}>
-                    <TBChip label={chip.label} active={chip.id === active} onClick={() => handleCheckChip(chip)} />
-                  </Grid>
-                ))}
-              </Grid>
+              <FormChipSelect name="category" options={chips} onSelect={handleChipChange} rules={{ required: '请选择文章分类' }} />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
             <Grid item xs={2}>标签: </Grid>
             <Grid item xs={10}>
-              <FormChipSelect
+              <FormSelectChip
                 name="tag"
                 options={tags}
                 value={['后端']}
                 placeholder="请选择标签"
-                onChange={handleImageChange}
                 rules={{
                   required: '请选择文章标签'
                 }}
@@ -106,7 +96,7 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           <Grid container spacing={1} mt={2}>
             <Grid item xs={2}>文章封面: </Grid>
             <Grid item xs={10}>
-              <ImageUpload />
+              <ImageUpload onChange={handleImageChange} />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
