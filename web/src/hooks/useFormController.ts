@@ -13,7 +13,8 @@ const useFormController = ({ name, rules, defaultValue }: UseFormControllerProps
     return {
       ref: null,
       fieldProps: {},
-      fieldState: { error: undefined }
+      fieldState: { error: undefined },
+      ...formContext
     };
   }
 

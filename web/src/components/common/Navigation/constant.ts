@@ -46,7 +46,7 @@ export const NAVIGATION_LIST: NavigationList = [
   {
     id: 'files',
     label: '归档',
-    route: routes.files,
+    route: routes.category,
     menus: [
       {
         id: 1,
