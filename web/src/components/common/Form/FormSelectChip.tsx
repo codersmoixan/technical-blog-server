@@ -3,7 +3,7 @@
  * @description FormSelectChip
  */
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Theme, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,16 +11,28 @@ import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent, SelectProps} from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { makeStyles } from "@mui/styles";
-import FormText from "components/common/Form/FormText";
 import Typography from "@mui/material/Typography";
-import type { EmptyObject } from "src/tb.types"
 import isString from "lodash/isString";
+import { toggleExist } from "@/src/utils";
+import useFormController from "hooks/useFormController";
+import FormText from "components/common/Form/FormText";
+import get from "lodash/get";
+import type { EmptyObject } from "src/tb.types"
 
-interface FormChipSelectProps extends SelectProps{
-  options: any[];
+export type FormChipOptionsId = string | number
+
+export type FormChipOptions = {
+  id: FormChipOptionsId;
+  label: string;
+  value?: string;
+}
+
+interface FormChipSelectProps extends Omit<SelectProps, 'onChange'>{
+  options: FormChipOptions[];
   label?: string;
   rules?: EmptyObject<any>;
   multiple?: boolean;
+  onChange?: (opts: FormChipOptionsId[], options?: FormChipOptions[]) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -39,6 +51,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontSize: 12
       }
     }
+  },
+  input: {
+    display: 'none'
   }
 }))
 
@@ -62,20 +77,50 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-function FormSelectChip({ options, placeholder, name, rules, multiple }: FormChipSelectProps) {
+function FormSelectChip({ options, placeholder, name, rules, multiple, onChange }: FormChipSelectProps) {
   const theme = useTheme();
   const classes = useStyles()
+  const { fieldProps, fieldState, setValue, clearErrors } = useFormController({
+    name,
+    rules
+  })
 
-  const [personName, setPersonName] = useState<string[]>([]);
+  const [selected, setSelected] = useState<FormChipOptions[]>([]);
+  const [selectedValue, setSelectedValue] = useState<string[]>([])
+  const value = get(fieldProps, 'value', '')
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      typeof value === 'string' ? value.split(',') : value,
+  useEffect(() => {
+    if (value && name) {
+      setValue(name, fieldProps.value)
+    }
+  }, [value, name])
+
+  useEffect(() => {
+    if (value && name) {
+      const values = value.split(',')
+      const c = options.filter(option => values.some((val: any) => Number(val) === Number(option.id)))
+
+      setSelectedValue(c.map(i => i.label))
+    }
+  }, [value, options, name])
+
+  const handleChange = (event: SelectChangeEvent<typeof selectedValue>) => {
+    const val = get(event, 'target.value', '')
+    setSelectedValue(
+      typeof val === 'string' ? val.split(',') : val,
     );
   };
+
+  const handleSelected = (option: FormChipOptions) => {
+    const options = toggleExist<FormChipOptions>(selected, option)
+    setSelected(options)
+    const opts = options.map(o => o.id)
+    onChange?.(opts, options)
+    if (name) {
+      setValue(name, opts.join(','))
+      clearErrors(name)
+    }
+  }
 
   return (
     <FormControl className={classes.root}>
@@ -85,7 +130,7 @@ function FormSelectChip({ options, placeholder, name, rules, multiple }: FormChi
         multiple={multiple}
         displayEmpty
         onChange={handleChange}
-        input={<FormText id="select-multiple-chip" name={name} rules={rules} />}
+        input={<FormText id="select-multiple-chip" error={!!fieldState.error} helpText={fieldState.error?.message} />}
         renderValue={(selected) => {
           if (!selected?.length) {
             return <Typography component="span" variant="body1" color={theme.status.placeholder}>{placeholder}</Typography>
@@ -104,7 +149,7 @@ function FormSelectChip({ options, placeholder, name, rules, multiple }: FormChi
           )
         }}
         MenuProps={MenuProps}
-        value={personName}
+        value={selectedValue}
       >
         <MenuItem disabled value="">
           {placeholder}
@@ -112,13 +157,15 @@ function FormSelectChip({ options, placeholder, name, rules, multiple }: FormChi
         {options.map((option) => (
           <MenuItem
             key={option.id}
-            value={option.value}
-            style={getStyles(option, personName, theme)}
+            value={option.label}
+            style={getStyles(option.label, selectedValue, theme)}
+            onClick={() => handleSelected(option)}
           >
             {option.label}
           </MenuItem>
         ))}
       </Select>
+      <input type="text" className={classes.input} {...fieldProps} />
     </FormControl>
   );
 }

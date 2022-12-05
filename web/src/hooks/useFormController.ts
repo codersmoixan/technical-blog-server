@@ -12,14 +12,14 @@ const useFormController = ({ name, rules, defaultValue }: UseFormControllerProps
   if (isNull(formContext) || isUndefined(name)) {
     return {
       ref: null,
-      fieldProps: {},
+      fieldProps: { value: '' },
       fieldState: { error: undefined },
       ...formContext
     };
   }
 
   const {
-    field: { ref: fieldRef, ...fieldProps },
+    field,
     fieldState
     // eslint-disable-next-line react-hooks/rules-of-hooks
   } = useController({
@@ -30,8 +30,8 @@ const useFormController = ({ name, rules, defaultValue }: UseFormControllerProps
   });
 
   return {
-    ref: fieldRef,
-    fieldProps,
+    ref: field.ref,
+    fieldProps: field,
     fieldState,
     ...formContext,
   };
