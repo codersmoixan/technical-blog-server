@@ -19,6 +19,8 @@ import useFormController from "hooks/useFormController";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import isUndefined from "lodash/isUndefined";
 import useUpdateEffect from "hooks/effect/useUpdateEffect";
+import useFirstMount from "hooks/effect/useFirstMount";
+import useMount from "hooks/effect/useMount";
 
 interface FormChipSelectProps extends SelectProps{
   options: any[];
@@ -110,11 +112,19 @@ function FormSelectChip({ options, placeholder, name, rules, multiple }: FormChi
     }
   }, [fieldProps.value])
 
-  const handleChange = (event: SelectChangeEvent<typeof selected>) => {
-    const value = get(event, 'target.value', '')
+  useMount(() => {
+    actionSelected(fieldProps.value)
+  })
+
+  function actionSelected(value: string | string[]) {
     setSelected(
       typeof value === 'string' ? value.split(',') : value,
     );
+  }
+
+  const handleChange = (event: SelectChangeEvent<typeof selected>) => {
+    const value = get(event, 'target.value', '')
+    actionSelected(value)
     if (name) {
       setValue(name, isString(value) ? value : value.join(','))
     }

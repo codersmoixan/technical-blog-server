@@ -56,11 +56,11 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
   const { notify } = useNotification()
   const classes = useStyles()
   const { observer, handleSubmit } = useForm({
-    // defaultValues: {
-    //   tag: '1',
-    //   category: 1,
-    //   description: '2233'
-    // }
+    defaultValues: {
+      tag: ['前端', '后端'],
+      category: 1,
+      description: '225833'
+    }
   })
 
   // setValue({

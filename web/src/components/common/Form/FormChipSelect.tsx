@@ -55,7 +55,7 @@ function FormChipSelect({ options, onSelect, name, rules }: ChipSelectProps) {
     setActive(chip)
     onSelect?.(chip)
 
-    if (name) {
+    if (name && chip.id) {
       setValue(name, chip.id)
       clearErrors(name)
     }
