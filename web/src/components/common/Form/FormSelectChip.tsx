@@ -3,7 +3,7 @@
  * @description FormSelectChip
  */
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Theme, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
@@ -106,15 +106,18 @@ function FormSelectChip({ options, placeholder, name, rules, multiple }: FormChi
 
   const [selected, setSelected] = useState<string[]>([]);
 
+  useEffect(() => {
+    const value = fieldProps.value
+    if (value) {
+      actionSelected(value)
+    }
+  }, [fieldProps.value])
+
   useUpdateEffect(() => {
     if (fieldProps.value && name) {
       clearErrors(name)
     }
   }, [fieldProps.value])
-
-  useMount(() => {
-    actionSelected(fieldProps.value)
-  })
 
   function actionSelected(value: string | string[]) {
     setSelected(
