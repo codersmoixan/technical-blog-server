@@ -9,7 +9,7 @@ import useNotification from "@/src/hooks/useNotification";
 import CenterDialog from "components/common/Dialog/CenterDialog";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
-import FormSelectChip, {FormChipOptions, FormChipOptionsId} from "components/common/Form/FormSelectChip";
+import FormSelectChip from "components/common/Form/FormSelectChip";
 import ImageUpload from "components/common/Form/ImageUpload";
 import FormTextarea from "components/common/Form/FormTextarea";
 import Form from "components/common/Form/Form";
@@ -57,9 +57,9 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
   const classes = useStyles()
   const { observer, handleSubmit } = useForm({
     defaultValues: {
-      tag: '1,  2',
+      tag: ['前端', '后端'],
       category: 1,
-      description: '2233'
+      description: '225833'
     }
   })
 
@@ -94,10 +94,6 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
     resetForm()
   }
 
-  const handleSelect = (opts: FormChipOptionsId[], options?: FormChipOptions[]) => {
-    console.log(opts, options)
-  }
-
   return (
     <CenterDialog
       open={open}
@@ -120,7 +116,6 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
                 name="tag"
                 multiple
                 options={tags}
-                onChange={handleSelect}
                 placeholder="请选择标签"
                 rules={{
                   required: '请选择文章标签'

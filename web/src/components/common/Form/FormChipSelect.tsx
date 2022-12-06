@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 function FormChipSelect({ options, onSelect, name, rules }: ChipSelectProps) {
   const theme = useTheme()
   const classes = useStyles()
-  const { fieldProps, fieldState, setValue, clearErrors } = useFormController({
+  const { ref, fieldProps, fieldState, setValue, clearErrors } = useFormController({
     name,
     rules
   })
@@ -55,7 +55,7 @@ function FormChipSelect({ options, onSelect, name, rules }: ChipSelectProps) {
     setActive(chip)
     onSelect?.(chip)
 
-    if (name) {
+    if (name && chip.id) {
       setValue(name, chip.id)
       clearErrors(name)
     }
@@ -80,7 +80,7 @@ function FormChipSelect({ options, onSelect, name, rules }: ChipSelectProps) {
         ))}
       </Grid>
       <Box>
-        <input {...fieldProps} className={classes.formText} />
+        <input ref={ref} {...fieldProps} className={classes.formText} />
         {isError && <Typography variant="caption" color={theme.status.error}>{fieldState.error?.message}</Typography>}
       </Box>
     </>
