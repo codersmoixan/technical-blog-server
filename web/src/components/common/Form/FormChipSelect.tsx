@@ -3,7 +3,7 @@
  * @description Index
  */
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import TBChip from "components/common/TBChip";
 import { makeStyles } from "@mui/styles";
@@ -15,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import {useTheme} from "@mui/material/styles";
 import clsx from "clsx";
 import isUndefined from "lodash/isUndefined";
+import useDeepCompareEffect from "hooks/effect/useDeepCompareEffect";
 
 export type ChipOption = {
   id: string | number;
@@ -50,6 +51,14 @@ function FormChipSelect({ options, onSelect, name, rules }: ChipSelectProps) {
     label: '',
     id: ''
   })
+
+  useDeepCompareEffect(() => {
+    const value = fieldProps.value
+    const ctr = options.find(option => `${option.id}` === `${value}`)
+    if (value && ctr) {
+      setActive(ctr)
+    }
+  }, [fieldProps.value, options])
 
   const handleCheckChip = (chip: any) => {
     setActive(chip)
