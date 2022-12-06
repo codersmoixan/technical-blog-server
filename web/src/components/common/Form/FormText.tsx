@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 function FormText(props: FormTextProps) {
-  const { className, label, name, rules, error, helpText, ...other } = props
+  const { className, label, name, rules, error, helpText, value, ...other } = props
   const classes = useStyles(props)
   const theme = useTheme()
   const { fieldProps, fieldState, ref } = useFormController({
