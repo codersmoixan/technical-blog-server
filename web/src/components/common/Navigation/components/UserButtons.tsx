@@ -28,7 +28,7 @@ function UserButtons({ className, ...other }: UserButtonsProps) {
 
   return (
     <Box className={clsx(classes.buttons, className)} {...other}>
-      <Buttons variant="outlined" color="primary" disableRipple>Log in</Buttons>
+      <Buttons variant="outlined" color="primary" disableRipple>Sign in</Buttons>
       <Buttons variant="contained" color="info" disableRipple>Sign up</Buttons>
     </Box>
   )

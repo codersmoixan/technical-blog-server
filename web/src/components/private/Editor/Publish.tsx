@@ -17,6 +17,8 @@ import useForm from "hooks/useForm";
 import type { Theme } from "@mui/material";
 import FormChipSelect from "components/common/Form/FormChipSelect";
 import isEmpty from "lodash/isEmpty";
+import MediaQuery from "components/common/MediaQuery";
+import GlobalDrawer from "components/common/GlobalDrawer";
 
 export interface FormOptions {
   category: string;
@@ -63,12 +65,6 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
     }
   })
 
-  // setValue({
-  //   tag: 1,
-  //   category: 1,
-  //   description: '2233'
-  // })
-
   const [cover, setCover] = useState<File[]>([])
 
   const resetForm = () => {
@@ -94,13 +90,8 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
     resetForm()
   }
 
-  return (
-    <CenterDialog
-      open={open}
-      onClose={handleClose}
-      onConfirm={handleSubmit(handlePublish)}
-      title="发布文章"
-    >
+  function formNode() {
+    return (
       <Form observer={observer}>
         <Box className={classes.root}>
           <Grid container spacing={1}>
@@ -143,7 +134,27 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           </Grid>
         </Box>
       </Form>
-    </CenterDialog>
+    )
+  }
+
+  return (
+    <>
+      <MediaQuery media={['pad', 'pc']}>
+        <CenterDialog
+          open={open}
+          onClose={handleClose}
+          onConfirm={handleSubmit(handlePublish)}
+          title="发布文章"
+        >
+          {formNode()}
+        </CenterDialog>
+      </MediaQuery>
+      <MediaQuery media="mobile">
+        <GlobalDrawer open={open} door={false} onClose={handleClose}>
+          {formNode()}
+        </GlobalDrawer>
+      </MediaQuery>
+    </>
   )
 }
 

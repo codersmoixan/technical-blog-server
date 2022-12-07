@@ -14,7 +14,7 @@ import isEmpty from "lodash/isEmpty";
 import {VariantContent} from "components/common/Variant";
 
 interface AccordionMenuProps extends BoxProps{
-  tab: NavigationItem,
+  tab: NavigationItem | null,
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -61,11 +61,12 @@ const rootVariants = {
 
 function AccordionMenu({ tab }: AccordionMenuProps) {
   const classes = useStyles()
-  const menus = (get(tab, 'menus', [])) as MenuItem[]
 
-  if (isEmpty(menus)) {
+  if (isEmpty(tab)) {
     return null
   }
+
+  const menus = (get(tab, 'menus', [])) as MenuItem[]
 
   return  (
     <VariantContent className={classes.root} variants={rootVariants}>

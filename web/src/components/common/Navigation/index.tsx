@@ -31,7 +31,7 @@ function Index() {
   const theme = useTheme()
 
   const [openDialog, setOpenDialog] = useState(false)
-  const [focusTab, setFocusTab] = useState<NavigationItem>(NAVIGATION_LIST[0])
+  const [focusTab, setFocusTab] = useState<NavigationItem | null>(null)
   const [focus, setFocus] = useState(false)
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function Index() {
 
   const handleCheckRoute = async (tab: NavigationItem | null, type: string = 'click') => {
     if (tab === null || type === 'leave') {
-      return setFocusTab(NAVIGATION_LIST[0])
+      return setFocusTab(null)
     }
 
     if (type === 'enter') {
@@ -83,7 +83,7 @@ function Index() {
               <UserButtons />
             </Box>
           </Box>
-          <Variant focus={!isEmpty(focusTab.menus)}>
+          <Variant focus={!isEmpty(focusTab?.menus)}>
             <AccordionMenu tab={focusTab} />
           </Variant>
         </Box>

@@ -26,7 +26,7 @@ const actions: {
   name?: string;
 }[] = [
   { id: 'links', icon: <AddLink />, name: '新增友情链接' },
-  { id: 'files', icon: <Queue />, name: '新增归档类型' },
+  { id: 'category', icon: <Queue />, name: '新增归档类型' },
   { id: 'tags', icon: <BookmarkAdd />, name: '新增标签' },
   { id: 'editor', icon: <Link href={routes.editor} target="_blank"><PostAdd /></Link>, name: '新增新的分享' },
   { id: 'top', icon: <VerticalAlignTop /> }
