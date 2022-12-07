@@ -6,24 +6,33 @@
 import Drawer from '@mui/material/Drawer';
 import {makeStyles} from "@mui/styles";
 import type {Theme} from "@mui/material";
-import {ReactElement, ReactNode, useMemo} from "react";
+import React, {ReactElement, ReactNode, useMemo} from "react";
 import {separateChildren} from "@/src/utils";
 import Buttons from "components/common/Buttons";
 import CloseIcon from "components/common/Icons/CloseIcon";
 import Box from "@mui/material/Box";
+import isBoolean from "lodash/isBoolean"
+import type { EmptyObject } from "src/tb.types"
 
 interface GlobalDrawerProps {
   open: boolean;
   children: ReactNode | ReactElement[];
   door?: boolean;
+  bgColor?: string;
   onClose?: () => void;
+  onConfirm?: () => void;
+  classes?: EmptyObject;
+  header?: boolean | ReactNode;
+  footer?: boolean | ReactNode;
+  confirmText?: string;
+  cancelText?: string;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
   top: {
     '&.MuiDrawer-root': {
       bottom: 'initial',
-      height: (props: Pick<GlobalDrawerProps, 'door'>) => props.door ? 'calc(100vh - 70px)' : '100vh',
+      height: (props: GlobalDrawerProps) => props.door ? 'calc(100vh - 70px)' : '100vh',
     },
   },
   header: {
@@ -39,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     '&.MuiPaper-root': {
       position: 'static',
       height: '100%',
-      backgroundColor: theme.status.bgDark
+      backgroundColor: (props: GlobalDrawerProps) => props.bgColor ? props.bgColor : theme.status.bgDark
     }
   },
   bottom: {
@@ -51,10 +60,18 @@ const useStyles = makeStyles((theme: Theme) => ({
       justifyContent: 'space-around',
     }
   },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    padding: theme.spacing(0, 2),
+    height: '100%'
+  },
 }))
 
-function GlobalDrawer({ open, door = true, children, onClose }: GlobalDrawerProps) {
-  const classes = useStyles({ door })
+function GlobalDrawer(props: GlobalDrawerProps) {
+  const { open, door = true, children, header = true, onClose, onConfirm, confirmText, cancelText } = props
+  const classes = useStyles(props)
 
   const { top, bottom } = useMemo(() => separateChildren(children, ['top', 'bottom']), [children])
 
@@ -66,14 +83,16 @@ function GlobalDrawer({ open, door = true, children, onClose }: GlobalDrawerProp
         anchor="top"
         classes={{
           root: classes.top,
-          paper: classes.paper
+          paper: classes.paper,
         }}
       >
-        <Box className={classes.header}>
-          <Buttons variant="text" space={false} onClick={onClose}>
-            <CloseIcon />
-          </Buttons>
-        </Box>
+        {isBoolean(header) ? (header ? (
+          <Box className={classes.header}>
+            <Buttons variant="text" space={false} onClick={onClose}>
+              <CloseIcon />
+            </Buttons>
+          </Box>
+        ) : null) : header}
         {top}
       </Drawer>
       {door && (
@@ -86,7 +105,12 @@ function GlobalDrawer({ open, door = true, children, onClose }: GlobalDrawerProp
             paper: classes.paper
           }}
         >
-          {bottom}
+          {bottom ?? (
+            <Box className={classes.buttons}>
+              <Buttons variant="outlined" color="primary" disableRipple onClick={onClose}>{cancelText}</Buttons>
+              <Buttons variant="contained" color="info" disableRipple onClick={onConfirm} style={{ marginLeft: 16 }}>{confirmText}</Buttons>
+            </Box>
+          )}
         </Drawer>
       )}
     </>

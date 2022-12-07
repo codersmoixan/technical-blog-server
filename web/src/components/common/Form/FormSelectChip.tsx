@@ -31,7 +31,7 @@ interface FormChipSelectProps extends SelectProps{
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    width: 300,
+    width: '100%',
     '& .MuiSelect-select': {
       display: 'flex',
       alignItems: 'center'
