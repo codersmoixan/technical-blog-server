@@ -3,7 +3,6 @@
  * @description MenuDrawer
  */
 
-import Drawer from "@mui/material/Drawer";
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
 import CloseIcon from "components/common/Icons/CloseIcon";
@@ -17,6 +16,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore"
 import {Variant, VariantContent} from "components/common/Variant";
 import { stiffnessVariants } from "@/src/utils/variants";
+import GlobalDrawer from "components/common/GlobalDrawer";
 import type { Theme } from "@mui/material";
 
 interface MenuDrawerProps {
@@ -26,37 +26,6 @@ interface MenuDrawerProps {
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
-  top: {
-    '&.MuiDrawer-root': {
-      bottom: 'initial',
-      height: 'calc(100vh - 70px)',
-    },
-  },
-  paper: {
-    '&.MuiPaper-root': {
-      position: 'static',
-      height: '100%',
-      backgroundColor: theme.status.bgDark
-    }
-  },
-  bottom: {
-    '&.MuiDrawer-root': {
-      top: 'initial',
-      height: 72,
-    },
-    '&.MuiPaper-root': {
-      justifyContent: 'space-around',
-    }
-  },
-  header: {
-    padding: theme.spacing(0, 3),
-    height: 72,
-    textAlign: 'right',
-    lineHeight: '72px',
-    '& > button.MuiButtonBase-root': {
-      color: theme.status.white
-    }
-  },
   userButtons: {
     padding: theme.spacing(0.5),
     width: '100%',
@@ -115,43 +84,20 @@ function MenuDrawer(props: MenuDrawerProps) {
   }
 
   return (
-    <>
-      <Drawer
-        open={open}
-        hideBackdrop
-        anchor="top"
-        classes={{
-          root: classes.top,
-          paper: classes.paper
-        }}
-      >
-        <Box className={classes.header}>
-          <Buttons variant="text" space={false} onClick={onClose}>
-            <CloseIcon />
-          </Buttons>
-        </Box>
-        <Box className={classes.content}>
-          <Variant focus={open}>
-            <Menu
-              menus={menus}
-              childKey="menus"
-              className={classes.menu}
-              onNodeClick={handleNodeClick}
-              expandIcon={<ExpandLess />}
-              closeIcon={<ExpandMore />}
-            />
-          </Variant>
-        </Box>
-      </Drawer>
-      <Drawer
-        open={open}
-        hideBackdrop
-        anchor="bottom"
-        classes={{
-          root: classes.bottom,
-          paper: classes.paper
-        }}
-      >
+    <GlobalDrawer open={open} onClose={onClose}>
+      <Box className={classes.content} slot="top">
+        <Variant focus={open}>
+          <Menu
+            menus={menus}
+            childKey="menus"
+            className={classes.menu}
+            onNodeClick={handleNodeClick}
+            expandIcon={<ExpandLess />}
+            closeIcon={<ExpandMore />}
+          />
+        </Variant>
+      </Box>
+      <Box slot="bottom">
         <Variant focus={open}>
           <VariantContent>
             <VariantContent variants={stiffnessVariants}>
@@ -159,8 +105,8 @@ function MenuDrawer(props: MenuDrawerProps) {
             </VariantContent>
           </VariantContent>
         </Variant>
-      </Drawer>
-    </>
+      </Box>
+    </GlobalDrawer>
   )
 }
 

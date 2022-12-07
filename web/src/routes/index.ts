@@ -10,7 +10,9 @@ export type Routes = {
   works: RouteValue;
   links: RouteValue;
   about: string;
-  editor: string
+  editor: string;
+  login: string;
+  signup: string;
 }
 
 const routes: Routes = {
@@ -21,7 +23,9 @@ const routes: Routes = {
   works: (id?: RouteParam) => id ? `/works/${id}` : '/works',
   links: (id?: RouteParam) => id ? `/links/${id}` : '/links',
   editor: '/editor',
-  about: '/about'
+  about: '/about',
+  login: '/login',
+  signup: '/signup'
 }
 
 export default routes
