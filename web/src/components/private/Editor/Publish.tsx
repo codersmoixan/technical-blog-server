@@ -5,7 +5,7 @@
 
 import Box from '@mui/material/Box';
 import Grid from "@mui/material/Grid";
-import useNotification from "@/src/hooks/useNotification";
+import useNotificationSnackbar from "hooks/useNotificationSnackbar";
 import CenterDialog from "components/common/Dialog/CenterDialog";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
@@ -20,7 +20,6 @@ import isEmpty from "lodash/isEmpty";
 import MediaQuery from "components/common/MediaQuery";
 import GlobalDrawer from "components/common/GlobalDrawer";
 import {useTheme} from "@mui/material/styles";
-import Buttons from "components/common/Buttons";
 
 export interface FormOptions {
   category: string;
@@ -38,13 +37,18 @@ interface PublishProps {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     minWidth: 700,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       minWidth: 'auto'
     }
   },
   drawerHeader: {
     '& > button.MuiButtonBase-root': {
       color: theme.status.darkColor
+    }
+  },
+  drawerPaper: {
+    '&.MuiPaper-root': {
+      boxShadow: 'none'
     }
   }
 }))
@@ -65,7 +69,7 @@ const tags = [
 ]
 
 function Publish({ open = false, onClose, onPublish }: PublishProps) {
-  const { notify } = useNotification()
+  const { notify } = useNotificationSnackbar()
   const classes = useStyles()
   const theme = useTheme()
   const { observer, handleSubmit } = useForm({
@@ -106,14 +110,14 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
       <Form observer={observer}>
         <Box className={classes.root}>
           <Grid container spacing={1}>
-            <Grid item xs={2}>分类: </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={3} sm={2}>分类: </Grid>
+            <Grid item xs={9} sm={10}>
               <FormChipSelect name="category" options={chips} rules={{ required: '请选择文章分类' }} />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
-            <Grid item xs={2}>标签: </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={3} sm={2}>标签: </Grid>
+            <Grid item xs={9} sm={10}>
               <FormSelectChip
                 name="tag"
                 multiple
@@ -126,14 +130,14 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
-            <Grid item xs={2}>文章封面: </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={3} sm={2}>文章封面: </Grid>
+            <Grid item xs={9} sm={10}>
               <ImageUpload onChange={handleImageChange} />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
-            <Grid item xs={2}>编辑摘要: </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={3} sm={2}>编辑摘要: </Grid>
+            <Grid item xs={9} sm={10}>
               <FormTextarea
                 name="description"
                 placeholder="请输入文章摘要..."
@@ -165,12 +169,16 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           open={open}
           header={false}
           bgColor={theme.status.white}
-          classes={{ header: classes.drawerHeader }}
-          onClose={handleClose}
+          classes={{
+            header: classes.drawerHeader,
+            paper: classes.drawerPaper
+          }}
           confirmText="发布文章"
           cancelText="取消"
+          onClose={handleClose}
+          onConfirm={handleSubmit(handlePublish)}
         >
-          <Box p={2}>
+          <Box px={2} py={4}>
             {formNode()}
           </Box>
         </GlobalDrawer>
