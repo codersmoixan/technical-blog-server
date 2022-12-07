@@ -19,6 +19,7 @@ interface CustomThemeOptions {
     placeholder: string;
     disabled: string;
     error: string;
+    darkColor: string;
   };
   common: {
     verticalCenter: CSSProperties;
@@ -71,6 +72,7 @@ const theme = createTheme({
 
     white: TB_STATUS_WHITE,
     bgDark: TB_STATUS_BG_DARK,
+    darkColor: TB_STATUS_BG_DARK,
     darkPeach: TB_STATUS_DARK_PEACH,
     colorSecondary: TB_STATUS_COLOR_SECONDARY,
     textSecondary: TB_STATUS_COLOR_TEXT_SECONDARY,

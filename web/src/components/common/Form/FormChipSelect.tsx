@@ -76,7 +76,7 @@ function FormChipSelect({ options, onSelect, name, rules }: ChipSelectProps) {
     <>
       <Grid container spacing={2}>
         {options.map(chip => (
-          <Grid item key={chip.id} spacing={2} xs={2}>
+          <Grid item key={chip.id} spacing={2}>
             <TBChip
               label={chip.label}
               active={chip.id === active.id}

@@ -19,6 +19,8 @@ import FormChipSelect from "components/common/Form/FormChipSelect";
 import isEmpty from "lodash/isEmpty";
 import MediaQuery from "components/common/MediaQuery";
 import GlobalDrawer from "components/common/GlobalDrawer";
+import {useTheme} from "@mui/material/styles";
+import Buttons from "components/common/Buttons";
 
 export interface FormOptions {
   category: string;
@@ -35,8 +37,16 @@ interface PublishProps {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    minWidth: 700
+    minWidth: 700,
+    [theme.breakpoints.down('sm')]: {
+      minWidth: 'auto'
+    }
   },
+  drawerHeader: {
+    '& > button.MuiButtonBase-root': {
+      color: theme.status.darkColor
+    }
+  }
 }))
 
 const chips = [
@@ -57,6 +67,7 @@ const tags = [
 function Publish({ open = false, onClose, onPublish }: PublishProps) {
   const { notify } = useNotification()
   const classes = useStyles()
+  const theme = useTheme()
   const { observer, handleSubmit } = useForm({
     defaultValues: {
       tag: ['前端', '后端'],
@@ -150,8 +161,18 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
         </CenterDialog>
       </MediaQuery>
       <MediaQuery media="mobile">
-        <GlobalDrawer open={open} door={false} onClose={handleClose}>
-          {formNode()}
+        <GlobalDrawer
+          open={open}
+          header={false}
+          bgColor={theme.status.white}
+          classes={{ header: classes.drawerHeader }}
+          onClose={handleClose}
+          confirmText="发布文章"
+          cancelText="取消"
+        >
+          <Box p={2}>
+            {formNode()}
+          </Box>
         </GlobalDrawer>
       </MediaQuery>
     </>
