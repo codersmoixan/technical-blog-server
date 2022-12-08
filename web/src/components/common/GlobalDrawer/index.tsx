@@ -22,7 +22,7 @@ interface GlobalDrawerProps {
   onClose?: () => void;
   onConfirm?: () => void;
   classes?: EmptyObject;
-  header?: boolean | ReactNode;
+  header?: boolean;
   footer?: boolean | ReactNode;
   confirmText?: string;
   cancelText?: string;
@@ -32,14 +32,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   top: {
     '&.MuiDrawer-root': {
       bottom: 'initial',
-      height: (props: GlobalDrawerProps) => props.door ? 'calc(100vh - 70px)' : '100vh',
+      height: (props: GlobalDrawerProps) => props.door ? 'calc(100vh - 72px)' : '100vh',
     },
   },
   header: {
+    position: 'sticky',
+    top: 0,
     padding: theme.spacing(0, 3),
     height: 72,
     textAlign: 'right',
     lineHeight: '72px',
+    backgroundColor: (props: GlobalDrawerProps) => props.bgColor ? props.bgColor : theme.status.bgDark,
+    zIndex: 999,
     '& > button.MuiButtonBase-root': {
       color: theme.status.white
     }
@@ -71,9 +75,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 function GlobalDrawer(props: GlobalDrawerProps) {
   const { open, door = true, children, header = true, onClose, onConfirm, confirmText, cancelText } = props
-  const classes = useStyles(props)
+  const classes = useStyles({ ...props, door })
 
-  const { top, bottom } = useMemo(() => separateChildren(children, ['top', 'bottom']), [children])
+  const { head, content, footer } = useMemo(() => separateChildren(children, ['head', 'content', 'footer']), [children])
 
   return (
     <>
@@ -86,14 +90,16 @@ function GlobalDrawer(props: GlobalDrawerProps) {
           paper: classes.paper,
         }}
       >
-        {isBoolean(header) ? (header ? (
+        {header ? (
           <Box className={classes.header}>
-            <Buttons variant="text" space={false} onClick={onClose}>
-              <CloseIcon />
-            </Buttons>
+            {head ?? (
+              <Buttons variant="text" space={false} onClick={onClose}>
+                <CloseIcon />
+              </Buttons>
+            )}
           </Box>
-        ) : null) : header}
-        {top}
+        ) : null}
+        {content}
       </Drawer>
       {door && (
         <Drawer
@@ -105,7 +111,7 @@ function GlobalDrawer(props: GlobalDrawerProps) {
             paper: classes.paper
           }}
         >
-          {bottom ?? (
+          {footer ?? (
             <Box className={classes.buttons}>
               <Buttons variant="outlined" color="primary" disableRipple onClick={onClose}>{cancelText}</Buttons>
               <Buttons variant="contained" color="info" disableRipple onClick={onConfirm} style={{ marginLeft: 16 }}>{confirmText}</Buttons>

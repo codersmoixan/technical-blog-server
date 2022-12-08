@@ -96,7 +96,7 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-function FormSelectChip({ options, placeholder, name, rules, multiple }: FormChipSelectProps) {
+function FormSelectChip({ options, placeholder, label, name, rules, multiple }: FormChipSelectProps) {
   const theme = useTheme();
   const classes = useStyles()
   const { ref, fieldProps, fieldState, setValue, clearErrors } = useFormController({
@@ -143,7 +143,7 @@ function FormSelectChip({ options, placeholder, name, rules, multiple }: FormChi
         multiple={multiple}
         displayEmpty
         onChange={handleChange}
-        input={<OutlinedInput id="select-multiple-chip" className={classes.input} inputRef={ref} {...fieldProps} />}
+        input={<OutlinedInput id="select-multiple-chip" label={label} className={classes.input} inputRef={ref} {...fieldProps} />}
         renderValue={(std) => {
           if (!std?.length) {
             return <Typography component="span" variant="body1" color={theme.status.placeholder}>{placeholder}</Typography>

@@ -17,7 +17,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image, { StaticImageData } from "next/image";
 import { makeStyles } from "@mui/styles";
-import ShareTwo from "public/images/share/share-two.webp"
+import ShareThree from "public/images/share/share-three.webp"
 import Typography from "@mui/material/Typography";
 import MediaQuery from "components/common/MediaQuery";
 import Box from "@mui/material/Box";
@@ -111,7 +111,7 @@ function BlogCard(props: BlogCardProps) {
   const {
     title,
     avatar = 'S',
-    image = ShareTwo,
+    image = ShareThree,
     date,
     children
   } = props

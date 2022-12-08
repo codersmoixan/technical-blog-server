@@ -166,7 +166,7 @@ function ShareEditor() {
         <MediaQuery media={['pad', 'pc']}>
           <Box className={classes.actions}>
             <Buttons variant="outlined">草稿箱</Buttons>
-            <Buttons variant="contained" className={classes.submit} onClick={handleOpenPublish}>发布</Buttons>
+            <Buttons variant="contained" className={classes.submit} onClick={handleOpenPublish}>发布文章</Buttons>
           </Box>
         </MediaQuery>
       </Box>

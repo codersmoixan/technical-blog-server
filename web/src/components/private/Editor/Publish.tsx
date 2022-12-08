@@ -20,6 +20,7 @@ import isEmpty from "lodash/isEmpty";
 import MediaQuery from "components/common/MediaQuery";
 import GlobalDrawer from "components/common/GlobalDrawer";
 import {useTheme} from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 
 export interface FormOptions {
   category: string;
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   },
   drawerHeader: {
+    textAlign: 'center',
     '& > button.MuiButtonBase-root': {
       color: theme.status.darkColor
     }
@@ -160,6 +162,7 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           onClose={handleClose}
           onConfirm={handleSubmit(handlePublish)}
           title="发布文章"
+          confirmText="发布"
         >
           {formNode()}
         </CenterDialog>
@@ -167,7 +170,6 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
       <MediaQuery media="mobile">
         <GlobalDrawer
           open={open}
-          header={false}
           bgColor={theme.status.white}
           classes={{
             header: classes.drawerHeader,
@@ -178,7 +180,8 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           onClose={handleClose}
           onConfirm={handleSubmit(handlePublish)}
         >
-          <Box px={2} py={4}>
+          <Typography component="span" variant="h3" slot="head">发布文章</Typography>
+          <Box px={2} slot="content">
             {formNode()}
           </Box>
         </GlobalDrawer>

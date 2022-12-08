@@ -22,7 +22,7 @@ const useNotificationSnackbar = (wait: number = 4000) => {
       variant,
       anchorOrigin: {
         vertical: smUp ? 'bottom' : 'top',
-        horizontal: smUp ? 'left' : 'center'
+        horizontal: 'left'
       },
       className: classes.root
     })
