@@ -72,6 +72,7 @@ function FormTextarea(props: FormTextareaProps) {
         inputRef={ref}
         disabled={disabled ?? valueLength >= maxLength}
         {...props}
+        {...fieldProps}
         error={!isUndefined(fieldState.error)}
         helperText={fieldState.error?.message}
       />

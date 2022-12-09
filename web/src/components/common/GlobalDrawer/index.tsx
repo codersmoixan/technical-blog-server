@@ -81,6 +81,24 @@ function GlobalDrawer(props: GlobalDrawerProps) {
 
   return (
     <>
+      {door && (
+        <Drawer
+          open={open}
+          hideBackdrop
+          anchor="bottom"
+          classes={{
+            root: classes.bottom,
+            paper: classes.paper
+          }}
+        >
+          {footer ?? (
+            <Box className={classes.buttons}>
+              <Buttons variant="outlined" color="primary" disableRipple onClick={onClose}>{cancelText}</Buttons>
+              <Buttons variant="contained" color="info" disableRipple onClick={onConfirm} style={{ marginLeft: 16 }}>{confirmText}</Buttons>
+            </Box>
+          )}
+        </Drawer>
+      )}
       <Drawer
         open={open}
         hideBackdrop
@@ -101,24 +119,6 @@ function GlobalDrawer(props: GlobalDrawerProps) {
         ) : null}
         {content}
       </Drawer>
-      {door && (
-        <Drawer
-          open={open}
-          hideBackdrop
-          anchor="bottom"
-          classes={{
-            root: classes.bottom,
-            paper: classes.paper
-          }}
-        >
-          {footer ?? (
-            <Box className={classes.buttons}>
-              <Buttons variant="outlined" color="primary" disableRipple onClick={onClose}>{cancelText}</Buttons>
-              <Buttons variant="contained" color="info" disableRipple onClick={onConfirm} style={{ marginLeft: 16 }}>{confirmText}</Buttons>
-            </Box>
-          )}
-        </Drawer>
-      )}
     </>
   )
 }
