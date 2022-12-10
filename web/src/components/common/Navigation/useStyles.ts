@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   menus: {
     display: 'flex',
     alignItems: 'center',
+    marginLeft: theme.spacing(10),
     height: theme.status.navHeight,
   },
   tools: {
@@ -45,10 +46,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: 425
   },
   logo: {
-    width: 250,
+    width: 45,
     height: 45,
     [theme.breakpoints.down('lg')]: {
-      width: 140,
+      width: 30,
       height: 30
     }
   },

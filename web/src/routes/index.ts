@@ -9,6 +9,7 @@ export type Routes = {
   tags: RouteValue;
   works: RouteValue;
   links: RouteValue;
+  notes: RouteValue;
   about: string;
   editor: string;
   login: string;
@@ -22,6 +23,7 @@ const routes: Routes = {
   tags: (id?: RouteParam) => id ? `/tags/${id}` : '/tags',
   works: (id?: RouteParam) => id ? `/works/${id}` : '/works',
   links: (id?: RouteParam) => id ? `/links/${id}` : '/links',
+  notes: (id?: RouteParam) => id ? `/notes/${id}` : '/notes',
   editor: '/editor',
   about: '/about',
   login: '/login',

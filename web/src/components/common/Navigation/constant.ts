@@ -53,6 +53,11 @@ export const NAVIGATION_LIST: NavigationList = [
     ]
   },
   {
+    id: 'notes',
+    label: '笔记',
+    route: routes.notes
+  },
+  {
     id: 'tags',
     label: '标签',
     route: routes.tags,

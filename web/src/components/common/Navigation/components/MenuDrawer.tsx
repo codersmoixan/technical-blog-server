@@ -85,7 +85,7 @@ function MenuDrawer(props: MenuDrawerProps) {
 
   return (
     <GlobalDrawer open={open} onClose={onClose}>
-      <Box className={classes.content} slot="top">
+      <Box className={classes.content} slot="content">
         <Variant focus={open}>
           <Menu
             menus={menus}
@@ -97,7 +97,7 @@ function MenuDrawer(props: MenuDrawerProps) {
           />
         </Variant>
       </Box>
-      <Box slot="bottom">
+      <Box slot="footer">
         <Variant focus={open}>
           <VariantContent>
             <VariantContent variants={stiffnessVariants}>
