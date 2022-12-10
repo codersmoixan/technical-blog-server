@@ -3,11 +3,11 @@
  * @description Share
  */
 
-import SharePage from "components/private/SharePage";
+import ShareUnit from "components/private/Share/ShareUnit";
 
-function Share() {
+function Unit() {
 
-  return <SharePage />
+  return <ShareUnit />
 }
 
-export default Share
+export default Unit

@@ -14,7 +14,9 @@ import Root from "components/common/Layout/Root";
 import Box from "@mui/material/Box";
 import Buttons from "components/common/Buttons";
 import MediaQuery from "components/common/MediaQuery";
-import Publish from "components/private/Editor/Publish";
+import Publish, { FormOptions } from "components/private/Editor/Publish";
+import Fab from "@mui/material/Fab";
+import Send from "@mui/icons-material/Send"
 
 const editorHeight = (media: string) => media === 'mobile' ? 'calc(100vh - 145px)' : 'calc(100vh - 140px)'
 
@@ -94,6 +96,16 @@ const useStyles = makeStyles((theme: Theme) => ({
       }
     },
   },
+  speedDial: {
+    position: 'fixed',
+    right: 24,
+    bottom: 24,
+    transform: 'rotate(-45deg)',
+    '& svg': {
+      position: 'relative',
+      left: 4,
+    }
+  }
 }))
 
 const excludeToolKey = [
@@ -126,12 +138,9 @@ function ShareEditor() {
   useEffect(() => {
     if (editor !== null) {
       const toolbarConfig = DomEditor.getToolbar(editor)?.getConfig()
-      console.log(toolbarConfig);
       if (toolbarConfig) {
         toolbarConfig.excludeKeys = excludeToolKey
       }
-
-      console.log(toolbarConfig, 66);
     }
 
     return () => {
@@ -143,8 +152,10 @@ function ShareEditor() {
 
   const handleCloseDialog = () => setOpen(false)
 
-  const handlePublish = () => {
-    console.log(html, 6652)
+  const handleOpenPublish = () => setOpen(true)
+
+  const handlePublish = (options: FormOptions) => {
+    console.log(options, 6652)
     handleCloseDialog()
   }
 
@@ -155,7 +166,7 @@ function ShareEditor() {
         <MediaQuery media={['pad', 'pc']}>
           <Box className={classes.actions}>
             <Buttons variant="outlined">草稿箱</Buttons>
-            <Buttons variant="contained" className={classes.submit} onClick={() => setOpen(true)}>发布</Buttons>
+            <Buttons variant="contained" className={classes.submit} onClick={handleOpenPublish}>发布文章</Buttons>
           </Box>
         </MediaQuery>
       </Box>
@@ -175,6 +186,11 @@ function ShareEditor() {
         onPublish={handlePublish}
         onClose={handleCloseDialog}
       />
+      <MediaQuery media="mobile">
+        <Fab color="primary" className={classes.speedDial} onClick={handleOpenPublish}>
+          <Send />
+        </Fab>
+      </MediaQuery>
     </Root>
   )
 }

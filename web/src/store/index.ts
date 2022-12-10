@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "./counterSlice";
+import shareSlice from "store/shareSlice";
 
 const store = configureStore({
   reducer: {
-    counter: counterSlice.reducer
+    share: shareSlice.reducer
   }
 })
 

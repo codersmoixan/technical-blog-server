@@ -18,11 +18,6 @@ export type NavigationList = NavigationItem[]
 
 export const NAVIGATION_LIST: NavigationList = [
   {
-    id: 'home',
-    label: '首页',
-    route: routes.home
-  },
-  {
     id: 'share',
     label: '分享',
     route: routes.share,
@@ -46,7 +41,7 @@ export const NAVIGATION_LIST: NavigationList = [
   {
     id: 'files',
     label: '归档',
-    route: routes.files,
+    route: routes.category,
     menus: [
       {
         id: 1,
@@ -56,6 +51,11 @@ export const NAVIGATION_LIST: NavigationList = [
         ]
       },
     ]
+  },
+  {
+    id: 'notes',
+    label: '笔记',
+    route: routes.notes
   },
   {
     id: 'tags',
@@ -82,18 +82,8 @@ export const NAVIGATION_LIST: NavigationList = [
     ]
   },
   {
-    id: 'works',
-    label: '作品',
-    route: routes.works,
-  },
-  {
     id: 'links',
     label: '友链',
     route: routes.links
   },
-  {
-    id: 'about',
-    label: '关于',
-    route: routes.about
-  }
 ]

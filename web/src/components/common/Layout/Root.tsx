@@ -13,6 +13,7 @@ interface RootProps extends BoxProps {
   backdrop?: string | StaticImageData;
   alt?: string;
   animate?: boolean;
+  bgColor?: string;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -20,8 +21,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'relative',
     width: '100%',
     minHeight: '100vh',
-    backgroundColor: theme.palette.background.default,
-    zIndex: -1
+    backgroundColor: (props: RootProps) => props.bgColor || theme.palette.background.default,
+    zIndex: -1,
   },
   review: {
     position: 'absolute',
@@ -29,6 +30,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     left: 0,
     width: '100%',
     height: theme.status.backdropHeight,
+    [theme.breakpoints.down('md')]: {
+      width: 'auto'
+    }
   },
   motion: {
     width: '100%',

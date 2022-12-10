@@ -17,21 +17,21 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image, { StaticImageData } from "next/image";
 import { makeStyles } from "@mui/styles";
-import isArray from "lodash/isArray"
-import ShareTwo from "public/images/share/share-two.webp"
-import type { Theme } from "@mui/material";
+import ShareThree from "public/images/share/share-three.webp"
 import Typography from "@mui/material/Typography";
 import MediaQuery from "components/common/MediaQuery";
 import Box from "@mui/material/Box";
-import {VariantContent} from "components/common/Variant";
-import {stiffnessVariants} from "@/src/utils/variants";
+import { VariantContent } from "components/common/Variant";
+import { stiffnessVariants } from "@/src/utils/variants";
+import { separateChildren } from "@/src/utils";
+import type { Theme } from "@mui/material";
 
 interface BlogCardProps {
   title: ReactNode;
   date: ReactNode;
   avatar?: ReactNode;
   image?: string | StaticImageData;
-  children?: ReactNode | ReactElement[];
+  children: ReactNode | ReactElement[];
 }
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -107,23 +107,11 @@ const variants = {
   duration: 0.5
 };
 
-const findNode = (nodes: ReactElement[], key: string) => nodes.find((node: ReactElement) => node.props.slot === key)
-
-const separateChildren = (children: ReactElement[] | ReactNode): {
-  expanded: ReactNode,
-  description?: ReactNode
-} => isArray(children) ? {
-  expanded: findNode(children, EXPANDED),
-  description: findNode(children, DESCRIPTION),
-} : {
-  expanded: children ?? null
-}
-
 function BlogCard(props: BlogCardProps) {
   const {
     title,
     avatar = 'S',
-    image = ShareTwo,
+    image = ShareThree,
     date,
     children
   } = props
@@ -131,7 +119,7 @@ function BlogCard(props: BlogCardProps) {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { description, expanded } = useMemo(() => separateChildren(children), [children])
+  const { expanded, description } = useMemo(() => separateChildren(children, ['expanded', 'description']), [children])
 
   const handleExpandClick = () => {
     setIsExpanded(!isExpanded);

@@ -14,11 +14,18 @@ import TransformIcon from "components/common/TransformIcon";
 import { VariantContent } from "components/common/Variant";
 import { stiffnessVariants } from "@/src/utils/variants";
 import type { Theme } from "@mui/material";
+import type { EmptyObject } from "src/tb.types"
+
+export interface MenuItem extends EmptyObject {
+  id: number | string;
+  label: string;
+  child?: MenuItem[];
+}
 
 interface MenuProps{
-  menus: any[];
+  menus: MenuItem[];
   isBorder?: boolean;
-  onNodeClick?: (options: any) => void;
+  onNodeClick?: (options: MenuItem) => void;
   childKey?: string;
   expandIcon?: ReactNode;
   closeIcon?: ReactNode;
@@ -85,9 +92,9 @@ function Menu(props: MenuProps) {
   const classes = useStyles(props)
   const { menus, onNodeClick, className, childKey = 'child', expandIcon, closeIcon } = props
 
-  const [expanded, setExpanded] = useState<string | false>(false)
+  const [expanded, setExpanded] = useState<string | number | false>(false)
 
-  const handleOpenAccordion = (panel: string) => {
+  const handleOpenAccordion = (panel: string | number) => {
       setExpanded(expanded === panel ? false : panel);
     };
 
@@ -109,7 +116,7 @@ function Menu(props: MenuProps) {
               expanded: classes.label,
               content: classes.summaryContent
             }}>
-              <Typography onClick={() => onNodeClick?.(menu)}>
+              <Typography flex={1} onClick={() => onNodeClick?.(menu)}>
                 {menu.label}
               </Typography>
               {menu[childKey] && (
@@ -123,9 +130,9 @@ function Menu(props: MenuProps) {
               )}
             </AccordionSummary>
           </VariantContent>
-          {menu[childKey] && (
+          {menu?.[childKey] && (
             <AccordionDetails classes={{ root: classes.value }}>
-              {menu[childKey].map((c: any) => (
+              {menu?.[childKey].map((c: MenuItem) => (
                 <Typography
                   component="a"
                   key={c.id}

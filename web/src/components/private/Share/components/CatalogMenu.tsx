@@ -7,7 +7,7 @@ import React, { forwardRef, ReactEventHandler, useEffect, useState } from 'react
 import Box from '@mui/material/Box';
 import MediaQuery from "components/common/MediaQuery";
 import Typography from "@mui/material/Typography";
-import Menu from "components/common/Menu";
+import Menu, {MenuItem} from "components/common/Menu";
 import Search from "@mui/icons-material/Search";
 import { makeStyles } from "@mui/styles";
 import TransformIcon from "components/common/TransformIcon";
@@ -19,8 +19,9 @@ import Buttons from "components/common/Buttons";
 import { Variant, VariantContent } from "components/common/Variant";
 import type { Theme } from "@mui/material";
 import type { Variants } from "framer-motion";
+import useCatalogMenu from "components/private/Share/hooks/useCatalogMenu";
 
-interface CatalogProps {
+interface CatalogMenuProps {
   menus: any[];
   onSearchFocus?: ReactEventHandler;
 }
@@ -118,10 +119,9 @@ const menuVariants: Variants = {
   }
 }
 
-export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProps, ref) {
+export default forwardRef(function CatalogMenu({ menus, onSearchFocus }: CatalogMenuProps, ref) {
   const classes = useStyles()
-
-  const [focus, setFocus] = useState(false)
+  const { focus, setFocus, onCheckedMenu } = useCatalogMenu()
 
   const handleSearchFocus = (event: React.MouseEvent) => {
     setFocus(false)
@@ -143,8 +143,8 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
           >
             分类
           </Typography>
-          <Variant focus>
-            <Menu menus={menus} isBorder className={classes.menu} />
+          <Variant>
+            <Menu menus={menus} isBorder className={classes.menu} onNodeClick={onCheckedMenu} />
           </Variant>
         </Box>
       </MediaQuery>
@@ -178,7 +178,7 @@ export default forwardRef(function Catalog({ menus, onSearchFocus }: CatalogProp
                   <Close />
                 </Buttons>
               </Box>
-              <Menu menus={menus} isBorder className={classes.menu} />
+              <Menu menus={menus} isBorder className={classes.menu} onNodeClick={onCheckedMenu} />
             </VariantContent>
           </Variant>
         </Box>

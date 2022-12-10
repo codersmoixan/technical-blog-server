@@ -5,28 +5,54 @@
 
 import Box from '@mui/material/Box';
 import Grid from "@mui/material/Grid";
-import useNotification from "@/src/hooks/useNotification";
+import useNotificationSnackbar from "hooks/useNotificationSnackbar";
 import CenterDialog from "components/common/Dialog/CenterDialog";
 import { makeStyles } from "@mui/styles";
-import TBChip from "components/common/TBChip";
 import { useState } from "react";
-import FormChipSelect from "components/common/Form/FormChipSelect";
+import FormSelectChip from "components/common/Form/FormSelectChip";
 import ImageUpload from "components/common/Form/ImageUpload";
 import FormTextarea from "components/common/Form/FormTextarea";
 import Form from "components/common/Form/Form";
 import useForm from "hooks/useForm";
 import type { Theme } from "@mui/material";
+import FormChipSelect from "components/common/Form/FormChipSelect";
+import isEmpty from "lodash/isEmpty";
+import MediaQuery from "components/common/MediaQuery";
+import GlobalDrawer from "components/common/GlobalDrawer";
+import {useTheme} from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+
+export interface FormOptions {
+  category: string;
+  tag: string;
+  description: string;
+  cover: File[]
+}
 
 interface PublishProps {
   open: boolean;
   onClose?: () => void;
-  onPublish?: () => void;
+  onPublish?: (options: FormOptions) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    minWidth: 700
+    minWidth: 700,
+    [theme.breakpoints.down('md')]: {
+      minWidth: 'auto'
+    }
   },
+  drawerHeader: {
+    textAlign: 'center',
+    '& > button.MuiButtonBase-root': {
+      color: theme.status.darkColor
+    }
+  },
+  drawerPaper: {
+    '&.MuiPaper-root': {
+      boxShadow: 'none'
+    }
+  }
 }))
 
 const chips = [
@@ -45,70 +71,122 @@ const tags = [
 ]
 
 function Publish({ open = false, onClose, onPublish }: PublishProps) {
-  const { notify } = useNotification()
+  const { notify } = useNotificationSnackbar()
   const classes = useStyles()
-  const { observer, handleSubmit } = useForm()
+  const theme = useTheme()
+  const { observer, handleSubmit } = useForm({
+    defaultValues: {
+      tag: ['前端', '后端'],
+      category: 1,
+      description: '225833'
+    }
+  })
 
-  const [options, setOptions] = useState({})
-  const [active, setActive] = useState(0)
+  const [cover, setCover] = useState<File[]>([])
+
+  const resetForm = () => {
+    observer.reset()
+    setCover([])
+  }
 
   const handlePublish = (options: any) => {
-    notify('请输入')
-    // onPublish?.()
-    console.log(options, 2233);
+    if (isEmpty(cover)) {
+      return notify('请上传文章封面', 'warning')
+    }
+
+    onPublish?.({ ...options, cover })
+    resetForm()
   }
 
-  const handleCheckChip = (chip: any) => {
-    setOptions({ ...options, file: chip.id })
-    setActive(chip.id)
+  const handleImageChange = (files: File[]) => {
+    setCover(files)
   }
 
-  const handleImageChange = () => {
-
+  const handleClose = () => {
+    onClose?.()
+    resetForm()
   }
 
-  return (
-    <CenterDialog
-      open={open}
-      onClose={onClose}
-      onConfirm={handleSubmit(handlePublish)}
-      title="发布文章"
-    >
+  function formNode() {
+    return (
       <Form observer={observer}>
         <Box className={classes.root}>
           <Grid container spacing={1}>
-            <Grid item xs={2}>分类: </Grid>
-            <Grid item xs={10}>
-              <Grid container spacing={2}>
-                {chips.map(chip => (
-                  <Grid item key={chip.id} spacing={2} xs={2}>
-                    <TBChip label={chip.label} active={chip.id === active} onClick={() => handleCheckChip(chip)} />
-                  </Grid>
-                ))}
-              </Grid>
+            <Grid item xs={3} sm={2}>分类: </Grid>
+            <Grid item xs={9} sm={10}>
+              <FormChipSelect name="category" options={chips} rules={{ required: '请选择文章分类' }} />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
-            <Grid item xs={2}>标签: </Grid>
-            <Grid item xs={10}>
-              <FormChipSelect name="tag" options={tags} value={['后端']} placeholder="请选择标签" onChange={handleImageChange} />
+            <Grid item xs={3} sm={2}>标签: </Grid>
+            <Grid item xs={9} sm={10}>
+              <FormSelectChip
+                name="tag"
+                multiple
+                options={tags}
+                placeholder="请选择标签"
+                rules={{
+                  required: '请选择文章标签'
+                }}
+              />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
-            <Grid item xs={2}>文章封面: </Grid>
-            <Grid item xs={10}>
-              <ImageUpload />
+            <Grid item xs={3} sm={2}>文章封面: </Grid>
+            <Grid item xs={9} sm={10}>
+              <ImageUpload onChange={handleImageChange} />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
-            <Grid item xs={2}>编辑摘要: </Grid>
-            <Grid item xs={10}>
-              <FormTextarea name="description" placeholder="请输入文章摘要..." />
+            <Grid item xs={3} sm={2}>编辑摘要: </Grid>
+            <Grid item xs={9} sm={10}>
+              <FormTextarea
+                name="description"
+                placeholder="请输入文章摘要..."
+                rules={{
+                  required: '请输入文章摘要'
+                }}
+              />
             </Grid>
           </Grid>
         </Box>
       </Form>
-    </CenterDialog>
+    )
+  }
+
+  return (
+    <>
+      <MediaQuery media={['pad', 'pc']}>
+        <CenterDialog
+          open={open}
+          onClose={handleClose}
+          onConfirm={handleSubmit(handlePublish)}
+          title="发布文章"
+          confirmText="发布"
+        >
+          {formNode()}
+        </CenterDialog>
+      </MediaQuery>
+      <MediaQuery media="mobile">
+        <GlobalDrawer
+          open={open}
+          bgColor={theme.status.white}
+          classes={{
+            header: classes.drawerHeader,
+            paper: classes.drawerPaper
+          }}
+          confirmText="发布文章"
+          cancelText="取消"
+          onClose={handleClose}
+          onConfirm={handleSubmit(handlePublish)}
+        >
+          <Typography component="span" variant="h3" slot="head">发布文章</Typography>
+          <Box px={2} slot="content">
+            {formNode()}
+          </Box>
+        </GlobalDrawer>
+      </MediaQuery>
+    </>
   )
 }
 

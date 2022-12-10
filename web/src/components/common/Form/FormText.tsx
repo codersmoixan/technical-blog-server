@@ -6,19 +6,23 @@
 import { makeStyles } from "@mui/styles";
 import OutlinedInput, { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { FormControl, InputLabel } from "@mui/material";
-import type { Theme } from "@mui/material";
 import isString from "lodash/isString";
+import isUndefined from "lodash/isUndefined"
 import clsx from "clsx";
 import type { ReactNode } from "react";
 import useFormController from "hooks/useFormController";
 import type { EmptyObject } from "src/tb.types"
+import type { Theme } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import {useTheme} from "@mui/material/styles";
 
 export interface FormTextProps extends OutlinedInputProps {
   className?: string;
   label?: ReactNode | undefined;
   bgColor?: string;
   name?: string;
-  rules?: EmptyObject<any>
+  rules?: EmptyObject<any>;
+  helpText?: string;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -68,18 +72,26 @@ const useStyles = makeStyles((theme: Theme) => ({
     '&.Mui-focused': {
       '& .MuiOutlinedInput-notchedOutline': {
         borderColor: theme.palette.primary.main,
+      },
+      '&.Mui-error': {
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor: theme.status.error
+        },
       }
     }
   }
 }))
 
 function FormText(props: FormTextProps) {
-  const { className, label, name, rules, ...other } = props
+  const { className, label, name, rules, error, helpText, value, ...other } = props
   const classes = useStyles(props)
-  const { fieldProps, ref } = useFormController({
+  const theme = useTheme()
+  const { fieldProps, fieldState, ref } = useFormController({
     name,
     rules
   })
+
+  const isError = error ?? !isUndefined(fieldState.error)
 
   return (
     <FormControl variant="outlined" className={clsx(classes.root, className)}>
@@ -88,10 +100,12 @@ function FormText(props: FormTextProps) {
         className={classes.input}
         label={label}
         placeholder={isString(label) ? label : ''}
-        {...other}
         {...fieldProps}
         inputRef={ref}
+        error={isError}
+        {...other}
       />
+      {isError && <Typography variant="caption" color={theme.status.error}>{helpText ?? fieldState.error?.message}</Typography>}
     </FormControl>
   )
 }
