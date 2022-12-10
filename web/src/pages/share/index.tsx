@@ -2,12 +2,11 @@
  * @author zhengji.su
  * @description Share
  */
-
-import SharePage from "components/private/SharePage";
+import ShareMain from "components/private/Share/ShareMain";
 
 function Share() {
 
-  return <SharePage />
+  return <ShareMain />
 }
 
 export default Share

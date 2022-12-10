@@ -6,7 +6,7 @@
 import { useEffect, useState } from 'react'
 import Box from "@mui/material/Box";
 import Image from "next/image";
-import Logo from "public/images/logo.png"
+import Logo from "public/images/logo/logo.dark.jpg"
 import { NAVIGATION_LIST, NavigationItem } from "components/common/Navigation/constant";
 import Buttons from "components/common/Buttons";
 import FormText from "components/common/Form/FormText";
@@ -67,16 +67,18 @@ function Index() {
           onMouseLeave={() => handleCheckRoute(null, 'leave')}
         >
           <Box className={classes.content}>
-            <Image src={Logo} alt="" className={classes.logo} onClick={handleToHome} />
-            <Box className={classes.menus}>
-              {NAVIGATION_LIST.map(tab => (
-                <Buttons
-                  key={tab.id}
-                  variant="text"
-                  onClick={() => handleCheckRoute(tab)}
-                  onMouseEnter={() => handleCheckRoute(tab, 'enter')}
-                >{tab.label}</Buttons>
-              ))}
+            <Box display="flex" alignItems="center">
+              <Image src={Logo} alt="" className={classes.logo} onClick={handleToHome} />
+              <Box className={classes.menus}>
+                {NAVIGATION_LIST.map(tab => (
+                  <Buttons
+                    key={tab.id}
+                    variant="text"
+                    onClick={() => handleCheckRoute(tab)}
+                    onMouseEnter={() => handleCheckRoute(tab, 'enter')}
+                  >{tab.label}</Buttons>
+                ))}
+              </Box>
             </Box>
             <Box className={classes.tools}>
               <FormText label="搜索本站" bgColor={theme.status.transparent} />

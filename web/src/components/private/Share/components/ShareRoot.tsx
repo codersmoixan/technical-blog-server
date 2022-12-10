@@ -1,26 +1,28 @@
 /**
  * @author zhengji.su
- * @description Share
+ * @description ShareRoot
  */
 
-import React, {useEffect, useRef, useState} from 'react'
+import React, { useRef, ReactNode } from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import CreativeGrid from "public/images/backdrop/creative-grid.jpeg"
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import ArrowBack from "@mui/icons-material/ArrowBack"
-import Grid from "@mui/material/Grid"
 import MediaQuery from "components/common/MediaQuery";
-import Catalog from "components/private/SharePage/components/Catalog";
-import BlogCard, { DESCRIPTION, EXPANDED } from "components/private/SharePage/components/BlogCard";
+import CatalogMenu from "components/private/Share/components/CatalogMenu";
 import Content from "components/common/Layout/Content";
 import Root from "components/common/Layout/Root";
 import SearchFormText from "components/common/Form/SearchFormText";
 import Banner from "components/common/Layout/Banner";
-import { options, blogList } from "./constants"
+import { options } from "../constants"
 import type { Theme } from "@mui/material";
-import { Variant } from "components/common/Variant";
+import type { StaticImageData } from "next/image";
+
+interface ShareRootProps {
+  backdrop?: string | StaticImageData;
+  children: ReactNode;
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   banner: {
@@ -69,30 +71,21 @@ const useStyles = makeStyles((theme: Theme) => ({
       fontSize: 16
     }
   },
-  gridItem: {
-    transition: 'all .3s'
-  }
 }))
 
-function Share() {
+function ShareRoot({ children, backdrop }: ShareRootProps) {
   const classes = useStyles()
   const theme = useTheme()
 
-  const [focus, setFocus] = useState(false)
-
   const pointRef = useRef<HTMLElement | null>(null)
   const searchRef = useRef<HTMLElement | null>(null)
-
-  useEffect(() => {
-    setFocus(true)
-  }, [])
 
   const handleSearchFocus = () => {
     searchRef.current?.focus()
   }
 
   return (
-    <Root backdrop={CreativeGrid}>
+    <Root backdrop={backdrop}>
       <Content>
         <Banner className={classes.banner}>
           <Typography variant="h2" fontWeight={400}>
@@ -111,7 +104,7 @@ function Share() {
           </MediaQuery>
         </Banner>
         <Box className={classes.content}>
-          <Catalog menus={options} onSearchFocus={handleSearchFocus} ref={pointRef} />
+          <CatalogMenu menus={options} onSearchFocus={handleSearchFocus} ref={pointRef} />
           <Box className={classes.main}>
             <Box className={classes.search}>
               <SearchFormText
@@ -124,36 +117,7 @@ function Share() {
                 }}
               />
             </Box>
-            <Variant focus={focus}>
-              <Grid container spacing={3} py={3}>
-                {blogList.map(blog => (
-                  <Grid
-                    key={blog.id}
-                    item
-                    spacing={2}
-                    xs={12}
-                    sm={6}
-                    md={6}
-                    lg={4}
-                    xl={3}
-                    display="flex"
-                    justifyContent="center"
-                    className={classes.gridItem}
-                  >
-                    <BlogCard title={blog.title} date="2022.11.06" >
-                      <Box slot={DESCRIPTION}>
-                        <Typography>{blog.description}</Typography>
-                      </Box>
-                      <Box slot={EXPANDED}>
-                        <Typography>
-                          {blog.content}
-                        </Typography>
-                      </Box>
-                    </BlogCard>
-                  </Grid>
-                ))}
-              </Grid>
-            </Variant>
+            {children}
           </Box>
         </Box>
       </Content>
@@ -161,4 +125,4 @@ function Share() {
   )
 }
 
-export default Share
+export default ShareRoot
