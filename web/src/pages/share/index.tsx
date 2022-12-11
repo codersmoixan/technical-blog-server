@@ -2,7 +2,7 @@
  * @author zhengji.su
  * @description Share
  */
-import ShareMain from "components/private/Share/ShareMain";
+import ShareMain from "containers/Share/ShareMain";
 
 function Share() {
 

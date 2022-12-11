@@ -10,6 +10,7 @@ export type Routes = {
   works: RouteValue;
   links: RouteValue;
   notes: RouteValue;
+  shareCategory: (category: RouteParam, id: RouteParam) => string;
   about: string;
   editor: string;
   login: string;
@@ -19,6 +20,7 @@ export type Routes = {
 const routes: Routes = {
   home: '/',
   share: (id?: RouteParam) => id ? `/share/${id}` : '/share',
+  shareCategory: (category: RouteParam, id: RouteParam) => `/share/${category}/${id}`,
   category: (id?: RouteParam) => id ? `/category/${id}` : '/category',
   tags: (id?: RouteParam) => id ? `/tags/${id}` : '/tags',
   works: (id?: RouteParam) => id ? `/works/${id}` : '/works',

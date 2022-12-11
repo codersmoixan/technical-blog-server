@@ -1,15 +1,15 @@
 import { makeStyles } from "@mui/styles";
 import { GetStaticProps } from "next";
-import Content from "components/common/Layout/Content";
+import Content from "components/Layout/Content";
 import type { Theme } from "@mui/material";
-import Video from "components/private/HomePage/Video";
+import Video from "components/../containers/Home/components/Video";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Buttons from "components/common/Buttons";
+import Buttons from "components/Buttons";
 import {useRouter} from "next/router";
 import routes from "@/src/routes";
-import Root from "components/common/Layout/Root";
-import Banner from "components/common/Layout/Banner";
+import Root from "components/Layout/Root";
+import Banner from "components/Layout/Banner";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
