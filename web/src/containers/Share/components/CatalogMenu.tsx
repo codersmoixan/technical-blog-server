@@ -121,7 +121,7 @@ const menuVariants: Variants = {
 
 export default forwardRef(function CatalogMenu({ menus, onSearchFocus }: CatalogMenuProps, ref) {
   const classes = useStyles()
-  const { focus, setFocus, onCheckedMenu } = useSwitchCatalog()
+  const { focus, checked, setFocus, onCheckedMenu } = useSwitchCatalog()
 
   const handleSearchFocus = (event: React.MouseEvent) => {
     setFocus(false)
@@ -144,7 +144,13 @@ export default forwardRef(function CatalogMenu({ menus, onSearchFocus }: Catalog
             分类
           </Typography>
           <Variant>
-            <Menu menus={menus} isBorder className={classes.menu} onNodeClick={onCheckedMenu} />
+            <Menu
+              menus={menus}
+              isBorder
+              className={classes.menu}
+              onNodeClick={onCheckedMenu}
+              value={checked}
+            />
           </Variant>
         </Box>
       </MediaQuery>

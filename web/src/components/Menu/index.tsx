@@ -15,6 +15,7 @@ import { VariantContent } from "components/Variant";
 import { stiffnessVariants } from "utils/variants";
 import type { Theme } from "@mui/material";
 import type { EmptyObject } from "@/src/tb.types"
+import useDeepCompareEffect from "hooks/effect/useDeepCompareEffect";
 
 export interface MenuItem extends EmptyObject {
   id: number | string;
@@ -25,11 +26,12 @@ export interface MenuItem extends EmptyObject {
 interface MenuProps{
   menus: MenuItem[];
   isBorder?: boolean;
-  onNodeClick?: (options: MenuItem) => void;
+  onNodeClick?: (options: MenuItem, parent: MenuItem | null) => void;
   childKey?: string;
   expandIcon?: ReactNode;
   closeIcon?: ReactNode;
   className?: string;
+  value?: string[];
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -90,9 +92,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 function Menu(props: MenuProps) {
   const classes = useStyles(props)
-  const { menus, onNodeClick, className, childKey = 'child', expandIcon, closeIcon } = props
+  const { menus, onNodeClick, className, childKey = 'child', expandIcon, closeIcon, value = [] } = props
 
   const [expanded, setExpanded] = useState<string | number | false>(false)
+
+  useDeepCompareEffect(() => {
+    if (value.length === 2) {
+      setExpanded(value[0])
+    }
+  }, [value])
 
   const handleOpenAccordion = (panel: string | number) => {
       setExpanded(expanded === panel ? false : panel);
@@ -105,7 +113,7 @@ function Menu(props: MenuProps) {
       {menus.map(menu => (
         <Accordion
           key={menu.id}
-          expanded={expanded === menu.id}
+          expanded={expanded == menu.id}
           classes={{ root: classes.accordion }}
         >
           <VariantContent
@@ -116,7 +124,11 @@ function Menu(props: MenuProps) {
               expanded: classes.label,
               content: classes.summaryContent
             }}>
-              <Typography flex={1} onClick={() => onNodeClick?.(menu)}>
+              <Typography
+                flex={1}
+                onClick={() => onNodeClick?.(menu, null)}
+                fontWeight={value?.[0] == menu.id ? 700 : 400}
+              >
                 {menu.label}
               </Typography>
               {menu[childKey] && (
@@ -125,7 +137,7 @@ function Menu(props: MenuProps) {
                   space={false}
                   onClick={() => handleOpenAccordion(menu.id)}
                 >
-                  <TransformIcon focus={expanded === menu.id} originIcon={expandIcon} finishIcon={closeIcon} />
+                  <TransformIcon focus={expanded == menu.id} originIcon={expandIcon} finishIcon={closeIcon} />
                 </Buttons>
               )}
             </AccordionSummary>
@@ -137,7 +149,8 @@ function Menu(props: MenuProps) {
                   component="a"
                   key={c.id}
                   className={classes.childItem}
-                  onClick={() => onNodeClick?.(c)}
+                  onClick={() => onNodeClick?.(c, menu)}
+                  fontWeight={value?.[1] == c.id ? 700 : 400}
                 >
                   {c.label}
                 </Typography>

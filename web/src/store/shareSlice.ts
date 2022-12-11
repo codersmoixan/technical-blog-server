@@ -19,14 +19,16 @@ const shareSlice = createSlice({
   reducers: {
     checkedMenuAction(state, action) {
       state.checkedMenu = action.payload
-      if (action.payload.child) {
+    },
+    parentMenuAction(state, action) {
+      if (action.payload) {
         state.parentMenu = action.payload
       }
     }
   }
 })
 
-export const { checkedMenuAction } = shareSlice.actions
+export const { checkedMenuAction, parentMenuAction } = shareSlice.actions
 
 export const getCheckedMenu = (state: RootState) => state.share.checkedMenu
 export const getParentMenu = (state: RootState) => state.share.parentMenu
