@@ -6,8 +6,8 @@
 import React from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Content from "components/common/Layout/Content";
-import Root from "components/common/Layout/Root";
+import Content from "components/Layout/Content";
+import Root from "components/Layout/Root";
 import CreativeVeins from "public/images/backdrop/creative-veins.jpeg"
 
 function Files() {

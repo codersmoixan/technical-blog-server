@@ -6,12 +6,12 @@
 import React from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Content from "components/common/Layout/Content";
-import Root from "components/common/Layout/Root";
+import Content from "components/Layout/Content";
+import Root from "components/Layout/Root";
 import CreativeBleak from "public/images/backdrop/creative-bleak.jpeg"
 import {makeStyles} from "@mui/styles";
 import type {Theme} from "@mui/material";
-import Banner from "components/common/Layout/Banner";
+import Banner from "components/Layout/Banner";
 
 const useStyles = makeStyles((theme: Theme) => ({
   banner: {
