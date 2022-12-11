@@ -18,6 +18,7 @@
     "paths": {
       "@/*": ["./*"],
       "components/*": ["./src/components/*"],
+      "containers/*": ["./src/containers/*"],
       "public/*": ["./src/public/*"],
       "store/*": ["./src/store/*"],
       "hooks/*": ["./src/hooks/*"],
