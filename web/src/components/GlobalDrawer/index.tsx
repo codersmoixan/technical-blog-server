@@ -5,14 +5,13 @@
 
 import Drawer from '@mui/material/Drawer';
 import {makeStyles} from "@mui/styles";
-import type {Theme} from "@mui/material";
-import React, {ReactElement, ReactNode, useMemo} from "react";
-import {separateChildren} from "@/src/utils";
 import Buttons from "components/Buttons";
 import CloseIcon from "components/Icons/CloseIcon";
 import Box from "@mui/material/Box";
-import isBoolean from "lodash/isBoolean"
+import useSeparateChildren from "hooks/useSeparateChildren";
 import type { EmptyObject } from "@/src/tb.types"
+import type {Theme} from "@mui/material";
+import type { ReactElement, ReactNode } from "react";
 
 interface GlobalDrawerProps {
   open: boolean;
@@ -76,8 +75,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 function GlobalDrawer(props: GlobalDrawerProps) {
   const { open, door = true, children, header = true, onClose, onConfirm, confirmText, cancelText } = props
   const classes = useStyles({ ...props, door })
-
-  const { head, content, footer } = useMemo(() => separateChildren(children, ['head', 'content', 'footer']), [children])
+  const { head, content, footer } = useSeparateChildren(children, ['head', 'content', 'footer'])
 
   return (
     <>

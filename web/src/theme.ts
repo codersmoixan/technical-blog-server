@@ -139,11 +139,16 @@ const theme = createTheme({
       lineHeight: 1.5
     },
     h3: {
-      fontSize: 24,
+      fontSize: 30,
       fontWeight: 700,
       lineHeight: 1.5
     },
     h4: {
+      fontSize: 24,
+      fontWeight: 700,
+      lineHeight: 1.5
+    },
+    h5: {
       fontSize: 18,
       fontWeight: 400,
       lineHeight: 1.5
