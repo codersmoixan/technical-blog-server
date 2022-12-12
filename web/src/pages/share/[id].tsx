@@ -3,23 +3,11 @@
  * @description Index
  */
 
-import React, { useState, useEffect } from 'react'
-import Box from '@mui/material/Box';
-import ShareRoot from "containers/Share/components/ShareRoot";
-import CreativeBleak from "public/images/backdrop/creative-bleak.jpeg"
+import ShareMain from "containers/Share/ShareMain";
 
 function Index() {
-  const [value, setValue] = useState('')
 
-  useEffect(() => {
-    setValue('Index')
-  }, [])
-
-  return (
-    <ShareRoot backdrop={CreativeBleak}>
-      {value}
-    </ShareRoot>
-  )
+  return <ShareMain />
 }
 
 export default Index

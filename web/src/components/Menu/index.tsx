@@ -13,9 +13,10 @@ import clsx from "clsx";
 import TransformIcon from "components/TransformIcon";
 import { VariantContent } from "components/Variant";
 import { stiffnessVariants } from "utils/variants";
+import useDeepCompareEffect from "hooks/effect/useDeepCompareEffect";
 import type { Theme } from "@mui/material";
 import type { EmptyObject } from "@/src/tb.types"
-import useDeepCompareEffect from "hooks/effect/useDeepCompareEffect";
+import isEmpty from "lodash/isEmpty";
 
 export interface MenuItem extends EmptyObject {
   id: number | string;
@@ -97,10 +98,25 @@ function Menu(props: MenuProps) {
   const [expanded, setExpanded] = useState<string | number | false>(false)
 
   useDeepCompareEffect(() => {
-    if (value.length === 2) {
-      setExpanded(value[0])
+    init()
+  }, [value, menus])
+
+  function init() {
+    if (isEmpty(value)) {
+      return
     }
-  }, [value])
+
+    const parent = menus.find(menu => menu.id == value[0]) ?? menus[0]
+
+    if (value.length === 2) {
+      const child = parent?.child?.find(c => c.id == value[1])
+      setExpanded(value[0])
+
+      return child && onNodeClick?.(child, parent)
+    }
+
+    return onNodeClick?.(parent, null)
+  }
 
   const handleOpenAccordion = (panel: string | number) => {
       setExpanded(expanded === panel ? false : panel);

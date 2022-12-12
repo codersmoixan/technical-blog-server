@@ -137,7 +137,7 @@ export default forwardRef(function CatalogMenu({ menus, onSearchFocus }: Catalog
       <MediaQuery media={['pc', 'pad']}>
         <Box className={classes.catalog}>
           <Typography
-            variant="h3"
+            variant="h4"
             fontWeight={400}
             className={classes.menuTitle}
           >
@@ -163,7 +163,7 @@ export default forwardRef(function CatalogMenu({ menus, onSearchFocus }: Catalog
             ref={ref}
           >
             <Box className={classes.menuLabel} onClick={handleCatalogFocus}>
-              <Typography variant="h4" fontWeight={400} width="80%">前端</Typography>
+              <Typography variant="h5" fontWeight={400} width="80%">前端</Typography>
               <TransformIcon focus={focus} originIcon={<ExpandLess />} finishIcon={<ExpandMore />} />
             </Box>
             <Box className={classes.searchBtn} onClick={handleSearchFocus}>

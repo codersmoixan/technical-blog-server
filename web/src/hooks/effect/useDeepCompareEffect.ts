@@ -13,7 +13,8 @@ const useDeepCompareEffect = (callback: EffectCallback, deps: DepList) => {
   }
 
   useEffect(() => {
-    const uninstall = callback();
+    const uninstall = callback()
+
     return () => uninstall?.();
   }, [signalRef.current]);
 };
