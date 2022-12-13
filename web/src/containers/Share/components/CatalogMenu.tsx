@@ -29,8 +29,10 @@ interface CatalogMenuProps {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     position: 'relative',
+    width: 253,
     [theme.breakpoints.down('md')]: {
       margin: theme.spacing(0, -3),
+      width: 'auto',
       minHeight: 72
     }
   },

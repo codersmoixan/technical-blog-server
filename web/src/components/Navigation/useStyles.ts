@@ -31,13 +31,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     margin: '0 auto',
+    width: '100%',
     maxWidth: theme.status.navWidth,
   },
   menus: {
     display: 'flex',
     alignItems: 'center',
-    marginLeft: theme.spacing(10),
+    marginLeft: theme.spacing(3),
     height: theme.status.navHeight,
+    transition: theme.status.transition(),
+    [theme.breakpoints.up('lg')]: {
+      marginLeft: theme.spacing(10)
+    }
   },
   tools: {
     display: 'flex',

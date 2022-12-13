@@ -17,7 +17,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image, { StaticImageData } from "next/image";
 import { makeStyles } from "@mui/styles";
-import ShareThree from "public/images/share/share-three.webp"
+import ShareFour from "public/images/share/share-four.png"
 import Typography from "@mui/material/Typography";
 import MediaQuery from "components/MediaQuery";
 import Box from "@mui/material/Box";
@@ -32,7 +32,7 @@ interface BlogCardProps {
   image?: string | StaticImageData;
   actions?: boolean;
   className?: string;
-  children: ReactNode | ReactElement[];
+  children?: ReactNode | ReactElement[];
 }
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -112,14 +112,14 @@ function BlogCard(props: BlogCardProps) {
   const {
     title,
     avatar = 'S',
-    image = ShareThree,
+    image = ShareFour,
     date,
     actions,
     className,
     children
   } = props
   const classes = useStyles(props)
-  const { expanded, description } = useSeparateChildren(children, ['expanded', 'description'])
+  const { description, expanded } = useSeparateChildren(children, ['description', 'expanded'])
 
   const [isExpanded, setIsExpanded] = useState(false);
 

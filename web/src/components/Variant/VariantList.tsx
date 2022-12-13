@@ -27,7 +27,7 @@ const customVariants: CustomVariants = {
       opacity: 1,
       transition: {
         delay: 0.1,
-        staggerChildren: 0.1,
+        staggerChildren: 0.3,
         when: 'beforeChildren',
       },
     },
