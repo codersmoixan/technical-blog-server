@@ -3,7 +3,7 @@
  * @description BlogCard
  */
 
-import React, { ReactElement, ReactNode, useMemo, useState } from 'react';
+import React, { useState, forwardRef, ReactElement, ReactNode, ForwardedRef } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -108,7 +108,7 @@ const variants = {
   duration: 0.5
 };
 
-function BlogCard(props: BlogCardProps) {
+export default forwardRef(function BlogCard(props: BlogCardProps, ref: ForwardedRef<any>) {
   const {
     title,
     avatar = 'S',
@@ -128,7 +128,7 @@ function BlogCard(props: BlogCardProps) {
   };
 
   return (
-    <Card className={clsx(className, classes.root)}>
+    <Card className={clsx(className, classes.root)} ref={ref}>
       <Image className={classes.image} src={image} alt="" />
       <Box className={classes.content}>
         <Box display="flex" justifyContent="flex-start" flexDirection="column">
@@ -179,6 +179,4 @@ function BlogCard(props: BlogCardProps) {
       )}
     </Card>
   )
-}
-
-export default BlogCard
+})

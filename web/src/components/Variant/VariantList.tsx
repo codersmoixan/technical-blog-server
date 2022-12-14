@@ -1,5 +1,5 @@
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { ReactNode } from "react";
+import {ForwardedRef, forwardRef, ReactNode} from "react";
 import clsx from "clsx";
 import {makeStyles} from "@mui/styles";
 
@@ -43,13 +43,16 @@ const customVariants: CustomVariants = {
 
 const useStyles = makeStyles({
   root: {
+    transition: 'all .3s',
     '& li': {
       listStyle: 'none'
     }
   }
 })
 
-function VariantList({ list, children, className, variants = customVariants }: VariantListProps) {
+
+
+export default forwardRef(function VariantList({ list, children, className, variants = customVariants }: VariantListProps, ref: ForwardedRef<any>) {
   const classes = useStyles()
 
   return (
@@ -60,6 +63,7 @@ function VariantList({ list, children, className, variants = customVariants }: V
       exit="hidden"
       viewport={{ once: true }}
       className={clsx(className, classes.root)}
+      ref={ref}
     >
       <AnimatePresence exitBeforeEnter>
         {list?.map((item, i) => (
@@ -70,6 +74,4 @@ function VariantList({ list, children, className, variants = customVariants }: V
       </AnimatePresence>
     </motion.ul>
   );
-}
-
-export default VariantList
+})
