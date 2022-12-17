@@ -1,108 +1,87 @@
-import { useMemo, useRef, useState, TouchEventHandler } from "react";
-import useMount from "hooks/effect/useMount";
-import type { EmptyObject } from "@/src/tb.types";
+import { useMemo, useRef, useState, useEffect } from "react";
 import get from "lodash/get";
 import throttle from "lodash/throttle";
+import useMount from "hooks/effect/useMount";
+import type { EmptyObject } from "@/src/tb.types";
 
 interface UseSidesSwiperProps {
-  length: number
+  sideSize: number;
+  sideLength: number;
 }
 
-const useSidesSwiper = ({ length }: UseSidesSwiperProps) => {
+const useSidesSwiper = ({ sideLength, sideSize }: UseSidesSwiperProps) => {
   const [swiper, setSwiper] = useState<EmptyObject>({})
-  const [side, setSide] = useState<EmptyObject>({})
-  const [step, setStep] = useState(1)
+  const [container, setContainer] = useState<EmptyObject>({})
+  const [step, setStep] = useState(0)
   const [prevDisabled, setPrevDisabled] = useState(true)
   const [nextDisabled, setNextDisabled] = useState(false)
   const [start, setStart] = useState(0)
-  const [offset, setOffset] = useState(0)
 
   const swiperRef = useRef(null)
-  const sideRef = useRef(null)
+  const containerRef = useRef(null)
 
-  const { swiperWidth, sideWidth } = useMemo(() => {
+  const { swiperWidth, containerWidth } = useMemo(() => {
     return ({
-      sideWidth: side.width ? side.width + 24 : 0,
-      swiperWidth: swiper.width ?? 0
+      swiperWidth: swiper.width ?? 0,
+      containerWidth: container.width ?? 0
     })
-  }, [swiper, side])
+  }, [swiper, container])
 
-  useMount(() => {
+  useMount(() => windowResize())
+
+  useEffect(() => {
+    window.addEventListener('resize', throttle(windowResize, 500))
+
+    return () => window.removeEventListener('resize', windowResize)
+  }, [])
+
+  function windowResize() {
     setSwiper(() => (swiperRef.current as any)?.getBoundingClientRect())
-    setSide(() => (sideRef.current as any)?.getBoundingClientRect())
-  })
+    setContainer(() => (containerRef.current as any)?.getBoundingClientRect())
+  }
 
   const scroll = (space: number) => {
     const swiperTarget = swiperRef.current as any
 
-    if (!swiperTarget || space < 0) return
+    if (!swiperTarget) return
 
-    swiperTarget.scrollTo({
-      left: space,
-      behavior: 'smooth'
-    })
+    swiperTarget.style.transform = `translateX(${space}px)`
   }
 
   const onPrev = () => {
-    const space = step * sideWidth
+    let count = step
+    count --
+    const space = count * sideSize
 
-    if (space < 0) return
-
-    scroll(space)
-    setOffset(space)
-
-    setStep(() => space <= 0 ? 1 : step - 1)
+    setStep(count)
     setNextDisabled(false)
-    setPrevDisabled(space <= 0)
+    setPrevDisabled(count <= 0)
+
+    scroll(-space)
   }
 
   const onNext = () => {
-    const space = step * sideWidth
+    let count = step
+    count ++
+    const space = count * sideSize
 
-    if (space + swiperWidth >= length * sideWidth) return
-
-    scroll(space)
-    setOffset(space)
-
-    const maxOffsetX = space + swiperWidth >= (length - 1) * sideWidth
-    setStep(() => maxOffsetX ? 1 : step + 1)
-    setPrevDisabled(false)
+    const maxOffsetX = (sideLength * sideSize - (space + containerWidth)) < 0
     setNextDisabled(maxOffsetX)
-  }
+    setPrevDisabled(false)
+    setStep(count)
 
-  const onTouchStart = (event: any) => {
-    const clientX = get(event, 'changedTouches[0].clientX', 0)
-    setStart(clientX)
-  }
-
-  const onTouchMove = (event: any) => {
-    const clientX = get(event, 'changedTouches[0].clientX', 0)
-    if (start - clientX) {}
-    console.log(start - clientX);
-    // scroll(offset + (start - clientX))
-  }
-
-  const onTouchEnd = (event: any) => {
-    const clientX = get(event, 'changedTouches[0].clientX', 0)
-    if (clientX < start) {
-      onNext()
-    } else {
-      onPrev()
-    }
+    scroll(-space)
   }
 
   return {
-    side,
     swiper,
-    sideRef,
     swiperRef,
+    container,
+    containerRef,
     prevDisabled,
     nextDisabled,
     onPrev,
     onNext,
-    onTouchStart,
-    onTouchMove,
-    onTouchEnd
   }
 }
 
