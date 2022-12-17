@@ -3,7 +3,7 @@
  * @description BlogCard
  */
 
-import React, { ReactElement, ReactNode, useMemo, useState } from 'react';
+import React, { useState, forwardRef, ReactElement, ReactNode, ForwardedRef } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -17,7 +17,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image, { StaticImageData } from "next/image";
 import { makeStyles } from "@mui/styles";
-import ShareThree from "public/images/share/share-three.webp"
+import ShareFour from "public/images/share/share-four.png"
 import Typography from "@mui/material/Typography";
 import MediaQuery from "components/MediaQuery";
 import Box from "@mui/material/Box";
@@ -32,7 +32,7 @@ interface BlogCardProps {
   image?: string | StaticImageData;
   actions?: boolean;
   className?: string;
-  children: ReactNode | ReactElement[];
+  children?: ReactNode | ReactElement[];
 }
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -108,18 +108,18 @@ const variants = {
   duration: 0.5
 };
 
-function BlogCard(props: BlogCardProps) {
+export default forwardRef(function BlogCard(props: BlogCardProps, ref: ForwardedRef<any>) {
   const {
     title,
     avatar = 'S',
-    image = ShareThree,
+    image = ShareFour,
     date,
     actions,
     className,
     children
   } = props
   const classes = useStyles(props)
-  const { expanded, description } = useSeparateChildren(children, ['expanded', 'description'])
+  const { description, expanded } = useSeparateChildren(children, ['description', 'expanded'])
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -128,7 +128,7 @@ function BlogCard(props: BlogCardProps) {
   };
 
   return (
-    <Card className={clsx(className, classes.root)}>
+    <Card className={clsx(className, classes.root)} ref={ref}>
       <Image className={classes.image} src={image} alt="" />
       <Box className={classes.content}>
         <Box display="flex" justifyContent="flex-start" flexDirection="column">
@@ -179,6 +179,4 @@ function BlogCard(props: BlogCardProps) {
       )}
     </Card>
   )
-}
-
-export default BlogCard
+})

@@ -38,8 +38,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   main: {
     flex: 1,
     [theme.breakpoints.up('md')]: {
-      margin: theme.spacing(0, 3),
-      maxWidth: 1075,
+      padding: theme.spacing(0, 3),
+      width: 'calc(100% - 253px)',
+      boxSizing: 'border-box'
     }
   },
   search: {

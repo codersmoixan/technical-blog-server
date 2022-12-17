@@ -61,7 +61,7 @@ function Index() {
 
   return (
     <>
-      <MediaQuery media="pc">
+      <MediaQuery media={['pc', 'pad']}>
         <Box
           className={clsx(classes.root, focus ? classes.focus : classes.blur)}
           onMouseLeave={() => handleCheckRoute(null, 'leave')}
@@ -90,7 +90,7 @@ function Index() {
           </Variant>
         </Box>
       </MediaQuery>
-      <MediaQuery media={['pad', 'mobile']}>
+      <MediaQuery media="mobile">
         <Box className={classes.root}>
           <Image src={Logo} alt="" className={classes.logo} onClick={handleToHome} />
           <Buttons
