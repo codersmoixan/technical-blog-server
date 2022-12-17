@@ -180,7 +180,7 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           onClose={handleClose}
           onConfirm={handleSubmit(handlePublish)}
         >
-          <Typography component="span" variant="h3" slot="head">发布文章</Typography>
+          <Typography component="span" variant="h4" slot="head">发布文章</Typography>
           <Box px={2} slot="content">
             {formNode()}
           </Box>

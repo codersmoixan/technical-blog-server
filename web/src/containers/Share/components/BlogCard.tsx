@@ -3,7 +3,7 @@
  * @description BlogCard
  */
 
-import React, { ReactElement, ReactNode, useMemo, useState } from 'react';
+import React, { useState, forwardRef, ReactElement, ReactNode, ForwardedRef } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -17,21 +17,22 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Image, { StaticImageData } from "next/image";
 import { makeStyles } from "@mui/styles";
-import ShareThree from "public/images/share/share-three.webp"
+import ShareFour from "public/images/share/share-four.png"
 import Typography from "@mui/material/Typography";
 import MediaQuery from "components/MediaQuery";
 import Box from "@mui/material/Box";
-import { VariantContent } from "components/Variant";
-import { stiffnessVariants } from "utils/variants";
-import { separateChildren } from "@/src/utils";
+import useSeparateChildren from "hooks/useSeparateChildren";
 import type { Theme } from "@mui/material";
+import clsx from "clsx";
 
 interface BlogCardProps {
   title: ReactNode;
   date: ReactNode;
   avatar?: ReactNode;
   image?: string | StaticImageData;
-  children: ReactNode | ReactElement[];
+  actions?: boolean;
+  className?: string;
+  children?: ReactNode | ReactElement[];
 }
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -107,78 +108,75 @@ const variants = {
   duration: 0.5
 };
 
-function BlogCard(props: BlogCardProps) {
+export default forwardRef(function BlogCard(props: BlogCardProps, ref: ForwardedRef<any>) {
   const {
     title,
     avatar = 'S',
-    image = ShareThree,
+    image = ShareFour,
     date,
+    actions,
+    className,
     children
   } = props
   const classes = useStyles(props)
+  const { description, expanded } = useSeparateChildren(children, ['description', 'expanded'])
 
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const { expanded, description } = useMemo(() => separateChildren(children, ['expanded', 'description']), [children])
 
   const handleExpandClick = () => {
     setIsExpanded(!isExpanded);
   };
 
   return (
-    <VariantContent>
-      <VariantContent variants={stiffnessVariants}>
-        <Card className={classes.root}>
-          <Image className={classes.image} src={image} alt="" />
-          <Box className={classes.content}>
-            <Box display="flex" justifyContent="flex-start" flexDirection="column">
-              <CardHeader
-                avatar={
-                  <Avatar className={classes.avatar}>
-                    {avatar}
-                  </Avatar>
-                }
-                title={<Typography variant="body1" className={classes.title}>{title}</Typography>}
-                subheader={<Typography variant="body1" className={classes.date}>{date}</Typography>}
-                className={classes.header}
-              />
-              {description && (
-                <CardContent className={classes.description}>
-                  {description}
-                </CardContent>
-              )}
-            </Box>
-            <CardActions disableSpacing className={classes.actions}>
-              <IconButton>
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton>
-                <ShareIcon />
-              </IconButton>
-              <MediaQuery media="mobile">
-                {expanded ? (
-                  <ExpandMore
-                    expand={isExpanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={isExpanded}
-                  >
-                    <ExpandMoreIcon />
-                  </ExpandMore>
-                ) : null}
-              </MediaQuery>
-            </CardActions>
-          </Box>
-          {expanded && (
-            <Collapse in={isExpanded} timeout="auto" unmountOnExit className={classes.expanded}>
-              <CardContent>
-                {expanded}
-              </CardContent>
-            </Collapse>
+    <Card className={clsx(className, classes.root)} ref={ref}>
+      <Image className={classes.image} src={image} alt="" />
+      <Box className={classes.content}>
+        <Box display="flex" justifyContent="flex-start" flexDirection="column">
+          <CardHeader
+            avatar={
+              <Avatar className={classes.avatar}>
+                {avatar}
+              </Avatar>
+            }
+            title={<Typography variant="body1" className={classes.title}>{title}</Typography>}
+            subheader={<Typography variant="body1" className={classes.date}>{date}</Typography>}
+            className={classes.header}
+          />
+          {description && (
+            <CardContent className={classes.description}>
+              {description}
+            </CardContent>
           )}
-        </Card>
-      </VariantContent>
-    </VariantContent>
+        </Box>
+        {actions && (
+          <CardActions disableSpacing className={classes.actions}>
+            <IconButton>
+              <FavoriteIcon />
+            </IconButton>
+            <IconButton>
+              <ShareIcon />
+            </IconButton>
+            <MediaQuery media="mobile">
+              {expanded ? (
+                <ExpandMore
+                  expand={isExpanded}
+                  onClick={handleExpandClick}
+                  aria-expanded={isExpanded}
+                >
+                  <ExpandMoreIcon />
+                </ExpandMore>
+              ) : null}
+            </MediaQuery>
+          </CardActions>
+        )}
+      </Box>
+      {expanded && (
+        <Collapse in={isExpanded} timeout="auto" unmountOnExit className={classes.expanded}>
+          <CardContent>
+            {expanded}
+          </CardContent>
+        </Collapse>
+      )}
+    </Card>
   )
-}
-
-export default BlogCard
+})

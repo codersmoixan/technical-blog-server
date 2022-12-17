@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'relative',
     margin: '0 auto',
     maxWidth: theme.status.contentWidth,
-    [theme.breakpoints.down('lg')]: {
+    [theme.breakpoints.down('md')]: {
       margin: '72px auto 0',
       paddingTop: 0
     },

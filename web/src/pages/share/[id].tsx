@@ -2,11 +2,12 @@
  * @author zhengji.su
  * @description Index
  */
-import Home from "containers/Home";
+
+import ShareMain from "containers/Share/ShareMain";
 
 function Index() {
 
-  return <Home />
+  return <ShareMain />
 }
 
 export default Index

@@ -41,7 +41,7 @@ const TB_PALETTE_BG_DEFAULT = '#f5f1ea'
 const TB_STATUS_WHITE = '#FFFFFF'
 const TB_STATUS_BG_DARK = '#131313'
 const TB_STATUS_COLOR_SECONDARY = '#d8dee3'
-const TB_STATUS_COLOR_TEXT_SECONDARY = '#AAAAAA'
+const TB_STATUS_COLOR_TEXT_SECONDARY = '#737373'
 const TB_STATUS_COLOR_TRANSPARENT = 'transparent'
 const TB_STATUS_DARK_PEACH = '#f8f6f1'
 const TB_STATUS_PLACEHOLDER = '#c1c5cd'
@@ -139,11 +139,16 @@ const theme = createTheme({
       lineHeight: 1.5
     },
     h3: {
-      fontSize: 24,
+      fontSize: 30,
       fontWeight: 700,
       lineHeight: 1.5
     },
     h4: {
+      fontSize: 24,
+      fontWeight: 700,
+      lineHeight: 1.5
+    },
+    h5: {
       fontSize: 18,
       fontWeight: 400,
       lineHeight: 1.5

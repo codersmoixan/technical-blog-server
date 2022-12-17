@@ -18,6 +18,7 @@ import Banner from "components/Layout/Banner";
 import { options } from "../constants"
 import type { Theme } from "@mui/material";
 import type { StaticImageData } from "next/image";
+import useSeparateChildren from "hooks/useSeparateChildren";
 
 interface ShareRootProps {
   backdrop?: string | StaticImageData;
@@ -37,7 +38,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   main: {
     flex: 1,
     [theme.breakpoints.up('md')]: {
-      margin: theme.spacing(0, 3),
+      padding: theme.spacing(0, 3),
+      width: 'calc(100% - 253px)',
+      boxSizing: 'border-box'
     }
   },
   search: {
@@ -76,6 +79,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 function ShareRoot({ children, backdrop }: ShareRootProps) {
   const classes = useStyles()
   const theme = useTheme()
+  const { content, banner } = useSeparateChildren(children, ['content', 'banner'])
 
   const pointRef = useRef<HTMLElement | null>(null)
   const searchRef = useRef<HTMLElement | null>(null)
@@ -88,12 +92,16 @@ function ShareRoot({ children, backdrop }: ShareRootProps) {
     <Root backdrop={backdrop}>
       <Content>
         <Banner className={classes.banner}>
-          <Typography variant="h2" fontWeight={400}>
-            总结和分享
-          </Typography>
-          <Typography variant="h2" fontWeight={400}>
-            会有意想不到的收获
-          </Typography>
+          {banner ?? (
+            <>
+              <Typography variant="h2" fontWeight={400}>
+                总结和分享
+              </Typography>
+              <Typography variant="h2" fontWeight={400}>
+                会有意想不到的收获
+              </Typography>
+            </>
+          )}
           <MediaQuery media={['pad', 'pc']}>
             <Box className={classes.back} ref={pointRef}>
               <ArrowBack />
@@ -117,7 +125,7 @@ function ShareRoot({ children, backdrop }: ShareRootProps) {
                 }}
               />
             </Box>
-            {children}
+            {content}
           </Box>
         </Box>
       </Content>

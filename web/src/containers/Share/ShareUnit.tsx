@@ -9,10 +9,11 @@ import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid"
 import BlogCard, { DESCRIPTION, EXPANDED } from "containers/Share/components/BlogCard";
 import { blogList } from "./constants"
-import type { Theme } from "@mui/material";
-import { Variant } from "components/Variant";
+import { Variant, VariantContent } from "components/Variant";
 import ShareRoot from "containers/Share/components/ShareRoot";
 import CreativeGrid from "public/images/backdrop/creative-grid.jpeg";
+import { stiffnessVariants } from "utils/variants";
+import type { Theme } from "@mui/material";
 
 const useStyles = makeStyles((theme: Theme) => ({
   gridItem: {
@@ -41,16 +42,20 @@ function ShareUnit() {
               justifyContent="center"
               className={classes.gridItem}
             >
-              <BlogCard title={blog.title} date="2022.11.06" >
-                <Box slot={DESCRIPTION}>
-                  <Typography>{blog.description}</Typography>
-                </Box>
-                <Box slot={EXPANDED}>
-                  <Typography>
-                    {blog.content}
-                  </Typography>
-                </Box>
-              </BlogCard>
+              <VariantContent>
+                <VariantContent variants={stiffnessVariants}>
+                  <BlogCard title={blog.title} date="2022.11.06" actions>
+                    <Box slot={DESCRIPTION}>
+                      <Typography>{blog.description}</Typography>
+                    </Box>
+                    <Box slot={EXPANDED}>
+                      <Typography>
+                        {blog.content}
+                      </Typography>
+                    </Box>
+                  </BlogCard>
+                </VariantContent>
+              </VariantContent>
             </Grid>
           ))}
         </Grid>

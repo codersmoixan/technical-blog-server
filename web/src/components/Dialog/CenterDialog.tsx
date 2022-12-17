@@ -72,7 +72,7 @@ function CenterDialog(props: CenterDialogProps) {
       {...other}
     >
       <DialogTitle id="alert-dialog-title" className={classes.title}>
-        <Typography variant="h3">{title}</Typography>
+        <Typography variant="h4">{title}</Typography>
         <Buttons space={false} onClick={onClose}>
           <CloseIcon className={classes.closeIcon} />
         </Buttons>
