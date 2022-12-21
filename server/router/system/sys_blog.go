@@ -11,6 +11,9 @@ func (b *BlogRouter) SetupBlogsRouter(Router *gin.RouterGroup) {
 	blogRouter := Router.Group("blogs")
 	blogApi := v1.ApiGroupApp.SystemApiGroup.BlogApi
 	{
-		blogRouter.GET("/list", blogApi.BlogList)
+		blogRouter.GET("list", blogApi.GetBlogList)
+		blogRouter.PUT("add", blogApi.AddBlog)
+		blogRouter.PUT("update", blogApi.UpdateBlog)
+		blogRouter.DELETE("delete", blogApi.DeleteBlog)
 	}
 }

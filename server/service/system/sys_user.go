@@ -5,6 +5,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
+	"technical-blog-server/model/common/request"
 	modelSystem "technical-blog-server/model/system"
 	"technical-blog-server/utils"
 )
@@ -29,4 +30,22 @@ func (userService *UserService) Register(u modelSystem.SysUser) (userInter model
 	err = global.TB_DB.Create(&u).Error
 
 	return u, err
+}
+
+// GetUserList
+// @description: 分页获取用户数据
+// @param: pageInfo request.PageInfo
+// @return: err error, list interface{}, total int64
+func (userService *UserService) GetUserList(pageInfo request.PageInfo) (list interface{}, total int64, err error) {
+	limit := pageInfo.PageSize
+	offset := pageInfo.PageSize * (pageInfo.Page - 1)
+	db := global.TB_DB.Model(&modelSystem.SysUser{})
+
+	var userList []modelSystem.SysUser
+
+	if err = db.Count(&total).Error; err != nil {
+		return
+	}
+	err = db.Limit(limit).Offset(offset).Find(&userList).Error
+	return userList, total, err
 }
