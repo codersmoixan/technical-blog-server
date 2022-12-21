@@ -5,3 +5,8 @@ type PageInfo struct {
 	PageSize int    `json:"pageSize" form:"pageSize"`
 	KeyWord  string `json:"keyWord" form:"keyWord"`
 }
+
+// GetById Find by id structure
+type GetById struct {
+	ID int `json:"id" form:"id"` // 主键ID
+}

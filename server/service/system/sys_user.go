@@ -2,7 +2,6 @@ package system
 
 import (
 	"errors"
-	"fmt"
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
@@ -48,6 +47,5 @@ func (userService *UserService) GetUserList(pageInfo request.PageInfo) (list int
 		return
 	}
 	err = db.Limit(limit).Offset(offset).Find(&userList).Error
-	fmt.Println(userList, 2212)
 	return userList, total, err
 }
