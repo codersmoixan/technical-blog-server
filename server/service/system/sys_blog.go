@@ -9,7 +9,10 @@ import (
 type BlogService struct{}
 
 // GetBlogList
+// @author: zhengji.su
 // @description: 获取博客列表
+// @param: pageInfo request.PageInfo
+// @return: list interface{}, total int, err error
 func (blogService *BlogService) GetBlogList(pageInfo request.PageInfo) (list interface{}, total int64, err error) {
 	limit := pageInfo.PageSize
 	offset := pageInfo.PageSize * (pageInfo.Page - 1)
@@ -25,7 +28,10 @@ func (blogService *BlogService) GetBlogList(pageInfo request.PageInfo) (list int
 }
 
 // AddBlog
+// @author: zhengji.su
 // @description: 新增博客
+// @param: b modelSystem.SysBlog
+// @return: blog modelSystem.SysBlog, err error
 func (blogService *BlogService) AddBlog(b modelSystem.SysBlog) (blog modelSystem.SysBlog, err error) {
 	err = global.TB_DB.Create(&b).Error
 
@@ -39,7 +45,10 @@ func (blogService *BlogService) UpdateBlog() {
 }
 
 // DeleteBlog
+// @author: zhengji.su
 // @description: 删除博客
+// @param: id int
+// @return: err error
 func (blogService *BlogService) DeleteBlog(id int) (err error) {
 	var blog modelSystem.SysBlog
 	err = global.TB_DB.Where("id = ?", id).First(&blog).Delete(&blog).Error

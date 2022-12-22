@@ -6,4 +6,5 @@ var (
 	PageInfoRule   = Rules{"Page": {NotEmpty()}, "PageSize": {NotEmpty()}}
 	BlogDetailRule = Rules{"Name": {NotEmpty()}, "Tag": {NotEmpty()}, "Categories": {NotEmpty()}, "Description": {NotEmpty()}, "Content": {NotEmpty()}, "BlogImage": {NotEmpty()}}
 	IdRule         = Rules{"ID": {NotEmpty()}}
+	TagContentRule = Rules{"Label": {NotEmpty()}}
 )
