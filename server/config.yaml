@@ -7,7 +7,7 @@ jwt:
 mysql:
   path: 'localhost'
   port: '3306'
-  config: ''
+  config: 'charset=utf8mb4&parseTime=True&loc=Local'
   db_name: 'technical_blog'
   username: 'root'
   password: 'sm940706'
@@ -27,7 +27,7 @@ zap:
 
 system:
   env: 'public'
-  addr: 5173
+  addr: 4399
   use_redis: false
   oss_type: 'local'
   db_type: 'mysql'

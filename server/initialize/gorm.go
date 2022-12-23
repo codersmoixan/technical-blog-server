@@ -45,6 +45,8 @@ func RegisterTables(db *gorm.DB) {
 	err := db.AutoMigrate(
 		system.SysApi{},
 		system.SysUser{},
+		system.SysBlog{},
+		system.SysTag{},
 	)
 
 	if err != nil {
