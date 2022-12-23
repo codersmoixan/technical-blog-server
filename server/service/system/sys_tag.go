@@ -2,18 +2,30 @@ package system
 
 import (
 	"errors"
-	gonanoid "github.com/matoous/go-nanoid/v2"
+	goNanoid "github.com/matoous/go-nanoid/v2"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	modelSystem "technical-blog-server/model/system"
+	requestParams "technical-blog-server/model/system/request_params"
 )
 
 type TagService struct{}
 
 // GetTagList
+// @author: zhengji.su
 // @description: 获取tag列表
-func (tagService *TagService) GetTagList() {
+// @return: list interface{}, total int64, err error
+func (tagService *TagService) GetTagList() (list interface{}, total int64, err error) {
+	db := global.TB_DB.Model(&modelSystem.SysTag{})
 
+	var tagList []modelSystem.SysTag
+
+	if err = db.Count(&total).Error; err != nil {
+		return
+	}
+
+	err = db.Find(&tagList).Error
+	return tagList, total, err
 }
 
 // AddTag
@@ -31,7 +43,8 @@ func (tagService *TagService) AddTag(t modelSystem.SysTag) (tagInter modelSystem
 
 	// todo 如果不存在那么就新建一个tag
 	// 生成一个唯一标识
-	id, er := gonanoid.Generate(t.Label, 54)
+	//id, er := goNanoid.Generate(t.Label, 54)
+	id, er := goNanoid.New()
 	if er != nil {
 		return tagInter, er
 	}
@@ -45,8 +58,23 @@ func (tagService *TagService) AddTag(t modelSystem.SysTag) (tagInter modelSystem
 // UpdateTag
 // @author: zhengji.su
 // @description: 更新标签
-func (tagService *TagService) UpdateTag() {
+// @param: update requestParams.UpdateTag
+// @return: tag requestParams.UpdateTag, err error
+func (tagService *TagService) UpdateTag(update requestParams.UpdateTag) (tagInter modelSystem.SysTag, err error) {
+	var tag modelSystem.SysTag
+	db := global.TB_DB.Model(&modelSystem.SysTag{})
 
+	// todo 查找到相应id的信息
+	if err = db.Where("tag_id = ?", update.ID).Update("label", update.Label).Error; err != nil {
+		return tagInter, err
+	}
+
+	// todo 更新信息
+	if err = db.Where("tag_id = ?", update.ID).First(&tag).Error; err != nil {
+		return tagInter, err
+	}
+
+	return tag, err
 }
 
 // DeleteTag

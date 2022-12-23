@@ -12,6 +12,8 @@ func (t *TagRouter) SetupTagsRouter(Router *gin.RouterGroup) {
 	tagApi := v1.ApiGroupApp.SystemApiGroup.TagApi
 	{
 		tagRouter.GET("list", tagApi.GetTagList)
-		tagRouter.PUT("add", tagApi.AddTag)
+		tagRouter.POST("add", tagApi.AddTag)
+		tagRouter.DELETE("delete", tagApi.DeleteTag)
+		tagRouter.PUT("update", tagApi.UpdateTag)
 	}
 }

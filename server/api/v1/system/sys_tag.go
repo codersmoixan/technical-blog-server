@@ -18,7 +18,15 @@ type TagApi struct{}
 // @description: 获取标签列表
 // @param: c *gin.Context
 func (t *TagApi) GetTagList(c *gin.Context) {
-
+	if list, total, err := tagService.GetTagList(); err != nil {
+		global.TB_LOG.Error("获取标签列表失败!", zap.Error(err))
+		response.FailWithMessage("获取标签列表失败!", c)
+	} else {
+		response.OkWithDetailed(response.CommonResult{
+			Data:  list,
+			Total: total,
+		}, "获取标签列表成功!", c)
+	}
 }
 
 // AddTag
@@ -38,14 +46,15 @@ func (t *TagApi) AddTag(c *gin.Context) {
 		Label: tagParam.Label,
 	}
 
-	if _, err := tagService.AddTag(*tag); err != nil {
+	if tagInter, err := tagService.AddTag(*tag); err != nil {
 		global.TB_LOG.Error("标签新增失败!", zap.Error(err))
 		response.FailWithDetailed(responseParams.TagAddResponse{
 			Label: tagParam.Label,
-		}, "标签新增失败!", c)
+		}, err.Error(), c)
 	} else {
 		response.OkWithDetailed(responseParams.TagAddResponse{
 			Label: tagParam.Label,
+			TagId: tagInter.TagId,
 		}, "标签新增成功!", c)
 	}
 }
@@ -55,7 +64,23 @@ func (t *TagApi) AddTag(c *gin.Context) {
 // @description: 更新标签
 // @param: c *gin.Context
 func (t *TagApi) UpdateTag(c *gin.Context) {
+	var updateContent requestParams.UpdateTag
+	_ = c.ShouldBindJSON(&updateContent)
 
+	if err := utils.Verify(updateContent, utils.UpdateTagRule); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if tag, err := tagService.UpdateTag(updateContent); err != nil {
+		response.FailWithMessage("更新标签信息失败!", c)
+		response.FailWithDetailed(err.Error(), "更新失败!", c)
+	} else {
+		response.OkWithDetailed(responseParams.TagAddResponse{
+			TagId: tag.TagId,
+			Label: tag.Label,
+		}, "更新成功!", c)
+	}
 }
 
 // DeleteTag
