@@ -7,6 +7,7 @@ import (
 	"technical-blog-server/global"
 	modelSystem "technical-blog-server/model/system"
 	requestParams "technical-blog-server/model/system/request_params"
+	responseParams "technical-blog-server/model/system/response_params"
 )
 
 type TagService struct{}
@@ -18,7 +19,7 @@ type TagService struct{}
 func (tagService *TagService) GetTagList() (list interface{}, total int64, err error) {
 	db := global.TB_DB.Model(&modelSystem.SysTag{})
 
-	var tagList []modelSystem.SysTag
+	var tagList []responseParams.TagResponse
 
 	if err = db.Count(&total).Error; err != nil {
 		return
@@ -78,7 +79,13 @@ func (tagService *TagService) UpdateTag(update requestParams.UpdateTag) (tagInte
 }
 
 // DeleteTag
+// @author: zhnegji.su
 // @description: 删除标签
-func (tagService *TagService) DeleteTag() {
+// @param: id string
+// @return: err error
+func (tagService *TagService) DeleteTag(id string) (err error) {
+	var tag modelSystem.SysTag
+	err = global.TB_DB.Where("tag_id = ?", id).First(&tag).Delete(&tag).Error
 
+	return err
 }

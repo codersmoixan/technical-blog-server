@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"technical-blog-server/global"
+	"technical-blog-server/model/common/request"
 	"technical-blog-server/model/common/response"
 	modelSystem "technical-blog-server/model/system"
 	requestParams "technical-blog-server/model/system/request_params"
@@ -88,5 +89,20 @@ func (t *TagApi) UpdateTag(c *gin.Context) {
 // @description: 删除标签
 // @param: c *gin.Context
 func (t *TagApi) DeleteTag(c *gin.Context) {
+	var tag request.GetById
+	_ = c.ShouldBindJSON(&tag)
 
+	if err := utils.Verify(tag, utils.IdRule); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if err := tagService.DeleteTag(tag.ID); err != nil {
+		response.FailWithMessage("删除失败!", c)
+		response.FailWithDetailed(err.Error(), "删除失败!", c)
+	} else {
+		response.OkWithDetailed(responseParams.TagDeleteResponse{
+			ID: tag.ID,
+		}, "删除成功!", c)
+	}
 }

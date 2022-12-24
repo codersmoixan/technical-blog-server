@@ -4,6 +4,7 @@ import "technical-blog-server/global"
 
 type SysBlog struct {
 	global.TB_MODEL
+	BlogId      string `json:"id" gorm:"comment:博客唯一标识"`
 	Author      string `json:"author" gorm:"comment:作者"`
 	Name        string `json:"name" gorm:"comment:文章名"`
 	Tag         string `json:"tag" gorm:"comment:标签"`
