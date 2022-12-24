@@ -47,6 +47,7 @@ func RegisterTables(db *gorm.DB) {
 		system.SysUser{},
 		system.SysBlog{},
 		system.SysTag{},
+		system.SysCategories{},
 	)
 
 	if err != nil {
