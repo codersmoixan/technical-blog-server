@@ -17,6 +17,7 @@ func Routers() *gin.Engine {
 		systemRouter.SetupUserRouter(PrivateGroup)
 		systemRouter.SetupBlogsRouter(PrivateGroup)
 		systemRouter.SetupTagsRouter(PrivateGroup)
+		systemRouter.SetupCategoriesRouter(PrivateGroup)
 	}
 
 	global.TB_LOG.Info("router register success")

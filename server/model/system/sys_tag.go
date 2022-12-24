@@ -1,6 +1,8 @@
 package system
 
-import "technical-blog-server/global"
+import (
+	"technical-blog-server/global"
+)
 
 type SysTag struct {
 	global.TB_MODEL

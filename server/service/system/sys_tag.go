@@ -60,17 +60,17 @@ func (tagService *TagService) AddTag(t modelSystem.SysTag) (tagInter modelSystem
 // @author: zhengji.su
 // @description: 更新标签
 // @param: update requestParams.UpdateTag
-// @return: tag requestParams.UpdateTag, err error
+// @return: tag modelSystem.SysTag, err error
 func (tagService *TagService) UpdateTag(update requestParams.UpdateTag) (tagInter modelSystem.SysTag, err error) {
 	var tag modelSystem.SysTag
 	db := global.TB_DB.Model(&modelSystem.SysTag{})
 
-	// todo 查找到相应id的信息
+	// todo 更新信息
 	if err = db.Where("tag_id = ?", update.ID).Update("label", update.Label).Error; err != nil {
 		return tagInter, err
 	}
 
-	// todo 更新信息
+	// todo 查找更新后的信息
 	if err = db.Where("tag_id = ?", update.ID).First(&tag).Error; err != nil {
 		return tagInter, err
 	}

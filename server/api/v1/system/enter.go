@@ -7,11 +7,13 @@ type ApiGroup struct {
 	UserApi
 	BlogApi
 	TagApi
+	CategoriesApi
 }
 
 var (
-	baseService = service.GroupApp.SystemServiceGroup.BaseService
-	userService = service.GroupApp.SystemServiceGroup.UserService
-	blogService = service.GroupApp.SystemServiceGroup.BlogService
-	tagService  = service.GroupApp.SystemServiceGroup.TagService
+	baseService       = service.GroupApp.SystemServiceGroup.BaseService
+	userService       = service.GroupApp.SystemServiceGroup.UserService
+	blogService       = service.GroupApp.SystemServiceGroup.BlogService
+	tagService        = service.GroupApp.SystemServiceGroup.TagService
+	categoriesService = service.GroupApp.SystemServiceGroup.CategoriesService
 )

@@ -12,3 +12,8 @@ var (
 	TagContentRule = Rules{"Label": {NotEmpty()}}
 	UpdateTagRule  = Rules{"ID": {NotEmpty()}, "Label": {NotEmpty()}}
 )
+
+var (
+	CategoriesRule       = Rules{"Label": {NotEmpty()}}
+	UpdateCategoriesRule = Rules{"ID": {NotEmpty()}, "Label": {NotEmpty()}}
+)
