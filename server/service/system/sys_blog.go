@@ -1,9 +1,11 @@
 package system
 
 import (
+	goNanoid "github.com/matoous/go-nanoid/v2"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
 	modelSystem "technical-blog-server/model/system"
+	responseParams "technical-blog-server/model/system/response_params"
 )
 
 type BlogService struct{}
@@ -18,7 +20,7 @@ func (blogService *BlogService) GetBlogList(pageInfo request.PageInfo) (list int
 	offset := pageInfo.PageSize * (pageInfo.Page - 1)
 	db := global.TB_DB.Model(&modelSystem.SysBlog{})
 
-	var blogList []modelSystem.SysBlog
+	var blogList []responseParams.BlogResponse
 
 	if err = db.Count(&total).Error; err != nil {
 		return
@@ -33,6 +35,12 @@ func (blogService *BlogService) GetBlogList(pageInfo request.PageInfo) (list int
 // @param: b modelSystem.SysBlog
 // @return: blog modelSystem.SysBlog, err error
 func (blogService *BlogService) AddBlog(b modelSystem.SysBlog) (blog modelSystem.SysBlog, err error) {
+	id, er := goNanoid.New()
+	if er != nil {
+		return blog, er
+	}
+
+	b.BlogId = id
 	err = global.TB_DB.Create(&b).Error
 
 	return b, err
@@ -49,9 +57,9 @@ func (blogService *BlogService) UpdateBlog() {
 // @description: 删除博客
 // @param: id int
 // @return: err error
-func (blogService *BlogService) DeleteBlog(id int) (err error) {
+func (blogService *BlogService) DeleteBlog(id string) (err error) {
 	var blog modelSystem.SysBlog
-	err = global.TB_DB.Where("id = ?", id).First(&blog).Delete(&blog).Error
+	err = global.TB_DB.Where("blog_id = ?", id).First(&blog).Delete(&blog).Error
 
 	return err
 }

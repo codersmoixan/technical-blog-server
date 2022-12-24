@@ -16,7 +16,9 @@ import (
 type BlogApi struct{}
 
 // GetBlogList
+// @author: zhengji.su
 // @description: 获取博客列表
+// @param: c *gin.Context
 func (b *BlogApi) GetBlogList(c *gin.Context) {
 	var pageInfo request.PageInfo
 	_ = c.ShouldBindJSON(&pageInfo)
@@ -40,7 +42,9 @@ func (b *BlogApi) GetBlogList(c *gin.Context) {
 }
 
 // AddBlog
+// @author: zhengji.su
 // @description: 新增博客
+// @param: c *gin.Context
 func (b *BlogApi) AddBlog(c *gin.Context) {
 	var blogParam requestParams.BlogDetail
 	_ = c.ShouldBindJSON(&blogParam)
@@ -72,13 +76,17 @@ func (b *BlogApi) AddBlog(c *gin.Context) {
 }
 
 // UpdateBlog
+// @author: zhengji.su
 // @description: 更新博客
+// @param: c *gin.Context
 func (b *BlogApi) UpdateBlog(c *gin.Context) {
 
 }
 
 // DeleteBlog
+// @author: zhengji.su
 // @description: 删除博客
+// @param: c *gin.Context
 func (b *BlogApi) DeleteBlog(c *gin.Context) {
 	var blog request.GetById
 	_ = c.ShouldBindJSON(&blog)

@@ -7,6 +7,7 @@ import (
 	"technical-blog-server/global"
 	modelSystem "technical-blog-server/model/system"
 	requestParams "technical-blog-server/model/system/request_params"
+	responseParams "technical-blog-server/model/system/response_params"
 )
 
 type TagService struct{}
@@ -18,7 +19,7 @@ type TagService struct{}
 func (tagService *TagService) GetTagList() (list interface{}, total int64, err error) {
 	db := global.TB_DB.Model(&modelSystem.SysTag{})
 
-	var tagList []modelSystem.SysTag
+	var tagList []responseParams.TagResponse
 
 	if err = db.Count(&total).Error; err != nil {
 		return
@@ -59,17 +60,17 @@ func (tagService *TagService) AddTag(t modelSystem.SysTag) (tagInter modelSystem
 // @author: zhengji.su
 // @description: 更新标签
 // @param: update requestParams.UpdateTag
-// @return: tag requestParams.UpdateTag, err error
+// @return: tag modelSystem.SysTag, err error
 func (tagService *TagService) UpdateTag(update requestParams.UpdateTag) (tagInter modelSystem.SysTag, err error) {
 	var tag modelSystem.SysTag
 	db := global.TB_DB.Model(&modelSystem.SysTag{})
 
-	// todo 查找到相应id的信息
+	// todo 更新信息
 	if err = db.Where("tag_id = ?", update.ID).Update("label", update.Label).Error; err != nil {
 		return tagInter, err
 	}
 
-	// todo 更新信息
+	// todo 查找更新后的信息
 	if err = db.Where("tag_id = ?", update.ID).First(&tag).Error; err != nil {
 		return tagInter, err
 	}
@@ -78,7 +79,13 @@ func (tagService *TagService) UpdateTag(update requestParams.UpdateTag) (tagInte
 }
 
 // DeleteTag
+// @author: zhnegji.su
 // @description: 删除标签
-func (tagService *TagService) DeleteTag() {
+// @param: id string
+// @return: err error
+func (tagService *TagService) DeleteTag(id string) (err error) {
+	var tag modelSystem.SysTag
+	err = global.TB_DB.Where("tag_id = ?", id).First(&tag).Delete(&tag).Error
 
+	return err
 }
