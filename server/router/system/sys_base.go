@@ -7,6 +7,10 @@ import (
 
 type BaseRouter struct{}
 
+// SetupBaseRouter
+// @author: zhengji.su
+// @description: 初始化通用路由
+// @param: Router *gin.RouterGroup
 func (s *BaseRouter) SetupBaseRouter(Router *gin.RouterGroup) {
 	baseRouter := Router.Group("base")
 	baseApi := v1.ApiGroupApp.SystemApiGroup.BaseApi

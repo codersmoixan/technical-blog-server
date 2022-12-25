@@ -6,7 +6,9 @@ import (
 	"technical-blog-server/router"
 )
 
-// Routers 初始化总路由
+// Routers
+// @author: zhengji.su
+// @description: 初始化总路由
 func Routers() *gin.Engine {
 	Router := gin.Default()
 	systemRouter := router.RouterGroupApp.System

@@ -12,7 +12,10 @@ type _zap struct{}
 
 var Zap = new(_zap)
 
-// GetZapCores 根据配置文件的 Leve 获取 []zapCore.Core
+// GetZapCores
+// @author: zhengji.su
+// @description: 根据配置文件的 Leve 获取 []zapCore.Core
+// @return: []zapcore.Core
 func (z *_zap) GetZapCores() []zapcore.Core {
 	cores := make([]zapcore.Core, 0, 7)
 
@@ -23,7 +26,10 @@ func (z *_zap) GetZapCores() []zapcore.Core {
 	return cores
 }
 
-// GetEncode 获取 zapcore.Encoder
+// GetEncoder
+// @author: zhengji.su
+// @description: 获取 zapcore.Encoder
+// @return: zapcore.Encoder
 func (z *_zap) GetEncoder() zapcore.Encoder {
 	if global.TB_CONFIG.Zap.Format == "json" {
 		return zapcore.NewJSONEncoder(z.GetEncoderConfig())
@@ -32,7 +38,10 @@ func (z *_zap) GetEncoder() zapcore.Encoder {
 	return zapcore.NewConsoleEncoder(z.GetEncoderConfig())
 }
 
-// GetEncoderConfig 获取zapcore.EncoderConfig
+// GetEncoderConfig
+// @author: zhengji.su
+// @description: 获取zapcore.EncoderConfig
+// @return: zapcore.EncoderConfig
 func (z *_zap) GetEncoderConfig() zapcore.EncoderConfig {
 	return zapcore.EncoderConfig{
 		MessageKey:     "message",
@@ -49,12 +58,19 @@ func (z *_zap) GetEncoderConfig() zapcore.EncoderConfig {
 	}
 }
 
-// CustomTimeEncoder 自定义日志输出时间格式
+// CustomTimeEncoder
+// @author: zhengji.su
+// @description: 自定义日志输出时间格式
+// @param: t time.Time, encoder zapcore.PrimitiveArrayEncoder
 func (z *_zap) CustomTimeEncoder(t time.Time, encoder zapcore.PrimitiveArrayEncoder) {
 	encoder.AppendString(global.TB_CONFIG.Zap.Prefix + t.Format("2006/01/02 - 15:04:05.000"))
 }
 
-// GetEncodeCore 获取Encoder的zapcore.Core
+// GetEncodeCore
+// @author: zhengji.su
+// @description: 获取Encoder的zapcore.Core
+// @param: l zapcore.Level, level zap.LevelEnablerFunc
+// @return: zapcore.Core
 func (z *_zap) GetEncodeCore(l zapcore.Level, level zap.LevelEnablerFunc) zapcore.Core {
 	writer, err := FileRotateLogs.GetWriteSyncer(l.String()) // 使用file-rotatelogs 进行日志分割
 
@@ -65,7 +81,11 @@ func (z *_zap) GetEncodeCore(l zapcore.Level, level zap.LevelEnablerFunc) zapcor
 	return zapcore.NewCore(z.GetEncoder(), writer, level)
 }
 
-// GetLevelPriority 根据 zapcore.Level 获取zap.LevelEncoderFunc
+// GetLevelPriority
+// @author: zhengji.su
+// @description: 根据 zapcore.Level 获取zap.LevelEncoderFunc
+// @param: level zapcore.Level
+// @return: zap.LevelEnablerFunc
 func (z *_zap) GetLevelPriority(level zapcore.Level) zap.LevelEnablerFunc {
 	switch level {
 	case zapcore.DebugLevel:

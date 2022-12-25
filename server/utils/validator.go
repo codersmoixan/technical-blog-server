@@ -11,6 +11,7 @@ import (
 type Rules map[string][]string
 
 // NotEmpty
+// @author: zhengji.su
 // @description: 非空
 // @return: string
 func NotEmpty() string {
@@ -18,9 +19,10 @@ func NotEmpty() string {
 }
 
 // Verify
+// @author: zhengji.su
 // @description: 校验方法
 // @param: st interface{}, roleMap Rules
-// return: error
+// return: err error
 func Verify(st interface{}, roleMap Rules) (err error) {
 	compareMap := map[string]bool{
 		"lt": true,
@@ -65,6 +67,7 @@ func Verify(st interface{}, roleMap Rules) (err error) {
 	return nil
 }
 
+// @author: zhengji.su
 // @description: 非空校验
 // @param: value reflect.Value
 // @return: bool
@@ -86,6 +89,7 @@ func isEmpty(value reflect.Value) bool {
 	return reflect.DeepEqual(value.Interface(), reflect.Zero(value.Type()).Interface())
 }
 
+// @author: zhengji.su
 // @description: 长度和数字的校验方法 根据类型自动校验
 // @param: value reflect.Value, VerifyStr string
 // @return: bool
@@ -104,6 +108,7 @@ func compareVerify(value reflect.Value, VerifyStr string) bool {
 	}
 }
 
+// @author: zhengji.su
 // @description: 比较函数
 // @param: value interface{}, VerifyStr string
 // @return: bool
@@ -179,6 +184,7 @@ func compare(value interface{}, VerifyStr string) bool {
 	}
 }
 
+// @author: zhengji.su
 // @description: 正则校验
 // @param: rule, matchStr string
 // @return: bool

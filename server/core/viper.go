@@ -14,6 +14,11 @@ import (
 	"time"
 )
 
+// Viper
+// @author: zhengji.su
+// @description: 初始化Viper
+// @param: path ...string
+// @return: *viper.Viper
 func Viper(path ...string) *viper.Viper {
 	var config string
 
