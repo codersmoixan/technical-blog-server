@@ -8,6 +8,7 @@ type ApiGroup struct {
 	BlogApi
 	TagApi
 	CategoriesApi
+	LinkApi
 }
 
 var (
@@ -16,4 +17,5 @@ var (
 	blogService       = service.GroupApp.SystemServiceGroup.BlogService
 	tagService        = service.GroupApp.SystemServiceGroup.TagService
 	categoriesService = service.GroupApp.SystemServiceGroup.CategoriesService
+	linkService       = service.GroupApp.SystemServiceGroup.LinkService
 )

@@ -7,6 +7,10 @@ import (
 
 type CategoriesRouter struct{}
 
+// SetupCategoriesRouter
+// @author: zhengji.su
+// @description: 初始化分类路由
+// @param: Router *gin.RouterGroup
 func (c *CategoriesRouter) SetupCategoriesRouter(Router *gin.RouterGroup) {
 	categoriesRouter := Router.Group("categories")
 	categoriesApi := v1.ApiGroupApp.SystemApiGroup.CategoriesApi
