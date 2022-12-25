@@ -7,6 +7,9 @@ import (
 	"technical-blog-server/global"
 )
 
+// Redis
+// @author: zhengji.su
+// @description: 初始化Redis
 func Redis() {
 	redisConfig := global.TB_CONFIG.Redis
 

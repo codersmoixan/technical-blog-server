@@ -14,6 +14,10 @@ type server interface {
 	ListenAndServe() error
 }
 
+// @author: zhengji.su
+// @description: 初始化服务器
+// @param: address string, router *gin.Engine
+// @return: server
 func initServer(address string, router *gin.Engine) server {
 	s := endless.NewServer(address, router)
 	s.ReadHeaderTimeout = 20 * time.Second
@@ -23,7 +27,9 @@ func initServer(address string, router *gin.Engine) server {
 	return s
 }
 
-// RunServer 运行服务
+// RunServer
+// @author: zhengji.su
+// @description: 运行服务
 func RunServer() {
 	if global.TB_CONFIG.System.UseRedis {
 		// 初始化redis服务

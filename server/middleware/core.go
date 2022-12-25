@@ -7,7 +7,10 @@ import (
 	"technical-blog-server/global"
 )
 
-// Cors 放行所有跨域请求并放行所有 OPTIONS 方法
+// Cors
+// @author: zhengji.su
+// @description: CORE 放行所有跨域请求并放行所有 OPTIONS 方法
+// @return: gin.HandlerFunc
 func Cors() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		method := c.Request.Method
@@ -29,7 +32,10 @@ func Cors() gin.HandlerFunc {
 	}
 }
 
-// CorsByRules 根据配置处理跨域请求
+// CorsByRules
+// @author: zhengji.su
+// @description: 根据配置处理跨域请求
+// @return: gin.HandlerFunc
 func CorsByRules() gin.HandlerFunc {
 	// 放行全部
 	if global.TB_CONFIG.Cors.Mode == "allow-all" {
@@ -66,7 +72,10 @@ func CorsByRules() gin.HandlerFunc {
 	}
 }
 
-// 检查跨域白名单
+// @author: zhengji.su
+// @description: 检查跨域白名单
+// @param: currentOrigin string
+// @return: *config.CORSWhitelist
 func checkCors(currentOrigin string) *config.CORSWhitelist {
 	for _, whitelist := range global.TB_CONFIG.Cors.Whitelist {
 		// 遍历配置中的跨域头，寻找匹配项
