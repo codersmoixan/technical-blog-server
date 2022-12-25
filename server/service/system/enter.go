@@ -5,4 +5,6 @@ type ServiceGroup struct {
 	UserService
 	BlogService
 	TagService
+	CategoriesService
+	LinkService
 }

@@ -1,5 +1,11 @@
 package response_param
 
+import modelSystem "technical-blog-server/model/system"
+
+type BlogResponse struct {
+	modelSystem.SysBlog
+}
+
 type BlogAddResponse struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
@@ -9,5 +15,5 @@ type BlogAddResponse struct {
 }
 
 type BlogDeleteResponse struct {
-	ID int `json:"id"`
+	ID string `json:"id"`
 }
