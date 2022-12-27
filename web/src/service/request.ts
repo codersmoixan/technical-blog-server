@@ -22,6 +22,8 @@ function requestConfig(): RequestConfig {
 
   // const apiUrl = BASE_API_URL;
 
+  console.log(process.env, 2215);
+
   return {
     url: BASE_API_URL,
     headers: requestHeader(),

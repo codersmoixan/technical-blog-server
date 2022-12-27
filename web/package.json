@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "APP_ENV=development next dev",
+    "build": "APP_ENV=production next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -47,6 +47,7 @@
     "@types/store": "^2.0.2",
     "babel-plugin-prismjs": "^2.1.0",
     "eslint": "8.27.0",
-    "eslint-config-next": "13.0.3"
+    "eslint-config-next": "13.0.3",
+    "next-compose-plugins": "^2.2.1"
   }
 }

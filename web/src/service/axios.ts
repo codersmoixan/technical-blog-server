@@ -28,11 +28,11 @@ class Axios {
     );
   }
 
-  async request<T>(method: string, data: T) {
+  async request<T>(method: string, url: string, data?: T) {
     const result = await this.instance.request({
-      url: this.requestConfig.url,
+      url: `${this.requestConfig.url}/${url}`,
       method,
-      data: { ...data },
+      data: { ...(data ?? {}) },
     });
 
     return result.data;
