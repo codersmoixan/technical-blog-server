@@ -15,6 +15,7 @@
     "@mui/material": "^5.10.13",
     "@mui/styles": "^5.10.10",
     "@reduxjs/toolkit": "^1.9.0",
+    "@tanstack/react-query": "^4.20.4",
     "@types/prismjs": "^1.26.0",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-react": "^1.0.6",
@@ -38,6 +39,7 @@
     "yarn": "^1.22.19"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^4.20.4",
     "@types/lodash": "^4.14.188",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
