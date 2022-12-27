@@ -9,11 +9,13 @@ import ShareRoot from "containers/Share/components/ShareRoot";
 import useSwitchCatalog from "containers/Share/hooks/useSwitchCatalog";
 import { blogList } from "containers/Share/constants";
 import ShareSwiper from "containers/Share/components/ShareSwiper";
+import {useGetCategoriesQuery} from "containers/Share/queries";
 
 function ShareMain() {
   const { checkedMenu } = useSwitchCatalog()
+  const { data } = useGetCategoriesQuery()
 
-  console.log(checkedMenu, 2212);
+  console.log(checkedMenu, 2212, data);
 
   return (
     <ShareRoot backdrop={CreativeLines}>

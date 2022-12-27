@@ -1,10 +1,11 @@
-/** @type {import('next').NextConfig} */
+const withPlugins = require('next-compose-plugins')
 const withVideos = require('next-videos')
 
-const nextConfig = {
-  reactStrictMode: true,
+module.exports = withPlugins([withVideos], {
+  reactStrictMode: false,
   swcMinify: true,
-  withVideos: require('next-videos')
-}
-
-module.exports = withVideos()
+  env: {
+    APP_ENV: process.env.APP_ENV,
+    BASE_API_URL: process.env.BASE_API_URL
+  }
+})
