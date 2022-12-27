@@ -3,6 +3,7 @@ package initialize
 import (
 	"github.com/gin-gonic/gin"
 	"technical-blog-server/global"
+	"technical-blog-server/middleware"
 	"technical-blog-server/router"
 )
 
@@ -12,6 +13,9 @@ import (
 func Routers() *gin.Engine {
 	Router := gin.Default()
 	systemRouter := router.RouterGroupApp.System
+
+	Router.Use(middleware.Cors()) // 直接放行全部跨域请求
+	// Router.Use(middleware.CorsByRules()) // 按照配置的规则放行跨域请求
 
 	PrivateGroup := Router.Group("")
 	{

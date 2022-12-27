@@ -3,7 +3,7 @@
  * @description NodeVisible
  */
 
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import type { ReactNode } from "react";
 
