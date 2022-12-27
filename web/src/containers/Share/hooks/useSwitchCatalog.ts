@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { checkedMenuAction, getCheckedMenu, getParentMenu, parentMenuAction } from "store/shareSlice";
 import routes from "@/src/routes";
-import type { MenuItem } from "components/Menu";
 import get from "lodash/get";
 import isString from "lodash/isString";
+import type { MenuItem } from "components/Menu";
 
 const useSwitchCatalog = () => {
   const dispatch = useDispatch()
