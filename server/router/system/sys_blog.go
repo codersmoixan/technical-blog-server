@@ -7,10 +7,17 @@ import (
 
 type BlogRouter struct{}
 
-func (b *BlogRouter) SetupBlogsRouter(Router *gin.RouterGroup) {
-	blogRouter := Router.Group("blogs")
+// SetupBlogRouter
+// @author: zhengji.su
+// @description: 初始化博客路由
+// @param: Router *gin.RouterGroup
+func (b *BlogRouter) SetupBlogRouter(Router *gin.RouterGroup) {
+	blogRouter := Router.Group("blog")
 	blogApi := v1.ApiGroupApp.SystemApiGroup.BlogApi
 	{
-		blogRouter.GET("/list", blogApi.BlogList)
+		blogRouter.GET("list", blogApi.GetBlogList)
+		blogRouter.PUT("add", blogApi.AddBlog)
+		blogRouter.PUT("update", blogApi.UpdateBlog)
+		blogRouter.DELETE("delete", blogApi.DeleteBlog)
 	}
 }

@@ -6,6 +6,10 @@ type writer struct {
 	logger.Writer
 }
 
+// NewWriter
+// @author: zhengji.su
+// @param: w logger.Writer
+// @return: *writer
 func NewWriter(w logger.Writer) *writer {
 	return &writer{
 		Writer: w,

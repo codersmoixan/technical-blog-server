@@ -17,7 +17,10 @@ type _gorm struct{}
 
 var Gorm = new(_gorm)
 
-// Config gorm 自定义配置
+// Config
+// @author: zhengji.su
+// @description: gorm 自定义配置
+// @return: *gorm.Config
 func (g *_gorm) Config() *gorm.Config {
 	config := &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,

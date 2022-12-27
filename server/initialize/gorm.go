@@ -10,12 +10,18 @@ import (
 	"technical-blog-server/model/system"
 )
 
-// Gorm 初始化数据库
+// Gorm
+// @author: zhengji.su
+// @description: 初始化数据库
+// @return: *gorm.DB
 func Gorm() *gorm.DB {
 	return GormMysql()
 }
 
-// GormMysql 初始化Mysql数据库
+// GormMysql
+// @author: zhengji.su
+// @description: 初始化Mysql数据库
+// @return: *gorm.DB
 func GormMysql() *gorm.DB {
 	m := global.TB_CONFIG.MySql
 
@@ -40,11 +46,18 @@ func GormMysql() *gorm.DB {
 	}
 }
 
-// RegisterTables 注册数据库表
+// RegisterTables
+// @author: zhengji.su
+// @description: 注册数据库表
+// @param: db *gorm.DB
 func RegisterTables(db *gorm.DB) {
 	err := db.AutoMigrate(
 		system.SysApi{},
 		system.SysUser{},
+		system.SysBlog{},
+		system.SysTag{},
+		system.SysCategories{},
+		system.SysLink{},
 	)
 
 	if err != nil {
