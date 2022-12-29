@@ -1,9 +1,9 @@
-import { useGetShareListQuery } from "containers/Share/queries";
+import { useGetShareListQuery } from "containers/Sharing/queries";
 import {PageParams} from "@/src/tb.types";
 
-export interface UseShareProps extends PageParams {}
+export interface UseSharingProps extends PageParams {}
 
-const useShare = (props?: UseShareProps) => {
+const useSharing = (props?: UseSharingProps) => {
   const { page = 1, pageSize = 10 } = props ?? {}
 
   const { data: blogs, isLoading } = useGetShareListQuery({
@@ -17,4 +17,4 @@ const useShare = (props?: UseShareProps) => {
   }
 }
 
-export default useShare
+export default useSharing

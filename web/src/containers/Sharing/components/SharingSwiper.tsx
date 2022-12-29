@@ -1,16 +1,16 @@
 /**
  * @author zhengji.su
- * @description ShareSwiper
+ * @description SharingSwiper
  */
 
 import SidesSwiper, {SidesSwiperProps} from "components/Swiper/SidesSwiper";
-import BlogCard from "containers/Share/components/BlogCard";
+import BlogCard from "containers/Sharing/components/SharingCard";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import { Theme, useMediaQuery } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-interface ShareSwiperProps extends Pick<SidesSwiperProps, 'title'> {
+interface SharingSwiperProps extends Pick<SidesSwiperProps, 'title'> {
   blogs: any[]
 }
 
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-function ShareSwiper({ blogs, ...other }: ShareSwiperProps) {
+function SharingSwiper({ blogs, ...other }: SharingSwiperProps) {
   const theme = useTheme()
   const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
   const classes = useStyles()
@@ -43,4 +43,4 @@ function ShareSwiper({ blogs, ...other }: ShareSwiperProps) {
   )
 }
 
-export default ShareSwiper
+export default SharingSwiper

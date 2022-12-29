@@ -91,7 +91,7 @@ function Index() {
         </Box>
       </MediaQuery>
       <MediaQuery media="mobile">
-        <Box className={classes.root}>
+        <Box className={clsx(classes.root, focus ? classes.focus : classes.blur)}>
           <Image src={Logo} alt="" className={classes.logo} onClick={handleToHome} />
           <Buttons
             variant="text"

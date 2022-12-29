@@ -7,10 +7,10 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid"
-import BlogCard, { DESCRIPTION, EXPANDED } from "containers/Share/components/BlogCard";
+import BlogCard, { DESCRIPTION, EXPANDED } from "containers/Sharing/components/SharingCard";
 import { blogList } from "./constants"
 import { Variant, VariantContent } from "components/Variant";
-import ShareRoot from "containers/Share/components/ShareRoot";
+import SharingRoot from "containers/Sharing/components/SharingRoot";
 import CreativeGrid from "public/images/backdrop/creative-grid.jpeg";
 import { stiffnessVariants } from "utils/variants";
 import type { Theme } from "@mui/material";
@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-function ShareUnit() {
+function SharingUnit() {
   const classes = useStyles()
 
   return (
-    <ShareRoot backdrop={CreativeGrid}>
+    <SharingRoot backdrop={CreativeGrid}>
       <Variant>
         <Grid container spacing={3} py={3}>
           {blogList.map(blog => (
@@ -60,8 +60,8 @@ function ShareUnit() {
           ))}
         </Grid>
       </Variant>
-    </ShareRoot>
+    </SharingRoot>
   )
 }
 
-export default ShareUnit
+export default SharingUnit

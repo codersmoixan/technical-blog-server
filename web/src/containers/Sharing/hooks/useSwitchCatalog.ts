@@ -24,7 +24,7 @@ const useSwitchCatalog = () => {
       return history.push(routes.shareCategory(parent.id, option.id))
     }
 
-    return history.push(routes.share(option.id))
+    return history.push(routes.sharing(option.id))
   }
 
   return {

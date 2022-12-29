@@ -20,7 +20,7 @@ export const NAVIGATION_LIST: NavigationList = [
   {
     id: 'share',
     label: '分享',
-    route: routes.share,
+    route: routes.sharing,
     menus: [
       {
         id: 1,
