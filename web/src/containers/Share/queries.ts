@@ -1,14 +1,16 @@
 import {useMutation, useQuery} from "@tanstack/react-query";
 import { getCategoriesApi, getShareListApi, addShareApi, updateShareApi, deleteShareApi } from "containers/Share/api";
+import {PageParams} from "@/src/tb.types";
 
 export const useGetCategoriesQuery = () => useQuery({
   queryKey: ['share.getCategories'],
   queryFn: () => getCategoriesApi(),
 })
 
-export const useGetShareListQuery = () => useQuery({
-  queryKey: ['share.getShareList'],
-  queryFn: () => getShareListApi(),
+export const useGetShareListQuery = ({ page, pageSize }: PageParams) => useQuery({
+  queryKey: ['share.getShareList', page, pageSize],
+  queryFn: () => getShareListApi({ page, pageSize }),
+  enabled: !!page && !!pageSize
 })
 
 export const useAddShareMutation = (data: any) => useMutation({

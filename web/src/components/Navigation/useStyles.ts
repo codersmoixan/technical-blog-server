@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       justifyContent: 'space-between',
       alignItems: 'center',
       height: 72,
-      backgroundColor: theme.status.white
     }
   },
   focus: {

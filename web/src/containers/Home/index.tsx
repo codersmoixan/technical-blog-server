@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'flex-end',
     width: 484,
     [theme.breakpoints.down('md')]: {
-      marginTop: theme.spacing(3),
+      marginTop: theme.spacing(9),
       justifyContent: 'flex-start',
       width: 'auto',
     }

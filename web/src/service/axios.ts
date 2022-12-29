@@ -29,6 +29,8 @@ class Axios {
   }
 
   async request<T>(method: string, url: string, data?: T) {
+    console.log(data, 1234);
+
     const result = await this.instance.request({
       url: `${this.requestConfig.url}/${url}`,
       method,
