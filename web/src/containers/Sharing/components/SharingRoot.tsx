@@ -1,6 +1,6 @@
 /**
  * @author zhengji.su
- * @description ShareRoot
+ * @description SharingRoot
  */
 
 import React, { useRef, ReactNode } from 'react'
@@ -10,7 +10,7 @@ import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import ArrowBack from "@mui/icons-material/ArrowBack"
 import MediaQuery from "components/MediaQuery";
-import CatalogMenu from "containers/Share/components/CatalogMenu";
+import CatalogMenu from "containers/Sharing/components/CatalogMenu";
 import Content from "components/Layout/Content";
 import Root from "components/Layout/Root";
 import SearchFormText from "components/Form/SearchFormText";
@@ -20,7 +20,7 @@ import type { Theme } from "@mui/material";
 import type { StaticImageData } from "next/image";
 import useSeparateChildren from "hooks/useSeparateChildren";
 
-interface ShareRootProps {
+interface SharingRootProps {
   backdrop?: string | StaticImageData;
   children: ReactNode;
 }
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-function ShareRoot({ children, backdrop }: ShareRootProps) {
+function SharingRoot({ children, backdrop }: SharingRootProps) {
   const classes = useStyles()
   const theme = useTheme()
   const { content, banner } = useSeparateChildren(children, ['content', 'banner'])
@@ -133,4 +133,4 @@ function ShareRoot({ children, backdrop }: ShareRootProps) {
   )
 }
 
-export default ShareRoot
+export default SharingRoot

@@ -19,7 +19,7 @@ import Buttons from "components/Buttons";
 import { Variant, VariantContent } from "components/Variant";
 import type { Theme } from "@mui/material";
 import type { Variants } from "framer-motion";
-import useSwitchCatalog from "containers/Share/hooks/useSwitchCatalog";
+import useSwitchCatalog from "containers/Sharing/hooks/useSwitchCatalog";
 
 interface CatalogMenuProps {
   menus: any[];

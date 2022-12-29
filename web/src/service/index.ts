@@ -8,4 +8,14 @@ export const querySetting = {
   retry: false,
 };
 
-export { baseRequest, requestGraphql, request, requestGql };
+export const GET = <T>(url: string, data?: T) => request('GET', url, data)
+export const POST = <T>(url: string, data?: T) => request('POST', url, data)
+export const PUT = <T>(url: string, data?: T) => request('PUT', url, data)
+export const DELETE = <T>(url: string, data?: T) => request('DELETE', url, data)
+
+export {
+  baseRequest,
+  requestGraphql,
+  request,
+  requestGql
+};
