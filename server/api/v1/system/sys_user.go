@@ -45,7 +45,7 @@ func (u *UserApi) Register(c *gin.Context) {
 // @description: 获取用户列表
 func (u *UserApi) GetUserList(c *gin.Context) {
 	var pageInfo request.PageInfo
-	_ = c.ShouldBindJSON(&pageInfo)
+	_ = c.ShouldBindQuery(&pageInfo)
 
 	if err := utils.Verify(pageInfo, utils.PageInfoRule); err != nil {
 		response.FailWithMessage(err.Error(), c)

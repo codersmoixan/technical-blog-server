@@ -90,7 +90,7 @@ func (t *TagApi) UpdateTag(c *gin.Context) {
 // @param: c *gin.Context
 func (t *TagApi) DeleteTag(c *gin.Context) {
 	var tag request.GetById
-	_ = c.ShouldBindJSON(&tag)
+	_ = c.ShouldBindQuery(&tag)
 
 	if err := utils.Verify(tag, utils.IdRule); err != nil {
 		response.FailWithMessage(err.Error(), c)
