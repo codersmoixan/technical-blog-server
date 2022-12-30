@@ -90,7 +90,7 @@ func (cate CategoriesApi) UpdateCategories(c *gin.Context) {
 // @param: c *gin.Context
 func (cate CategoriesApi) DeleteCategories(c *gin.Context) {
 	var categories request.GetById
-	_ = c.ShouldBindJSON(&categories)
+	_ = c.ShouldBindQuery(&categories)
 
 	if err := utils.Verify(categories, utils.IdRule); err != nil {
 		response.FailWithMessage(err.Error(), c)

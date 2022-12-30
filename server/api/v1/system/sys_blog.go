@@ -21,7 +21,7 @@ type BlogApi struct{}
 // @param: c *gin.Context
 func (b *BlogApi) GetBlogList(c *gin.Context) {
 	var pageInfo request.PageInfo
-	_ = c.ShouldBindJSON(&pageInfo)
+	_ = c.ShouldBindQuery(&pageInfo)
 
 	if err := utils.Verify(pageInfo, utils.PageInfoRule); err != nil {
 		response.FailWithMessage(err.Error(), c)
@@ -89,7 +89,7 @@ func (b *BlogApi) UpdateBlog(c *gin.Context) {
 // @param: c *gin.Context
 func (b *BlogApi) DeleteBlog(c *gin.Context) {
 	var blog request.GetById
-	_ = c.ShouldBindJSON(&blog)
+	_ = c.ShouldBindQuery(&blog)
 
 	if err := utils.Verify(blog, utils.IdRule); err != nil {
 		response.FailWithMessage(err.Error(), c)
