@@ -1,6 +1,7 @@
 import {useMutation, useQuery} from "@tanstack/react-query";
-import { getCategoriesApi, getShareListApi, addShareApi, updateShareApi, deleteShareApi } from "containers/Sharing/api";
-import {PageParams} from "@/src/tb.types";
+import { getCategoriesApi, getSharingListApi, addSharingApi, updateSharingApi, deleteSharingApi } from "containers/Sharing/api";
+import type { PageParams } from "@/src/tb.types";
+import type { AddSharingParam } from "containers/Sharing/type";
 
 export const useGetCategoriesQuery = () => useQuery({
   queryKey: ['sharing.getCategories'],
@@ -9,21 +10,21 @@ export const useGetCategoriesQuery = () => useQuery({
 
 export const useGetShareListQuery = ({ page, pageSize }: PageParams) => useQuery({
   queryKey: ['sharing.getShareList', page, pageSize],
-  queryFn: () => getShareListApi({ page, pageSize }),
+  queryFn: () => getSharingListApi({ page, pageSize }),
   enabled: !!page && !!pageSize
 })
 
-export const useAddShareMutation = (data: any) => useMutation({
+export const useAddShareMutation = () => useMutation({
   mutationKey: ['sharing.addShare'],
-  mutationFn: () => addShareApi(data)
+  mutationFn: (data: AddSharingParam) => addSharingApi(data)
 })
 
 export const useUpdateShareMutation = (data: any) => useMutation({
   mutationKey: ['sharing.updateShare'],
-  mutationFn: () => updateShareApi(data)
+  mutationFn: () => updateSharingApi(data)
 })
 
 export const useDeleteShareMutation = (id: string) => useMutation({
   mutationKey: ['sharing.deleteShare'],
-  mutationFn: () => deleteShareApi(id)
+  mutationFn: () => deleteSharingApi(id)
 })
