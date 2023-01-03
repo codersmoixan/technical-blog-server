@@ -23,7 +23,7 @@ import {useTheme} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import {AddSharingParam} from "containers/Sharing/type";
 
-export interface FormOptions extends Pick<AddSharingParam, 'categories' | 'tag' | 'description'> {
+export interface FormOptions extends Pick<AddSharingParam, 'category' | 'tag' | 'description'> {
   cover: File[]
 }
 
@@ -112,7 +112,7 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           <Grid container spacing={1}>
             <Grid item xs={3} sm={2}>分类: </Grid>
             <Grid item xs={9} sm={10}>
-              <FormChipSelect name="categories" options={chips} rules={{ required: '请选择文章分类' }} />
+              <FormChipSelect name="category" options={chips} rules={{ required: '请选择文章分类' }} />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>

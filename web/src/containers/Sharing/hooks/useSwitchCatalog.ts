@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { checkedMenuAction, getCheckedMenu, getParentMenu, parentMenuAction } from "containers/Sharing/sharingSlice";
+import { checkedMenuAction, getCheckedMenu, getParentMenu, parentMenuAction } from "containers/Sharing/slice";
 import routes from "@/src/routes";
 import get from "lodash/get";
 import isString from "lodash/isString";

@@ -3,6 +3,6 @@ export interface AddSharingParam {
   description: string;
   content: string;
   tag: string;
-  categories: string;
+  category: string;
   blogImage: string;
 }
