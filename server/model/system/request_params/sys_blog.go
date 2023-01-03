@@ -5,6 +5,6 @@ type BlogDetail struct {
 	Description string `json:"description"` // 文章简要
 	Content     string `json:"content"`     // 文章内容
 	Tag         string `json:"tag"`         // 文章标签
-	Categories  string `json:"categories"`  // 文章类型
+	Category    string `json:"category"`    // 文章类型
 	BlogImage   string `json:"blogImage"`   // 文章封面
 }
