@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import shareSlice from "store/shareSlice";
+import sharingSlice from "containers/Sharing/sharingSlice";
 
 const store = configureStore({
   reducer: {
-    share: shareSlice.reducer
+    sharing: sharingSlice.reducer
   }
 })
 

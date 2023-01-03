@@ -4,12 +4,9 @@
  */
 
 import React, { useState, useEffect } from 'react'
-import { Editor, Toolbar } from '@wangeditor/editor-for-react'
+import { Editor as WangEditor, Toolbar } from '@wangeditor/editor-for-react'
 import { IDomEditor, DomEditor, IToolbarConfig } from '@wangeditor/editor'
 import { makeStyles } from "@mui/styles";
-import type { Theme } from "@mui/material";
-
-import '@wangeditor/editor/dist/css/style.css'
 import Root from "components/Layout/Root";
 import Box from "@mui/material/Box";
 import Buttons from "components/Buttons";
@@ -17,6 +14,9 @@ import MediaQuery from "components/MediaQuery";
 import Publish, { FormOptions } from "containers/Editor/Publish";
 import Fab from "@mui/material/Fab";
 import Send from "@mui/icons-material/Send"
+import useSharing from "containers/Sharing/hooks/useSharing";
+import type { Theme } from "@mui/material";
+import '@wangeditor/editor/dist/css/style.css'
 
 const editorHeight = (media: string) => media === 'mobile' ? 'calc(100vh - 145px)' : 'calc(100vh - 140px)'
 
@@ -113,12 +113,14 @@ const excludeToolKey = [
   'numberedList', 'group-justify', 'group-indent', 'group-video', 'insertTable', 'todo', 'undo', 'redo', 'fullScreen'
 ]
 
-function ShareEditor() {
+function Editor() {
   const classes = useStyles()
+  const { addSharing, loading } = useSharing()
 
   const [editor, setEditor] = useState<IDomEditor | null>(null)
-  const [html, setHtml] = useState('')
-  const [open, setOpen] = useState(false)
+  const [html, setHtml] = useState<string>('')
+  const [open, setOpen] = useState<boolean>(false)
+  const [title, setTitle] = useState<string>('')
 
   const toolbarConfig: Partial<IToolbarConfig> = {
 
@@ -154,15 +156,24 @@ function ShareEditor() {
 
   const handleOpenPublish = () => setOpen(true)
 
-  const handlePublish = (options: FormOptions) => {
-    console.log(options, 6652)
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value)
+  }
+
+  const handlePublish = async ({ cover, ...other }: FormOptions) => {
+    await addSharing({
+      ...other,
+      blogImage: '111',
+      name: title,
+      content: html,
+    })
     handleCloseDialog()
   }
 
   return (
     <Root className={classes.root}>
       <Box className={classes.header}>
-        <input placeholder="请输入文章标题..." className={classes.title} />
+        <input placeholder="请输入文章标题..." className={classes.title} onChange={handleTitleChange} />
         <MediaQuery media={['pad', 'pc']}>
           <Box className={classes.actions}>
             <Buttons variant="outlined">草稿箱</Buttons>
@@ -176,7 +187,7 @@ function ShareEditor() {
           defaultConfig={toolbarConfig}
           className={classes.toolbar}
         />
-        <Editor
+        <WangEditor
           defaultConfig={editorConfig}
           className={classes.editor}
         />
@@ -195,4 +206,4 @@ function ShareEditor() {
   )
 }
 
-export default ShareEditor
+export default Editor

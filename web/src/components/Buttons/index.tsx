@@ -49,7 +49,7 @@ function Buttons(props: ButtonsProps) {
   return (
     <Button
       className={clsx({
-        [classes.emptySpace]: variant === 'text' || !space
+        [classes.emptySpace]: !space
       }, className)}
       classes={{ root: classes.root }}
       color="primary"

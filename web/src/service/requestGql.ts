@@ -28,7 +28,7 @@ function gqlConfig(): RequestConfig {
   };
 }
 
-const request = new Axios(gqlConfig());
-export const requestGql = request.requestGql.bind(request);
+const axiosGraphql = new Axios(gqlConfig());
+export const requestGql = axiosGraphql.requestGql.bind(axiosGraphql);
 
-export default request;
+export default axiosGraphql;

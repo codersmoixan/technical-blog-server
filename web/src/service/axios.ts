@@ -38,11 +38,11 @@ class Axios {
     return result.data;
   }
 
-  async requestGql<T>(data: T) {
+  async requestGql<T extends AxiosRequestConfig>(config?: T) {
     const result = await this.instance.request({
       url: this.requestConfig.url,
       method: "POST",
-      data: { ...data },
+      ...config,
     });
 
     return result.data?.data;

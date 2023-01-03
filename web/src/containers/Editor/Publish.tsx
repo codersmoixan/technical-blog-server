@@ -5,7 +5,7 @@
 
 import Box from '@mui/material/Box';
 import Grid from "@mui/material/Grid";
-import useNotificationSnackbar from "hooks/useNotificationSnackbar";
+import useNotifier from "hooks/useNotifier";
 import CenterDialog from "components/Dialog/CenterDialog";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
@@ -21,11 +21,9 @@ import MediaQuery from "components/MediaQuery";
 import GlobalDrawer from "components/GlobalDrawer";
 import {useTheme} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import {AddSharingParam} from "containers/Sharing/type";
 
-export interface FormOptions {
-  category: string;
-  tag: string;
-  description: string;
+export interface FormOptions extends Pick<AddSharingParam, 'categories' | 'tag' | 'description'> {
   cover: File[]
 }
 
@@ -56,22 +54,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const chips = [
-  { id: 1, label: '前端' },
-  { id: 2, label: '后端' },
-  { id: 3, label: 'IOS' },
-  { id: 4, label: 'Android' },
-  { id: 5, label: '开发工具' },
-  { id: 6, label: '阅读' },
-  { id: 7, label: '代码人生' }
+  { id: '1', label: '前端' },
+  { id: '2', label: '后端' },
+  { id: '3', label: 'IOS' },
+  { id: '4', label: 'Android' },
+  { id: '5', label: '开发工具' },
+  { id: '6', label: '阅读' },
+  { id: '7', label: '代码人生' }
 ]
 
 const tags = [
-  { id: 1, label: '前端', value: '前端' },
-  { id: 2, label: '后端', value: '后端' }
+  { id: '1', label: '前端', value: '前端' },
+  { id: '2', label: '后端', value: '后端' }
 ]
 
 function Publish({ open = false, onClose, onPublish }: PublishProps) {
-  const { notify } = useNotificationSnackbar()
+  const { notify } = useNotifier()
   const classes = useStyles()
   const theme = useTheme()
   const { observer, handleSubmit } = useForm({
@@ -114,7 +112,7 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           <Grid container spacing={1}>
             <Grid item xs={3} sm={2}>分类: </Grid>
             <Grid item xs={9} sm={10}>
-              <FormChipSelect name="category" options={chips} rules={{ required: '请选择文章分类' }} />
+              <FormChipSelect name="categories" options={chips} rules={{ required: '请选择文章分类' }} />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
