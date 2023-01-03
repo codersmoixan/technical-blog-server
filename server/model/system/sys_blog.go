@@ -8,7 +8,7 @@ type SysBlog struct {
 	Author      string `json:"author" gorm:"comment:作者"`
 	Name        string `json:"name" gorm:"comment:文章名"`
 	Tag         string `json:"tag" gorm:"comment:标签"`
-	Categories  string `json:"categories" gorm:"comment:类别"`
+	Category    string `json:"category" gorm:"comment:类别"`
 	Description string `json:"description" gorm:"comment:文章简要"`
 	Content     string `json:"content" gorm:"comment:文章内容;type:text"`
 	BlogImage   string `json:"blogImage" gorm:"comment:文章封面"`
