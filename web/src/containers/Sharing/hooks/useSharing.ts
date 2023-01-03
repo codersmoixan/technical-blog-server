@@ -1,5 +1,5 @@
 import { useAddShareMutation, useGetShareListQuery } from "containers/Sharing/queries";
-import useNotificationSnackbar from "hooks/useNotificationSnackbar";
+import useNotifier from "hooks/useNotifier";
 import type { AddSharingParam } from "containers/Sharing/type";
 import type { PageParams } from "@/src/tb.types";
 
@@ -8,7 +8,7 @@ export interface UseSharingProps extends PageParams {}
 const useSharing = (props?: UseSharingProps) => {
   const { page = 1, pageSize = 10 } = props ?? {}
 
-  const { notify } = useNotificationSnackbar()
+  const { notify } = useNotifier()
   const { data: blogs, isLoading } = useGetShareListQuery({
     page,
     pageSize

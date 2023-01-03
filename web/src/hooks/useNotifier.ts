@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-const useNotificationSnackbar = (wait: number = 4000) => {
+const useNotifier = (wait: number = 4000) => {
   const classes = useStyles()
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
@@ -35,4 +35,4 @@ const useNotificationSnackbar = (wait: number = 4000) => {
   }
 }
 
-export default useNotificationSnackbar
+export default useNotifier

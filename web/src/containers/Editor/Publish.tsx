@@ -5,7 +5,7 @@
 
 import Box from '@mui/material/Box';
 import Grid from "@mui/material/Grid";
-import useNotificationSnackbar from "hooks/useNotificationSnackbar";
+import useNotifier from "hooks/useNotifier";
 import CenterDialog from "components/Dialog/CenterDialog";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
@@ -54,22 +54,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const chips = [
-  { id: 1, label: '前端' },
-  { id: 2, label: '后端' },
-  { id: 3, label: 'IOS' },
-  { id: 4, label: 'Android' },
-  { id: 5, label: '开发工具' },
-  { id: 6, label: '阅读' },
-  { id: 7, label: '代码人生' }
+  { id: '1', label: '前端' },
+  { id: '2', label: '后端' },
+  { id: '3', label: 'IOS' },
+  { id: '4', label: 'Android' },
+  { id: '5', label: '开发工具' },
+  { id: '6', label: '阅读' },
+  { id: '7', label: '代码人生' }
 ]
 
 const tags = [
-  { id: 1, label: '前端', value: '前端' },
-  { id: 2, label: '后端', value: '后端' }
+  { id: '1', label: '前端', value: '前端' },
+  { id: '2', label: '后端', value: '后端' }
 ]
 
 function Publish({ open = false, onClose, onPublish }: PublishProps) {
-  const { notify } = useNotificationSnackbar()
+  const { notify } = useNotifier()
   const classes = useStyles()
   const theme = useTheme()
   const { observer, handleSubmit } = useForm({

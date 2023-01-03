@@ -7,9 +7,6 @@ import React, { useState, useEffect } from 'react'
 import { Editor as WangEditor, Toolbar } from '@wangeditor/editor-for-react'
 import { IDomEditor, DomEditor, IToolbarConfig } from '@wangeditor/editor'
 import { makeStyles } from "@mui/styles";
-import type { Theme } from "@mui/material";
-
-import '@wangeditor/editor/dist/css/style.css'
 import Root from "components/Layout/Root";
 import Box from "@mui/material/Box";
 import Buttons from "components/Buttons";
@@ -18,6 +15,8 @@ import Publish, { FormOptions } from "containers/Editor/Publish";
 import Fab from "@mui/material/Fab";
 import Send from "@mui/icons-material/Send"
 import useSharing from "containers/Sharing/hooks/useSharing";
+import type { Theme } from "@mui/material";
+import '@wangeditor/editor/dist/css/style.css'
 
 const editorHeight = (media: string) => media === 'mobile' ? 'calc(100vh - 145px)' : 'calc(100vh - 140px)'
 
