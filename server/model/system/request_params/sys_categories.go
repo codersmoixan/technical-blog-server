@@ -1,10 +1,10 @@
 package request
 
-type CategoriesContent struct {
+type CategoryContent struct {
 	Label string `json:"label"`
 }
 
-type UpdateCategoriesContent struct {
-	CategoriesContent
+type UpdateCategoryContent struct {
+	CategoryContent
 	ID string `json:"id"`
 }

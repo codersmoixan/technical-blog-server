@@ -23,7 +23,7 @@ func Routers() *gin.Engine {
 		systemRouter.SetupUserRouter(PrivateGroup)
 		systemRouter.SetupBlogRouter(PrivateGroup)
 		systemRouter.SetupTagRouter(PrivateGroup)
-		systemRouter.SetupCategoriesRouter(PrivateGroup)
+		systemRouter.SetupCategoryRouter(PrivateGroup)
 		systemRouter.SetupLinkRouter(PrivateGroup)
 	}
 
