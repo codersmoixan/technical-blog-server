@@ -5,19 +5,19 @@ import (
 	v1 "technical-blog-server/api/v1"
 )
 
-type CategoriesRouter struct{}
+type CategoryRouter struct{}
 
-// SetupCategoriesRouter
+// SetupCategoryRouter
 // @author: zhengji.su
 // @description: 初始化分类路由
 // @param: Router *gin.RouterGroup
-func (c *CategoriesRouter) SetupCategoriesRouter(Router *gin.RouterGroup) {
-	categoriesRouter := Router.Group("categories")
-	categoriesApi := v1.ApiGroupApp.SystemApiGroup.CategoriesApi
+func (c *CategoryRouter) SetupCategoryRouter(Router *gin.RouterGroup) {
+	categoryRouter := Router.Group("category")
+	categoryApi := v1.ApiGroupApp.SystemApiGroup.CategoryApi
 	{
-		categoriesRouter.GET("list", categoriesApi.GetCategoriesList)
-		categoriesRouter.POST("add", categoriesApi.AddCategories)
-		categoriesRouter.PUT("update", categoriesApi.UpdateCategories)
-		categoriesRouter.DELETE("delete", categoriesApi.DeleteCategories)
+		categoryRouter.GET("list", categoryApi.GetCategoryList)
+		categoryRouter.POST("add", categoryApi.AddCategory)
+		categoryRouter.PUT("update", categoryApi.UpdateCategory)
+		categoryRouter.DELETE("delete", categoryApi.DeleteCategory)
 	}
 }

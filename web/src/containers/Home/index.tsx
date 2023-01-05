@@ -16,12 +16,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(0, 3),
   },
   banner: {
-    justifyContent: 'flex-end',
     width: 484,
     [theme.breakpoints.down('md')]: {
-      marginTop: theme.spacing(3),
+      marginTop: theme.spacing(9),
       justifyContent: 'flex-start',
       width: 'auto',
+    },
+    [theme.breakpoints.up('lg')]: {
+      justifyContent: 'flex-end',
     }
   },
   subtitle: {
@@ -38,7 +40,7 @@ function Home() {
   const classes = useStyles()
   const history = useRouter()
 
-  const handleToShare = () => history.push(routes.share())
+  const handleToShare = () => history.push(routes.sharing())
 
   return (
     <Root position="relative">

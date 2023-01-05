@@ -83,6 +83,7 @@ function SidesSwiper({ data, title, triggerScroll, children, ...other }: SidesSw
                 onClick={onPrev}
                 disabled={prevDisabled}
                 className={classes.prevBtn}
+                space={false}
               >
                 <ChevronLeftIcon />
               </Buttons>
@@ -91,6 +92,7 @@ function SidesSwiper({ data, title, triggerScroll, children, ...other }: SidesSw
                 onClick={onNext}
                 disabled={nextDisabled}
                 className={classes.nextBtn}
+                space={false}
               >
                 <ChevronRightIcon />
               </Buttons>

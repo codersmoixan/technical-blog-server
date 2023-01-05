@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { checkedMenuAction, getCheckedMenu, getParentMenu, parentMenuAction } from "store/shareSlice";
+import { checkedMenuAction, getCheckedMenu, getParentMenu, parentMenuAction } from "containers/Sharing/slice";
 import routes from "@/src/routes";
 import get from "lodash/get";
 import isString from "lodash/isString";
@@ -24,7 +24,7 @@ const useSwitchCatalog = () => {
       return history.push(routes.shareCategory(parent.id, option.id))
     }
 
-    return history.push(routes.share(option.id))
+    return history.push(routes.sharing(option.id))
   }
 
   return {

@@ -12,14 +12,14 @@ import (
 	"technical-blog-server/utils"
 )
 
-type CategoriesApi struct{}
+type CategoryApi struct{}
 
-// GetCategoriesList
+// GetCategoryList
 // @author: zhengji.su
 // @description: 获取分类列表
 // @param: c *gin.Context
-func (cate CategoriesApi) GetCategoriesList(c *gin.Context) {
-	if list, total, err := categoriesService.GetCategoriesList(); err != nil {
+func (cate CategoryApi) GetCategoryList(c *gin.Context) {
+	if list, total, err := categoryService.GetCategoryList(); err != nil {
 		global.TB_LOG.Error("获取分类列表失败!", zap.Error(err))
 		response.FailWithMessage("获取分类列表失败!", c)
 	} else {
@@ -30,42 +30,42 @@ func (cate CategoriesApi) GetCategoriesList(c *gin.Context) {
 	}
 }
 
-// AddCategories
+// AddCategory
 // @author: zhengji.su
 // @description: 添加分类
 // @param: c *gin.Context
-func (cate CategoriesApi) AddCategories(c *gin.Context) {
-	var categoriesParam requestParams.CategoriesContent
-	_ = c.ShouldBindJSON(&categoriesParam)
+func (cate CategoryApi) AddCategory(c *gin.Context) {
+	var categoryParam requestParams.CategoryContent
+	_ = c.ShouldBindJSON(&categoryParam)
 
-	if err := utils.Verify(categoriesParam, utils.CategoriesRule); err != nil {
+	if err := utils.Verify(categoryParam, utils.CategoriesRule); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	categories := &modelSystem.SysCategories{
-		Label: categoriesParam.Label,
+	category := &modelSystem.SysCategory{
+		Label: categoryParam.Label,
 	}
 
-	if categoriesInter, err := categoriesService.AddCategories(*categories); err != nil {
+	if categoryInter, err := categoryService.AddCategory(*category); err != nil {
 		global.TB_LOG.Error("分类新增失败!", zap.Error(err))
-		response.FailWithDetailed(responseParams.AddCategoriesResponse{
-			Label: categoriesParam.Label,
+		response.FailWithDetailed(responseParams.AddCategoryResponse{
+			Label: categoryParam.Label,
 		}, err.Error(), c)
 	} else {
-		response.OkWithDetailed(responseParams.AddCategoriesResponse{
-			ID:    categoriesInter.CategoriesId,
-			Label: categoriesInter.Label,
+		response.OkWithDetailed(responseParams.AddCategoryResponse{
+			ID:    categoryInter.CategoryId,
+			Label: categoryInter.Label,
 		}, "分类新增成功!", c)
 	}
 }
 
-// UpdateCategories
+// UpdateCategory
 // @author: zhengji.su
 // @description: 更新分类
 // @param: c *gin.Context
-func (cate CategoriesApi) UpdateCategories(c *gin.Context) {
-	var updateContent requestParams.UpdateCategoriesContent
+func (cate CategoryApi) UpdateCategory(c *gin.Context) {
+	var updateContent requestParams.UpdateCategoryContent
 	_ = c.ShouldBindJSON(&updateContent)
 
 	if err := utils.Verify(updateContent, utils.UpdateCategoriesRule); err != nil {
@@ -73,36 +73,36 @@ func (cate CategoriesApi) UpdateCategories(c *gin.Context) {
 		return
 	}
 
-	if categories, err := categoriesService.UpdateCategories(updateContent); err != nil {
+	if category, err := categoryService.UpdateCategory(updateContent); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "更新失败!", c)
 	} else {
-		response.OkWithDetailed(responseParams.UpdateCategoriesResponse{
-			ID:    categories.CategoriesId,
-			Label: categories.Label,
+		response.OkWithDetailed(responseParams.UpdateCategoryResponse{
+			ID:    category.CategoryId,
+			Label: category.Label,
 		}, "更新成功!", c)
 	}
 }
 
-// DeleteCategories
+// DeleteCategory
 // @author: zhengji.su
 // @description: 删除分类
 // @param: c *gin.Context
-func (cate CategoriesApi) DeleteCategories(c *gin.Context) {
-	var categories request.GetById
-	_ = c.ShouldBindJSON(&categories)
+func (cate CategoryApi) DeleteCategory(c *gin.Context) {
+	var category request.GetById
+	_ = c.ShouldBindQuery(&category)
 
-	if err := utils.Verify(categories, utils.IdRule); err != nil {
+	if err := utils.Verify(category, utils.IdRule); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if err := categoriesService.DeleteCategories(categories.ID); err != nil {
+	if err := categoryService.DeleteCategories(category.ID); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "删除失败!", c)
 	} else {
-		response.OkWithDetailed(responseParams.DeleteCategoriesResponse{
-			ID: categories.ID,
+		response.OkWithDetailed(responseParams.DeleteCategoryResponse{
+			ID: category.ID,
 		}, "删除成功!", c)
 	}
 }

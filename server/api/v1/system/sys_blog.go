@@ -21,7 +21,7 @@ type BlogApi struct{}
 // @param: c *gin.Context
 func (b *BlogApi) GetBlogList(c *gin.Context) {
 	var pageInfo request.PageInfo
-	_ = c.ShouldBindJSON(&pageInfo)
+	_ = c.ShouldBindQuery(&pageInfo)
 
 	if err := utils.Verify(pageInfo, utils.PageInfoRule); err != nil {
 		response.FailWithMessage(err.Error(), c)
@@ -49,6 +49,8 @@ func (b *BlogApi) AddBlog(c *gin.Context) {
 	var blogParam requestParams.BlogDetail
 	_ = c.ShouldBindJSON(&blogParam)
 
+	fmt.Println(blogParam, "2252")
+
 	if err := utils.Verify(blogParam, utils.BlogDetailRule); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
@@ -59,7 +61,7 @@ func (b *BlogApi) AddBlog(c *gin.Context) {
 		Description: blogParam.Description,
 		Content:     blogParam.Content,
 		Tag:         blogParam.Tag,
-		Categories:  blogParam.Categories,
+		Category:    blogParam.Category,
 		BlogImage:   blogParam.BlogImage,
 	}
 	if _, err := blogService.AddBlog(*blog); err != nil {
@@ -69,7 +71,7 @@ func (b *BlogApi) AddBlog(c *gin.Context) {
 			Name:        blog.Name,
 			Description: blog.Description,
 			Tag:         blog.Tag,
-			Categories:  blog.Categories,
+			Category:    blog.Category,
 			BlogImage:   blog.BlogImage,
 		}, "文章保存成功!", c)
 	}
@@ -89,7 +91,7 @@ func (b *BlogApi) UpdateBlog(c *gin.Context) {
 // @param: c *gin.Context
 func (b *BlogApi) DeleteBlog(c *gin.Context) {
 	var blog request.GetById
-	_ = c.ShouldBindJSON(&blog)
+	_ = c.ShouldBindQuery(&blog)
 
 	if err := utils.Verify(blog, utils.IdRule); err != nil {
 		response.FailWithMessage(err.Error(), c)

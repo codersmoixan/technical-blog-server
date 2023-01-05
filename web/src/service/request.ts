@@ -1,4 +1,3 @@
-import store from "store";
 import Axios from "./axios";
 import { requestHeader } from "./utils";
 import { BASE_API_URL } from "./utils";
@@ -10,6 +9,7 @@ function requestInterceptors(config: AxiosRequestConfig): AxiosRequestConfig {
 }
 
 function responseInterceptors(config: AxiosResponse): AxiosResponse {
+  console.log(config, '这里是响应拦截器')
   return config;
 }
 
@@ -18,12 +18,6 @@ function responseInterceptorsCatch(err: any) {
 }
 
 function requestConfig(): RequestConfig {
-  const storeCode = store.get("store_code");
-
-  // const apiUrl = BASE_API_URL;
-
-  console.log(process.env, 2215);
-
   return {
     url: BASE_API_URL,
     headers: requestHeader(),
@@ -35,8 +29,8 @@ function requestConfig(): RequestConfig {
   };
 }
 
-const baseRequest = new Axios(requestConfig());
+const axios = new Axios(requestConfig());
 
-export const request = baseRequest.request.bind(baseRequest);
+export const request = axios.request.bind(axios);
 
-export default baseRequest;
+export default axios;

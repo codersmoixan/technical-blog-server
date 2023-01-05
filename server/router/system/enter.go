@@ -5,6 +5,6 @@ type RouterGrout struct {
 	BaseRouter
 	BlogRouter
 	TagRouter
-	CategoriesRouter
+	CategoryRouter
 	LinkRouter
 }

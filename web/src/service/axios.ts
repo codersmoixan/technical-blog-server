@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosRequestConfig} from "axios";
 import type { AxiosInstance } from "axios";
 import type { RequestConfig, RequestInterceptors } from "./type";
 
@@ -28,21 +28,21 @@ class Axios {
     );
   }
 
-  async request<T>(method: string, url: string, data?: T) {
+  async request<T extends AxiosRequestConfig>(method: string, url: string, config?: T) {
     const result = await this.instance.request({
       url: `${this.requestConfig.url}/${url}`,
       method,
-      data: { ...(data ?? {}) },
+      ...config,
     });
 
     return result.data;
   }
 
-  async requestGql<T>(data: T) {
+  async requestGql<T extends AxiosRequestConfig>(config?: T) {
     const result = await this.instance.request({
       url: this.requestConfig.url,
       method: "POST",
-      data: { ...data },
+      ...config,
     });
 
     return result.data?.data;

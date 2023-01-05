@@ -1,20 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "store/index";
-import type { EmptyObject } from "src/tb.types"
+import type { RootState } from "@/src/store";
+import type { EmptyObject } from "@/src/tb.types"
 import type { MenuItem } from "components/Menu";
 
-type ShareState = {
+type SharingState = {
   checkedMenu: MenuItem | EmptyObject;
   parentMenu: MenuItem | EmptyObject;
 }
 
-const initialState: ShareState = {
+const initialState: SharingState = {
   checkedMenu: {},
   parentMenu: {},
 }
 
-const shareSlice = createSlice({
-  name: 'share',
+const sharingSlice = createSlice({
+  name: 'sharing',
   initialState,
   reducers: {
     checkedMenuAction(state, action) {
@@ -28,9 +28,9 @@ const shareSlice = createSlice({
   }
 })
 
-export const { checkedMenuAction, parentMenuAction } = shareSlice.actions
+export const { checkedMenuAction, parentMenuAction } = sharingSlice.actions
 
-export const getCheckedMenu = (state: RootState) => state.share.checkedMenu
-export const getParentMenu = (state: RootState) => state.share.parentMenu
+export const getCheckedMenu = (state: RootState) => state.sharing.checkedMenu
+export const getParentMenu = (state: RootState) => state.sharing.parentMenu
 
-export default shareSlice
+export default sharingSlice

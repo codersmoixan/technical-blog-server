@@ -2,20 +2,20 @@ package response_param
 
 import modelSystem "technical-blog-server/model/system"
 
-type CategoriesResponse struct {
-	modelSystem.SysCategories
+type CategoryResponse struct {
+	modelSystem.SysCategory
 }
 
-type AddCategoriesResponse struct {
+type AddCategoryResponse struct {
 	ID    string `json:"id"`
 	Label string `json:"label"`
 }
 
-type UpdateCategoriesResponse struct {
+type UpdateCategoryResponse struct {
 	ID    string `json:"id"`
 	Label string `json:"label"`
 }
 
-type DeleteCategoriesResponse struct {
+type DeleteCategoryResponse struct {
 	ID string `json:"id"`
 }

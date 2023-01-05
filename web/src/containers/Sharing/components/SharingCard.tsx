@@ -25,7 +25,7 @@ import useSeparateChildren from "hooks/useSeparateChildren";
 import type { Theme } from "@mui/material";
 import clsx from "clsx";
 
-interface BlogCardProps {
+interface SharingCardProps {
   title: ReactNode;
   date: ReactNode;
   avatar?: ReactNode;
@@ -108,7 +108,7 @@ const variants = {
   duration: 0.5
 };
 
-export default forwardRef(function BlogCard(props: BlogCardProps, ref: ForwardedRef<any>) {
+export default forwardRef(function SharingCard(props: SharingCardProps, ref: ForwardedRef<any>) {
   const {
     title,
     avatar = 'S',
