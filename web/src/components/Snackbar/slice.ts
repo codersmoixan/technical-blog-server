@@ -22,19 +22,21 @@ const notifierSlice = createSlice({
     },
     closeSnackbar(state, action) {
       state.notifications = state.notifications.map(notification => (
-        (action.payload.dismissAll || notification.key === action.payload.key)
+        (action.payload.dismissAll || notification.key === action.payload)
           ? { ...notification, dismissed: true }
           : { ...notification }
       ))
     },
     removeSnackbar(state, action) {
       state.notifications = state.notifications.filter(
-        notification => notification.key !== action.payload.key,
+        notification => notification.key !== action.payload,
       )
     }
   }
 })
 
 export const { enqueueSnackbar, closeSnackbar, removeSnackbar } = notifierSlice.actions
+
+export const getNotifications = (state: RootState) => state.notifier.notifications
 
 export default notifierSlice

@@ -12,6 +12,7 @@ import BasicSpeedDial from "components/BasicSpeedDial";
 import Footer from "components/Footer";
 import type { AppProps } from "next/app";
 import type { Theme } from "@mui/material";
+import Snackbar from "components/Snackbar";
 
 const useStyles = makeStyles((theme: Theme) => ({
   scrollProgress: {
@@ -44,6 +45,7 @@ function App({ Component, pageProps }: AppProps) {
       <NodeVisible>
         <Footer />
       </NodeVisible>
+      <Snackbar />
     </Box>
   )
 }
