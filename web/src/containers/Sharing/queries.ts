@@ -1,14 +1,15 @@
-import {useMutation, useQuery} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getCategoryApi, getSharingListApi, addSharingApi, updateSharingApi, deleteSharingApi } from "containers/Sharing/api";
+import useReactQuery from "hooks/useReactQuery";
 import type { PageParams } from "@/src/tb.types";
 import type { AddSharingParam } from "containers/Sharing/type";
 
-export const useGetCategoryQuery = () => useQuery({
+export const useGetCategoryQuery = () => useReactQuery({
   queryKey: ['sharing.getCategory'],
   queryFn: () => getCategoryApi(),
 })
 
-export const useGetShareListQuery = ({ page, pageSize }: PageParams) => useQuery({
+export const useGetShareListQuery = ({ page, pageSize }: PageParams) => useReactQuery({
   queryKey: ['sharing.getShareList', page, pageSize],
   queryFn: () => getSharingListApi({ page, pageSize }),
   enabled: !!page && !!pageSize

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@mui/material/styles";
-import { SnackbarProvider } from "notistack"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { SnackbarProvider } from "notistack"
 import SetupApp from "containers/App"
 
 import theme from "@/src/theme"

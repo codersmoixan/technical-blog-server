@@ -1,4 +1,4 @@
-import { useSnackbar, VariantType, SnackbarMessage } from "notistack"
+import { useSnackbar, VariantType, SnackbarMessage, OptionsObject } from "notistack"
 import { Theme, useMediaQuery } from "@mui/material";
 import { timeSleep } from "@/src/utils";
 import { makeStyles } from "@mui/styles";
@@ -17,21 +17,18 @@ const useNotifier = (wait: number = 4000) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
 
-  const notify = (msg: SnackbarMessage, variant: VariantType = 'success') => {
+  return (msg: SnackbarMessage, variant: VariantType = 'success', config: Omit<OptionsObject, 'variant' | 'anchorOrigin' | 'className'> = {}) => {
     const snackbar = enqueueSnackbar(msg, {
       variant,
       anchorOrigin: {
         vertical: smUp ? 'bottom' : 'top',
         horizontal: 'left'
       },
-      className: classes.root
+      className: classes.root,
+      ...config
     })
 
     timeSleep(wait).then(() => closeSnackbar(snackbar))
-  }
-
-  return {
-    notify
   }
 }
 

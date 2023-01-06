@@ -8,7 +8,7 @@ export interface UseSharingProps extends PageParams {}
 const useSharing = (props?: UseSharingProps) => {
   const { page = 1, pageSize = 10 } = props ?? {}
 
-  const { notify } = useNotifier()
+  const notify = useNotifier()
   const { data: blogs, isLoading } = useGetShareListQuery({
     page,
     pageSize

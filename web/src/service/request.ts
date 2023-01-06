@@ -1,6 +1,8 @@
 import Axios from "./axios";
+import store from "../store/index"
 import { requestHeader } from "./utils";
 import { BASE_API_URL } from "./utils";
+import { enqueueSnackbar } from "components/Snackbar/slice";
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import type { RequestConfig } from "./type";
 
@@ -9,12 +11,30 @@ function requestInterceptors(config: AxiosRequestConfig): AxiosRequestConfig {
 }
 
 function responseInterceptors(config: AxiosResponse): AxiosResponse {
-  console.log(config, '这里是响应拦截器')
+  const { data } = config
+  if (data.code !== 0) {
+    const { dispatch } = store
+    dispatch(enqueueSnackbar({
+      message: data.msg,
+      options: {
+        key: new Date().getTime(),
+        variant: 'warning'
+      }
+    }))
+  }
+
   return config;
 }
 
 function responseInterceptorsCatch(err: any) {
-  console.log(err, "响应失败");
+  const { dispatch } = store
+  dispatch(enqueueSnackbar({
+    message: err.message,
+    key: new Date().getTime(),
+    variant: 'error'
+  }))
+
+  return Promise.reject(err)
 }
 
 function requestConfig(): RequestConfig {
