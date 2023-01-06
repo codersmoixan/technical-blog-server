@@ -69,7 +69,7 @@ const tags = [
 ]
 
 function Publish({ open = false, onClose, onPublish }: PublishProps) {
-  const { notify } = useNotifier()
+  const notify = useNotifier()
   const classes = useStyles()
   const theme = useTheme()
   const { observer, handleSubmit } = useForm({
