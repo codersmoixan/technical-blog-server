@@ -16,10 +16,8 @@ function responseInterceptors(config: AxiosResponse): AxiosResponse {
     const { dispatch } = store
     dispatch(enqueueSnackbar({
       message: data.msg,
-      options: {
-        key: new Date().getTime(),
-        variant: 'warning'
-      }
+      key: new Date().getTime(),
+      variant: 'warning'
     }))
   }
 

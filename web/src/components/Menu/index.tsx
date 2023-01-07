@@ -13,7 +13,7 @@ import clsx from "clsx";
 import TransformIcon from "components/TransformIcon";
 import { VariantContent } from "components/Variant";
 import { stiffnessVariants } from "utils/variants";
-import useDeepCompareEffect from "hooks/effect/useDeepCompareEffect";
+import useDeepCompareEffect from "hooks/common/effect/useDeepCompareEffect";
 import type { Theme } from "@mui/material";
 import type { EmptyObject } from "@/src/tb.types"
 import isEmpty from "lodash/isEmpty";
