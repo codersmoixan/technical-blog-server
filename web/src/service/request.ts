@@ -10,7 +10,7 @@ function requestInterceptors(config: AxiosRequestConfig): AxiosRequestConfig {
   return config;
 }
 
-function responseInterceptors(config: AxiosResponse): AxiosResponse {
+function responseInterceptors(config: AxiosResponse) {
   const { data } = config
   if (data.code !== 0) {
     const { dispatch } = store
@@ -21,7 +21,7 @@ function responseInterceptors(config: AxiosResponse): AxiosResponse {
     }))
   }
 
-  return config;
+  return config
 }
 
 function responseInterceptorsCatch(err: any) {

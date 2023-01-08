@@ -1,5 +1,11 @@
 import useReactQuery from "hooks/common/useReactQuery";
-import { addCategoryApi, deleteCategoryApi, getCategoryApi, updateCategoryApi } from "api/category";
+import {
+  addCategoryApi,
+  deleteCategoryApi,
+  getCategoryApi,
+  updateCategoryApi,
+  AddOrUpdateCategoryParam
+} from "api/category";
 import { useMutation } from "@tanstack/react-query";
 
 export enum CATEGORY_QUERY_KEY {
@@ -9,22 +15,23 @@ export enum CATEGORY_QUERY_KEY {
   DELETE = 'category.delete'
 }
 
+
 export const useGetCategoryQuery = () => useReactQuery({
   queryKey: [CATEGORY_QUERY_KEY.GET],
-  queryFn: () => getCategoryApi(),
+  queryFn: () => getCategoryApi()
 })
 
 export const useAddCategoryMutation = () => useMutation({
   mutationKey: [CATEGORY_QUERY_KEY.ADD],
-  mutationFn: (data: any) => addCategoryApi(data)
+  mutationFn: (data: AddOrUpdateCategoryParam) => addCategoryApi(data)
 })
 
 export const useUpdateCategoryMutation = () => useMutation({
   mutationKey: [CATEGORY_QUERY_KEY.UPDATE],
-  mutationFn: (data: any) => updateCategoryApi(data)
+  mutationFn: (data: AddOrUpdateCategoryParam) => updateCategoryApi(data)
 })
 
 export const useDeleteCategoryMutation = () => useMutation({
   mutationKey: [CATEGORY_QUERY_KEY.DELETE],
-  mutationFn: (data: any) => deleteCategoryApi(data)
+  mutationFn: (id: string) => deleteCategoryApi(id)
 })

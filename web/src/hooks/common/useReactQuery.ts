@@ -1,17 +1,23 @@
-import { useQuery, QueryObserverOptions } from "@tanstack/react-query";
+import {useQuery, QueryObserverOptions, UseQueryOptions, UseQueryResult} from "@tanstack/react-query";
 
-export const querySetting: QueryObserverOptions = {
+export const querySetting: UseQueryOptions = {
   refetchOnMount: false,
   refetchOnWindowFocus: false,
   retry: 3,
   retryDelay: 3000
 };
 
-const useReactQuery = ({ queryKey, queryFn, enabled }: QueryObserverOptions) => useQuery({
+export interface UseQueryResultValue {
+  code: number;
+  data: any;
+  msg: string;
+}
+
+const useReactQuery = ({ queryKey, queryFn, enabled }: UseQueryOptions): UseQueryResult<UseQueryResultValue> => useQuery({
   queryKey,
   queryFn,
   enabled,
   ...querySetting
-})
+}) as UseQueryResult<UseQueryResultValue>
 
 export default useReactQuery
