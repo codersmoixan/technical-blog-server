@@ -18,7 +18,7 @@ import Banner from "components/Layout/Banner";
 import { options } from "../constants"
 import type { Theme } from "@mui/material";
 import type { StaticImageData } from "next/image";
-import useSeparateChildren from "hooks/useSeparateChildren";
+import useSeparateChildren from "hooks/common/useSeparateChildren";
 
 interface SharingRootProps {
   backdrop?: string | StaticImageData;

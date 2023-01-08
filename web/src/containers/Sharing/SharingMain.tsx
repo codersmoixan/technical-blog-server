@@ -9,12 +9,10 @@ import SharingRoot from "containers/Sharing/components/SharingRoot";
 import useSwitchCatalog from "containers/Sharing/hooks/useSwitchCatalog";
 import { blogList } from "containers/Sharing/constants";
 import SharingSwiper from "containers/Sharing/components/SharingSwiper";
-import { useGetCategoryQuery } from "containers/Sharing/queries";
 import useSharing from "containers/Sharing/hooks/useSharing";
 
 function SharingMain() {
   const { checkedMenu } = useSwitchCatalog()
-  const { data } = useGetCategoryQuery()
   const { blogs } = useSharing()
 
   console.log(checkedMenu, 2212, blogs);

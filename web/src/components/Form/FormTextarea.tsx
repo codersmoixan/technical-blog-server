@@ -5,7 +5,7 @@
 
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
-import useFormController from "hooks/useFormController";
+import useFormController from "hooks/common/useFormController";
 import isUndefined from "lodash/isUndefined"
 import type { EmptyObject } from "@/src/tb.types"
 import type { Theme } from "@mui/material";

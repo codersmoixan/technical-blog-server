@@ -8,7 +8,7 @@ import {makeStyles} from "@mui/styles";
 import Buttons from "components/Buttons";
 import CloseIcon from "components/Icons/CloseIcon";
 import Box from "@mui/material/Box";
-import useSeparateChildren from "hooks/useSeparateChildren";
+import useSeparateChildren from "hooks/common/useSeparateChildren";
 import type { EmptyObject } from "@/src/tb.types"
 import type {Theme} from "@mui/material";
 import type { ReactElement, ReactNode } from "react";

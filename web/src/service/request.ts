@@ -10,20 +10,18 @@ function requestInterceptors(config: AxiosRequestConfig): AxiosRequestConfig {
   return config;
 }
 
-function responseInterceptors(config: AxiosResponse): AxiosResponse {
+function responseInterceptors(config: AxiosResponse) {
   const { data } = config
   if (data.code !== 0) {
     const { dispatch } = store
     dispatch(enqueueSnackbar({
       message: data.msg,
-      options: {
-        key: new Date().getTime(),
-        variant: 'warning'
-      }
+      key: new Date().getTime(),
+      variant: 'warning'
     }))
   }
 
-  return config;
+  return config
 }
 
 function responseInterceptorsCatch(err: any) {

@@ -15,12 +15,12 @@ import Typography from "@mui/material/Typography";
 import type { EmptyObject } from "@/src/tb.types"
 import isString from "lodash/isString";
 import get from "lodash/get";
-import useFormController from "hooks/useFormController";
+import useFormController from "hooks/common/useFormController";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import isUndefined from "lodash/isUndefined";
-import useUpdateEffect from "hooks/effect/useUpdateEffect";
-import useFirstMount from "hooks/effect/useFirstMount";
-import useMount from "hooks/effect/useMount";
+import useUpdateEffect from "hooks/common/effect/useUpdateEffect";
+import useFirstMount from "hooks/common/effect/useFirstMount";
+import useMount from "hooks/common/effect/useMount";
 
 interface FormChipSelectProps extends SelectProps{
   options: any[];

@@ -5,7 +5,7 @@
 
 import Box from '@mui/material/Box';
 import Grid from "@mui/material/Grid";
-import useNotifier from "hooks/useNotifier";
+import useNotifier from "components/Snackbar/hooks/useNotifier";
 import CenterDialog from "components/Dialog/CenterDialog";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
@@ -13,7 +13,7 @@ import FormSelectChip from "components/Form/FormSelectChip";
 import ImageUpload from "components/Form/ImageUpload";
 import FormTextarea from "components/Form/FormTextarea";
 import Form from "components/Form/Form";
-import useForm from "hooks/useForm";
+import useForm from "hooks/common/useForm";
 import type { Theme } from "@mui/material";
 import FormChipSelect from "components/Form/FormChipSelect";
 import isEmpty from "lodash/isEmpty";
@@ -22,6 +22,7 @@ import GlobalDrawer from "components/GlobalDrawer";
 import {useTheme} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import {AddSharingParam} from "containers/Sharing/type";
+import useCategory from "hooks/features/useCategory";
 
 export interface FormOptions extends Pick<AddSharingParam, 'category' | 'tag' | 'description'> {
   cover: File[]
@@ -72,13 +73,10 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
   const notify = useNotifier()
   const classes = useStyles()
   const theme = useTheme()
-  const { observer, handleSubmit } = useForm({
-    defaultValues: {
-      tag: ['前端', '后端'],
-      category: 1,
-      description: '225833'
-    }
-  })
+  const { observer, handleSubmit } = useForm()
+  const { categories } = useCategory()
+
+  console.log(categories, 1212)
 
   const [cover, setCover] = useState<File[]>([])
 
