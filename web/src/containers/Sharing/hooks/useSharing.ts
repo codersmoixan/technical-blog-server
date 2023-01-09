@@ -16,13 +16,10 @@ const useSharing = (props?: UseSharingProps) => {
   const { mutateAsync: add, isLoading: addLoading } = useAddShareMutation()
 
   const addSharing = async (data: AddSharingParam) => {
-    try {
-      await add(data)
-      notify('文章添加成功!')
-    } catch (err) {
-      console.log(err);
-      notify('文章添加失败!', 'warning')
-    }
+    const result = await add(data)
+
+    notify(result.msg)
+    return true
   }
 
   return {
