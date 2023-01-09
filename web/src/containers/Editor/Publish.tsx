@@ -59,11 +59,15 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
   const notify = useNotifier()
   const classes = useStyles()
   const theme = useTheme()
-  const { observer, handleSubmit } = useForm()
+  const { observer, handleSubmit, watch } = useForm()
   const { categories } = useCategory()
   const { tags } = useTag()
 
   const [cover, setCover] = useState<File[]>([])
+
+  const tag = watch('tag')
+
+  console.log(tag, 365665);
 
   const resetForm = () => {
     observer.reset()

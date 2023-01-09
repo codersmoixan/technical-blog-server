@@ -1,6 +1,21 @@
 import {useAddTagMutation, useDeleteTagMutation, useGetTagListQuery, useUpdateTagMutation} from "hooks/queries/tag";
 
-const useTag = () => {
+export type Tag = {
+  id: string;
+  value: string;
+  label: string;
+}
+
+export interface UseTagReturns {
+  tags: Tag[];
+  loading: boolean;
+  add: () => void;
+  update: () => void;
+  remove: () => void;
+  refetchTags: () => void;
+}
+
+const useTag = (): UseTagReturns => {
   const { data: tags, isLoading, refetch: refetchTags } = useGetTagListQuery()
   const { mutateAsync: addTag, isLoading: addLoading } = useAddTagMutation()
   const { mutateAsync: updateTag, isLoading: updateLoading } = useUpdateTagMutation()

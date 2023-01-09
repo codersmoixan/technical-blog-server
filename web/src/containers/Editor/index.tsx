@@ -161,13 +161,14 @@ function Editor() {
   }
 
   const handlePublish = async ({ cover, ...other }: FormOptions) => {
-    await addSharing({
-      ...other,
-      blogImage: '111',
-      name: title,
-      content: html,
-    })
-    handleCloseDialog()
+    console.log(other);
+    // await addSharing({
+    //   ...other,
+    //   blogImage: '111',
+    //   name: title,
+    //   content: html,
+    // })
+    // handleCloseDialog()
   }
 
   return (

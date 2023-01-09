@@ -7,7 +7,16 @@ import {
 import useNotifier from "components/Snackbar/hooks/useNotifier";
 import type { AddOrUpdateCategoryParam } from "api/category";
 
-const useCategory = () => {
+export interface UseCategoryReturns {
+  categories: any[];
+  loading: boolean;
+  add: (data: AddOrUpdateCategoryParam) => void;
+  update: (data: AddOrUpdateCategoryParam) => void;
+  remove: (id: string) => void;
+  refetchCategory: () => void
+}
+
+const useCategory = (): UseCategoryReturns => {
   const { data: categories, refetch: refetchCategory, isLoading: getLoading } = useGetCategoryQuery()
   const { mutateAsync: addCategory, isLoading: addLoading } = useAddCategoryMutation()
   const { mutateAsync: updateCategory, isLoading: updateLoading } = useUpdateCategoryMutation()

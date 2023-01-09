@@ -22,8 +22,13 @@ import useUpdateEffect from "hooks/common/effect/useUpdateEffect";
 import useFirstMount from "hooks/common/effect/useFirstMount";
 import useMount from "hooks/common/effect/useMount";
 
+export interface FormChipOption extends EmptyObject {
+  id: string;
+  value: string;
+}
+
 interface FormChipSelectProps extends SelectProps{
-  options: any[];
+  options: FormChipOption[];
   label?: string;
   rules?: EmptyObject<any>;
   multiple?: boolean;
@@ -87,13 +92,22 @@ const MenuProps = {
   },
 };
 
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
+const getStyles = (name: string, personName: readonly string[], theme: Theme) => {
   return {
     fontWeight:
       personName.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
+}
+
+const findSelected = (value: string | string[], options: FormChipOption[], key: string): FormChipOption[] => {
+  if (isString(value)) {
+    const values = options.find(option => option[key] === value)
+    return values ? [values] : []
+  }
+
+  return options.filter(option => value.some(i => i === option[key]))
 }
 
 function FormSelectChip({ options, placeholder, label, name, rules, multiple }: FormChipSelectProps) {
@@ -109,7 +123,8 @@ function FormSelectChip({ options, placeholder, label, name, rules, multiple }: 
   useEffect(() => {
     const value = fieldProps.value
     if (value) {
-      actionSelected(value)
+      const values = findSelected(value.split(','), options, 'id').map(i => i.value)
+      actionSelected(values)
     }
   }, [fieldProps.value])
 
@@ -129,7 +144,8 @@ function FormSelectChip({ options, placeholder, label, name, rules, multiple }: 
     const value = get(event, 'target.value', '')
     actionSelected(value)
     if (name) {
-      setValue(name, isString(value) ? value : value.join(','))
+      const values = findSelected(value, options, 'value').map(i => i.id).join(',')
+      setValue(name, values)
     }
   };
 
@@ -172,7 +188,7 @@ function FormSelectChip({ options, placeholder, label, name, rules, multiple }: 
           <MenuItem
             key={option.id}
             value={option.value}
-            style={getStyles(option, selected, theme)}
+            style={getStyles(option.value, selected, theme)}
           >
             {option.label}
           </MenuItem>
