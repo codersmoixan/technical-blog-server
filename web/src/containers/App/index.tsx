@@ -13,6 +13,7 @@ import Footer from "components/Footer";
 import type { AppProps } from "next/app";
 import type { Theme } from "@mui/material";
 import Snackbar from "components/Snackbar";
+import PopupLayer from "containers/App/components/PopupLayer";
 
 const useStyles = makeStyles((theme: Theme) => ({
   scrollProgress: {
@@ -46,6 +47,7 @@ function App({ Component, pageProps }: AppProps) {
         <Footer />
       </NodeVisible>
       <Snackbar />
+      <PopupLayer />
     </Box>
   )
 }

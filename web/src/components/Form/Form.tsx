@@ -1,14 +1,15 @@
-import { forwardRef, useRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useRef, useImperativeHandle } from 'react';
 import { FormProvider } from 'react-hook-form';
 import type { FieldValues } from "react-hook-form/dist/types/fields";
 import type { SubmitErrorHandler, UseFormReturn, SubmitHandler } from "react-hook-form/dist/types/form";
 import type { FormProviderProps } from "react-hook-form/dist/types";
 
 interface FormProps {
-  children?: JSX.Element;
+  children?: React.ReactNode;
   onFinish?: SubmitHandler<FieldValues>;
   onError?: SubmitErrorHandler<FieldValues>;
-  observer?: UseFormReturn
+  observer?: UseFormReturn;
+  className?: string;
 }
 
 export default forwardRef(function Form(props: FormProps, ref) {

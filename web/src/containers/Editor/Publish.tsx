@@ -148,6 +148,7 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           onConfirm={handleSubmit(handlePublish)}
           title="发布文章"
           confirmText="发布"
+          actions
         >
           {formNode()}
         </CenterDialog>

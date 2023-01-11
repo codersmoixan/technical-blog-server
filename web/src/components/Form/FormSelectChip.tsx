@@ -3,7 +3,7 @@
  * @description FormSelectChip
  */
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { Theme, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,15 +12,14 @@ import Select, {SelectChangeEvent, SelectProps} from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
-import type { EmptyObject } from "@/src/tb.types"
 import isString from "lodash/isString";
 import get from "lodash/get";
 import useFormController from "hooks/common/useFormController";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import isUndefined from "lodash/isUndefined";
 import useUpdateEffect from "hooks/common/effect/useUpdateEffect";
-import useFirstMount from "hooks/common/effect/useFirstMount";
-import useMount from "hooks/common/effect/useMount";
+import InputLabel from "@mui/material/InputLabel";
+import type { EmptyObject } from "@/src/tb.types"
 
 export interface FormChipOption extends EmptyObject {
   id: string;
@@ -49,6 +48,25 @@ const useStyles = makeStyles((theme: Theme) => ({
       '& .MuiChip-label': {
         fontSize: 12
       }
+    }
+  },
+  label: {
+    '&.MuiFormLabel-root': {
+      position: 'absolute',
+      top: '50%',
+      left: 14,
+      transform: 'translateY(-50%) scale(1)',
+      fontSize: 14,
+      color: theme.palette.text.primary,
+      transition: 'all .3s'
+    },
+    '&.MuiFormLabel-root.Mui-focused': {
+      transform: 'scale(0.85)',
+      left: 16,
+      top: -7,
+      fontSize: 12,
+      color: theme.palette.text.primary,
+      backgroundColor: theme.status.transparent
     }
   },
   input: {
@@ -153,6 +171,7 @@ function FormSelectChip({ options, placeholder, label, name, rules, multiple }: 
 
   return (
     <FormControl className={classes.root}>
+      {label && <InputLabel id="demo-simple-select-label" className={classes.label}>{label}</InputLabel>}
       <Select
         labelId="demo-multiple-chip-label"
         id="demo-multiple-chip"

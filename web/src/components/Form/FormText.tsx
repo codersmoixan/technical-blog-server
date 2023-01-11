@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
     '& .MuiOutlinedInput-notchedOutline': {
-      backgroundColor: `${(props: FormTextProps) => props.bgColor ?? theme.status.white}`
+      backgroundColor: (props: FormTextProps) => props.bgColor ?? theme.status.transparent
     },
 
     '&.Mui-focused': {

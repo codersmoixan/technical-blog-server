@@ -20,6 +20,8 @@ interface CustomThemeOptions {
     disabled: string;
     error: string;
     darkColor: string;
+    lightGrey: string;
+    lightPurple: string;
   };
   common: {
     verticalCenter: CSSProperties;
@@ -34,7 +36,7 @@ declare module '@mui/material/styles' {
   interface ThemeOptions extends CustomThemeOptions {}
 }
 
-const TB_PALETTE_MAIN = '#262627'
+const TB_PALETTE_MAIN = '#181622'
 const TB_PALETTE_TEXT_SECONDARY = '#86909c'
 const TB_PALETTE_BG_DEFAULT = '#f5f1ea'
 
@@ -47,6 +49,8 @@ const TB_STATUS_DARK_PEACH = '#f8f6f1'
 const TB_STATUS_PLACEHOLDER = '#c1c5cd'
 const TB_STATUS_DISABLED = '#86909c'
 const TB_STATUS_ERROR = '#d32f2f'
+const TB_STATUS_LIGHT_GREY = '#878593'
+const TB_STATUS_LIGHT_PURPLE = '#853bce'
 
 const TB_STATUS_TRANSITION_TIME = '.3s'
 const TB_STATUS_TRANSITION = (t?: number) => t ? `all ${t}s` : `all ${TB_STATUS_TRANSITION_TIME}`
@@ -79,7 +83,9 @@ const theme = createTheme({
     transparent: TB_STATUS_COLOR_TRANSPARENT,
     placeholder: TB_STATUS_PLACEHOLDER,
     disabled: TB_STATUS_DISABLED,
-    error: TB_STATUS_ERROR
+    error: TB_STATUS_ERROR,
+    lightGrey: TB_STATUS_LIGHT_GREY,
+    lightPurple: TB_STATUS_LIGHT_PURPLE,
   },
   common: {
     verticalCenter: {

@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: 24,
     outline: 'none',
     border: 'none',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    }
   },
   actions: {
     display: 'flex'
