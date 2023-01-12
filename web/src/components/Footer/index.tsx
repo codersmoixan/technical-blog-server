@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 import {makeStyles} from "@mui/styles";
 import {Theme} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import LightLogo from "components/Logo/LightLogo";
+import Logo from "components/Logo";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -27,7 +27,7 @@ function Footer() {
   return (
     <Box className={classes.root}>
       <Typography>Footer</Typography>
-      <LightLogo width={80} height={80} />
+      <Logo width={80} height={80} />
     </Box>
   )
 }

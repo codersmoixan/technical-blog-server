@@ -100,6 +100,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         },
       }
     }
+  },
+  value: {},
+  placeholder: {
+    color: theme.status.placeholder
   }
 }))
 
@@ -197,10 +201,31 @@ function FormSelect(props: FormSelectProps) {
         )}
         renderValue={(std) => {
           if (!std?.length) {
-            return <Typography component="span" variant="body1" color={theme.status.placeholder}>{placeholder}</Typography>
+            return (
+              <Typography
+                component="span"
+                variant="body1"
+                className={classes.placeholder}
+              >
+                {placeholder}
+              </Typography>
+            )
           }
 
-          const checkedNode = (v: any, k: any = 1) => type === 'text' ? <Typography key={k}>{v}</Typography> : <Chip key={k} label={v} />
+          const checkedNode = (v: any, k: any = 1) => {
+            return type === 'text' ? (
+              <Typography
+                className={classes.value}
+                key={k}
+              >{v}</Typography>
+            ) : (
+              <Chip
+                key={k}
+                label={v}
+                className={classes.value}
+              />
+            )
+          }
 
           if (isString(std)) {
             return checkedNode(std)

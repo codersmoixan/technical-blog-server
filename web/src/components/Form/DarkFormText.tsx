@@ -8,17 +8,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: '100%',
     '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: theme.status.lightGrey,
-      '&::hover': {
-        borderColor: theme.status.lightGrey,
-      }
+      borderColor: theme.status.sullenGrey,
     },
-    '&.Mui-focused': {
-      '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: theme.status.lightPurple,
-        borderWidth: 1
-      },
-    }
   },
   label: {
     '&.MuiFormLabel-root': {
@@ -29,8 +20,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   input: {
-    '&.Mui-focused': {
+    '&:hover': {
       '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: theme.status.lightGrey,
+      },
+    },
+    '& .MuiInputBase-input': {
+      color: theme.status.lightGrey,
+    },
+    '&.Mui-focused': {
+      '& fieldset.MuiOutlinedInput-notchedOutline': {
         borderColor: theme.status.lightPurple,
         borderWidth: 1
       },

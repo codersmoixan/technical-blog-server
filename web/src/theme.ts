@@ -22,6 +22,7 @@ interface CustomThemeOptions {
     darkColor: string;
     lightGrey: string;
     lightPurple: string;
+    sullenGrey: string;
   };
   common: {
     verticalCenter: CSSProperties;
@@ -49,8 +50,9 @@ const TB_STATUS_DARK_PEACH = '#f8f6f1'
 const TB_STATUS_PLACEHOLDER = '#c1c5cd'
 const TB_STATUS_DISABLED = '#86909c'
 const TB_STATUS_ERROR = '#d32f2f'
-const TB_STATUS_LIGHT_GREY = '#878593'
+const TB_STATUS_LIGHT_GREY = '#6c6b7b'
 const TB_STATUS_LIGHT_PURPLE = '#853bce'
+const TB_STATUS_SULLEN_GREY = '#33323e'
 
 const TB_STATUS_TRANSITION_TIME = '.3s'
 const TB_STATUS_TRANSITION = (t?: number) => t ? `all ${t}s` : `all ${TB_STATUS_TRANSITION_TIME}`
@@ -86,6 +88,7 @@ const theme = createTheme({
     error: TB_STATUS_ERROR,
     lightGrey: TB_STATUS_LIGHT_GREY,
     lightPurple: TB_STATUS_LIGHT_PURPLE,
+    sullenGrey: TB_STATUS_SULLEN_GREY,
   },
   common: {
     verticalCenter: {
