@@ -3,11 +3,11 @@ import { makeStyles } from "@mui/styles";
 import Form from "components/Form/Form";
 import useForm from "hooks/common/useForm";
 import LightLogo from "components/Logo/LightLogo";
-import DarkFormText from "containers/Tag/components/DarkFormText";
-import type { Theme } from "@mui/material";
-import FormSelectChip from "components/Form/FormSelectChip";
+import DarkFormText from "components/Form/DarkFormText";
 import Grid from "@mui/material/Grid";
 import useCategory from "hooks/features/useCategory";
+import DarkFormSelect from "components/Form/DarkFormSelect";
+import type { Theme } from "@mui/material";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -34,16 +34,16 @@ function OperateTag() {
       <Form observer={observer} className={classes.form}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <DarkFormText name="label" label="你的标签: Go" />
+            <DarkFormText name="label" placeholder="你的标签: Go" />
           </Grid>
           <Grid item xs={12}>
-            <FormSelectChip
-              name="tag"
-              multiple
+            <DarkFormSelect
+              name="category"
               options={categories}
-              label="请选择标签"
+              placeholder="添加到你的分类"
+              rowKey="label"
               rules={{
-                required: '请选择文章标签'
+                required: '选择你的分类'
               }}
             />
           </Grid>

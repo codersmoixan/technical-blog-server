@@ -23,6 +23,7 @@ export interface FormTextProps extends OutlinedInputProps {
   name?: string;
   rules?: EmptyObject<any>;
   helpText?: string;
+  classes?: object;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -39,14 +40,14 @@ const useStyles = makeStyles((theme: Theme) => ({
       color: theme.palette.text.primary,
       transition: 'all .3s'
     },
-    '&.MuiFormLabel-root.Mui-focused': {
+    '&.MuiFormLabel-root.Mui-focused, &.checked': {
       transform: 'scale(0.85)',
       left: 16,
       top: -7,
       fontSize: 12,
       color: theme.palette.text.primary,
       backgroundColor: theme.status.transparent
-    }
+    },
   },
   input: {
     '& .MuiInputBase-input': {
@@ -78,7 +79,7 @@ const useStyles = makeStyles((theme: Theme) => ({
           borderColor: theme.status.error
         },
       }
-    }
+    },
   }
 }))
 
@@ -95,8 +96,11 @@ function FormText(props: FormTextProps) {
 
   return (
     <FormControl variant="outlined" className={clsx(classes.root, className)}>
-      <InputLabel className={classes.label}>{label}</InputLabel>
+      {label && <InputLabel htmlFor="form-text" className={clsx(classes.label, {
+        checked: fieldProps.value
+      })}>{label}</InputLabel>}
       <OutlinedInput
+        id="form-text"
         className={classes.input}
         label={label}
         placeholder={isString(label) ? label : ''}

@@ -6,7 +6,7 @@ import {useState} from "react";
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
-    // backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main,
     paddingBottom: theme.spacing(4),
     '& .MuiButtonBase-root': {
       color: theme.status.white

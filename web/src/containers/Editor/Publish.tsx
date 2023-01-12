@@ -9,7 +9,7 @@ import useNotifier from "components/Snackbar/hooks/useNotifier";
 import CenterDialog from "components/Dialog/CenterDialog";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
-import FormSelectChip from "components/Form/FormSelectChip";
+import FormSelect from "components/Form/FormSelect";
 import ImageUpload from "components/Form/ImageUpload";
 import FormTextarea from "components/Form/FormTextarea";
 import Form from "components/Form/Form";
@@ -105,11 +105,12 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           <Grid container spacing={1} mt={2}>
             <Grid item xs={3} sm={2}>标签: </Grid>
             <Grid item xs={9} sm={10}>
-              <FormSelectChip
+              <FormSelect
                 name="tag"
                 multiple
                 options={tags}
                 placeholder="请选择标签"
+                type="chip"
                 rules={{
                   required: '请选择文章标签'
                 }}
