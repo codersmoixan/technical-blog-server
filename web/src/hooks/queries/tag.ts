@@ -1,6 +1,6 @@
-import useReactQuery from "hooks/common/useReactQuery";
+import useQuery from "hooks/common/query/useQuery";
 import { addTagApi, deleteTagApi, getTagListApi, updateTagApi } from "api/tag";
-import { useMutation } from "@tanstack/react-query";
+import useMutation from "hooks/common/query/useMutation";
 
 export enum TAG_QUERY_KEY {
   GET = 'tag.get',
@@ -9,22 +9,22 @@ export enum TAG_QUERY_KEY {
   DELETE = 'tag.delete'
 }
 
-export const useGetTagListQuery = () => useReactQuery({
+export const useGetTagListQuery = () => useQuery({
   queryKey: [TAG_QUERY_KEY.GET],
   queryFn: () => getTagListApi()
 })
 
-export const useAddTagMutation = () => useMutation({
+export const useAddTagMutation = () => useMutation<any>({
   mutationKey: [TAG_QUERY_KEY.ADD],
-  mutationFn: (data: any) => addTagApi(data)
+  mutationFn: (data) => addTagApi(data)
 })
 
-export const useUpdateTagMutation = () => useMutation({
+export const useUpdateTagMutation = () => useMutation<any>({
   mutationKey: [TAG_QUERY_KEY.UPDATE],
-  mutationFn: (data: any) => updateTagApi(data)
+  mutationFn: (data) => updateTagApi(data)
 })
 
-export const useDeleteTagMutation = () => useMutation({
+export const useDeleteTagMutation = () => useMutation<any>({
   mutationKey: [TAG_QUERY_KEY.DELETE],
-  mutationFn: (data: any) => deleteTagApi(data)
+  mutationFn: (data) => deleteTagApi(data)
 })

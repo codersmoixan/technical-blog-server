@@ -3,7 +3,7 @@
  * @description Video
  */
 
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 import Box, { BoxProps } from '@mui/material/Box';
 import { makeStyles } from "@mui/styles";
 import type { Theme } from "@mui/material";
@@ -11,11 +11,8 @@ import MediaQuery from "components/MediaQuery";
 
 const useStyles = makeStyles((theme: Theme) => ({
   backdropVideo: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
+    position: 'relative',
     width: '100%',
-    height: '100vh',
     zIndex: -1
   },
   video: {

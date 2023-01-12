@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: 24,
     outline: 'none',
     border: 'none',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    }
   },
   actions: {
     display: 'flex'
@@ -161,13 +164,16 @@ function Editor() {
   }
 
   const handlePublish = async ({ cover, ...other }: FormOptions) => {
-    await addSharing({
+    const result = await addSharing({
       ...other,
       blogImage: '111',
       name: title,
       content: html,
     })
-    handleCloseDialog()
+
+    if (result) {
+      handleCloseDialog()
+    }
   }
 
   return (
