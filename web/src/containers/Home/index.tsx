@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     alignItems: "center",
     padding: theme.spacing(0, 3),
+    position: 'absolute',
+    width: '100%'
   },
   banner: {
     width: 484,

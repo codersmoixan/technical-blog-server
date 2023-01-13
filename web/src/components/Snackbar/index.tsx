@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import isEmpty from "lodash/isEmpty";
 import { useDispatch, useSelector } from "react-redux";
-import useNotifier from "hooks/useNotifier";
+import useNotifier from "components/Snackbar/hooks/useNotifier";
 import { getNotifications, removeSnackbar } from "components/Snackbar/slice";
 
 function Snackbar() {
@@ -14,9 +14,8 @@ function Snackbar() {
       notifications.forEach(notification => {
         notify(notification.message, notification.variant, {
           key: notification.key,
-          onExited: (event, myKey) => {
-            console.log(myKey, 2218)
-            dispatch(removeSnackbar(myKey));
+          onExited: (event, key) => {
+            dispatch(removeSnackbar(key));
           },
         })
       })

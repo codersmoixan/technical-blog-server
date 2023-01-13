@@ -1,9 +1,9 @@
 /**
  * @author zhengji.su
- * @description FormSelectChip
+ * @description FormSelect
  */
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { Theme, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,21 +12,29 @@ import Select, {SelectChangeEvent, SelectProps} from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
-import type { EmptyObject } from "@/src/tb.types"
 import isString from "lodash/isString";
 import get from "lodash/get";
-import useFormController from "hooks/useFormController";
+import useFormController from "hooks/common/useFormController";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import isUndefined from "lodash/isUndefined";
-import useUpdateEffect from "hooks/effect/useUpdateEffect";
-import useFirstMount from "hooks/effect/useFirstMount";
-import useMount from "hooks/effect/useMount";
+import useUpdateEffect from "hooks/common/effect/useUpdateEffect";
+import InputLabel from "@mui/material/InputLabel";
+import type { EmptyObject } from "@/src/tb.types"
+import clsx from "clsx";
 
-interface FormChipSelectProps extends SelectProps{
-  options: any[];
+export interface FormSelectOption extends EmptyObject {
+  id: string;
+  value: string;
+}
+
+export interface FormSelectProps extends SelectProps{
+  options: FormSelectOption[];
   label?: string;
   rules?: EmptyObject<any>;
   multiple?: boolean;
+  rowKey?: string;
+  classes?: object;
+  type?: 'chip' | 'text'
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -44,6 +52,25 @@ const useStyles = makeStyles((theme: Theme) => ({
       '& .MuiChip-label': {
         fontSize: 12
       }
+    }
+  },
+  label: {
+    '&.MuiFormLabel-root': {
+      position: 'absolute',
+      top: '50%',
+      left: 14,
+      transform: 'translateY(-50%) scale(1)',
+      fontSize: 14,
+      color: theme.palette.text.primary,
+      transition: 'all .3s'
+    },
+    '&.MuiFormLabel-root.Mui-focused, &.checked': {
+      transform: 'scale(0.85)',
+      left: 16,
+      top: -7,
+      fontSize: 12,
+      color: theme.palette.text.primary,
+      backgroundColor: theme.status.transparent
     }
   },
   input: {
@@ -73,6 +100,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         },
       }
     }
+  },
+  value: {},
+  placeholder: {
+    color: theme.status.placeholder
   }
 }))
 
@@ -87,7 +118,7 @@ const MenuProps = {
   },
 };
 
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
+const getStyles = (name: string, personName: readonly string[], theme: Theme) => {
   return {
     fontWeight:
       personName.indexOf(name) === -1
@@ -96,9 +127,19 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-function FormSelectChip({ options, placeholder, label, name, rules, multiple }: FormChipSelectProps) {
+const findSelected = (value: string | string[], options: FormSelectOption[], key: string): FormSelectOption[] => {
+  if (isString(value)) {
+    const values = options.find(option => option[key] === value)
+    return values ? [values] : []
+  }
+
+  return options.filter(option => value.some(i => i === option[key]))
+}
+
+function FormSelect(props: FormSelectProps) {
+  const { options, placeholder, label, name, rules, multiple, rowKey = 'value', type = 'text' } = props
   const theme = useTheme();
-  const classes = useStyles()
+  const classes = useStyles(props)
   const { ref, fieldProps, fieldState, setValue, clearErrors } = useFormController({
     name,
     rules
@@ -109,7 +150,8 @@ function FormSelectChip({ options, placeholder, label, name, rules, multiple }: 
   useEffect(() => {
     const value = fieldProps.value
     if (value) {
-      actionSelected(value)
+      const values = findSelected(value.split(','), options, 'id').map(i => i[rowKey])
+      actionSelected(values)
     }
   }, [fieldProps.value])
 
@@ -129,7 +171,8 @@ function FormSelectChip({ options, placeholder, label, name, rules, multiple }: 
     const value = get(event, 'target.value', '')
     actionSelected(value)
     if (name) {
-      setValue(name, isString(value) ? value : value.join(','))
+      const values = findSelected(value, options, rowKey).map(i => i.id).join(',')
+      setValue(name, values)
     }
   };
 
@@ -137,27 +180,60 @@ function FormSelectChip({ options, placeholder, label, name, rules, multiple }: 
 
   return (
     <FormControl className={classes.root}>
+      {label && <InputLabel id="form-select" className={clsx(classes.label, {
+        checked: fieldProps.value
+      })}>{label}</InputLabel>}
       <Select
-        labelId="demo-multiple-chip-label"
+        labelId="form-select"
         id="demo-multiple-chip"
         multiple={multiple}
         displayEmpty
         onChange={handleChange}
-        input={<OutlinedInput id="select-multiple-chip" label={label} className={classes.input} inputRef={ref} {...fieldProps} />}
+        input={(
+          <OutlinedInput
+            id="select-chip"
+            label={label}
+            placeholder={isString(label) ? label : ''}
+            className={classes.input}
+            inputRef={ref}
+            {...fieldProps}
+          />
+        )}
         renderValue={(std) => {
           if (!std?.length) {
-            return <Typography component="span" variant="body1" color={theme.status.placeholder}>{placeholder}</Typography>
+            return (
+              <Typography
+                component="span"
+                variant="body1"
+                className={classes.placeholder}
+              >
+                {placeholder}
+              </Typography>
+            )
+          }
+
+          const checkedNode = (v: any, k: any = 1) => {
+            return type === 'text' ? (
+              <Typography
+                className={classes.value}
+                key={k}
+              >{v}</Typography>
+            ) : (
+              <Chip
+                key={k}
+                label={v}
+                className={classes.value}
+              />
+            )
           }
 
           if (isString(std)) {
-            return <Chip label={std} />
+            return checkedNode(std)
           }
 
           return (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {std?.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
+              {std?.map((value) => checkedNode(value, value))}
             </Box>
           )
         }}
@@ -171,8 +247,8 @@ function FormSelectChip({ options, placeholder, label, name, rules, multiple }: 
         {options.map((option) => (
           <MenuItem
             key={option.id}
-            value={option.value}
-            style={getStyles(option, selected, theme)}
+            value={option[rowKey]}
+            style={getStyles(option[rowKey], selected, theme)}
           >
             {option.label}
           </MenuItem>
@@ -183,4 +259,4 @@ function FormSelectChip({ options, placeholder, label, name, rules, multiple }: 
   );
 }
 
-export default FormSelectChip
+export default FormSelect

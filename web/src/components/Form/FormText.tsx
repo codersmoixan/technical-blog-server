@@ -10,7 +10,7 @@ import isString from "lodash/isString";
 import isUndefined from "lodash/isUndefined"
 import clsx from "clsx";
 import type { ReactNode } from "react";
-import useFormController from "hooks/useFormController";
+import useFormController from "hooks/common/useFormController";
 import type { EmptyObject } from "@/src/tb.types"
 import type { Theme } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -23,6 +23,7 @@ export interface FormTextProps extends OutlinedInputProps {
   name?: string;
   rules?: EmptyObject<any>;
   helpText?: string;
+  classes?: object;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -39,17 +40,18 @@ const useStyles = makeStyles((theme: Theme) => ({
       color: theme.palette.text.primary,
       transition: 'all .3s'
     },
-    '&.MuiFormLabel-root.Mui-focused': {
+    '&.MuiFormLabel-root.Mui-focused, &.checked': {
       transform: 'scale(0.85)',
       left: 16,
       top: -7,
       fontSize: 12,
       color: theme.palette.text.primary,
       backgroundColor: theme.status.transparent
-    }
+    },
   },
   input: {
     '& .MuiInputBase-input': {
+      position: 'relative',
       padding: theme.spacing(0, 1.75),
       height: 42,
       '&::-webkit-input-placeholder': {/*Webkit browsers*/
@@ -66,7 +68,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
     '& .MuiOutlinedInput-notchedOutline': {
-      backgroundColor: `${(props: FormTextProps) => props.bgColor ?? theme.status.white}`
+      backgroundColor: (props: FormTextProps) => props.bgColor ?? theme.status.transparent,
     },
 
     '&.Mui-focused': {
@@ -78,7 +80,7 @@ const useStyles = makeStyles((theme: Theme) => ({
           borderColor: theme.status.error
         },
       }
-    }
+    },
   }
 }))
 
@@ -95,9 +97,14 @@ function FormText(props: FormTextProps) {
 
   return (
     <FormControl variant="outlined" className={clsx(classes.root, className)}>
-      <InputLabel className={classes.label}>{label}</InputLabel>
+      {label && <InputLabel htmlFor="form-text" className={clsx(classes.label, {
+        checked: fieldProps.value
+      })}>{label}</InputLabel>}
       <OutlinedInput
-        className={classes.input}
+        id="form-text"
+        className={clsx(classes.input, {
+          checked: fieldProps.value
+        })}
         label={label}
         placeholder={isString(label) ? label : ''}
         {...fieldProps}

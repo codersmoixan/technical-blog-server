@@ -21,7 +21,7 @@ import ShareFour from "public/images/share/share-four.png"
 import Typography from "@mui/material/Typography";
 import MediaQuery from "components/MediaQuery";
 import Box from "@mui/material/Box";
-import useSeparateChildren from "hooks/useSeparateChildren";
+import useSeparateChildren from "hooks/common/useSeparateChildren";
 import type { Theme } from "@mui/material";
 import clsx from "clsx";
 

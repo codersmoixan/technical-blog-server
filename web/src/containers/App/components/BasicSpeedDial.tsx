@@ -4,7 +4,7 @@
  */
 
 import Box from '@mui/material/Box';
-import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDial, {SpeedDialProps} from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
@@ -19,12 +19,20 @@ import routes from "@/src/routes";
 import isString from "lodash/isString";
 import type { ReactNode } from "react";
 import Link from "next/link";
+import useSpeedDial from "containers/App/hooks/useSpeedDial";
 
-const actions: {
+export interface SpeedDialOption {
   id: keyof (typeof routes) | 'top';
   icon: ReactNode;
   name?: string;
-}[] = [
+}
+
+export interface BasicSpeedDialProps extends Omit<SpeedDialProps, 'onChange' | 'ariaLabel'> {
+  ariaLabel?: string;
+  onChange?: (action: SpeedDialOption) => void;
+}
+
+const actions: SpeedDialOption[] = [
   { id: 'links', icon: <AddLink />, name: '新增友情链接' },
   { id: 'category', icon: <Queue />, name: '新增归档类型' },
   { id: 'tags', icon: <BookmarkAdd />, name: '新增标签' },
@@ -48,9 +56,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-function BasicSpeedDial() {
+function BasicSpeedDial({ onChange, ...other }: BasicSpeedDialProps) {
   const classes = useStyles()
   const history = useRouter()
+  const { change } = useSpeedDial()
 
   const scrollToTop = () => {
     document.body.scrollIntoView({
@@ -60,20 +69,19 @@ function BasicSpeedDial() {
   }
 
 
-  const handleAction = (type: keyof (typeof routes) | 'top') => {
-    if (type === 'top') {
+  const handleAction = (action: SpeedDialOption) => {
+    const { id } = action
+    if (id === 'top') {
       return scrollToTop()
     }
 
-    if (type === 'editor') {
+    if (id === 'editor') {
       return
     }
 
-    const route = routes[type]
+    change(id)
 
-    console.log(route);
-
-    return isString(route) ? history.push(route) : history.push(route())
+    return onChange?.(action)
   }
 
   return (
@@ -82,13 +90,14 @@ function BasicSpeedDial() {
         ariaLabel="SpeedDial basic example"
         sx={{ position: 'absolute', bottom: 16, right: 16 }}
         icon={<SpeedDialIcon />}
+        {...other}
       >
         {actions.map((action) => (
           <SpeedDialAction
             key={action.id}
             icon={action.icon}
             tooltipTitle={action.name}
-            onClick={() => handleAction(action.id)}
+            onClick={() => handleAction(action)}
           />
         ))}
       </SpeedDial>

@@ -25,7 +25,7 @@ import routes from "@/src/routes";
 import { useTheme } from "@mui/material/styles";
 import {Variant} from "components/Variant";
 
-function Index() {
+function Navigation() {
   const classes = useStyles()
   const history = useRouter()
   const theme = useTheme()
@@ -112,4 +112,4 @@ function Index() {
   )
 }
 
-export default Index
+export default Navigation

@@ -2,7 +2,7 @@ import isString from 'lodash/isString';
 import { useForm as useHookForm, SetValueConfig, UseFormProps } from 'react-hook-form';
 import isEmpty from 'lodash/isEmpty';
 import isArray from 'lodash/isArray';
-import { EmptyObject } from "src/tb.types"
+import { EmptyObject } from "@/src/tb.types"
 
 const useForm = ({ mode = 'onSubmit', ...formOptions }: UseFormProps = {}) => {
   const observer = useHookForm({ ...formOptions, mode });

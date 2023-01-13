@@ -3,6 +3,7 @@
  * @description CenterDialog
  */
 
+import React from "react";
 import Dialog, { DialogProps } from "@mui/material/Dialog";
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -15,12 +16,14 @@ import type { Theme } from "@mui/material";
 
 interface CenterDialogProps extends DialogProps {
   open: boolean;
+  actions?: boolean;
   title?: string;
   confirmText?: string;
   cancelText?: string;
   onClose?: () => void;
   onConfirm?: () => void;
-  children?: JSX.Element
+  classes?: any;
+  children?: React.ReactNode;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -58,6 +61,7 @@ function CenterDialog(props: CenterDialogProps) {
     onClose,
     onConfirm,
     children,
+    actions,
     ...other
   } = props
   const classes = useStyles(props)
@@ -80,14 +84,16 @@ function CenterDialog(props: CenterDialogProps) {
       <DialogContent className={classes.content}>
         {children}
       </DialogContent>
-      <DialogActions className={classes.actions}>
-        <Buttons onClick={onClose} variant="outlined">
-          {cancelText}
-        </Buttons>
-        <Buttons onClick={onConfirm} variant="contained">
-          {confirmText}
-        </Buttons>
-      </DialogActions>
+      {actions && (
+        <DialogActions className={classes.actions}>
+          <Buttons onClick={onClose} variant="outlined">
+            {cancelText}
+          </Buttons>
+          <Buttons onClick={onConfirm} variant="contained">
+            {confirmText}
+          </Buttons>
+        </DialogActions>
+      )}
     </Dialog>
   )
 }

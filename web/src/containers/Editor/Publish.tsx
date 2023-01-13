@@ -5,15 +5,15 @@
 
 import Box from '@mui/material/Box';
 import Grid from "@mui/material/Grid";
-import useNotifier from "hooks/useNotifier";
+import useNotifier from "components/Snackbar/hooks/useNotifier";
 import CenterDialog from "components/Dialog/CenterDialog";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
-import FormSelectChip from "components/Form/FormSelectChip";
+import FormSelect from "components/Form/FormSelect";
 import ImageUpload from "components/Form/ImageUpload";
 import FormTextarea from "components/Form/FormTextarea";
 import Form from "components/Form/Form";
-import useForm from "hooks/useForm";
+import useForm from "hooks/common/useForm";
 import type { Theme } from "@mui/material";
 import FormChipSelect from "components/Form/FormChipSelect";
 import isEmpty from "lodash/isEmpty";
@@ -22,6 +22,8 @@ import GlobalDrawer from "components/GlobalDrawer";
 import {useTheme} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import {AddSharingParam} from "containers/Sharing/type";
+import useCategory from "hooks/features/useCategory";
+import useTag from "hooks/features/useTag";
 
 export interface FormOptions extends Pick<AddSharingParam, 'category' | 'tag' | 'description'> {
   cover: File[]
@@ -53,34 +55,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-const chips = [
-  { id: '1', label: '前端' },
-  { id: '2', label: '后端' },
-  { id: '3', label: 'IOS' },
-  { id: '4', label: 'Android' },
-  { id: '5', label: '开发工具' },
-  { id: '6', label: '阅读' },
-  { id: '7', label: '代码人生' }
-]
-
-const tags = [
-  { id: '1', label: '前端', value: '前端' },
-  { id: '2', label: '后端', value: '后端' }
-]
-
 function Publish({ open = false, onClose, onPublish }: PublishProps) {
   const notify = useNotifier()
   const classes = useStyles()
   const theme = useTheme()
-  const { observer, handleSubmit } = useForm({
-    defaultValues: {
-      tag: ['前端', '后端'],
-      category: 1,
-      description: '225833'
-    }
-  })
+  const { observer, handleSubmit, watch } = useForm()
+  const { categories } = useCategory()
+  const { tags } = useTag()
 
   const [cover, setCover] = useState<File[]>([])
+
+  const tag = watch('tag')
+
+  console.log(tag, 365665);
 
   const resetForm = () => {
     observer.reset()
@@ -112,17 +99,18 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           <Grid container spacing={1}>
             <Grid item xs={3} sm={2}>分类: </Grid>
             <Grid item xs={9} sm={10}>
-              <FormChipSelect name="category" options={chips} rules={{ required: '请选择文章分类' }} />
+              <FormChipSelect name="category" options={categories} rules={{ required: '请选择文章分类' }} />
             </Grid>
           </Grid>
           <Grid container spacing={1} mt={2}>
             <Grid item xs={3} sm={2}>标签: </Grid>
             <Grid item xs={9} sm={10}>
-              <FormSelectChip
+              <FormSelect
                 name="tag"
                 multiple
                 options={tags}
                 placeholder="请选择标签"
+                type="chip"
                 rules={{
                   required: '请选择文章标签'
                 }}
@@ -161,6 +149,7 @@ function Publish({ open = false, onClose, onPublish }: PublishProps) {
           onConfirm={handleSubmit(handlePublish)}
           title="发布文章"
           confirmText="发布"
+          actions
         >
           {formNode()}
         </CenterDialog>

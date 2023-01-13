@@ -23,7 +23,8 @@
       "store/*": ["./src/store/*"],
       "hooks/*": ["./src/hooks/*"],
       "utils/*": ["./src/utils/*"],
-      "service/*": ["./src/service/*"]
+      "service/*": ["./src/service/*"],
+      "api/*": ["./src/api/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
