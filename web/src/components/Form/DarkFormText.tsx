@@ -7,9 +7,6 @@ interface DarkFormTextProps extends FormTextProps {}
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: '100%',
-    '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: theme.status.sullenGrey,
-    },
   },
   label: {
     '&.MuiFormLabel-root': {
@@ -20,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   input: {
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.status.sullenGrey,
+    },
     '&:hover': {
       '& .MuiOutlinedInput-notchedOutline': {
         borderColor: theme.status.lightGrey,
@@ -34,6 +34,11 @@ const useStyles = makeStyles((theme: Theme) => ({
         borderWidth: 1
       },
     },
+    '&.checked': {
+      '& fieldset.MuiOutlinedInput-notchedOutline': {
+        backgroundColor: theme.status.transparent,
+      },
+    }
   },
 }))
 
@@ -49,6 +54,7 @@ function DarkFormText({ name, label, ...other }: DarkFormTextProps) {
         label: classes.label,
         input: classes.input
       }}
+      autoComplete="off"
       {...other}
     />
   )

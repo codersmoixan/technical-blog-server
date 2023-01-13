@@ -40,7 +40,7 @@ function OperateTag() {
       <Form observer={observer} className={classes.form}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <DarkFormText name="label" placeholder="你的标签: Go" />
+            <DarkFormText name="label" label="你的标签: Go" />
           </Grid>
           <Grid item xs={12}>
             <DarkFormSelect

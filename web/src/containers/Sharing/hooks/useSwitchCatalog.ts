@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { checkedMenuAction, getCheckedMenu, getParentMenu, parentMenuAction } from "containers/Sharing/slice";
+import { checkedMenuAction, selectCheckedMenu, selectParentMenu, parentMenuAction } from "containers/Sharing/slice";
 import routes from "@/src/routes";
 import get from "lodash/get";
 import isString from "lodash/isString";
@@ -9,8 +9,8 @@ import type { MenuItem } from "components/Menu";
 
 const useSwitchCatalog = () => {
   const dispatch = useDispatch()
-  const checkedMenu = useSelector(getCheckedMenu)
-  const parentMenu = useSelector(getParentMenu)
+  const checkedMenu = useSelector(selectCheckedMenu, shallowEqual)
+  const parentMenu = useSelector(selectParentMenu, shallowEqual)
   const history = useRouter()
 
   const [focus, setFocus] = useState(false)

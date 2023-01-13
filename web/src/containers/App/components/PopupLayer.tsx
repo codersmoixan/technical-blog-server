@@ -1,8 +1,8 @@
 import CenterDialog from "components/Dialog/CenterDialog";
 import OperateTag from "containers/Tag/components/OperateTag";
-import {makeStyles} from "@mui/styles";
-import {Theme} from "@mui/material";
-import {useState} from "react";
+import { makeStyles } from "@mui/styles";
+import useSpeedDial from "containers/App/hooks/useSpeedDial";
+import type { Theme } from "@mui/material";
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
@@ -19,13 +19,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 function PopupLayer() {
   const classes = useStyles()
-
-  const [open, setOpen] = useState(true)
+  const { clear, speedDial } = useSpeedDial()
 
   return (
     <CenterDialog
-      open={open}
-      onClose={() => setOpen(false)}
+      open={!!speedDial}
+      onClose={clear}
       classes={{
         paper: classes.paper,
         closeIcon: classes.closeIcon,
