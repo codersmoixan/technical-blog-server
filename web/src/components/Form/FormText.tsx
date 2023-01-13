@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   input: {
     '& .MuiInputBase-input': {
+      position: 'relative',
       padding: theme.spacing(0, 1.75),
       height: 42,
       '&::-webkit-input-placeholder': {/*Webkit browsers*/
@@ -67,7 +68,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
     '& .MuiOutlinedInput-notchedOutline': {
-      backgroundColor: (props: FormTextProps) => props.bgColor ?? theme.status.transparent
+      backgroundColor: (props: FormTextProps) => props.bgColor ?? theme.status.transparent,
     },
 
     '&.Mui-focused': {
@@ -101,7 +102,9 @@ function FormText(props: FormTextProps) {
       })}>{label}</InputLabel>}
       <OutlinedInput
         id="form-text"
-        className={classes.input}
+        className={clsx(classes.input, {
+          checked: fieldProps.value
+        })}
         label={label}
         placeholder={isString(label) ? label : ''}
         {...fieldProps}

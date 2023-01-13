@@ -8,12 +8,12 @@ import { motion, useScroll } from "framer-motion";
 import { makeStyles } from "@mui/styles";
 import NodeVisible from "components/NodeVisible";
 import Navigation from "components/Navigation";
-import BasicSpeedDial from "components/BasicSpeedDial";
+import BasicSpeedDial  from "containers/App/components/BasicSpeedDial";
 import Footer from "components/Footer";
-import type { AppProps } from "next/app";
-import type { Theme } from "@mui/material";
 import Snackbar from "components/Snackbar";
 import PopupLayer from "containers/App/components/PopupLayer";
+import type { AppProps } from "next/app";
+import type { Theme } from "@mui/material";
 
 const useStyles = makeStyles((theme: Theme) => ({
   scrollProgress: {

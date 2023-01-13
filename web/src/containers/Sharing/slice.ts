@@ -30,7 +30,7 @@ const sharingSlice = createSlice({
 
 export const { checkedMenuAction, parentMenuAction } = sharingSlice.actions
 
-export const getCheckedMenu = (state: RootState) => state.sharing.checkedMenu
-export const getParentMenu = (state: RootState) => state.sharing.parentMenu
+export const selectCheckedMenu = (state: RootState) => state.sharing.checkedMenu
+export const selectParentMenu = (state: RootState) => state.sharing.parentMenu
 
 export default sharingSlice

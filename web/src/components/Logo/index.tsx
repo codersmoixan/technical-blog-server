@@ -1,10 +1,14 @@
 import Box, { BoxProps } from "@mui/material/Box";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
-import type { Theme } from "@mui/material";
 import LogoIcon from "components/Icons/LogoIcon";
+import theme from "@/src/theme";
+import type { Theme } from "@mui/material";
 
-interface LightLogo extends BoxProps {}
+interface LogoProps extends BoxProps {
+  bgColor?: string;
+  color?: string;
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -13,7 +17,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: '50%',
-    opacity: '.6',
     '& svg': {
       width: '100%',
       height: '100%'
@@ -21,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
-function LightLogo({ className, ...other }: LightLogo) {
+function Logo({ className, bgColor = theme.status.white, color, ...other }: LogoProps) {
   const classes = useStyles()
 
   return (
@@ -31,4 +34,4 @@ function LightLogo({ className, ...other }: LightLogo) {
   )
 }
 
-export default LightLogo
+export default Logo
