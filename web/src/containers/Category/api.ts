@@ -1,8 +1,5 @@
 import { DELETE, GET, POST, PUT } from "@/src/service";
-
-export interface AddOrUpdateCategoryParam {
-  label: string
-}
+import type { AddOrUpdateCategoryParam } from "./types"
 
 export const getCategoryApi = () => GET('category/list')
 export const addCategoryApi = (data: AddOrUpdateCategoryParam) => POST('category/add', data)

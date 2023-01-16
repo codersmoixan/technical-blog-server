@@ -1,6 +1,6 @@
 import { GET, POST, PUT, DELETE } from "@/src/service";
 import { PageParams } from "@/src/tb.types";
-import type { AddSharingParam } from "containers/Sharing/type";
+import type { AddSharingParam } from "containers/Sharing/types";
 
 export const getSharingListApi = (data: PageParams) => GET('blog/list', data)
 export const addSharingApi = (data: AddSharingParam) => POST('blog/add', data)

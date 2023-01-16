@@ -2,7 +2,7 @@ import { getSharingListApi, addSharingApi, updateSharingApi, deleteSharingApi } 
 import useQuery from "hooks/common/query/useQuery";
 import useMutation from "hooks/common/query/useMutation";
 import type { PageParams } from "@/src/tb.types";
-import type { AddSharingParam } from "containers/Sharing/type";
+import type { AddSharingParam } from "containers/Sharing/types";
 
 export enum SHARING_QUERY_KEY {
   GET = 'sharing.get',
