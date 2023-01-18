@@ -21,9 +21,9 @@ import MediaQuery from "components/MediaQuery";
 import GlobalDrawer from "components/GlobalDrawer";
 import {useTheme} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import {AddSharingParam} from "containers/Sharing/type";
-import useCategory from "hooks/features/useCategory";
-import useTag from "hooks/features/useTag";
+import {AddSharingParam} from "containers/Sharing/types";
+import useCategory from "containers/Category/hooks/useCategory";
+import useTag from "containers/Tag/hooks/useTag";
 
 export interface FormOptions extends Pick<AddSharingParam, 'category' | 'tag' | 'description'> {
   cover: File[]

@@ -5,7 +5,7 @@ import {
   getCategoryApi,
   updateCategoryApi,
   AddOrUpdateCategoryParam
-} from "api/category";
+} from "containers/Category/api";
 import useMutation from "hooks/common/query/useMutation";
 
 export enum CATEGORY_QUERY_KEY {

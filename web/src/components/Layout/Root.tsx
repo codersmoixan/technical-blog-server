@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'relative',
     overflowX: 'hidden',
     width: '100%',
-    backgroundColor: (props: RootProps) => props.bgColor || theme.palette.background.default,
+    background: (props: RootProps) => props.bgColor || theme.palette.background.default,
     zIndex: -1,
   },
   review: {

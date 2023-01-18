@@ -11,8 +11,8 @@ const useSpeedDial = () => {
 
   return {
     speedDial,
-    clear,
-    change
+    clearSpeedDial: clear,
+    changeSpeedDial: change
   }
 }
 

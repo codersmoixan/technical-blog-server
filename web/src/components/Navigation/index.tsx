@@ -6,7 +6,7 @@
 import { useEffect, useState } from 'react'
 import Box from "@mui/material/Box";
 import Image from "next/image";
-import Logo from "public/images/logo/logo.dark.jpg"
+import Logo from "assets/images/logo/logo.dark.jpg"
 import { NAVIGATION_LIST, NavigationItem } from "components/Navigation/constant";
 import Buttons from "components/Buttons";
 import FormText from "components/Form/FormText";

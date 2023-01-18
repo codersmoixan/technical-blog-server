@@ -19,12 +19,12 @@
       "@/*": ["./*"],
       "components/*": ["./src/components/*"],
       "containers/*": ["./src/containers/*"],
-      "public/*": ["./src/public/*"],
       "store/*": ["./src/store/*"],
       "hooks/*": ["./src/hooks/*"],
       "utils/*": ["./src/utils/*"],
       "service/*": ["./src/service/*"],
-      "api/*": ["./src/api/*"]
+      "api/*": ["./src/api/*"],
+      "assets/*": ["./src/assets/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

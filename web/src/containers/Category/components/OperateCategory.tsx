@@ -1,15 +1,13 @@
-import Box from "@mui/material/Box";
 import { makeStyles } from "@mui/styles";
+import Box from "@mui/material/Box";
+import Logo from "components/Logo";
+import Grid from "@mui/material/Grid";
+import DarkFormText from "components/Form/DarkFormText";
+import Buttons from "components/Buttons";
 import Form from "components/Form/Form";
 import useForm from "hooks/common/useForm";
-import Logo from "components/Logo";
-import DarkFormText from "components/Form/DarkFormText";
-import Grid from "@mui/material/Grid";
-import useCategory from "containers/Category/hooks/useCategory";
-import DarkFormSelect from "components/Form/DarkFormSelect";
 import type { Theme } from "@mui/material";
-import Buttons from "components/Buttons";
-import useTag from "containers/Tag/hooks/useTag";
+import useCategory from "containers/Category/hooks/useCategory";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -30,11 +28,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-function OperateTag() {
+function OperateCategory() {
   const classes = useStyles()
   const { observer } = useForm()
-  const { categories } = useCategory()
-  const { add, loading } = useTag()
+  const { add, loading } = useCategory()
 
   return (
     <Box className={classes.root}>
@@ -42,18 +39,7 @@ function OperateTag() {
       <Form observer={observer} className={classes.form} onFinish={add}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <DarkFormText name="label" placeholder="你的标签: Go" />
-          </Grid>
-          <Grid item xs={12}>
-            <DarkFormSelect
-              name="category"
-              options={categories}
-              placeholder="添加到你的分类"
-              rowKey="label"
-              rules={{
-                required: '选择你的分类'
-              }}
-            />
+            <DarkFormText name="label" placeholder="你的分类: Go" />
           </Grid>
           <Grid item xs={12}>
             <Buttons
@@ -70,4 +56,4 @@ function OperateTag() {
   )
 }
 
-export default OperateTag
+export default OperateCategory
