@@ -22,24 +22,24 @@ export default class MyDocument extends Document {
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
           />
           <meta name="theme-color" content={theme.palette.primary.main} />
-          <link rel="icon" type="image/png" href="/src/assets/favicon-32.png" />
+          <link rel="icon" type="image/png" href="/favicon.png" />
           <link href="https://unpkg.com/prismjs@latest/themes/prism.css" rel="stylesheet" />
         </Head>
         <script src="https://unpkg.com/prismjs@latest/prism.js"></script>
         <script src="https://unpkg.com/prismjs@latest/components/prism-core.js"></script>
         <script src="https://unpkg.com/prismjs@latest/plugins/autoloader/prism-autoloader.js"></script>
         <body>
-          <Main/>
-          <NextScript/>
-          <script>
-            {
-              `
+        <Main/>
+        <NextScript/>
+        <script>
+          {
+            `
               function() {
                 Prism.highlightAll()
               }()
               `
-            }
-          </script>
+          }
+        </script>
         </body>
       </Html>
     );

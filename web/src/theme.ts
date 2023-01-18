@@ -1,5 +1,16 @@
 import { createTheme } from "@mui/material/styles";
-import {CSSProperties} from "@mui/styles";
+import type { CSSProperties } from "@mui/styles";
+import { createBreakpoints } from "@mui/system";
+
+const breakpoints = createBreakpoints({
+  values: {
+    xs: 0,
+    sm: 500,
+    md: 800,
+    lg: 1100,
+    xl: 1350
+  }
+})
 
 interface CustomThemeOptions {
   status: {
@@ -59,15 +70,7 @@ const TB_STATUS_TRANSITION = (t?: number) => t ? `all ${t}s` : `all ${TB_STATUS_
 
 
 const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 500,
-      md: 800,
-      lg: 1100,
-      xl: 1350
-    }
-  },
+  breakpoints,
   status: {
     backdropHeight: 580,
     navWidth: 1408,
@@ -138,12 +141,12 @@ const theme = createTheme({
       '冬青黑体简体中文',
     ].join(','),
     h1: {
-      fontSize: 64,
+      fontSize: 'clamp(34px, 6vw, 64px)',
       fontWeight: 700,
-      lineHeight: 1.5
+      lineHeight: 1.5,
     },
     h2: {
-      fontSize: 36,
+      fontSize: 'clamp(24px, 6vw, 36px)',
       fontWeight: 700,
       lineHeight: 1.5
     },

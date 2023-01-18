@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Root from "components/Layout/Root";
 import Content from "components/Layout/Content";
-import CreativeLines from "public/images/backdrop/creative-lines.jpeg"
+import CreativeLines from "assets/images/backdrop/creative-lines.jpeg"
 
 function About() {
 

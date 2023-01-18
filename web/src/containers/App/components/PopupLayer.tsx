@@ -1,10 +1,11 @@
 import React from "react"
 import CenterDialog from "components/Dialog/CenterDialog";
-import OperateTag from "containers/Tag/components/OperateTag";
 import { makeStyles } from "@mui/styles";
 import useSpeedDial from "containers/App/hooks/useSpeedDial";
 import { getValue } from "utils/index";
+import OperateTag from "containers/Tag/components/OperateTag";
 import OperateCategory from "containers/Category/components/OperateCategory";
+import OperateLinks from "containers/Links/components/OperateLinks";
 import type { Theme } from "@mui/material";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -22,7 +23,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const content = {
   tags: <OperateTag />,
-  category: <OperateCategory />
+  category: <OperateCategory />,
+  links: <OperateLinks />
 }
 
 function PopupLayer() {

@@ -53,9 +53,9 @@ function Buttons(props: ButtonsProps) {
 
   return (
     <Button
-      className={clsx({
+      className={clsx(className, {
         [classes.emptySpace]: !space
-      }, className)}
+      })}
       classes={{ root: classes.root }}
       color="primary"
       variant={variant}

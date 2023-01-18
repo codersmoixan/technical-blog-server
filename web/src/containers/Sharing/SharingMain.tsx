@@ -4,7 +4,7 @@
  */
 
 import Box from "@mui/material/Box"
-import CreativeLines from "public/images/backdrop/creative-lines.jpeg"
+import CreativeLines from "assets/images/backdrop/creative-lines.jpeg"
 import SharingRoot from "containers/Sharing/components/SharingRoot";
 import useSwitchCatalog from "containers/Sharing/hooks/useSwitchCatalog";
 import { blogList } from "containers/Sharing/constants";
