@@ -59,6 +59,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   open: {
     color: theme.palette.primary.main
+  },
+  btn: {
+    '&.MuiButton-textPrimary': {
+      color: theme.status.lightGrey
+    }
   }
 }))
 

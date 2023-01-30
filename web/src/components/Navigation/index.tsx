@@ -23,7 +23,7 @@ import AccordionMenu from "components/Navigation/components/AccordionMenu";
 import throttle from "lodash/throttle";
 import routes from "@/src/routes";
 import { useTheme } from "@mui/material/styles";
-import {Variant} from "components/Variant";
+import { Variant } from "components/Variant";
 
 function Navigation() {
   const classes = useStyles()
@@ -76,6 +76,7 @@ function Navigation() {
                     variant="text"
                     onClick={() => handleCheckRoute(tab)}
                     onMouseEnter={() => handleCheckRoute(tab, 'enter')}
+                    className={classes.btn}
                   >{tab.label}</Buttons>
                 ))}
               </Box>
