@@ -15,16 +15,16 @@ function SharingMain() {
   const { checkedMenu } = useSwitchCatalog()
   const { blogs } = useSharing()
 
-  console.log(checkedMenu, 2212, blogs);
-
   return (
-    <SharingRoot backdrop={CreativeLines}>
-      <Box mb={8}>
-        <SharingSwiper blogs={blogList} title="React" />
-        <SharingSwiper blogs={blogList} title="Vue" />
-        <SharingSwiper blogs={blogList} title="Angular" />
-      </Box>
-    </SharingRoot>
+    <>
+      <SharingRoot backdrop={CreativeLines}>
+        <Box mb={8}>
+          <SharingSwiper blogs={blogList} title="React" />
+          <SharingSwiper blogs={blogList} title="Vue" />
+          <SharingSwiper blogs={blogList} title="Angular" />
+        </Box>
+      </SharingRoot>
+    </>
   )
 }
 
