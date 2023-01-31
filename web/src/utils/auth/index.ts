@@ -12,10 +12,10 @@ const AUTH_TOKEN = "token";
 const AUTH_TYPE = "type";
 const PATH_NAME = "pathname";
 
-const setAuthorization = (token: string, type = "user") => {
-  store.set(AUTH_TOKEN, token, new Date().getTime() + 86400000);
-  store.set(AUTH_TYPE, type, new Date().getTime() + 86400000);
-};
+// const setAuthorization = (token: string, type = "user") => {
+//   store.set(AUTH_TOKEN, token, new Date().getTime() + 86400000);
+//   store.set(AUTH_TYPE, type, new Date().getTime() + 86400000);
+// };
 
 const deleteAuthorization = () => {
   store.remove(AUTH_TOKEN);
@@ -34,7 +34,7 @@ const isSignedIn = (): boolean =>
   !!getAuthorization() && getAuthorization().type === "user";
 
 export {
-  setAuthorization,
+  // setAuthorization,
   getAuthorization,
   deleteAuthorization,
   isSignedIn,

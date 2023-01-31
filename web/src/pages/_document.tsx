@@ -13,6 +13,7 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="zh">
+        {/* eslint-disable-next-line @next/next/no-css-tags */}
         <link rel="stylesheet" href="/fonts/open-sans.css"/>
         <Head>
           <meta name="baidu-site-verification" content="k2rYxsvycd" />
@@ -25,9 +26,9 @@ export default class MyDocument extends Document {
           <link rel="icon" type="image/png" href="/favicon.png" />
           <link href="https://unpkg.com/prismjs@latest/themes/prism.css" rel="stylesheet" />
         </Head>
-        <script src="https://unpkg.com/prismjs@latest/prism.js"></script>
-        <script src="https://unpkg.com/prismjs@latest/components/prism-core.js"></script>
-        <script src="https://unpkg.com/prismjs@latest/plugins/autoloader/prism-autoloader.js"></script>
+        <script async src="https://unpkg.com/prismjs@latest/prism.js"></script>
+        <script async src="https://unpkg.com/prismjs@latest/components/prism-core.js"></script>
+        <script async src="https://unpkg.com/prismjs@latest/plugins/autoloader/prism-autoloader.js"></script>
         <body>
         <Main/>
         <NextScript/>

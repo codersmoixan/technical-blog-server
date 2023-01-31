@@ -5,16 +5,13 @@
 
 import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
-import CloseIcon from "components/Icons/CloseIcon";
-import Buttons from "components/Buttons";
 import UserButtons from "components/Navigation/components/UserButtons";
-import Menu from "components/Menu";
+import Menu, { MenuItem } from "components/Menu";
 import { useRouter } from "next/router";
-import { NavigationItem } from "components/Navigation/constant";
 import isString from "lodash/isString";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore"
-import {Variant, VariantContent} from "components/Variant";
+import { Variant, VariantContent } from "components/Variant";
 import { stiffnessVariants } from "utils/variants";
 import GlobalDrawer from "components/GlobalDrawer";
 import type { Theme } from "@mui/material";
@@ -77,7 +74,7 @@ function MenuDrawer(props: MenuDrawerProps) {
   const classes = useStyles(props)
   const history = useRouter()
 
-  const handleNodeClick = (options: NavigationItem) => {
+  const handleNodeClick = (options: MenuItem) => {
     const url = options.route
     onClose?.()
     return isString(url) ? history.push(url) : history.push(url())

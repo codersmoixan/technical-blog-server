@@ -97,6 +97,7 @@ function ImageUpload({
 
   const preview = files.map((file: any, index) => (
     <Box key={file.name} className={classes.preview}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={file.preview}
         onLoad={() => { URL.revokeObjectURL(file.preview) }}
