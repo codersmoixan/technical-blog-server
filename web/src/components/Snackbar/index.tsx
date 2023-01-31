@@ -20,7 +20,7 @@ function Snackbar() {
         })
       })
     }
-  }, [notifications])
+  }, [notifications, dispatch, notify])
 
   return null
 }

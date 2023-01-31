@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useEffect, DependencyList, EffectCallback } from 'react';
 import { deepEqual } from "@/src/utils";
 
