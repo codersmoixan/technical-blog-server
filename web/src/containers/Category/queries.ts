@@ -3,10 +3,10 @@ import {
   addCategoryApi,
   deleteCategoryApi,
   getCategoryApi,
-  updateCategoryApi,
-  AddOrUpdateCategoryParam
-} from "api/category";
+  updateCategoryApi
+} from "containers/Category/api";
 import useMutation from "hooks/common/query/useMutation";
+import type { AddOrUpdateCategoryParam } from './types'
 
 export enum CATEGORY_QUERY_KEY {
   GET = 'category.get',

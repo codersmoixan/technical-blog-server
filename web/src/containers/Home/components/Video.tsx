@@ -33,7 +33,7 @@ function Video(props: BoxProps) {
           muted
           className={classes.video}
         >
-          <source src={require('public/video/backdrop-video.mp4')} type="video/mp4"/>
+          <source src={require('assets/video/backdrop-video.mp4')} type="video/mp4"/>
         </video>
       </MediaQuery>
       <MediaQuery media="pad">
@@ -44,7 +44,7 @@ function Video(props: BoxProps) {
           muted
           className={classes.video}
         >
-          <source src={require('public/video/pad-backdrop-video.mp4')} type="video/mp4"/>
+          <source src={require('assets/video/pad-backdrop-video.mp4')} type="video/mp4"/>
         </video>
       </MediaQuery>
       <MediaQuery media="mobile" >
@@ -55,7 +55,7 @@ function Video(props: BoxProps) {
           muted
           className={classes.video}
         >
-          <source src={require('public/video/mobile-backdrop-video.mp4')} type="video/mp4"/>
+          <source src={require('assets/video/mobile-backdrop-video.mp4')} type="video/mp4"/>
         </video>
       </MediaQuery>
     </Box>

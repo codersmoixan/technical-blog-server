@@ -6,7 +6,7 @@
 import React from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import CreativeParallel from "public/images/backdrop/creative-parallel.jpeg"
+import CreativeParallel from "assets/images/backdrop/creative-parallel.jpeg"
 import Content from "components/Layout/Content";
 import Root from "components/Layout/Root";
 

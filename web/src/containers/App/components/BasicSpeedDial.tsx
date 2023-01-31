@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 function BasicSpeedDial({ onChange, ...other }: BasicSpeedDialProps) {
   const classes = useStyles()
   const history = useRouter()
-  const { change } = useSpeedDial()
+  const { changeSpeedDial } = useSpeedDial()
 
   const scrollToTop = () => {
     document.body.scrollIntoView({
@@ -79,7 +79,7 @@ function BasicSpeedDial({ onChange, ...other }: BasicSpeedDialProps) {
       return
     }
 
-    change(id)
+    changeSpeedDial(id)
 
     return onChange?.(action)
   }

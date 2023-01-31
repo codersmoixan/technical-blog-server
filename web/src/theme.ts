@@ -1,29 +1,21 @@
 import { createTheme } from "@mui/material/styles";
-import {CSSProperties} from "@mui/styles";
+import { createBreakpoints } from "@mui/system";
+import type { CSSProperties } from "@mui/styles";
+
+const breakpoints = createBreakpoints({
+  values: {
+    xs: 0,
+    sm: 500,
+    md: 800,
+    lg: 1100,
+    xl: 1350
+  }
+})
+
+interface CustomThemeStatusOptions extends Required<typeof statusOptions> {}
 
 interface CustomThemeOptions {
-  status: {
-    backdropHeight: number;
-    navHeight: number;
-    navWidth: number;
-    contentWidth: number;
-
-    white: string;
-    bgDark: string;
-    textSecondary: string;
-    transparent: string;
-    transition: (t?: number) => string;
-    transitionTime: string;
-    colorSecondary: string;
-    darkPeach: string;
-    placeholder: string;
-    disabled: string;
-    error: string;
-    darkColor: string;
-    lightGrey: string;
-    lightPurple: string;
-    sullenGrey: string;
-  };
+  status: CustomThemeStatusOptions;
   common: {
     verticalCenter: CSSProperties;
     inlineCenter: CSSProperties;
@@ -37,59 +29,38 @@ declare module '@mui/material/styles' {
   interface ThemeOptions extends CustomThemeOptions {}
 }
 
-const TB_PALETTE_MAIN = '#181622'
-const TB_PALETTE_TEXT_SECONDARY = '#86909c'
-const TB_PALETTE_BG_DEFAULT = '#f5f1ea'
-
-const TB_STATUS_WHITE = '#FFFFFF'
-const TB_STATUS_BG_DARK = '#131313'
-const TB_STATUS_COLOR_SECONDARY = '#d8dee3'
-const TB_STATUS_COLOR_TEXT_SECONDARY = '#737373'
-const TB_STATUS_COLOR_TRANSPARENT = 'transparent'
-const TB_STATUS_DARK_PEACH = '#f8f6f1'
-const TB_STATUS_PLACEHOLDER = '#c1c5cd'
-const TB_STATUS_DISABLED = '#86909c'
-const TB_STATUS_ERROR = '#d32f2f'
-const TB_STATUS_LIGHT_GREY = '#6c6b7b'
-const TB_STATUS_LIGHT_PURPLE = '#853bce'
-const TB_STATUS_SULLEN_GREY = '#33323e'
-
 const TB_STATUS_TRANSITION_TIME = '.3s'
 const TB_STATUS_TRANSITION = (t?: number) => t ? `all ${t}s` : `all ${TB_STATUS_TRANSITION_TIME}`
 
 
-const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 500,
-      md: 800,
-      lg: 1100,
-      xl: 1350
-    }
-  },
-  status: {
-    backdropHeight: 580,
-    navWidth: 1408,
-    contentWidth: 1376,
-    navHeight: 88,
-    transition: TB_STATUS_TRANSITION,
-    transitionTime: TB_STATUS_TRANSITION_TIME,
+const statusOptions = {
+  backdropHeight: 580,
+  navWidth: 1408,
+  contentWidth: 1376,
+  navHeight: 88,
+  transition: TB_STATUS_TRANSITION,
+  transitionTime: TB_STATUS_TRANSITION_TIME,
 
-    white: TB_STATUS_WHITE,
-    bgDark: TB_STATUS_BG_DARK,
-    darkColor: TB_STATUS_BG_DARK,
-    darkPeach: TB_STATUS_DARK_PEACH,
-    colorSecondary: TB_STATUS_COLOR_SECONDARY,
-    textSecondary: TB_STATUS_COLOR_TEXT_SECONDARY,
-    transparent: TB_STATUS_COLOR_TRANSPARENT,
-    placeholder: TB_STATUS_PLACEHOLDER,
-    disabled: TB_STATUS_DISABLED,
-    error: TB_STATUS_ERROR,
-    lightGrey: TB_STATUS_LIGHT_GREY,
-    lightPurple: TB_STATUS_LIGHT_PURPLE,
-    sullenGrey: TB_STATUS_SULLEN_GREY,
-  },
+  white: '#FFFFFF',
+  bgDark: '#131313',
+  darkColor: '#131313',
+  darkPeach: '#f8f6f1',
+  colorSecondary: '#d8dee3',
+  textSecondary: '#737373',
+  transparent: 'transparent',
+  placeholder: '#c1c5cd',
+  disabled: '#86909c',
+  error: '#d32f2f',
+  lightGrey: '#6c6b7b',
+  lightPurple: '#853bce',
+  sullenGrey: '#33323e',
+
+  blue500: 'hsl(220, 80%, 55%)',
+}
+
+const theme = createTheme({
+  breakpoints,
+  status: statusOptions,
   common: {
     verticalCenter: {
       display: 'flex',
@@ -108,15 +79,15 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: TB_PALETTE_MAIN,
+      main: '#181622',
     },
     background: {
-      default: TB_PALETTE_BG_DEFAULT,
+      default: '#f5f1ea',
 
     },
     text: {
-      primary: TB_PALETTE_MAIN,
-      secondary: TB_PALETTE_TEXT_SECONDARY,
+      primary: '#181622',
+      secondary: '#86909c',
     },
   },
   typography: {
@@ -138,51 +109,51 @@ const theme = createTheme({
       '冬青黑体简体中文',
     ].join(','),
     h1: {
-      fontSize: 64,
+      fontSize: 'clamp(34px, 6vw, 64px)',
       fontWeight: 700,
-      lineHeight: 1.5
+      lineHeight: 1.5,
     },
     h2: {
-      fontSize: 36,
+      fontSize: 'clamp(24px, 6vw, 36px)',
       fontWeight: 700,
       lineHeight: 1.5
     },
     h3: {
-      fontSize: 30,
+      fontSize: '1.875rem',
       fontWeight: 700,
       lineHeight: 1.5
     },
     h4: {
-      fontSize: 24,
+      fontSize: '1.5rem',
       fontWeight: 700,
       lineHeight: 1.5
     },
     h5: {
-      fontSize: 18,
+      fontSize: '1.125rem',
       fontWeight: 400,
       lineHeight: 1.5
     },
     subtitle1: {
-      fontSize: 16,
+      fontSize: '1rem',
       lineHeight: 1.5
     },
     body1: {
-      fontSize: 14,
+      fontSize: '0.875rem',
       lineHeight: 1.5
     },
     button: {
-      fontSize: 14,
+      fontSize: '0.875rem',
       lineHeight: 1.5
     },
     caption: {
-      fontSize: 12,
+      fontSize: '0.75rem',
       lineHeight: 1.5
     }
   },
   components: {
     MuiTypography: {
       defaultProps: {
-        color: TB_PALETTE_MAIN
+        color: '#181622'
       }
     }
   }

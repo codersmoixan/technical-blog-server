@@ -6,7 +6,7 @@
 import { useEffect, useState } from 'react'
 import Box from "@mui/material/Box";
 import Image from "next/image";
-import Logo from "public/images/logo/logo.dark.jpg"
+import Logo from "assets/images/logo/logo.dark.jpg"
 import { NAVIGATION_LIST, NavigationItem } from "components/Navigation/constant";
 import Buttons from "components/Buttons";
 import FormText from "components/Form/FormText";
@@ -23,7 +23,7 @@ import AccordionMenu from "components/Navigation/components/AccordionMenu";
 import throttle from "lodash/throttle";
 import routes from "@/src/routes";
 import { useTheme } from "@mui/material/styles";
-import {Variant} from "components/Variant";
+import { Variant } from "components/Variant";
 
 function Navigation() {
   const classes = useStyles()
@@ -76,6 +76,7 @@ function Navigation() {
                     variant="text"
                     onClick={() => handleCheckRoute(tab)}
                     onMouseEnter={() => handleCheckRoute(tab, 'enter')}
+                    className={classes.btn}
                   >{tab.label}</Buttons>
                 ))}
               </Box>

@@ -11,7 +11,7 @@ import BlogCard, { DESCRIPTION, EXPANDED } from "containers/Sharing/components/S
 import { blogList } from "./constants"
 import { Variant, VariantContent } from "components/Variant";
 import SharingRoot from "containers/Sharing/components/SharingRoot";
-import CreativeGrid from "public/images/backdrop/creative-grid.jpeg";
+import CreativeGrid from "assets/images/backdrop/creative-grid.jpeg";
 import { stiffnessVariants } from "utils/variants";
 import type { Theme } from "@mui/material";
 

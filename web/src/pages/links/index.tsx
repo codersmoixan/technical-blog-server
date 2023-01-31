@@ -7,7 +7,7 @@ import React from 'react'
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Content from "components/Layout/Content";
-import CreativeSky from "public/images/backdrop/cretive-sky.jpeg"
+import CreativeSky from "assets/images/backdrop/cretive-sky.jpeg"
 import Root from "components/Layout/Root";
 import Banner from "components/Layout/Banner";
 

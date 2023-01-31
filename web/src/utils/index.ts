@@ -34,3 +34,5 @@ export const separateChildren = <T extends string>(children: ReactElement[] | Re
 
   return slotsChild as EmptyObject<T, ReactElement>
 }
+
+export const getValue = <T extends EmptyObject, K extends keyof T>(obj: T, key: K): T[K] => obj[key]
