@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useMemo, useRef, DependencyList } from 'react';
 import { deepEqual } from "@/src/utils";
 

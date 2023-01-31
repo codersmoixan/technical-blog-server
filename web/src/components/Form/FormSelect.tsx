@@ -153,7 +153,7 @@ function FormSelect(props: FormSelectProps) {
       const values = findSelected(value.split(','), options, 'id').map(i => i[rowKey])
       actionSelected(values)
     }
-  }, [fieldProps.value])
+  }, [fieldProps.value, options, rowKey])
 
   useUpdateEffect(() => {
     if (fieldProps.value && name) {
