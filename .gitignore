@@ -1,17 +1,4 @@
-.idea/
-/web/node_modules
-/web/dist
-
 .DS_Store
-
-# local env files
-.env.local
-.env.*.local
-
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
 # Editor directories and files
 .idea
@@ -22,12 +9,10 @@ yarn-error.log*
 *.sln
 *.sw?
 
-/server/log/
-/server/latest_log
-/server/src/
-/server/pkg/
-/server/config.yaml
+/log
+/latest_log
+/src/
+/pkg/
+/config.yaml
 
 *.iml
-web/.pnpm-debug.log
-web/pnpm-lock.yaml
