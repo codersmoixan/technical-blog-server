@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  technical_blog_server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: technical_blog_server
+    ports:
+      - "8000:5173"
+#    depends_on:
+#      - db
+#
+#  db:
+#    image: mysql:8.0.28
+#    container_name: technical_blog_db
+#    environment:
