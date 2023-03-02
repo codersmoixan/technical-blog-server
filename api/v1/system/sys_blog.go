@@ -60,8 +60,8 @@ func (b *BlogApi) AddBlog(c *gin.Context) {
 		Name:        blogParam.Name,
 		Description: blogParam.Description,
 		Content:     blogParam.Content,
-		Tag:         blogParam.Tag,
-		Category:    blogParam.Category,
+		TagId:         blogParam.Tag,
+		CategoryId:    blogParam.Category,
 		BlogImage:   blogParam.BlogImage,
 	}
 	if _, err := blogService.AddBlog(*blog); err != nil {
@@ -70,8 +70,8 @@ func (b *BlogApi) AddBlog(c *gin.Context) {
 		response.OkWithDetailed(responseParams.BlogAddResponse{
 			Name:        blog.Name,
 			Description: blog.Description,
-			Tag:         blog.Tag,
-			Category:    blog.Category,
+			TagId:         blog.TagId,
+			CategoryId:    blog.CategoryId,
 			BlogImage:   blog.BlogImage,
 		}, "文章保存成功!", c)
 	}
@@ -105,5 +105,26 @@ func (b *BlogApi) DeleteBlog(c *gin.Context) {
 		response.OkWithDetailed(responseParams.BlogDeleteResponse{
 			ID: blog.ID,
 		}, "日志删除成功!", c)
+	}
+}
+
+// GetBlogById
+// @author: zhengji.su
+// @description: 根据id获取博客详情
+// @param: c *gin.Context
+func (b *BlogApi) GetBlogById(c *gin.Context)  {
+	var blogId request.GetById
+	blogId.ID = c.Param("id")
+
+	if err := utils.Verify(blogId, utils.IdRule); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if blog, err := blogService.GetBlogById(blogId.ID); err != nil {
+		global.TB_LOG.Error(fmt.Sprintf("%s%d%s", "blog:", blogId.ID, "查询失败!"), zap.Error(err))
+		response.FailWithMessage("error", c)
+	} else {
+		response.OkWithDetailed(blog, "success", c)
 	}
 }

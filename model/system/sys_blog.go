@@ -7,8 +7,8 @@ type SysBlog struct {
 	BlogId      string `json:"id" gorm:"comment:博客唯一标识"`
 	Author      string `json:"author" gorm:"comment:作者"`
 	Name        string `json:"name" gorm:"comment:文章名"`
-	Tag         string `json:"tag" gorm:"comment:标签"`
-	Category    string `json:"category" gorm:"comment:类别"`
+	TagId         string `json:"tagId" gorm:"comment:标签ID"`
+	CategoryId    string `json:"categoryId" gorm:"comment:类别ID"`
 	Description string `json:"description" gorm:"comment:文章简要"`
 	Content     string `json:"content" gorm:"comment:文章内容;type:text"`
 	BlogImage   string `json:"blogImage" gorm:"comment:文章封面"`

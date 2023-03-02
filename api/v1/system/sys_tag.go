@@ -107,3 +107,24 @@ func (t *TagApi) DeleteTag(c *gin.Context) {
 		}, "删除成功!", c)
 	}
 }
+
+// GetTagById
+// @author: zhengji.su
+// @description: 根据id获取标签信息
+// @param: c *gin.Context
+func (t *TagApi) GetTagById(c *gin.Context)  {
+	var id request.GetById
+	id.ID = c.Param("id")
+
+	if err := utils.Verify(id, utils.IdRule); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if tag, err := tagService.GetTagById(id.ID); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		response.FailWithDetailed(err.Error(), "查询失败!", c)
+	} else {
+		response.OkWithDetailed(tag, "success", c)
+	}
+}

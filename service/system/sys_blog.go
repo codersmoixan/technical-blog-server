@@ -10,6 +10,9 @@ import (
 
 type BlogService struct{}
 
+var tagService = new(TagService)
+var categoryService = new(CategoryService)
+
 // GetBlogList
 // @author: zhengji.su
 // @description: 获取博客列表
@@ -26,6 +29,14 @@ func (blogService *BlogService) GetBlogList(pageInfo request.PageInfo) (list int
 		return
 	}
 	err = db.Limit(limit).Offset(offset).Find(&blogList).Error
+
+	for index, blog := range blogList {
+		tag, _ := tagService.GetTagById(blog.TagId)
+		category, _ := categoryService.GetCategoryById(blog.CategoryId)
+		blogList[index].Tag = tag.Label
+		blogList[index].Category = category.Label
+	}
+
 	return blogList, total, err
 }
 
@@ -55,11 +66,29 @@ func (blogService *BlogService) UpdateBlog() {
 // DeleteBlog
 // @author: zhengji.su
 // @description: 删除博客
-// @param: id int
+// @param: id string
 // @return: err error
 func (blogService *BlogService) DeleteBlog(id string) (err error) {
 	var blog modelSystem.SysBlog
 	err = global.TB_DB.Where("blog_id = ?", id).First(&blog).Delete(&blog).Error
 
 	return err
+}
+
+// GetBlogById
+// @author: zhengji.su
+// @description: 根据ID获取博客详情
+// @param: id string
+// @return: blogInter responseParams.BlogResponse
+func (blogService *BlogService) GetBlogById(id string) (blogInter responseParams.BlogDetail, err error)  {
+	var blog responseParams.BlogDetail
+	db := global.TB_DB.Model(&modelSystem.SysBlog{})
+	err = db.Where("blog_id = ?", id).First(&blog).Error
+
+	tag, _ := tagService.GetTagById(blog.TagId)
+	category, _ := categoryService.GetCategoryById(blog.CategoryId)
+	blog.Tag = tag.Label
+	blog.Category = category.Label
+
+	return blog, err
 }

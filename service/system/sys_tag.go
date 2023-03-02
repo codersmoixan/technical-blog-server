@@ -89,3 +89,16 @@ func (tagService *TagService) DeleteTag(id string) (err error) {
 
 	return err
 }
+
+// GetTagById
+// @author: zhengji.su
+// @description: 根据id获取tag信息
+// @param: id string
+// @return: tagInter modelSystem.SysTag, err error
+func (tagService *TagService) GetTagById(id string) (tagInter modelSystem.SysTag, err error) {
+	var tag modelSystem.SysTag
+	db := global.TB_DB.Model(&modelSystem.SysTag{})
+	err = db.Where("tag_id = ?", id).First(&tag).Error
+
+	return tag, nil
+}
