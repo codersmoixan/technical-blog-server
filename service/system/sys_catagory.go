@@ -92,7 +92,7 @@ func (cate *CategoryService) DeleteCategory(id string) (err error) {
 // @author: zhengji.su
 // @description: 根据id查找分类
 // @param: id string
-// @return: category modelSystem.SysCategory, err error
+// @return: categoryInter modelSystem.SysCategory, err error
 func (cate *CategoryService) GetCategoryById(id string) (categoryInter modelSystem.SysCategory, err error) {
 	var category modelSystem.SysCategory
 	db := global.TB_DB.Model(&modelSystem.SysCategory{})

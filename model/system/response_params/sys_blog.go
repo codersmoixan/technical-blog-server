@@ -21,6 +21,11 @@ type BlogResponse struct {
 	Status      int    `json:"status" gorm:"comment:文章状态"` // 1 待发布 2 已发布
 }
 
+type BlogDetail struct {
+	BlogResponse
+	Content string `json:"content"`
+}
+
 type BlogAddResponse struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
