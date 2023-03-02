@@ -51,3 +51,11 @@ func (userService *UserService) GetUserList(pageInfo request.PageInfo) (list int
 	err = db.Limit(limit).Offset(offset).Find(&userList).Error
 	return userList, total, err
 }
+
+// GetUserById
+// @author: zhengji.su
+// @description: 根据id获取用户数据
+// @param: id string
+func (userService *UserService) GetUserById(id string) {
+
+}

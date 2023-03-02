@@ -26,6 +26,19 @@ func (blogService *BlogService) GetBlogList(pageInfo request.PageInfo) (list int
 		return
 	}
 	err = db.Limit(limit).Offset(offset).Find(&blogList).Error
+
+	tagService := new(TagService)
+	categoryService := new(CategoryService)
+	for index, blog := range blogList {
+		tag, err := tagService.GetTagById(blog.TagId)
+		category, err := categoryService.GetCategoryById(blog.CategoryId)
+		if err != nil {
+			return blogList, total, err
+		}
+		blogList[index].Tag = tag.Label
+		blogList[index].Category = category.Label
+	}
+
 	return blogList, total, err
 }
 

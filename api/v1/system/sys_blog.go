@@ -60,8 +60,8 @@ func (b *BlogApi) AddBlog(c *gin.Context) {
 		Name:        blogParam.Name,
 		Description: blogParam.Description,
 		Content:     blogParam.Content,
-		Tag:         blogParam.Tag,
-		Category:    blogParam.Category,
+		TagId:         blogParam.Tag,
+		CategoryId:    blogParam.Category,
 		BlogImage:   blogParam.BlogImage,
 	}
 	if _, err := blogService.AddBlog(*blog); err != nil {
@@ -70,8 +70,8 @@ func (b *BlogApi) AddBlog(c *gin.Context) {
 		response.OkWithDetailed(responseParams.BlogAddResponse{
 			Name:        blog.Name,
 			Description: blog.Description,
-			Tag:         blog.Tag,
-			Category:    blog.Category,
+			TagId:         blog.TagId,
+			CategoryId:    blog.CategoryId,
 			BlogImage:   blog.BlogImage,
 		}, "文章保存成功!", c)
 	}

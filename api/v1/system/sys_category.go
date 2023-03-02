@@ -97,7 +97,7 @@ func (cate CategoryApi) DeleteCategory(c *gin.Context) {
 		return
 	}
 
-	if err := categoryService.DeleteCategories(category.ID); err != nil {
+	if err := categoryService.DeleteCategory(category.ID); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "删除失败!", c)
 	} else {

@@ -16,7 +16,7 @@ type CategoryService struct{}
 // @author: zhengji.su
 // @description: 获取分类列表
 // @return: list interface{}, total int64, err error
-func (cate CategoryService) GetCategoryList() (list interface{}, total int64, err error) {
+func (cate *CategoryService) GetCategoryList() (list interface{}, total int64, err error) {
 	db := global.TB_DB.Model(&modelSystem.SysCategory{})
 
 	var categoryList []responseParams.CategoryResponse
@@ -33,7 +33,7 @@ func (cate CategoryService) GetCategoryList() (list interface{}, total int64, er
 // @description: 新增分类
 // @param: c modelSystem.SysCategory
 // @return: categoryInter modelSystem.SysCategory, err error
-func (cate CategoryService) AddCategory(c modelSystem.SysCategory) (categoryInter modelSystem.SysCategory, err error) {
+func (cate *CategoryService) AddCategory(c modelSystem.SysCategory) (categoryInter modelSystem.SysCategory, err error) {
 	var category modelSystem.SysCategory
 
 	// todo 判断category是否存在
@@ -59,7 +59,7 @@ func (cate CategoryService) AddCategory(c modelSystem.SysCategory) (categoryInte
 // @description: 更新分类
 // @param: update requestParams.UpdateCategoryContent
 // @return: categoryInter requestParams.UpdateCategoryContent, err error
-func (cate CategoryService) UpdateCategory(update request.UpdateCategoryContent) (categoryInter modelSystem.SysCategory, err error) {
+func (cate *CategoryService) UpdateCategory(update request.UpdateCategoryContent) (categoryInter modelSystem.SysCategory, err error) {
 	var category modelSystem.SysCategory
 	db := global.TB_DB.Model(&modelSystem.SysCategory{})
 
@@ -76,14 +76,27 @@ func (cate CategoryService) UpdateCategory(update request.UpdateCategoryContent)
 	return category, err
 }
 
-// DeleteCategories
+// DeleteCategory
 // @author: zhengji.su
 // @description: 删除分类
 // @param: id string
 // @return: err error
-func (cate CategoryService) DeleteCategories(id string) (err error) {
+func (cate *CategoryService) DeleteCategory(id string) (err error) {
 	var category modelSystem.SysCategory
 	err = global.TB_DB.Where("category_id = ?", id).First(&category).Delete(&category).Error
 
 	return err
+}
+
+// GetCategoryById
+// @author: zhengji.su
+// @description: 根据id查找分类
+// @param: id string
+// @return: category modelSystem.SysCategory, err error
+func (cate *CategoryService) GetCategoryById(id string) (categoryInter modelSystem.SysCategory, err error) {
+	var category modelSystem.SysCategory
+	db := global.TB_DB.Model(&modelSystem.SysCategory{})
+	err = db.Where("category_id = ?", id).First(&category).Error
+
+	return category, err
 }
