@@ -2,7 +2,9 @@ package system
 
 import (
 	"errors"
+	"fmt"
 	uuid "github.com/satori/go.uuid"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
@@ -58,4 +60,27 @@ func (userService *UserService) GetUserList(pageInfo request.PageInfo) (list int
 // @param: id string
 func (userService *UserService) GetUserById(id string) {
 
+}
+
+// Login
+// @description: 用户登录
+// @param: u *system.SysUser
+// @return: userInter *system.SysUser, err error
+func (userService *UserService) Login(u *modelSystem.SysUser) (userInter *modelSystem.SysUser, err error) {
+	if global.TB_DB == nil {
+		return nil, fmt.Errorf("db not init")
+	}
+
+	var user modelSystem.SysUser
+
+	err = global.TB_DB.Where("username = ?", u.Username).First(&user).Error
+	if err != nil {
+		global.TB_LOG.Error("查询失败!", zap.Error(err))
+	} else {
+		if ok := utils.BcryptCheck(u.Password, user.Password); !ok {
+			return nil, errors.New("密码错误")
+		}
+	}
+
+	return &user, err
 }
