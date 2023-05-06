@@ -7,3 +7,9 @@ import (
 type SysUserResponse struct {
 	User modelSystem.SysUser
 }
+
+type LoginResponse struct {
+	User      modelSystem.SysUser `json:"user"`
+	Token     string         `json:"token"`
+	ExpiresAt int64          `json:"expiresAt"`
+}

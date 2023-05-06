@@ -23,7 +23,7 @@ func (b *BlogApi) GetBlogList(c *gin.Context) {
 	var pageInfo request.PageInfo
 	_ = c.ShouldBindQuery(&pageInfo)
 
-	if err := utils.Verify(pageInfo, utils.PageInfoRule); err != nil {
+	if err := utils.Verify(pageInfo, utils.PageInfoVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -51,7 +51,7 @@ func (b *BlogApi) AddBlog(c *gin.Context) {
 
 	fmt.Println(blogParam, "2252")
 
-	if err := utils.Verify(blogParam, utils.BlogDetailRule); err != nil {
+	if err := utils.Verify(blogParam, utils.BlogDetailVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -93,7 +93,7 @@ func (b *BlogApi) DeleteBlog(c *gin.Context) {
 	var blog request.GetById
 	_ = c.ShouldBindQuery(&blog)
 
-	if err := utils.Verify(blog, utils.IdRule); err != nil {
+	if err := utils.Verify(blog, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -116,7 +116,7 @@ func (b *BlogApi) GetBlogById(c *gin.Context)  {
 	var blogId request.GetById
 	blogId.ID = c.Param("id")
 
-	if err := utils.Verify(blogId, utils.IdRule); err != nil {
+	if err := utils.Verify(blogId, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

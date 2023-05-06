@@ -38,7 +38,7 @@ func (cate *CategoryApi) AddCategory(c *gin.Context) {
 	var categoryParam requestParams.CategoryContent
 	_ = c.ShouldBindJSON(&categoryParam)
 
-	if err := utils.Verify(categoryParam, utils.CategoriesRule); err != nil {
+	if err := utils.Verify(categoryParam, utils.CategoriesVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -68,7 +68,7 @@ func (cate *CategoryApi) UpdateCategory(c *gin.Context) {
 	var updateContent requestParams.UpdateCategoryContent
 	_ = c.ShouldBindJSON(&updateContent)
 
-	if err := utils.Verify(updateContent, utils.UpdateCategoriesRule); err != nil {
+	if err := utils.Verify(updateContent, utils.UpdateCategoriesVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -92,7 +92,7 @@ func (cate *CategoryApi) DeleteCategory(c *gin.Context) {
 	var category request.GetById
 	_ = c.ShouldBindQuery(&category)
 
-	if err := utils.Verify(category, utils.IdRule); err != nil {
+	if err := utils.Verify(category, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -115,7 +115,7 @@ func (cate *CategoryApi) GetCategoryById(c *gin.Context)  {
 	var id request.GetById
 	id.ID = c.Param("id")
 
-	if err := utils.Verify(id, utils.IdRule); err != nil {
+	if err := utils.Verify(id, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

@@ -19,7 +19,7 @@ func Routers() *gin.Engine {
 
 	PrivateGroup := Router.Group("")
 	{
-		systemRouter.SetupBaseRouter(PrivateGroup)
+		//systemRouter.SetupBaseRouter(PrivateGroup)
 		systemRouter.SetupUserRouter(PrivateGroup)
 		systemRouter.SetupBlogRouter(PrivateGroup)
 		systemRouter.SetupTagRouter(PrivateGroup)

@@ -38,7 +38,7 @@ func (t *TagApi) AddTag(c *gin.Context) {
 	var tagParam requestParams.TagContent
 	_ = c.ShouldBindJSON(&tagParam)
 
-	if err := utils.Verify(tagParam, utils.TagContentRule); err != nil {
+	if err := utils.Verify(tagParam, utils.TagContentVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -69,7 +69,7 @@ func (t *TagApi) UpdateTag(c *gin.Context) {
 	var updateContent requestParams.UpdateTag
 	_ = c.ShouldBindJSON(&updateContent)
 
-	if err := utils.Verify(updateContent, utils.UpdateTagRule); err != nil {
+	if err := utils.Verify(updateContent, utils.UpdateTagVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -93,7 +93,7 @@ func (t *TagApi) DeleteTag(c *gin.Context) {
 	var tag request.GetById
 	_ = c.ShouldBindQuery(&tag)
 
-	if err := utils.Verify(tag, utils.IdRule); err != nil {
+	if err := utils.Verify(tag, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -116,7 +116,7 @@ func (t *TagApi) GetTagById(c *gin.Context)  {
 	var id request.GetById
 	id.ID = c.Param("id")
 
-	if err := utils.Verify(id, utils.IdRule); err != nil {
+	if err := utils.Verify(id, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
