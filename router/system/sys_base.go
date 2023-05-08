@@ -23,14 +23,14 @@ func (b *BaseRouter) SetupBaseRouter(Router *gin.RouterGroup) {
 		baseRouter.GET("blog/:id", blogApi.GetBlogById)
 	}
 	{
-		baseRouter.GET("category/:id", categoryApi.GetCategoryById)
+		baseRouter.GET("category", categoryApi.GetCategoryById)
 		baseRouter.GET("category/list", categoryApi.GetCategoryList)
 	}
 	{
 		baseRouter.GET("link/list", linkApi.GetLinkList)
 	}
 	{
-		baseRouter.GET("tag/:id", tagApi.GetTagById)
+		baseRouter.GET("tag", tagApi.GetTagById)
 		baseRouter.GET("tag/list", tagApi.GetTagList)
 	}
 }

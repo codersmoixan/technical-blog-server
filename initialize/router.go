@@ -2,6 +2,9 @@ package initialize
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	_ "technical-blog-server/docs"
 	"technical-blog-server/global"
 	"technical-blog-server/middleware"
 	"technical-blog-server/router"
@@ -13,6 +16,8 @@ import (
 func Routers() *gin.Engine {
 	Router := gin.Default()
 	systemRouter := router.RouterGroupApp.System
+
+	//docs.SwaggerInfo.BasePath = "/api/v1"
 
 	Router.Use(middleware.Cors()) // 直接放行全部跨域请求
 	// Router.Use(middleware.CorsByRules()) // 按照配置的规则放行跨域请求
@@ -33,6 +38,8 @@ func Routers() *gin.Engine {
 		systemRouter.SetupCategoryRouter(PrivateGroup)
 		systemRouter.SetupLinkRouter(PrivateGroup)
 	}
+
+	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	global.TB_LOG.Info("router register success")
 

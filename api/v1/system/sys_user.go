@@ -18,7 +18,14 @@ type UserApi struct{}
 var store = base64Captcha.DefaultMemStore
 
 // Register
-// @description: 注册帐号
+// @Tags 用户管理
+// @Summary 用户注册
+// @Description 用户注册
+// @Accept json
+// @Produce json
+// @Param data body requestParams.Register true "用户注册信息"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /register [post]
 // @param: c *gin.Context
 func (u *UserApi) Register(c *gin.Context) {
 	var param requestParams.Register
@@ -45,7 +52,15 @@ func (u *UserApi) Register(c *gin.Context) {
 }
 
 // GetUserList
-// @description: 获取用户列表
+// @Tags 用户管理
+// @Summary 获取用户列表
+// @Description 获取用户列表
+// @Param page query int true "当前页"
+// @Param pageSize query int true "每页请求数量"
+// @Param keyWord query string false "搜索内容"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /user/list [get]
+// @param: c *gin.Context
 func (u *UserApi) GetUserList(c *gin.Context) {
 	var pageInfo request.PageInfo
 	_ = c.ShouldBindQuery(&pageInfo)
@@ -69,9 +84,15 @@ func (u *UserApi) GetUserList(c *gin.Context) {
 }
 
 // Login
-// @description: 用户登录
-// @produce: application/json
-// @router: /user/login
+// @Tags 用户管理
+// @Summary 用户登录
+// @Description 用户登录
+// @Accept json
+// @Produce json
+// @Param data body requestParams.Login true "用户名"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /login [post]
+// @param: c *gin.Context
 func (u *UserApi) Login(c *gin.Context) {
 	var param requestParams.Login
 	_ = c.ShouldBindJSON(&param)
