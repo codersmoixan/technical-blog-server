@@ -15,8 +15,6 @@ func (c *CategoryRouter) SetupCategoryRouter(Router *gin.RouterGroup) {
 	categoryRouter := Router.Group("category")
 	categoryApi := v1.ApiGroupApp.SystemApiGroup.CategoryApi
 	{
-		categoryRouter.GET("/:id", categoryApi.GetCategoryById)
-		categoryRouter.GET("list", categoryApi.GetCategoryList)
 		categoryRouter.POST("add", categoryApi.AddCategory)
 		categoryRouter.PUT("update", categoryApi.UpdateCategory)
 		categoryRouter.DELETE("delete", categoryApi.DeleteCategory)

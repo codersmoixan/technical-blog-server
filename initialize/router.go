@@ -17,9 +17,16 @@ func Routers() *gin.Engine {
 	Router.Use(middleware.Cors()) // 直接放行全部跨域请求
 	// Router.Use(middleware.CorsByRules()) // 按照配置的规则放行跨域请求
 
-	PrivateGroup := Router.Group("")
+	// 公开的api，不需要登录也能访问
+	PublicGroup := Router.Group("")
 	{
-		//systemRouter.SetupBaseRouter(PrivateGroup)
+		systemRouter.SetupBaseRouter(PublicGroup)
+	}
+
+	// 需要登录时才能访问的api
+	PrivateGroup := Router.Group("")
+	PrivateGroup.Use(middleware.JwtAuth())
+	{
 		systemRouter.SetupUserRouter(PrivateGroup)
 		systemRouter.SetupBlogRouter(PrivateGroup)
 		systemRouter.SetupTagRouter(PrivateGroup)
