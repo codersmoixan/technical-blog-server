@@ -16,5 +16,6 @@ func (s *UserRouter) SetupUserRouter(Router *gin.RouterGroup) {
 	userApi := v1.ApiGroupApp.SystemApiGroup.UserApi
 	{
 		userRouter.GET("list", userApi.GetUserList)
+		userRouter.GET("me", userApi.GetMe)
 	}
 }

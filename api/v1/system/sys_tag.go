@@ -15,11 +15,11 @@ import (
 type TagApi struct{}
 
 // GetTagList
-// @Tags 标签管理
+// @Tags Base
 // @Summary 获取标签列表
 // @Description 获取标签列表
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /tag/list [get]
+// @Router /base/tag/list [get]
 // @author: zhengji.su
 // @param: c *gin.Context
 func (t *TagApi) GetTagList(c *gin.Context) {
@@ -132,12 +132,12 @@ func (t *TagApi) DeleteTag(c *gin.Context) {
 }
 
 // GetTagById
-// @Tags 标签管理
+// @Tags Base
 // @Summary 根据id获取标签信息
 // @Description 根据id获取标签信息
 // @Param id query string true "id"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /tag [get]
+// @Router /base/tag [get]
 // @author: zhengji.su
 // @param: c *gin.Context
 func (t *TagApi) GetTagById(c *gin.Context)  {

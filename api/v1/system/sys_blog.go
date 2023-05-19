@@ -16,14 +16,14 @@ import (
 type BlogApi struct{}
 
 // GetBlogList
-// @Tags 博客管理
+// @Tags Base
 // @Summary 获取博客列表
 // @Description 获取博客列表
 // @Param page query int true "当前页"
 // @Param pageSize query int true "每页请求数量"
 // @Param keyWord query string false "搜索内容"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /blog/list [get]
+// @Router /base/blog/list [get]
 // @author: zhengji.su
 // @param: c *gin.Context
 func (b *BlogApi) GetBlogList(c *gin.Context) {
@@ -129,12 +129,12 @@ func (b *BlogApi) DeleteBlog(c *gin.Context) {
 }
 
 // GetBlogById
-// @Tags 博客管理
+// @Tags Base
 // @Summary 根据id获取博客详情
 // @Description 根据id获取博客详情
 // @Param id query string true "id"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /tag [get]
+// @Router /base/blog [get]
 // @author: zhengji.su
 // @param: c *gin.Context
 func (b *BlogApi) GetBlogById(c *gin.Context)  {

@@ -1,6 +1,7 @@
 package system
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
 	"go.uber.org/zap"
@@ -18,14 +19,14 @@ type UserApi struct{}
 var store = base64Captcha.DefaultMemStore
 
 // Register
-// @Tags 用户管理
+// @Tags Base
 // @Summary 用户注册
 // @Description 用户注册
 // @Accept json
 // @Produce json
 // @Param data body requestParams.Register true "用户注册信息"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /register [post]
+// @Router /base/register [post]
 // @param: c *gin.Context
 func (u *UserApi) Register(c *gin.Context) {
 	var param requestParams.Register
@@ -83,17 +84,17 @@ func (u *UserApi) GetUserList(c *gin.Context) {
 	}
 }
 
-// Login
-// @Tags 用户管理
+// LoginToken
+// @Tags Base
 // @Summary 用户登录
 // @Description 用户登录
 // @Accept json
 // @Produce json
 // @Param data body requestParams.Login true "用户名"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /login [post]
+// @Router /base/login/token [post]
 // @param: c *gin.Context
-func (u *UserApi) Login(c *gin.Context) {
+func (u *UserApi) LoginToken(c *gin.Context) {
 	var param requestParams.Login
 	_ = c.ShouldBindJSON(&param)
 
@@ -147,10 +148,21 @@ func (u *UserApi) TokenNext(c *gin.Context, user modelSystem.SysUser) {
 
 	if !global.TB_CONFIG.System.UseMultipoint {
 		response.OkWithDetailed(responseParams.LoginResponse{
-			User:      user,
 			Token:     token,
-			ExpiresAt: claims.StandardClaims.ExpiresAt * 1000,
 		}, "登录成功", c)
 		return
 	}
+}
+
+// GetMe
+// @Tags 用户管理
+// @Summary 获取用户信息
+// @Description 获取用户信息
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /user/me [get]
+// @param: c *gin.Context
+func (u *UserApi) GetMe(c *gin.Context) {
+	// 解析token
+	uuid := utils.GetUserUuid(c)
+	fmt.Println(uuid)
 }

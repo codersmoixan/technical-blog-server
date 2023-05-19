@@ -15,14 +15,14 @@ import (
 type CategoryApi struct{}
 
 // GetCategoryList
-// @Tags 分类管理
+// @Tags Base
 // @Summary 获取分类列表
 // @Description 获取分类列表
 // @Param page query int true "当前页"
 // @Param pageSize query int true "每页请求数量"
 // @Param keyWord query string false "搜索内容"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /category/list [get]
+// @Router /base/category/list [get]
 // @author: zhengji.su
 // @param: c *gin.Context
 func (cate *CategoryApi) GetCategoryList(c *gin.Context) {
@@ -134,12 +134,12 @@ func (cate *CategoryApi) DeleteCategory(c *gin.Context) {
 }
 
 // GetCategoryById
-// @Tags 分类管理
+// @Tags Base
 // @Summary 根据id获取分类详情
 // @Description 根据id获取分类详情
 // @Param id query string true "id"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /category [get]
+// @Router /base/category [get]
 // @author: zhengji.su
 // @param: c *gin.Context
 func (cate *CategoryApi) GetCategoryById(c *gin.Context)  {
