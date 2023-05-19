@@ -15,7 +15,6 @@ func (l *LinkRouter) SetupLinkRouter(Router *gin.RouterGroup) {
 	linkRouter := Router.Group("link")
 	linkApi := v1.ApiGroupApp.SystemApiGroup.LinkApi
 	{
-		linkRouter.GET("list", linkApi.GetLinkList)
 		linkRouter.POST("add", linkApi.AddLink)
 		linkRouter.PUT("update", linkApi.UpdateLink)
 		linkRouter.DELETE("delete", linkApi.DeleteLink)

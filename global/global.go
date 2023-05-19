@@ -5,6 +5,7 @@ import (
 	"github.com/songzhibin97/gkit/cache/local_cache"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
+	"golang.org/x/sync/singleflight"
 	"gorm.io/gorm"
 	"technical-blog-server/config"
 )
@@ -17,4 +18,5 @@ var (
 	TB_REDIS  *redis.Client
 
 	BlackCache local_cache.Cache
+	TB_Concurrency_Control             = &singleflight.Group{}
 )

@@ -16,8 +16,15 @@ import (
 type BlogApi struct{}
 
 // GetBlogList
+// @Tags Base
+// @Summary 获取博客列表
+// @Description 获取博客列表
+// @Param page query int true "当前页"
+// @Param pageSize query int true "每页请求数量"
+// @Param keyWord query string false "搜索内容"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /base/blog/list [get]
 // @author: zhengji.su
-// @description: 获取博客列表
 // @param: c *gin.Context
 func (b *BlogApi) GetBlogList(c *gin.Context) {
 	var pageInfo request.PageInfo
@@ -42,6 +49,14 @@ func (b *BlogApi) GetBlogList(c *gin.Context) {
 }
 
 // AddBlog
+// @Tags 博客管理
+// @Summary 新增博客
+// @Description 新增博客
+// @Accept json
+// @Produce json
+// @Param data body requestParams.BlogDetail true "博客信息"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /blog/add [post]
 // @author: zhengji.su
 // @description: 新增博客
 // @param: c *gin.Context
@@ -86,8 +101,13 @@ func (b *BlogApi) UpdateBlog(c *gin.Context) {
 }
 
 // DeleteBlog
+// @Tags 博客管理
+// @Summary 删除博客
+// @Description 删除博客
+// @Param id query int true "当前页"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /blog/delete [delete]
 // @author: zhengji.su
-// @description: 删除博客
 // @param: c *gin.Context
 func (b *BlogApi) DeleteBlog(c *gin.Context) {
 	var blog request.GetById
@@ -109,20 +129,25 @@ func (b *BlogApi) DeleteBlog(c *gin.Context) {
 }
 
 // GetBlogById
+// @Tags Base
+// @Summary 根据id获取博客详情
+// @Description 根据id获取博客详情
+// @Param id query string true "id"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /base/blog [get]
 // @author: zhengji.su
-// @description: 根据id获取博客详情
 // @param: c *gin.Context
 func (b *BlogApi) GetBlogById(c *gin.Context)  {
-	var blogId request.GetById
-	blogId.ID = c.Param("id")
+	var byId request.GetById
+	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(blogId, utils.IdVerify); err != nil {
+	if err := utils.Verify(byId, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if blog, err := blogService.GetBlogById(blogId.ID); err != nil {
-		global.TB_LOG.Error(fmt.Sprintf("%s%d%s", "blog:", blogId.ID, "查询失败!"), zap.Error(err))
+	if blog, err := blogService.GetBlogById(byId.ID); err != nil {
+		global.TB_LOG.Error(fmt.Sprintf("%s%d%s", "blog:", byId.ID, "查询失败!"), zap.Error(err))
 		response.FailWithMessage("error", c)
 	} else {
 		response.OkWithDetailed(blog, "success", c)

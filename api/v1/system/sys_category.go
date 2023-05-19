@@ -15,8 +15,15 @@ import (
 type CategoryApi struct{}
 
 // GetCategoryList
+// @Tags Base
+// @Summary 获取分类列表
+// @Description 获取分类列表
+// @Param page query int true "当前页"
+// @Param pageSize query int true "每页请求数量"
+// @Param keyWord query string false "搜索内容"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /base/category/list [get]
 // @author: zhengji.su
-// @description: 获取分类列表
 // @param: c *gin.Context
 func (cate *CategoryApi) GetCategoryList(c *gin.Context) {
 	if list, total, err := categoryService.GetCategoryList(); err != nil {
@@ -31,8 +38,15 @@ func (cate *CategoryApi) GetCategoryList(c *gin.Context) {
 }
 
 // AddCategory
+// @Tags 分类管理
+// @Summary 添加分类
+// @Description 添加分类
+// @Accept json
+// @Produce json
+// @Param data body requestParams.CategoryContent true "分类信息"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /category/add [post]
 // @author: zhengji.su
-// @description: 添加分类
 // @param: c *gin.Context
 func (cate *CategoryApi) AddCategory(c *gin.Context) {
 	var categoryParam requestParams.CategoryContent
@@ -61,8 +75,15 @@ func (cate *CategoryApi) AddCategory(c *gin.Context) {
 }
 
 // UpdateCategory
+// @Tags 分类管理
+// @Summary 更新分类
+// @Description 更新分类
+// @Accept json
+// @Produce json
+// @Param data body requestParams.UpdateCategoryContent true "分类信息"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /category/update [put]
 // @author: zhengji.su
-// @description: 更新分类
 // @param: c *gin.Context
 func (cate *CategoryApi) UpdateCategory(c *gin.Context) {
 	var updateContent requestParams.UpdateCategoryContent
@@ -85,8 +106,13 @@ func (cate *CategoryApi) UpdateCategory(c *gin.Context) {
 }
 
 // DeleteCategory
+// @Tags 分类管理
+// @Summary 删除分类
+// @Description 删除分类
+// @Param id query string true "id"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /category/delete [delete]
 // @author: zhengji.su
-// @description: 删除分类
 // @param: c *gin.Context
 func (cate *CategoryApi) DeleteCategory(c *gin.Context) {
 	var category request.GetById
@@ -108,19 +134,24 @@ func (cate *CategoryApi) DeleteCategory(c *gin.Context) {
 }
 
 // GetCategoryById
+// @Tags Base
+// @Summary 根据id获取分类详情
+// @Description 根据id获取分类详情
+// @Param id query string true "id"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /base/category [get]
 // @author: zhengji.su
-// @description: 根据id获取分类详情
 // @param: c *gin.Context
 func (cate *CategoryApi) GetCategoryById(c *gin.Context)  {
-	var id request.GetById
-	id.ID = c.Param("id")
+	var byId request.GetById
+	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(id, utils.IdVerify); err != nil {
+	if err := utils.Verify(byId, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if category, err := categoryService.GetCategoryById(id.ID); err != nil {
+	if category, err := categoryService.GetCategoryById(byId.ID); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "查询失败!", c)
 	} else {

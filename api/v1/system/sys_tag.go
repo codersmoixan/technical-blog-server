@@ -15,8 +15,12 @@ import (
 type TagApi struct{}
 
 // GetTagList
+// @Tags Base
+// @Summary 获取标签列表
+// @Description 获取标签列表
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /base/tag/list [get]
 // @author: zhengji.su
-// @description: 获取标签列表
 // @param: c *gin.Context
 func (t *TagApi) GetTagList(c *gin.Context) {
 	if list, total, err := tagService.GetTagList(); err != nil {
@@ -31,8 +35,15 @@ func (t *TagApi) GetTagList(c *gin.Context) {
 }
 
 // AddTag
+// @Tags 标签管理
+// @Summary 添加标签
+// @Description 添加标签
+// @Accept json
+// @Produce json
+// @Param data body requestParams.TagContent true "标签信息"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /tag/add [post]
 // @author: zhengji.su
-// @description: 添加标签
 // @param: c *gin.Context
 func (t *TagApi) AddTag(c *gin.Context) {
 	var tagParam requestParams.TagContent
@@ -62,8 +73,15 @@ func (t *TagApi) AddTag(c *gin.Context) {
 }
 
 // UpdateTag
+// @Tags 标签管理
+// @Summary 更新标签
+// @Description 更新标签
+// @Accept json
+// @Produce json
+// @Param data body requestParams.UpdateTag true "标签信息"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /tag/update [put]
 // @author: zhengji.su
-// @description: 更新标签
 // @param: c *gin.Context
 func (t *TagApi) UpdateTag(c *gin.Context) {
 	var updateContent requestParams.UpdateTag
@@ -86,8 +104,13 @@ func (t *TagApi) UpdateTag(c *gin.Context) {
 }
 
 // DeleteTag
+// @Tags 标签管理
+// @Summary 删除标签
+// @Description 删除标签
+// @Param id query string true "id"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /tag/delete [delete]
 // @author: zhengji.su
-// @description: 删除标签
 // @param: c *gin.Context
 func (t *TagApi) DeleteTag(c *gin.Context) {
 	var tag request.GetById
@@ -109,19 +132,24 @@ func (t *TagApi) DeleteTag(c *gin.Context) {
 }
 
 // GetTagById
+// @Tags Base
+// @Summary 根据id获取标签信息
+// @Description 根据id获取标签信息
+// @Param id query string true "id"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /base/tag [get]
 // @author: zhengji.su
-// @description: 根据id获取标签信息
 // @param: c *gin.Context
 func (t *TagApi) GetTagById(c *gin.Context)  {
-	var id request.GetById
-	id.ID = c.Param("id")
+	var byId request.GetById
+	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(id, utils.IdVerify); err != nil {
+	if err := utils.Verify(byId, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if tag, err := tagService.GetTagById(id.ID); err != nil {
+	if tag, err := tagService.GetTagById(byId.ID); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "查询失败!", c)
 	} else {
