@@ -3,7 +3,7 @@ package system
 type ServiceGroup struct {
 	BaseService
 	UserService
-	BlogService
+	ArticleService
 	TagService
 	CategoryService
 	LinkService

@@ -58,18 +58,18 @@ func (cate *CategoryApi) AddCategory(c *gin.Context) {
 	}
 
 	category := &modelSystem.SysCategory{
-		Label: categoryParam.Label,
+		CategoryName: categoryParam.CategoryName,
 	}
 
 	if categoryInter, err := categoryService.AddCategory(*category); err != nil {
 		global.TB_LOG.Error("分类新增失败!", zap.Error(err))
 		response.FailWithDetailed(responseParams.AddCategoryResponse{
-			Label: categoryParam.Label,
+			CategoryName: categoryParam.CategoryName,
 		}, err.Error(), c)
 	} else {
 		response.OkWithDetailed(responseParams.AddCategoryResponse{
 			ID:    categoryInter.CategoryId,
-			Label: categoryInter.Label,
+			CategoryName: categoryInter.CategoryName,
 		}, "分类新增成功!", c)
 	}
 }
@@ -100,7 +100,7 @@ func (cate *CategoryApi) UpdateCategory(c *gin.Context) {
 	} else {
 		response.OkWithDetailed(responseParams.UpdateCategoryResponse{
 			ID:    category.CategoryId,
-			Label: category.Label,
+			CategoryName: category.CategoryName,
 		}, "更新成功!", c)
 	}
 }

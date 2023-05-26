@@ -55,18 +55,18 @@ func (t *TagApi) AddTag(c *gin.Context) {
 	}
 
 	tag := &modelSystem.SysTag{
-		Label: tagParam.Label,
-		Value: tagParam.Label,
+		TagName: tagParam.TagName,
+		Value: tagParam.TagName,
 	}
 
 	if tagInter, err := tagService.AddTag(*tag); err != nil {
 		global.TB_LOG.Error("标签新增失败!", zap.Error(err))
 		response.FailWithDetailed(responseParams.TagAddResponse{
-			Label: tagParam.Label,
+			Label: tagParam.TagName,
 		}, err.Error(), c)
 	} else {
 		response.OkWithDetailed(responseParams.TagAddResponse{
-			Label: tagParam.Label,
+			Label: tagParam.TagName,
 			TagId: tagInter.TagId,
 		}, "标签新增成功!", c)
 	}
@@ -98,7 +98,7 @@ func (t *TagApi) UpdateTag(c *gin.Context) {
 	} else {
 		response.OkWithDetailed(responseParams.TagAddResponse{
 			TagId: tag.TagId,
-			Label: tag.Label,
+			Label: tag.TagName,
 		}, "更新成功!", c)
 	}
 }

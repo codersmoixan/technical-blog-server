@@ -33,7 +33,7 @@ func Routers() *gin.Engine {
 	PrivateGroup.Use(middleware.JwtAuth())
 	{
 		systemRouter.SetupUserRouter(PrivateGroup)
-		systemRouter.SetupBlogRouter(PrivateGroup)
+		systemRouter.SetupArticleRouter(PrivateGroup)
 		systemRouter.SetupTagRouter(PrivateGroup)
 		systemRouter.SetupCategoryRouter(PrivateGroup)
 		systemRouter.SetupLinkRouter(PrivateGroup)

@@ -3,7 +3,7 @@ package system
 type RouterGrout struct {
 	UserRouter
 	BaseRouter
-	BlogRouter
+	ArticleRouter
 	TagRouter
 	CategoryRouter
 	LinkRouter

@@ -38,7 +38,7 @@ func (tagService *TagService) AddTag(t modelSystem.SysTag) (tagInter modelSystem
 	var tag modelSystem.SysTag
 
 	// todo 判断tag是否已经存在
-	if !errors.Is(global.TB_DB.Where("label = ?", t.Label).First(&tag).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.TB_DB.Where("label = ?", t.TagName).First(&tag).Error, gorm.ErrRecordNotFound) {
 		return tagInter, errors.New("标签已存在")
 	}
 
@@ -66,7 +66,7 @@ func (tagService *TagService) UpdateTag(update requestParams.UpdateTag) (tagInte
 	db := global.TB_DB.Model(&modelSystem.SysTag{})
 
 	// todo 更新信息
-	if err = db.Where("tag_id = ?", update.ID).Update("label", update.Label).Error; err != nil {
+	if err = db.Where("tag_id = ?", update.ID).Update("label", update.TagName).Error; err != nil {
 		return tagInter, err
 	}
 

@@ -1,7 +1,7 @@
 package request
 
 type CategoryContent struct {
-	Label string `json:"label"`
+	CategoryName string `json:"categoryName"`
 }
 
 type UpdateCategoryContent struct {

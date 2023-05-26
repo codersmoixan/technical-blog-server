@@ -52,9 +52,9 @@ func GormMysql() *gorm.DB {
 // @param: db *gorm.DB
 func RegisterTables(db *gorm.DB) {
 	err := db.AutoMigrate(
-		system.SysApi{},
+		//system.SysApi{},
 		system.SysUser{},
-		system.SysBlog{},
+		system.SysArticle{},
 		system.SysTag{},
 		system.SysCategory{},
 		system.SysLink{},
