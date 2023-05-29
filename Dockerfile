@@ -8,11 +8,12 @@ RUN GIN_MODE=release
 RUN go env -w GO111MODULE=on \
     && go env -w GOPROXY=https://goproxy.cn,direct \
     && go env -w CGO_ENABLED=0 \
-#    && go env -w GOOS=linux \
-#    && go env -w GOARCH=amd64 \
+    && go env -w GOOS=linux \
+    && go env -w GOARCH=amd64 \
     && go env \
     && go mod tidy \
     && go build -o server .
+#    && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o server .
 
 FROM alpine:latest
 
