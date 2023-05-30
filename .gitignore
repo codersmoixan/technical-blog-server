@@ -7,7 +7,7 @@
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+*.sw
 
 /log
 /latest_log
