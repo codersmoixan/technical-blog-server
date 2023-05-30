@@ -8,12 +8,12 @@ type CategoryResponse struct {
 
 type AddCategoryResponse struct {
 	ID    string `json:"id"`
-	Label string `json:"label"`
+	CategoryName string `json:"categoryName"`
 }
 
 type UpdateCategoryResponse struct {
 	ID    string `json:"id"`
-	Label string `json:"label"`
+	CategoryName string `json:"label"`
 }
 
 type DeleteCategoryResponse struct {

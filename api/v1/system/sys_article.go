@@ -13,20 +13,20 @@ import (
 	"technical-blog-server/utils"
 )
 
-type BlogApi struct{}
+type ArticleApi struct{}
 
-// GetBlogList
+// GetArticleList
 // @Tags Base
-// @Summary 获取博客列表
-// @Description 获取博客列表
+// @Summary 获取文章列表
+// @Description 获取文章列表
 // @Param page query int true "当前页"
 // @Param pageSize query int true "每页请求数量"
 // @Param keyWord query string false "搜索内容"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /base/blog/list [get]
+// @Router /base/article/list [get]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (b *BlogApi) GetBlogList(c *gin.Context) {
+func (b *ArticleApi) GetArticleList(c *gin.Context) {
 	var pageInfo request.PageInfo
 	_ = c.ShouldBindQuery(&pageInfo)
 
@@ -35,7 +35,7 @@ func (b *BlogApi) GetBlogList(c *gin.Context) {
 		return
 	}
 
-	if list, total, err := blogService.GetBlogList(pageInfo); err != nil {
+	if list, total, err := articleService.GetArticleList(pageInfo); err != nil {
 		global.TB_LOG.Error("获取博客列表失败!", zap.Error(err))
 		response.FailWithMessage("获取博客列表失败!", c)
 	} else {
@@ -48,96 +48,94 @@ func (b *BlogApi) GetBlogList(c *gin.Context) {
 	}
 }
 
-// AddBlog
-// @Tags 博客管理
-// @Summary 新增博客
-// @Description 新增博客
+// AddArticle
+// @Tags 文章管理
+// @Summary 新增文章
+// @Description 新增文章
 // @Accept json
 // @Produce json
-// @Param data body requestParams.BlogDetail true "博客信息"
+// @Param data body requestParams.ArticleDetail true "博客信息"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /blog/add [post]
+// @Router /article/add [post]
 // @author: zhengji.su
-// @description: 新增博客
+// @description: 新增文章
 // @param: c *gin.Context
-func (b *BlogApi) AddBlog(c *gin.Context) {
-	var blogParam requestParams.BlogDetail
-	_ = c.ShouldBindJSON(&blogParam)
+func (b *ArticleApi) AddArticle(c *gin.Context) {
+	var articleParam requestParams.ArticleDetail
+	_ = c.ShouldBindJSON(&articleParam)
 
-	fmt.Println(blogParam, "2252")
-
-	if err := utils.Verify(blogParam, utils.BlogDetailVerify); err != nil {
+	if err := utils.Verify(articleParam, utils.ArticleDetailVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	blog := &modelSystem.SysBlog{
-		Name:        blogParam.Name,
-		Description: blogParam.Description,
-		Content:     blogParam.Content,
-		TagId:         blogParam.Tag,
-		CategoryId:    blogParam.Category,
-		BlogImage:   blogParam.BlogImage,
+	article := &modelSystem.SysArticle{
+		ArticleName:        articleParam.ArticleName,
+		Description: articleParam.Description,
+		Content:     articleParam.Content,
+		TagId:         articleParam.Tag,
+		CategoryId:    articleParam.Category,
+		ArticleImage:   articleParam.ArticleImage,
 	}
-	if _, err := blogService.AddBlog(*blog); err != nil {
+	if _, err := articleService.AddArticle(*article); err != nil {
 		response.FailWithMessage(err.Error(), c)
 	} else {
-		response.OkWithDetailed(responseParams.BlogAddResponse{
-			Name:        blog.Name,
-			Description: blog.Description,
-			TagId:         blog.TagId,
-			CategoryId:    blog.CategoryId,
-			BlogImage:   blog.BlogImage,
+		response.OkWithDetailed(responseParams.ArticleAddResponse{
+			ArticleName:        article.ArticleName,
+			Description: article.Description,
+			TagId:         article.TagId,
+			CategoryId:    article.CategoryId,
+			ArticleImage:   article.ArticleImage,
 		}, "文章保存成功!", c)
 	}
 }
 
-// UpdateBlog
+// UpdateArticle
 // @author: zhengji.su
 // @description: 更新博客
 // @param: c *gin.Context
-func (b *BlogApi) UpdateBlog(c *gin.Context) {
+func (b *ArticleApi) UpdateArticle(c *gin.Context) {
 
 }
 
-// DeleteBlog
-// @Tags 博客管理
-// @Summary 删除博客
-// @Description 删除博客
+// DeleteArticle
+// @Tags 文章管理
+// @Summary 删除文章
+// @Description 删除文章
 // @Param id query int true "当前页"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /blog/delete [delete]
+// @Router /article/delete [delete]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (b *BlogApi) DeleteBlog(c *gin.Context) {
-	var blog request.GetById
-	_ = c.ShouldBindQuery(&blog)
+func (b *ArticleApi) DeleteArticle(c *gin.Context) {
+	var article request.GetById
+	_ = c.ShouldBindQuery(&article)
 
-	if err := utils.Verify(blog, utils.IdVerify); err != nil {
+	if err := utils.Verify(article, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if err := blogService.DeleteBlog(blog.ID); err != nil {
-		global.TB_LOG.Error(fmt.Sprintf("%s%d%s", "日志:", blog.ID, "删除失败!"), zap.Error(err))
+	if err := articleService.DeleteArticle(article.ID); err != nil {
+		global.TB_LOG.Error(fmt.Sprintf("%s%d%s", "日志:", article.ID, "删除失败!"), zap.Error(err))
 		response.FailWithMessage("删除失败!", c)
 	} else {
-		response.OkWithDetailed(responseParams.BlogDeleteResponse{
-			ID: blog.ID,
+		response.OkWithDetailed(responseParams.ArticleDeleteResponse{
+			ID: article.ID,
 		}, "日志删除成功!", c)
 	}
 }
 
-// GetBlogById
+// GetArticleById
 // @Tags Base
-// @Summary 根据id获取博客详情
-// @Description 根据id获取博客详情
+// @Summary 根据id获取文章详情
+// @Description 根据id获取文章详情
 // @Param id query string true "id"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /base/blog [get]
+// @Router /base/article [get]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (b *BlogApi) GetBlogById(c *gin.Context)  {
+func (b *ArticleApi) GetArticleById(c *gin.Context)  {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
@@ -146,10 +144,10 @@ func (b *BlogApi) GetBlogById(c *gin.Context)  {
 		return
 	}
 
-	if blog, err := blogService.GetBlogById(byId.ID); err != nil {
+	if article, err := articleService.GetArticleById(byId.ID); err != nil {
 		global.TB_LOG.Error(fmt.Sprintf("%s%d%s", "blog:", byId.ID, "查询失败!"), zap.Error(err))
 		response.FailWithMessage("error", c)
 	} else {
-		response.OkWithDetailed(blog, "success", c)
+		response.OkWithDetailed(article, "success", c)
 	}
 }

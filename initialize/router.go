@@ -16,6 +16,7 @@ import (
 func Routers() *gin.Engine {
 	Router := gin.Default()
 	systemRouter := router.RouterGroupApp.System
+	resourceRouter := router.RouterGroupApp.Resource
 
 	//docs.SwaggerInfo.BasePath = "/api/v1"
 
@@ -30,13 +31,15 @@ func Routers() *gin.Engine {
 
 	// 需要登录时才能访问的api
 	PrivateGroup := Router.Group("")
-	PrivateGroup.Use(middleware.JwtAuth())
+	//PrivateGroup.Use(middleware.JwtAuth())
 	{
 		systemRouter.SetupUserRouter(PrivateGroup)
-		systemRouter.SetupBlogRouter(PrivateGroup)
+		systemRouter.SetupArticleRouter(PrivateGroup)
 		systemRouter.SetupTagRouter(PrivateGroup)
 		systemRouter.SetupCategoryRouter(PrivateGroup)
 		systemRouter.SetupLinkRouter(PrivateGroup)
+
+		resourceRouter.SetupFileRouter(PrivateGroup)
 	}
 
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

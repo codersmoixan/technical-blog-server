@@ -37,7 +37,7 @@ func (cate *CategoryService) AddCategory(c modelSystem.SysCategory) (categoryInt
 	var category modelSystem.SysCategory
 
 	// todo 判断category是否存在
-	if !errors.Is(global.TB_DB.Where("label = ?", c.Label).First(&category).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.TB_DB.Where("category_name = ?", c.CategoryName).First(&category).Error, gorm.ErrRecordNotFound) {
 		return categoryInter, errors.New("分类已存在")
 	}
 
@@ -64,7 +64,7 @@ func (cate *CategoryService) UpdateCategory(update request.UpdateCategoryContent
 	db := global.TB_DB.Model(&modelSystem.SysCategory{})
 
 	// todo 更新信息
-	if err = db.Where("category_id = ?", update.ID).Update("label", update.Label).Error; err != nil {
+	if err = db.Where("category_id = ?", update.ID).Update("category_name", update.CategoryName).Error; err != nil {
 		return categoryInter, err
 	}
 

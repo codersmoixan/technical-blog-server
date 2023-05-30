@@ -7,6 +7,7 @@ type Server struct {
 	System   System   `mapstructure:"system" json:"system" yaml:"system"`
 	MySql    Mysql    `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
 	Redis    Redis    `mapstructure:"redis" json:"redis" yaml:"redis"`
+	Local 	 Local    `mapstructure:"local" json:"local" yaml:"local"`
 
 	// 跨域配置
 	Cors CORS `mapstructure:"cors" json:"cors" yaml:"cors"`

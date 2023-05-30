@@ -7,6 +7,7 @@ import (
 	"os"
 	"technical-blog-server/global"
 	"technical-blog-server/initialize/internal"
+	"technical-blog-server/model/resource"
 	"technical-blog-server/model/system"
 )
 
@@ -52,12 +53,14 @@ func GormMysql() *gorm.DB {
 // @param: db *gorm.DB
 func RegisterTables(db *gorm.DB) {
 	err := db.AutoMigrate(
-		system.SysApi{},
-		system.SysUser{},
-		system.SysBlog{},
+		//system.SysApi{},
+		//system.SysUser{},
+		system.SysArticle{},
 		system.SysTag{},
 		system.SysCategory{},
 		system.SysLink{},
+
+		resource.ResFile{},
 	)
 
 	if err != nil {

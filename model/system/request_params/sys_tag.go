@@ -3,7 +3,7 @@ package request
 import "technical-blog-server/model/common/request"
 
 type TagContent struct {
-	Label string `json:"label"`
+	TagName string `json:"tagName"`
 }
 
 type UpdateTag struct {

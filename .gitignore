@@ -7,12 +7,14 @@
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+*.sw
 
 /log
 /latest_log
 /src/
 /pkg/
 /config.yaml
+/config.release.yaml
+/upload
 
 *.iml

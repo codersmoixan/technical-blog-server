@@ -1,9 +1,9 @@
 package system
 
-type RouterGrout struct {
+type RouterGroup struct {
 	UserRouter
 	BaseRouter
-	BlogRouter
+	ArticleRouter
 	TagRouter
 	CategoryRouter
 	LinkRouter
