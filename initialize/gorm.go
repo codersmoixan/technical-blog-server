@@ -53,7 +53,7 @@ func GormMysql() *gorm.DB {
 func RegisterTables(db *gorm.DB) {
 	err := db.AutoMigrate(
 		//system.SysApi{},
-		system.SysUser{},
+		//system.SysUser{},
 		system.SysArticle{},
 		system.SysTag{},
 		system.SysCategory{},

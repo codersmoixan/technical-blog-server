@@ -2,6 +2,7 @@ package system
 
 import (
 	"errors"
+	"fmt"
 	goNanoid "github.com/matoous/go-nanoid/v2"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
@@ -38,7 +39,8 @@ func (tagService *TagService) AddTag(t modelSystem.SysTag) (tagInter modelSystem
 	var tag modelSystem.SysTag
 
 	// todo 判断tag是否已经存在
-	if !errors.Is(global.TB_DB.Where("label = ?", t.TagName).First(&tag).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.TB_DB.Where("tag_name = ?", t.TagName).First(&tag).Error, gorm.ErrRecordNotFound) {
+		fmt.Println(tag, 9899)
 		return tagInter, errors.New("标签已存在")
 	}
 
@@ -66,7 +68,7 @@ func (tagService *TagService) UpdateTag(update requestParams.UpdateTag) (tagInte
 	db := global.TB_DB.Model(&modelSystem.SysTag{})
 
 	// todo 更新信息
-	if err = db.Where("tag_id = ?", update.ID).Update("label", update.TagName).Error; err != nil {
+	if err = db.Where("tag_id = ?", update.ID).Update("tag_name", update.TagName).Error; err != nil {
 		return tagInter, err
 	}
 

@@ -70,7 +70,7 @@ func (articleService *ArticleService) UpdateArticle() {
 // @return: err error
 func (articleService *ArticleService) DeleteArticle(id string) (err error) {
 	var article modelSystem.SysArticle
-	err = global.TB_DB.Where("blog_id = ?", id).First(&article).Delete(&article).Error
+	err = global.TB_DB.Where("article_id = ?", id).First(&article).Delete(&article).Error
 
 	return err
 }
@@ -83,7 +83,7 @@ func (articleService *ArticleService) DeleteArticle(id string) (err error) {
 func (articleService *ArticleService) GetArticleById(id string) (blogInter responseParams.ArticleDetail, err error)  {
 	var article responseParams.ArticleDetail
 	db := global.TB_DB.Model(&modelSystem.SysArticle{})
-	err = db.Where("blog_id = ?", id).First(&article).Error
+	err = db.Where("article_id = ?", id).First(&article).Error
 
 	tag, _ := tagService.GetTagById(article.TagId)
 	category, _ := categoryService.GetCategoryById(article.CategoryId)
