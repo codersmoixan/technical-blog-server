@@ -1,16 +1,16 @@
 jwt:
   signing_key: 'qmPlus'
-  expires_time: 6000
+  expires_time: 86400
   buffer_time: 86400
   issuer: 'qmPlus'
 
 mysql:
-  path: '10.0.4.3'
+  path: '127.0.0.1'
   port: '3306'
   config: 'charset=utf8mb4&parseTime=True&loc=Local'
-  db_name: 'technical_blog'
+  db_name: 'data'
   username: 'root'
-  password: 'sm940706'
+  password: 'root'
   max_idle_conns: 10
   max_open_conns: 100
   log_mode: ''

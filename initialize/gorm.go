@@ -7,6 +7,7 @@ import (
 	"os"
 	"technical-blog-server/global"
 	"technical-blog-server/initialize/internal"
+	"technical-blog-server/model/resource"
 	"technical-blog-server/model/system"
 )
 
@@ -58,6 +59,8 @@ func RegisterTables(db *gorm.DB) {
 		system.SysTag{},
 		system.SysCategory{},
 		system.SysLink{},
+
+		resource.ResFile{},
 	)
 
 	if err != nil {

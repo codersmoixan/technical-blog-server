@@ -14,5 +14,7 @@
 /src/
 /pkg/
 /config.yaml
+/config.release.yaml
+/upload
 
 *.iml

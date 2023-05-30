@@ -16,6 +16,7 @@ import (
 func Routers() *gin.Engine {
 	Router := gin.Default()
 	systemRouter := router.RouterGroupApp.System
+	resourceRouter := router.RouterGroupApp.Resource
 
 	//docs.SwaggerInfo.BasePath = "/api/v1"
 
@@ -37,6 +38,8 @@ func Routers() *gin.Engine {
 		systemRouter.SetupTagRouter(PrivateGroup)
 		systemRouter.SetupCategoryRouter(PrivateGroup)
 		systemRouter.SetupLinkRouter(PrivateGroup)
+
+		resourceRouter.SetupFileRouter(PrivateGroup)
 	}
 
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

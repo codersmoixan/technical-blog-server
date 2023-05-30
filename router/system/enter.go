@@ -1,6 +1,6 @@
 package system
 
-type RouterGrout struct {
+type RouterGroup struct {
 	UserRouter
 	BaseRouter
 	ArticleRouter
