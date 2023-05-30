@@ -6,5 +6,6 @@ type ArticleDetail struct {
 	Content     string `json:"content"`     // 文章内容
 	Tag         string `json:"tag"`         // 文章标签
 	Category    string `json:"category"`    // 文章类型
-	ArticleImage   string `json:"articleImage"`   // 文章封面
+	ArticleCoverUrl   string `json:"articleCoverUrl"`   // 文章封面
+	ArticleCoverKey string `json:"articleCoverKey"` // 文章封面key
 }

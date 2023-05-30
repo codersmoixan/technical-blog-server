@@ -14,7 +14,8 @@ type ArticleResponse struct {
 	CategoryId    string `json:"categoryId" gorm:"comment:类别ID"`
 	Category    string `json:"category" gorm:"comment:类别"`
 	Description string `json:"description" gorm:"comment:文章简要"`
-	ArticleImage   string `json:"articleImage" gorm:"comment:文章封面"`
+	ArticleCoverUrl   string `json:"articleCoverUrl" gorm:"comment:文章封面"`
+	ArticleCoverKey string `json:"articleCoverKey" gorm:"comment:文章封面key"`
 	Favors      int    `json:"favors" gorm:"comment:文章收藏次数"`
 	Views       int    `json:"views" gorm:"comment:文章阅读次数"`
 	Shares      int    `json:"shares" gorm:"comment:文章分享次数"`
@@ -31,7 +32,8 @@ type ArticleAddResponse struct {
 	Description string `json:"description"`
 	TagId         string `json:"tagId"`
 	CategoryId    string `json:"categoryId"`
-	ArticleImage   string `json:"articleImage"`
+	ArticleCoverUrl   string `json:"articleCoverUrl"`
+	ArticleCoverKey string `json:"articleCoverKey"`
 }
 
 type ArticleDeleteResponse struct {

@@ -75,7 +75,8 @@ func (b *ArticleApi) AddArticle(c *gin.Context) {
 		Content:     articleParam.Content,
 		TagId:         articleParam.Tag,
 		CategoryId:    articleParam.Category,
-		ArticleImage:   articleParam.ArticleImage,
+		ArticleCoverUrl:   articleParam.ArticleCoverUrl,
+		ArticleCoverKey: articleParam.ArticleCoverKey,
 	}
 	if _, err := articleService.AddArticle(*article); err != nil {
 		response.FailWithMessage(err.Error(), c)
@@ -85,7 +86,8 @@ func (b *ArticleApi) AddArticle(c *gin.Context) {
 			Description: article.Description,
 			TagId:         article.TagId,
 			CategoryId:    article.CategoryId,
-			ArticleImage:   article.ArticleImage,
+			ArticleCoverUrl:   article.ArticleCoverUrl,
+			ArticleCoverKey: article.ArticleCoverKey,
 		}, "文章保存成功!", c)
 	}
 }
