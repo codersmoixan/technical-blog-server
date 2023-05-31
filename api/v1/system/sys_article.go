@@ -27,23 +27,23 @@ type ArticleApi struct{}
 // @author: zhengji.su
 // @param: c *gin.Context
 func (b *ArticleApi) GetArticleList(c *gin.Context) {
-	var pageInfo request.PageInfo
-	_ = c.ShouldBindQuery(&pageInfo)
+	var articleParams request.GetArticleListParams
+	_ = c.ShouldBindQuery(&articleParams)
 
-	if err := utils.Verify(pageInfo, utils.PageInfoVerify); err != nil {
+	if err := utils.Verify(articleParams, utils.PageInfoVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if list, total, err := articleService.GetArticleList(pageInfo); err != nil {
+	if list, total, err := articleService.GetArticleList(articleParams); err != nil {
 		global.TB_LOG.Error("获取博客列表失败!", zap.Error(err))
 		response.FailWithMessage("获取博客列表失败!", c)
 	} else {
 		response.OkWithDetailed(response.PageResult{
 			List:     list,
 			Total:    total,
-			Page:     pageInfo.Page,
-			PageSize: pageInfo.PageSize,
+			Page:     articleParams.Page,
+			PageSize: articleParams.PageSize,
 		}, "获取成功", c)
 	}
 }

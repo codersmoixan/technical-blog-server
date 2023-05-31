@@ -18,17 +18,25 @@ var categoryService = new(CategoryService)
 // @description: 获取文章列表
 // @param: pageInfo request.PageInfo
 // @return: list interface{}, total int, err error
-func (articleService *ArticleService) GetArticleList(pageInfo request.PageInfo) (list interface{}, total int64, err error) {
-	limit := pageInfo.PageSize
-	offset := pageInfo.PageSize * (pageInfo.Page - 1)
+func (articleService *ArticleService) GetArticleList(articleParams request.GetArticleListParams) (list interface{}, total int64, err error) {
+	limit := articleParams.PageSize
+	offset := articleParams.PageSize * (articleParams.Page - 1)
+	categoryId := articleParams.CategoryId
 	db := global.TB_DB.Model(&modelSystem.SysArticle{})
 
 	var articleList []responseParams.ArticleResponse
 
-	if err = db.Count(&total).Error; err != nil {
-		return
+	if categoryId == "" {
+		if err = db.Count(&total).Error; err != nil {
+			return articleList, 0, err
+		}
+		err = db.Limit(limit).Offset(offset).Find(&articleList).Error
+	} else {
+		if err = db.Where("category_id = ?", categoryId).Count(&total).Error; err != nil {
+			return articleList, 0, err
+		}
+		err = db.Where("category_id = ?", categoryId).Limit(limit).Offset(offset).Find(&articleList).Error
 	}
-	err = db.Limit(limit).Offset(offset).Find(&articleList).Error
 
 	for index, article := range articleList {
 		tag, _ := tagService.GetTagById(article.TagId)
