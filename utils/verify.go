@@ -4,7 +4,7 @@ var (
 	LoginVerify      = Rules{"Username": {NotEmpty()}, "Password": {NotEmpty()}}
 	RegisterVerify   = Rules{"Username": {NotEmpty()}, "Password": {NotEmpty()}, "NickName": {NotEmpty()}}
 	PageInfoVerify   = Rules{"Page": {NotEmpty()}, "PageSize": {NotEmpty()}}
-	ArticleDetailVerify = Rules{"ArticleName": {NotEmpty()}, "Tag": {NotEmpty()}, "Categories": {NotEmpty()}, "Description": {NotEmpty()}, "Content": {NotEmpty()}, "ArticleImage": {NotEmpty()}}
+	ArticleDetailVerify = Rules{"ArticleName": {NotEmpty()}, "Tags": {NotEmpty()}, "Categories": {NotEmpty()}, "Description": {NotEmpty()}, "Content": {NotEmpty()}, "ArticleImage": {NotEmpty()}}
 	IdVerify         = Rules{"ID": {NotEmpty()}}
 )
 

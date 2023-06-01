@@ -1,7 +1,6 @@
 package system
 
 import (
-	goNanoid "github.com/matoous/go-nanoid/v2"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
 	modelSystem "technical-blog-server/model/system"
@@ -53,16 +52,10 @@ func (articleService *ArticleService) GetArticleList(articleParams request.GetAr
 // @description: 新增文章
 // @param: b modelSystem.SysBlog
 // @return: blog modelSystem.SysArticle, err error
-func (articleService *ArticleService) AddArticle(b modelSystem.SysArticle) (blog modelSystem.SysArticle, err error) {
-	id, er := goNanoid.New()
-	if er != nil {
-		return blog, er
-	}
+func (articleService *ArticleService) AddArticle(a modelSystem.SysArticle) (article modelSystem.SysArticle, err error) {
+	err = global.TB_DB.Create(&a).Error
 
-	b.ArticleId = id
-	err = global.TB_DB.Create(&b).Error
-
-	return b, err
+	return a, err
 }
 
 // UpdateArticle
@@ -99,4 +92,26 @@ func (articleService *ArticleService) GetArticleById(id string) (blogInter respo
 	article.Category = category.CategoryName
 
 	return article, err
+}
+
+func (articleService *ArticleService) AppendArticleTags(id string, t []string) error {
+	db := global.TB_DB
+	if err := db.AutoMigrate(&modelSystem.SysArticleTags{}); err != nil {
+		return err
+	}
+
+	var tags []modelSystem.SysArticleTags
+	for _, tagId := range t {
+		tag := modelSystem.SysArticleTags{
+			ArticleId: id,
+			TagId: tagId,
+		}
+		tags = append(tags, tag)
+	}
+
+	if err := db.Create(&tags).Error; err != nil {
+		return err
+	}
+
+	return nil
 }

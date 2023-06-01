@@ -3,6 +3,7 @@ package system
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	goNanoid "github.com/matoous/go-nanoid/v2"
 	"go.uber.org/zap"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
@@ -26,7 +27,7 @@ type ArticleApi struct{}
 // @Router /base/article/list [get]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (b *ArticleApi) GetArticleList(c *gin.Context) {
+func (a *ArticleApi) GetArticleList(c *gin.Context) {
 	var articleParams request.GetArticleListParams
 	_ = c.ShouldBindQuery(&articleParams)
 
@@ -60,7 +61,7 @@ func (b *ArticleApi) GetArticleList(c *gin.Context) {
 // @author: zhengji.su
 // @description: 新增文章
 // @param: c *gin.Context
-func (b *ArticleApi) AddArticle(c *gin.Context) {
+func (a *ArticleApi) AddArticle(c *gin.Context) {
 	var articleParam requestParams.ArticleDetail
 	_ = c.ShouldBindJSON(&articleParam)
 
@@ -69,34 +70,48 @@ func (b *ArticleApi) AddArticle(c *gin.Context) {
 		return
 	}
 
+	id, err := goNanoid.New()
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
 	article := &modelSystem.SysArticle{
+		ArticleId: id,
 		ArticleName:        articleParam.ArticleName,
 		Description: articleParam.Description,
 		Content:     articleParam.Content,
-		TagId:         articleParam.Tag,
 		CategoryId:    articleParam.Category,
 		ArticleCoverUrl:   articleParam.ArticleCoverUrl,
 		ArticleCoverKey: articleParam.ArticleCoverKey,
 	}
 	if _, err := articleService.AddArticle(*article); err != nil {
 		response.FailWithMessage(err.Error(), c)
-	} else {
-		response.OkWithDetailed(responseParams.ArticleAddResponse{
-			ArticleName:        article.ArticleName,
-			Description: article.Description,
-			TagId:         article.TagId,
-			CategoryId:    article.CategoryId,
-			ArticleCoverUrl:   article.ArticleCoverUrl,
-			ArticleCoverKey: article.ArticleCoverKey,
-		}, "文章保存成功!", c)
+		global.TB_LOG.Error(err.Error())
+		return
 	}
+
+	if err := articleService.AppendArticleTags(id, articleParam.Tags); err != nil {
+		response.FailWithMessage("TBError: 创建标签表失败！", c)
+		global.TB_LOG.Error(fmt.Sprintf("TBError: 创建标签表失败！%v", err))
+		return
+	}
+
+	response.OkWithDetailed(responseParams.ArticleAddResponse{
+		ArticleName:        article.ArticleName,
+		Description: article.Description,
+		TagId:         article.TagId,
+		CategoryId:    article.CategoryId,
+		ArticleCoverUrl:   article.ArticleCoverUrl,
+		ArticleCoverKey: article.ArticleCoverKey,
+	}, "文章保存成功!", c)
 }
 
 // UpdateArticle
 // @author: zhengji.su
 // @description: 更新博客
 // @param: c *gin.Context
-func (b *ArticleApi) UpdateArticle(c *gin.Context) {
+func (a *ArticleApi) UpdateArticle(c *gin.Context) {
 
 }
 
@@ -109,7 +124,7 @@ func (b *ArticleApi) UpdateArticle(c *gin.Context) {
 // @Router /article/delete [delete]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (b *ArticleApi) DeleteArticle(c *gin.Context) {
+func (a *ArticleApi) DeleteArticle(c *gin.Context) {
 	var article request.GetById
 	_ = c.ShouldBindQuery(&article)
 
@@ -137,7 +152,7 @@ func (b *ArticleApi) DeleteArticle(c *gin.Context) {
 // @Router /base/article [get]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (b *ArticleApi) GetArticleById(c *gin.Context)  {
+func (a *ArticleApi) GetArticleById(c *gin.Context) {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 

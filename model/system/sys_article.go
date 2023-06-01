@@ -4,7 +4,7 @@ import "technical-blog-server/global"
 
 type SysArticle struct {
 	global.TB_MODEL
-	ArticleId      string `json:"id" gorm:"comment:博客唯一标识"`
+	ArticleId      string `json:"id" gorm:"comment:文章唯一标识"`
 	Author      string `json:"author" gorm:"comment:作者"`
 	ArticleName        string `json:"articleName" gorm:"comment:文章名"`
 	Tag string `json:"tag" gorm:"comment:标签"`
@@ -23,4 +23,14 @@ type SysArticle struct {
 
 func (SysArticle) TableName() string {
 	return "sys_article"
+}
+
+type SysArticleTags struct {
+	global.TB_MODEL
+	ArticleId string `json:"articleId" gorm:"comment:文章ID"`
+	TagId string `json:"tagId" gorm:"comment:标签ID"`
+}
+
+func (SysArticleTags) TableName() string {
+	return "sys_article_tags"
 }
