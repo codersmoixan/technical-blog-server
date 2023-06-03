@@ -4,6 +4,11 @@ import (
 	"technical-blog-server/global"
 )
 
+type ArticleTags struct {
+	TagId string
+	TagName string
+}
+
 type ArticleResponse struct {
 	global.TB_MODEL
 	ArticleId      string `json:"id" gorm:"comment:博客唯一标识"`
@@ -11,6 +16,7 @@ type ArticleResponse struct {
 	ArticleName        string `json:"articleName" gorm:"comment:文章名"`
 	TagId         string `json:"tagId" gorm:"comment:标签ID"`
 	Tag			string `json:"tag" gorm:"comment:标签"`
+	Tags []ArticleTags
 	CategoryId    string `json:"categoryId" gorm:"comment:类别ID"`
 	Category    string `json:"category" gorm:"comment:类别"`
 	Description string `json:"description" gorm:"comment:文章简要"`

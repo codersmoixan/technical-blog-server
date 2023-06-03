@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
 	"technical-blog-server/global"
-	requestParams "technical-blog-server/model/system/request_params"
+	requestParams "technical-blog-server/model/system/request"
 )
 
 func GetClaims(c *gin.Context) (*requestParams.CustomClaims, error) {

@@ -4,7 +4,7 @@ import (
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
 	modelSystem "technical-blog-server/model/system"
-	responseParams "technical-blog-server/model/system/response_params"
+	responseParams "technical-blog-server/model/system/response"
 )
 
 type ArticleService struct{}
@@ -17,7 +17,7 @@ var categoryService = new(CategoryService)
 // @description: 获取文章列表
 // @param: pageInfo request.PageInfo
 // @return: list interface{}, total int, err error
-func (articleService *ArticleService) GetArticleList(articleParams request.GetArticleListParams) (list interface{}, total int64, err error) {
+func (articleService *ArticleService) GetArticleList(articleParams request.GetArticleListParams) (list []responseParams.ArticleResponse, total int64, err error) {
 	limit := articleParams.PageSize
 	offset := articleParams.PageSize * (articleParams.Page - 1)
 	categoryId := articleParams.CategoryId
@@ -37,11 +37,19 @@ func (articleService *ArticleService) GetArticleList(articleParams request.GetAr
 		err = db.Where("category_id = ?", categoryId).Limit(limit).Offset(offset).Find(&articleList).Error
 	}
 
+	articleTags := articleService.GetArticleTags(articleList)
+
 	for index, article := range articleList {
-		tag, _ := tagService.GetTagById(article.TagId)
-		category, _ := categoryService.GetCategoryById(article.CategoryId)
-		articleList[index].Tag = tag.TagName
-		articleList[index].Category = category.CategoryName
+		var tags []responseParams.ArticleTags
+		for _, tag := range articleTags {
+			if article.ArticleId == tag.ArticleId {
+				tags = append(tags, responseParams.ArticleTags{
+					TagName: tag.TagName,
+					TagId: tag.TagId,
+				})
+			}
+		}
+		articleList[index].Tags = tags
 	}
 
 	return articleList, total, err
@@ -94,6 +102,11 @@ func (articleService *ArticleService) GetArticleById(id string) (blogInter respo
 	return article, err
 }
 
+// AppendArticleTags
+// @author: zhengji.su
+// @description: 保存文章标签到表中
+// @param: id string, t string
+// @return: error
 func (articleService *ArticleService) AppendArticleTags(id string, t []string) error {
 	db := global.TB_DB
 	if err := db.AutoMigrate(&modelSystem.SysArticleTags{}); err != nil {
@@ -114,4 +127,30 @@ func (articleService *ArticleService) AppendArticleTags(id string, t []string) e
 	}
 
 	return nil
+}
+
+func (articleService *ArticleService) GetArticleTags(list []responseParams.ArticleResponse) []struct{
+	responseParams.ArticleTags
+	ArticleId string
+} {
+	sql := `
+		SELECT tags.*, tag.tag_name 
+		FROM sys_article_tags tags 
+		JOIN sys_tag tag 
+		ON tags.tag_id = tag.tag_id 
+		WHERE tags.article_id IN (?)
+ 	`
+
+	var articleIds []string
+	var tags []struct{
+		responseParams.ArticleTags
+		ArticleId string
+	}
+
+	for _, article := range list {
+		articleIds = append(articleIds, article.ArticleId)
+	}
+	global.TB_DB.Raw(sql, articleIds).Scan(&tags)
+
+	return tags
 }

@@ -6,8 +6,8 @@ import (
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	modelSystem "technical-blog-server/model/system"
-	request "technical-blog-server/model/system/request_params"
-	responseParams "technical-blog-server/model/system/response_params"
+	request "technical-blog-server/model/system/request"
+	responseParams "technical-blog-server/model/system/response"
 )
 
 type CategoryService struct{}

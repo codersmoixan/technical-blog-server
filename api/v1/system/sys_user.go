@@ -9,8 +9,8 @@ import (
 	"technical-blog-server/model/common/request"
 	"technical-blog-server/model/common/response"
 	modelSystem "technical-blog-server/model/system"
-	requestParams "technical-blog-server/model/system/request_params"
-	responseParams "technical-blog-server/model/system/response_params"
+	requestParams "technical-blog-server/model/system/request"
+	responseParams "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
 )
 

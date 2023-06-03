@@ -9,8 +9,8 @@ import (
 	"technical-blog-server/model/common/request"
 	"technical-blog-server/model/common/response"
 	modelSystem "technical-blog-server/model/system"
-	requestParams "technical-blog-server/model/system/request_params"
-	responseParams "technical-blog-server/model/system/response_params"
+	requestParams "technical-blog-server/model/system/request"
+	responseParams "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
 )
 
@@ -36,17 +36,19 @@ func (a *ArticleApi) GetArticleList(c *gin.Context) {
 		return
 	}
 
-	if list, total, err := articleService.GetArticleList(articleParams); err != nil {
+	list, total, err := articleService.GetArticleList(articleParams)
+	if err != nil {
 		global.TB_LOG.Error("获取博客列表失败!", zap.Error(err))
 		response.FailWithMessage("获取博客列表失败!", c)
-	} else {
-		response.OkWithDetailed(response.PageResult{
-			List:     list,
-			Total:    total,
-			Page:     articleParams.Page,
-			PageSize: articleParams.PageSize,
-		}, "获取成功", c)
+		return
 	}
+
+	response.OkWithDetailed(response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     articleParams.Page,
+		PageSize: articleParams.PageSize,
+	}, "获取成功", c)
 }
 
 // AddArticle
@@ -85,12 +87,14 @@ func (a *ArticleApi) AddArticle(c *gin.Context) {
 		ArticleCoverUrl:   articleParam.ArticleCoverUrl,
 		ArticleCoverKey: articleParam.ArticleCoverKey,
 	}
+	// 保存文章
 	if _, err := articleService.AddArticle(*article); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		global.TB_LOG.Error(err.Error())
 		return
 	}
 
+	// 保存文章标签
 	if err := articleService.AppendArticleTags(id, articleParam.Tags); err != nil {
 		response.FailWithMessage("TBError: 创建标签表失败！", c)
 		global.TB_LOG.Error(fmt.Sprintf("TBError: 创建标签表失败！%v", err))
