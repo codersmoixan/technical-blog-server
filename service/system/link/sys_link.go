@@ -1,31 +1,31 @@
-package system
+package link
 
 type LinkService struct{}
 
 // GetLinkList
 // @author: zhengji.su
 // @description: 获取link列表
-func (l LinkService) GetLinkList() {
+func (service LinkService) GetLinkList() {
 
 }
 
 // AddLink
 // @author: zhengji.su
 // @description: 新增Link
-func (l LinkService) AddLink() {
+func (service LinkService) AddLink() {
 
 }
 
 // UpdateLink
 // @author: zhengji.su
 // @description: 更新Link
-func (l LinkService) UpdateLink() {
+func (service LinkService) UpdateLink() {
 
 }
 
 // DeleteLink
 // @author: zhengji.su
 // @description: 删除Link
-func (l LinkService) DeleteLink() {
+func (service LinkService) DeleteLink() {
 
 }

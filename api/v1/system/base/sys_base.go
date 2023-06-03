@@ -1,3 +1,3 @@
-package system
+package base
 
 type BaseApi struct{}

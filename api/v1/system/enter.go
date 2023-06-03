@@ -1,21 +1,19 @@
 package system
 
-import "technical-blog-server/service"
+import (
+	"technical-blog-server/api/v1/system/article"
+	"technical-blog-server/api/v1/system/base"
+	"technical-blog-server/api/v1/system/category"
+	"technical-blog-server/api/v1/system/link"
+	"technical-blog-server/api/v1/system/tag"
+	"technical-blog-server/api/v1/system/user"
+)
 
 type ApiGroup struct {
-	BaseApi
-	UserApi
-	ArticleApi
-	TagApi
-	CategoryApi
-	LinkApi
+	base.BaseApi
+	user.UserApi
+	article.ArticleApi
+	tag.TagApi
+	category.CategoryApi
+	link.LinkApi
 }
-
-var (
-	baseService     = service.GroupApp.SystemServiceGroup.BaseService
-	userService     = service.GroupApp.SystemServiceGroup.UserService
-	articleService     = service.GroupApp.SystemServiceGroup.ArticleService
-	tagService      = service.GroupApp.SystemServiceGroup.TagService
-	categoryService = service.GroupApp.SystemServiceGroup.CategoryService
-	linkService     = service.GroupApp.SystemServiceGroup.LinkService
-)

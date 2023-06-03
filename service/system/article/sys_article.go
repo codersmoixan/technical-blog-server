@@ -1,23 +1,23 @@
-package system
+package article
 
 import (
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
 	modelSystem "technical-blog-server/model/system"
 	responseParams "technical-blog-server/model/system/response"
+	"technical-blog-server/service/system/category"
 )
 
 type ArticleService struct{}
 
-var tagService = new(TagService)
-var categoryService = new(CategoryService)
+var categoryService = new(category.CategoryService)
 
 // GetArticleList
 // @author: zhengji.su
 // @description: 获取文章列表
 // @param: pageInfo request.PageInfo
 // @return: list interface{}, total int, err error
-func (articleService *ArticleService) GetArticleList(articleParams request.GetArticleListParams) (list []responseParams.ArticleResponse, total int64, err error) {
+func (service *ArticleService) GetArticleList(articleParams request.GetArticleListParams) (list []responseParams.ArticleResponse, total int64, err error) {
 	limit := articleParams.PageSize
 	offset := articleParams.PageSize * (articleParams.Page - 1)
 	categoryId := articleParams.CategoryId
@@ -37,7 +37,7 @@ func (articleService *ArticleService) GetArticleList(articleParams request.GetAr
 		err = db.Where("category_id = ?", categoryId).Limit(limit).Offset(offset).Find(&articleList).Error
 	}
 
-	articleTags := articleService.GetArticleTags(articleList)
+	articleTags := service.GetArticleTags(articleList)
 
 	for index, article := range articleList {
 		var tags []responseParams.ArticleTags
@@ -60,7 +60,7 @@ func (articleService *ArticleService) GetArticleList(articleParams request.GetAr
 // @description: 新增文章
 // @param: b modelSystem.SysBlog
 // @return: blog modelSystem.SysArticle, err error
-func (articleService *ArticleService) AddArticle(a modelSystem.SysArticle) (article modelSystem.SysArticle, err error) {
+func (service *ArticleService) AddArticle(a modelSystem.SysArticle) (article modelSystem.SysArticle, err error) {
 	err = global.TB_DB.Create(&a).Error
 
 	return a, err
@@ -68,7 +68,7 @@ func (articleService *ArticleService) AddArticle(a modelSystem.SysArticle) (arti
 
 // UpdateArticle
 // @description: 更新文章
-func (articleService *ArticleService) UpdateArticle() {
+func (service *ArticleService) UpdateArticle() {
 
 }
 
@@ -77,7 +77,7 @@ func (articleService *ArticleService) UpdateArticle() {
 // @description: 删除文章
 // @param: id string
 // @return: err error
-func (articleService *ArticleService) DeleteArticle(id string) (err error) {
+func (service *ArticleService) DeleteArticle(id string) (err error) {
 	var article modelSystem.SysArticle
 	err = global.TB_DB.Where("article_id = ?", id).First(&article).Delete(&article).Error
 
@@ -88,15 +88,13 @@ func (articleService *ArticleService) DeleteArticle(id string) (err error) {
 // @author: zhengji.su
 // @description: 根据ID获取博客详情
 // @param: id string
-// @return: blogInter responseParams.BlogResponse
-func (articleService *ArticleService) GetArticleById(id string) (blogInter responseParams.ArticleDetail, err error)  {
+// @return: articleInter responseParams.BlogResponse
+func (service *ArticleService) GetArticleById(id string) (articleInter responseParams.ArticleDetail, err error)  {
 	var article responseParams.ArticleDetail
 	db := global.TB_DB.Model(&modelSystem.SysArticle{})
 	err = db.Where("article_id = ?", id).First(&article).Error
 
-	tag, _ := tagService.GetTagById(article.TagId)
 	category, _ := categoryService.GetCategoryById(article.CategoryId)
-	article.Tag = tag.TagName
 	article.Category = category.CategoryName
 
 	return article, err
@@ -107,11 +105,8 @@ func (articleService *ArticleService) GetArticleById(id string) (blogInter respo
 // @description: 保存文章标签到表中
 // @param: id string, t string
 // @return: error
-func (articleService *ArticleService) AppendArticleTags(id string, t []string) error {
+func (service *ArticleService) AppendArticleTags(id string, t []string) error {
 	db := global.TB_DB
-	if err := db.AutoMigrate(&modelSystem.SysArticleTags{}); err != nil {
-		return err
-	}
 
 	var tags []modelSystem.SysArticleTags
 	for _, tagId := range t {
@@ -129,7 +124,7 @@ func (articleService *ArticleService) AppendArticleTags(id string, t []string) e
 	return nil
 }
 
-func (articleService *ArticleService) GetArticleTags(list []responseParams.ArticleResponse) []struct{
+func (service *ArticleService) GetArticleTags(list []responseParams.ArticleResponse) []struct{
 	responseParams.ArticleTags
 	ArticleId string
 } {

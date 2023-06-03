@@ -18,5 +18,7 @@ func (article *ArticleRouter) SetupArticleRouter(Router *gin.RouterGroup) {
 		articleRouter.POST("add", articleApi.AddArticle)
 		articleRouter.PUT("update", articleApi.UpdateArticle)
 		articleRouter.DELETE("delete", articleApi.DeleteArticle)
+		articleRouter.POST("praise/save", articleApi.SaveLiked)
+		articleRouter.POST("praise/cancel", articleApi.CancelLiked)
 	}
 }
