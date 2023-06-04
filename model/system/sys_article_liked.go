@@ -9,5 +9,5 @@ type SysArticleLiked struct {
 }
 
 func (SysArticleLiked) TableName() string {
-	return "sys_article_praise"
+	return "sys_article_liked"
 }

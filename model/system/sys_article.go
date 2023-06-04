@@ -15,10 +15,11 @@ type SysArticle struct {
 	Content     string `json:"content" gorm:"comment:文章内容;type:text"`
 	ArticleCoverUrl   string `json:"articleCoverUrl" gorm:"comment:文章封面url"`
 	ArticleCoverKey   string `json:"articleCoverKey" gorm:"comment:文章封面图片key"`
-	Favors      int    `json:"favors" gorm:"comment:文章收藏次数"`
-	Views       int    `json:"views" gorm:"comment:文章阅读次数"`
-	Shares      int    `json:"shares" gorm:"comment:文章分享次数"`
-	Status      int    `json:"status" gorm:"comment:文章状态"` // 1 待发布 2 已发布
+	Liked int `json:"liked" gorm:"comment:文章点赞数;default: 0"`
+	Favors      int    `json:"favors" gorm:"comment:文章收藏次数;default:0"`
+	Views       int    `json:"views" gorm:"comment:文章阅读次数;default:0"`
+	Shares      int    `json:"shares" gorm:"comment:文章分享次数;default:0"`
+	Status      int    `json:"status" gorm:"comment:文章状态;default:1"` // 1 待发布 2 已发布
 }
 
 func (SysArticle) TableName() string {

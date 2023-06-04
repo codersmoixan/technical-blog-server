@@ -9,6 +9,10 @@ import (
 )
 
 type ArticleService struct{}
+type articleTag struct {
+	responseParams.ArticleTags
+	ArticleId string
+}
 
 var categoryService = new(category.CategoryService)
 
@@ -37,7 +41,12 @@ func (service *ArticleService) GetArticleList(articleParams request.GetArticleLi
 		err = db.Where("category_id = ?", categoryId).Limit(limit).Offset(offset).Find(&articleList).Error
 	}
 
-	articleTags := service.GetArticleTags(articleList)
+	var articleIds []string
+	for _, article := range articleList {
+		articleIds = append(articleIds, article.ArticleId)
+	}
+
+	articleTags := service.GetArticleTags(articleIds)
 
 	for index, article := range articleList {
 		var tags []responseParams.ArticleTags
@@ -94,8 +103,18 @@ func (service *ArticleService) GetArticleById(id string) (articleInter responseP
 	db := global.TB_DB.Model(&modelSystem.SysArticle{})
 	err = db.Where("article_id = ?", id).First(&article).Error
 
-	category, _ := categoryService.GetCategoryById(article.CategoryId)
-	article.Category = category.CategoryName
+	var articleTags []responseParams.ArticleTags
+	tags := service.GetArticleTags([]string{id})
+	for _, tag := range tags {
+		articleTags = append(articleTags, responseParams.ArticleTags{
+			TagId: tag.TagId,
+			TagName: tag.TagName,
+		})
+	}
+
+	articleCategory, _ := categoryService.GetCategoryById(article.CategoryId)
+	article.Category = articleCategory.CategoryName
+	article.Tags = articleTags
 
 	return article, err
 }
@@ -124,10 +143,7 @@ func (service *ArticleService) AppendArticleTags(id string, t []string) error {
 	return nil
 }
 
-func (service *ArticleService) GetArticleTags(list []responseParams.ArticleResponse) []struct{
-	responseParams.ArticleTags
-	ArticleId string
-} {
+func (service *ArticleService) GetArticleTags(ids []string) []articleTag {
 	sql := `
 		SELECT tags.*, tag.tag_name 
 		FROM sys_article_tags tags 
@@ -136,16 +152,8 @@ func (service *ArticleService) GetArticleTags(list []responseParams.ArticleRespo
 		WHERE tags.article_id IN (?)
  	`
 
-	var articleIds []string
-	var tags []struct{
-		responseParams.ArticleTags
-		ArticleId string
-	}
-
-	for _, article := range list {
-		articleIds = append(articleIds, article.ArticleId)
-	}
-	global.TB_DB.Raw(sql, articleIds).Scan(&tags)
+	var tags []articleTag
+	global.TB_DB.Raw(sql, ids).Scan(&tags)
 
 	return tags
 }

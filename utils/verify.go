@@ -17,3 +17,7 @@ var (
 	CategoriesVerify       = Rules{"Label": {NotEmpty()}}
 	UpdateCategoriesVerify = Rules{"ID": {NotEmpty()}, "Label": {NotEmpty()}}
 )
+
+var (
+	ArticleLikedVerify = Rules{"Id": {NotEmpty()}, "UserId": {NotEmpty()}}
+)

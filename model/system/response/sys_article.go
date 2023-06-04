@@ -22,6 +22,7 @@ type ArticleResponse struct {
 	Description string `json:"description" gorm:"comment:文章简要"`
 	ArticleCoverUrl   string `json:"articleCoverUrl" gorm:"comment:文章封面"`
 	ArticleCoverKey string `json:"articleCoverKey" gorm:"comment:文章封面key"`
+	Liked string `json:"liked"`
 	Favors      int    `json:"favors" gorm:"comment:文章收藏次数"`
 	Views       int    `json:"views" gorm:"comment:文章阅读次数"`
 	Shares      int    `json:"shares" gorm:"comment:文章分享次数"`
@@ -44,4 +45,9 @@ type ArticleAddResponse struct {
 
 type ArticleDeleteResponse struct {
 	ID string `json:"id"`
+}
+
+type ArticleLikedResponse struct {
+	UserId string `json:"userId"`
+	ArticleId string `json:"articleId"`
 }

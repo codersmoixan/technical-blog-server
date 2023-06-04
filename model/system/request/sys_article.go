@@ -9,3 +9,8 @@ type ArticleDetail struct {
 	ArticleCoverUrl   string `json:"articleCoverUrl"`   // 文章封面
 	ArticleCoverKey string `json:"articleCoverKey"` // 文章封面key
 }
+
+type ArticleLikedRequest struct {
+	Id string `json:"id"`
+	UserId string `json:"userId"`
+}
