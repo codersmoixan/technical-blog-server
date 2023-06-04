@@ -51,3 +51,7 @@ type ArticleLikedResponse struct {
 	UserId string `json:"userId"`
 	ArticleId string `json:"articleId"`
 }
+
+type ArticleIsLikedResponse struct {
+	IsLiked bool `json:"isLiked"`
+}

@@ -27,7 +27,7 @@ type ArticleApi struct{}
 // @Router /base/article/list [get]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (a *ArticleApi) GetArticleList(c *gin.Context) {
+func (api *ArticleApi) GetArticleList(c *gin.Context) {
 	var articleParams request.GetArticleListParams
 	_ = c.ShouldBindQuery(&articleParams)
 
@@ -63,7 +63,7 @@ func (a *ArticleApi) GetArticleList(c *gin.Context) {
 // @author: zhengji.su
 // @description: 新增文章
 // @param: c *gin.Context
-func (a *ArticleApi) AddArticle(c *gin.Context) {
+func (api *ArticleApi) AddArticle(c *gin.Context) {
 	var articleParam requestParams.ArticleDetail
 	_ = c.ShouldBindJSON(&articleParam)
 
@@ -115,7 +115,7 @@ func (a *ArticleApi) AddArticle(c *gin.Context) {
 // @author: zhengji.su
 // @description: 更新博客
 // @param: c *gin.Context
-func (a *ArticleApi) UpdateArticle(c *gin.Context) {
+func (api *ArticleApi) UpdateArticle(c *gin.Context) {
 
 }
 
@@ -128,7 +128,7 @@ func (a *ArticleApi) UpdateArticle(c *gin.Context) {
 // @Router /article/delete [delete]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (a *ArticleApi) DeleteArticle(c *gin.Context) {
+func (api *ArticleApi) DeleteArticle(c *gin.Context) {
 	var article request.GetById
 	_ = c.ShouldBindQuery(&article)
 
@@ -156,7 +156,7 @@ func (a *ArticleApi) DeleteArticle(c *gin.Context) {
 // @Router /base/article [get]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (a *ArticleApi) GetArticleById(c *gin.Context) {
+func (api *ArticleApi) GetArticleById(c *gin.Context) {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 

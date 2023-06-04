@@ -20,5 +20,6 @@ func (article *ArticleRouter) SetupArticleRouter(Router *gin.RouterGroup) {
 		articleRouter.DELETE("delete", articleApi.DeleteArticle)
 		articleRouter.POST("liked/save", articleApi.SaveLiked)
 		articleRouter.POST("liked/cancel", articleApi.CancelLiked)
+		articleRouter.GET("liked/is", articleApi.GetUserIsLiked)
 	}
 }

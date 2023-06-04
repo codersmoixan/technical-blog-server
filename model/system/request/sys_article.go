@@ -1,5 +1,7 @@
 package request
 
+import uuid "github.com/satori/go.uuid"
+
 type ArticleDetail struct {
 	ArticleName        string `json:"articleName"`        // 博客名称
 	Description string `json:"description"` // 文章简要
@@ -11,6 +13,6 @@ type ArticleDetail struct {
 }
 
 type ArticleLikedRequest struct {
-	Id string `json:"id"`
-	UserId string `json:"userId"`
+	ArticleId string `json:"articleId"`
+	UserId uuid.UUID `json:"userId"`
 }

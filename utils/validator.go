@@ -49,15 +49,15 @@ func Verify(st interface{}, roleMap Rules) (err error) {
 			for _, v := range roleMap[tagVal.Name] {
 				switch {
 				case v == "notEmpty":
-					if isEmpty(val) {
+					if IsEmpty(val) {
 						return errors.New(tagVal.Name + "值不能为空")
 					}
 				case strings.Split(v, "=")[0] == "regexp":
-					if !regexpMatch(strings.Split(v, "=")[1], val.String()) {
+					if !RegexpMatch(strings.Split(v, "=")[1], val.String()) {
 						return errors.New(tagVal.Name + "格式校验不通过")
 					}
 				case compareMap[strings.Split(v, "=")[0]]:
-					if !compareVerify(val, v) {
+					if !CompareVerify(val, v) {
 						return errors.New(tagVal.Name + "长度或值不在合法范围," + v)
 					}
 				}
@@ -67,11 +67,12 @@ func Verify(st interface{}, roleMap Rules) (err error) {
 	return nil
 }
 
+// IsEmpty
 // @author: zhengji.su
 // @description: 非空校验
 // @param: value reflect.Value
 // @return: bool
-func isEmpty(value reflect.Value) bool {
+func IsEmpty(value reflect.Value) bool {
 	switch value.Kind() {
 	case reflect.String:
 		return value.Len() == 0
@@ -89,30 +90,32 @@ func isEmpty(value reflect.Value) bool {
 	return reflect.DeepEqual(value.Interface(), reflect.Zero(value.Type()).Interface())
 }
 
+// CompareVerify
 // @author: zhengji.su
 // @description: 长度和数字的校验方法 根据类型自动校验
 // @param: value reflect.Value, VerifyStr string
 // @return: bool
-func compareVerify(value reflect.Value, VerifyStr string) bool {
+func CompareVerify(value reflect.Value, VerifyStr string) bool {
 	switch value.Kind() {
 	case reflect.String, reflect.Slice, reflect.Array:
-		return compare(value.Len(), VerifyStr)
+		return Compare(value.Len(), VerifyStr)
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-		return compare(value.Uint(), VerifyStr)
+		return Compare(value.Uint(), VerifyStr)
 	case reflect.Float32, reflect.Float64:
-		return compare(value.Float(), VerifyStr)
+		return Compare(value.Float(), VerifyStr)
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		return compare(value.Int(), VerifyStr)
+		return Compare(value.Int(), VerifyStr)
 	default:
 		return false
 	}
 }
 
+// Compare
 // @author: zhengji.su
 // @description: 比较函数
 // @param: value interface{}, VerifyStr string
 // @return: bool
-func compare(value interface{}, VerifyStr string) bool {
+func Compare(value interface{}, VerifyStr string) bool {
 	VerifyStrArr := strings.Split(VerifyStr, "=")
 	val := reflect.ValueOf(value)
 	switch val.Kind() {
@@ -184,10 +187,11 @@ func compare(value interface{}, VerifyStr string) bool {
 	}
 }
 
+// RegexpMatch
 // @author: zhengji.su
 // @description: 正则校验
 // @param: rule, matchStr string
 // @return: bool
-func regexpMatch(rule, matchStr string) bool {
+func RegexpMatch(rule, matchStr string) bool {
 	return regexp.MustCompile(rule).MatchString(matchStr)
 }
