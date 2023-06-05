@@ -28,6 +28,14 @@ func (api *FavorApi)SaveFavor(c *gin.Context) {
 		return
 	}
 
+	list, _ := articleFavorService.GetUserIsFavor(favorParam.UserId)
+	if len(list) != 0 {
+		response.OkWithDetailed(responseParam.ArticleIsFavorResponse{
+			IsFavor: len(list) != 0,
+		}, "文章已在收藏列表中，无法继续添加。", c)
+		return
+	}
+
 	var favor = &system.SysArticleFavors{
 		ArticleId: favorParam.ArticleId,
 		UserId: favorParam.UserId,
@@ -38,7 +46,7 @@ func (api *FavorApi)SaveFavor(c *gin.Context) {
 		return
 	}
 
-	article, er := articleLikedService.SaveLiked(favorParam.ArticleId)
+	article, er := articleFavorService.SaveFavor(favorParam.ArticleId)
 	if er != nil {
 		response.FailWithMessage(er.Error(), c)
 		return
@@ -61,6 +69,14 @@ func (api *FavorApi)CancelFavor(c *gin.Context)  {
 
 	if err := utils.Verify(favorParam, utils.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	list, _ := articleFavorService.GetUserIsFavor(favorParam.UserId)
+	if len(list) == 0 {
+		response.OkWithDetailed(responseParam.ArticleIsFavorResponse{
+			IsFavor: len(list) != 0,
+		}, "该文章并未收藏，无法移除收藏列表。", c)
 		return
 	}
 

@@ -28,6 +28,14 @@ func (api *LikedApi) SaveLiked(c *gin.Context) {
 		return
 	}
 
+	list, _ := articleLikedService.GetUserIsLiked(likedParam.UserId)
+	if len(list) != 0 {
+		response.OkWithDetailed(responseParam.ArticleIsFavorResponse{
+			IsFavor: len(list) != 0,
+		}, "文章已点赞，无法再次点赞", c)
+		return
+	}
+
 	var like = &system.SysArticleLiked{
 		ArticleId: likedParam.ArticleId,
 		UserId: likedParam.UserId,
@@ -61,6 +69,14 @@ func (api *LikedApi) CancelLiked(c *gin.Context) {
 
 	if err := utils.Verify(likedParam, utils.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	list, _ := articleLikedService.GetUserIsLiked(likedParam.UserId)
+	if len(list) == 0 {
+		response.OkWithDetailed(responseParam.ArticleIsFavorResponse{
+			IsFavor: len(list) != 0,
+		}, "该文章并未点赞，无法取消点赞。", c)
 		return
 	}
 
