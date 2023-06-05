@@ -4,10 +4,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"technical-blog-server/model/common/response"
 	"technical-blog-server/model/system"
-	response_param "technical-blog-server/model/system/response"
+	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
 	articleUtils "technical-blog-server/utils/article"
 )
+
+type LikedApi struct {}
 
 // SaveLiked
 // @Tags 文章管理
@@ -18,10 +20,10 @@ import (
 // @Router /article/liked/save [post]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (api *ArticleApi) SaveLiked(c *gin.Context) {
-	likedParam := articleUtils.GetArticleLikedParams(c)
+func (api *LikedApi) SaveLiked(c *gin.Context) {
+	likedParam := articleUtils.GetArticleBindUserParams(c)
 
-	if err := utils.Verify(likedParam, utils.ArticleLikedVerify); err != nil {
+	if err := utils.Verify(likedParam, utils.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -30,13 +32,13 @@ func (api *ArticleApi) SaveLiked(c *gin.Context) {
 		ArticleId: likedParam.ArticleId,
 		UserId: likedParam.UserId,
 	}
-	_, err := articleService.AddLikedRecord(*like)
+	_, err := articleLikedService.AddLikedRecord(*like)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	article, er := articleService.SaveLiked(likedParam.ArticleId)
+	article, er := articleLikedService.SaveLiked(likedParam.ArticleId)
 	if er != nil {
 		response.FailWithMessage(er.Error(), c)
 		return
@@ -54,26 +56,26 @@ func (api *ArticleApi) SaveLiked(c *gin.Context) {
 // @Router /article/liked/cancel [post]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (api *ArticleApi) CancelLiked(c *gin.Context) {
-	likedParam := articleUtils.GetArticleLikedParams(c)
+func (api *LikedApi) CancelLiked(c *gin.Context) {
+	likedParam := articleUtils.GetArticleBindUserParams(c)
 
-	if err := utils.Verify(likedParam, utils.ArticleLikedVerify); err != nil {
+	if err := utils.Verify(likedParam, utils.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	var like = system.SysArticleLiked{
+	var like = &system.SysArticleLiked{
 		ArticleId: likedParam.ArticleId,
 		UserId: likedParam.UserId,
 	}
-	_, err := articleService.DeleteLikedRecord(like)
+	_, err := articleLikedService.DeleteLikedRecord(*like)
 
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	article, err := articleService.CancelLiked(likedParam.ArticleId)
+	article, err := articleLikedService.CancelLiked(likedParam.ArticleId)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
@@ -91,16 +93,16 @@ func (api *ArticleApi) CancelLiked(c *gin.Context) {
 // @Router /article/liked/is [get]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (api *ArticleApi) GetUserIsLiked(c *gin.Context) {
-	likedParam := articleUtils.GetArticleLikedParams(c)
-	if err := utils.Verify(likedParam, utils.ArticleLikedVerify); err != nil {
+func (api *LikedApi) GetUserIsLiked(c *gin.Context) {
+	likedParam := articleUtils.GetArticleBindUserParams(c)
+	if err := utils.Verify(likedParam, utils.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	list, _ := articleService.GetUserIsLiked(likedParam.UserId)
+	list, _ := articleLikedService.GetUserIsLiked(likedParam.UserId)
 
-	response.OkWithDetailed(response_param.ArticleIsLikedResponse{
+	response.OkWithDetailed(responseParam.ArticleIsLikedResponse{
 		IsLiked: len(list) != 0,
 	}, "OK", c)
 }

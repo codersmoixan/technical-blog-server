@@ -19,5 +19,5 @@ var (
 )
 
 var (
-	ArticleLikedVerify = Rules{"ArticleId": {NotEmpty()}, "UserId": {NotEmpty()}}
+	ArticleBindUserVerify = Rules{"ArticleId": {NotEmpty()}, "UserId": {NotEmpty()}}
 )

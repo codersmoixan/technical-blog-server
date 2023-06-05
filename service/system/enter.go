@@ -12,7 +12,9 @@ import (
 type ServiceGroup struct {
 	base.BaseService
 	user.UserService
-	article.ArticleService
+	ArticleService article.Service
+	ArticleLikedService article.LikedService
+	ArticleFavorApi article.FavorService
 	tag.TagService
 	category.CategoryService
 	link.LinkService

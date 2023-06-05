@@ -7,7 +7,7 @@ import (
 	"technical-blog-server/utils"
 )
 
-func GetArticleLikedParams(c *gin.Context) articleRequest.ArticleLikedRequest {
+func GetArticleBindUserParams(c *gin.Context) articleRequest.ArticleLikedRequest {
 	var byId request.GetById
 	var likedParam articleRequest.ArticleLikedRequest
 	_ = c.ShouldBindQuery(&byId)

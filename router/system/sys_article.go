@@ -14,12 +14,17 @@ type ArticleRouter struct{}
 func (article *ArticleRouter) SetupArticleRouter(Router *gin.RouterGroup) {
 	articleRouter := Router.Group("article")
 	articleApi := v1.ApiGroupApp.SystemApiGroup.ArticleApi
+	articleLikedApi := v1.ApiGroupApp.SystemApiGroup.ArticleLikedApi
+	articleFavorApi := v1.ApiGroupApp.SystemApiGroup.ArticleFavorApi
 	{
 		articleRouter.POST("add", articleApi.AddArticle)
 		articleRouter.PUT("update", articleApi.UpdateArticle)
 		articleRouter.DELETE("delete", articleApi.DeleteArticle)
-		articleRouter.POST("liked/save", articleApi.SaveLiked)
-		articleRouter.POST("liked/cancel", articleApi.CancelLiked)
-		articleRouter.GET("liked/is", articleApi.GetUserIsLiked)
+		articleRouter.POST("liked/save", articleLikedApi.SaveLiked)
+		articleRouter.POST("liked/cancel", articleLikedApi.CancelLiked)
+		articleRouter.GET("liked/is", articleLikedApi.GetUserIsLiked)
+		articleRouter.POST("favor/save", articleFavorApi.SaveFavor)
+		articleRouter.POST("favor/cancel", articleFavorApi.CancelFavor)
+		articleRouter.GET("favor/is", articleFavorApi.GetUserIsFavor)
 	}
 }

@@ -8,16 +8,16 @@ import (
 	responseParam "technical-blog-server/model/system/response"
 )
 
-type LikedService struct {}
+type FavorService struct {}
 
-// SaveLiked
+// SaveFavor
 // @author: zhengji.su
-// @description: 文章点赞
+// @description: 文章收藏
 // @param: id string
 // @return: articleInter responseParam.ArticleDetail, err error
-func (service *LikedService) SaveLiked(id string) (articleInter responseParam.ArticleDetail, err error) {
+func (service *FavorService) SaveFavor(id string) (articleInter responseParam.ArticleDetail, err error) {
 	db := global.TB_DB.Model(&system.SysArticle{})
-	err = db.Where("article_id = ?", id).Update("liked", gorm.Expr("liked + ?", 1)).Error
+	err = db.Where("article_id = ?", id).Update("favors", gorm.Expr("favors + ?", 1)).Error
 	if err != nil {
 		return articleInter, err
 	}
@@ -27,14 +27,14 @@ func (service *LikedService) SaveLiked(id string) (articleInter responseParam.Ar
 	return articleInter, err
 }
 
-// CancelLiked
+// CancelFavor
 // @author: zhengji.su
-// @description: 文章取消点赞
+// @description: 文章取消收藏
 // @param: id string
 // @return: articleInter responseParam.ArticleDetail, err error
-func (service *LikedService) CancelLiked(id string) (articleInter responseParam.ArticleDetail, err error) {
+func (service *FavorService) CancelFavor(id string) (articleInter responseParam.ArticleDetail, err error) {
 	db := global.TB_DB.Model(&system.SysArticle{})
-	err = db.Where("article_id = ?", id).Update("liked", gorm.Expr("liked - ?", 1)).Error
+	err = db.Where("article_id = ?", id).Update("favors", gorm.Expr("favors - ?", 1)).Error
 	if err != nil {
 		return articleInter, err
 	}
@@ -44,13 +44,13 @@ func (service *LikedService) CancelLiked(id string) (articleInter responseParam.
 	return articleInter, err
 }
 
-// AddLikedRecord
+// AddFavorRecord
 // @author: zhengji.su
-// @description: 添加点赞记录
+// @description: 添加收藏记录
 // @param: liked system.SysArticleLiked
 // @return: success bool, err error
-func (service *LikedService) AddLikedRecord(liked system.SysArticleLiked) (success bool, err error) {
-	err = global.TB_DB.Create(&liked).Error
+func (service *FavorService) AddFavorRecord(favor system.SysArticleFavors) (success bool, err error) {
+	err = global.TB_DB.Create(&favor).Error
 
 	if err != nil {
 		return false, err
@@ -59,13 +59,13 @@ func (service *LikedService) AddLikedRecord(liked system.SysArticleLiked) (succe
 	return true, nil
 }
 
-// DeleteLikedRecord
+// DeleteFavorRecord
 // @author: zhengji.su
-// @description: 删除点赞记录
+// @description: 删除收藏记录
 // @param: liked system.SysArticleLiked
 // @return: success bool, err error
-func (service *LikedService) DeleteLikedRecord(liked system.SysArticleLiked) (success bool, err error) {
-	err = global.TB_DB.Where("user_id = ? AND article_id = ?", liked.UserId, liked.ArticleId).Delete(&system.SysArticleLiked{}).Error
+func (service *FavorService) DeleteFavorRecord(favor system.SysArticleFavors) (success bool, err error) {
+	err = global.TB_DB.Where("user_id = ? AND article_id = ?", favor.UserId, favor.ArticleId).Delete(&system.SysArticleFavors{}).Error
 	if err != nil {
 		return false, err
 	}
@@ -73,16 +73,15 @@ func (service *LikedService) DeleteLikedRecord(liked system.SysArticleLiked) (su
 	return true, nil
 }
 
-// GetUserIsLiked
+// GetUserIsFavor
 // @author: zhengji.su
-// @description: 查询用户是否已经点赞
+// @description: 查询用户是否已经收藏
 // @param: userId uuid.UUID
 // @return: likedList []responseParam.ArticleLikedResponse, err error
-func (service *LikedService) GetUserIsLiked(userId uuid.UUID) (likedList []responseParam.ArticleLikedResponse, err error) {
-	var list []responseParam.ArticleLikedResponse
-	db := global.TB_DB.Model(&system.SysArticleLiked{})
+func (service *FavorService) GetUserIsFavor(userId uuid.UUID) (favorList []responseParam.ArticleFavorResponse, err error) {
+	var list []responseParam.ArticleFavorResponse
+	db := global.TB_DB.Model(&system.SysArticleFavors{})
 	err = db.Where("user_id = ?", userId).First(&list).Error
 
 	return list, err
 }
-

@@ -29,6 +29,11 @@ type ArticleResponse struct {
 	Status      int    `json:"status" gorm:"comment:文章状态"` // 1 待发布 2 已发布
 }
 
+type ArticleBindUserId struct {
+	UserId string `json:"userId"`
+	ArticleId string `json:"articleId"`
+}
+
 type ArticleDetail struct {
 	ArticleResponse
 	Content string `json:"content"`
@@ -47,11 +52,14 @@ type ArticleDeleteResponse struct {
 	ID string `json:"id"`
 }
 
-type ArticleLikedResponse struct {
-	UserId string `json:"userId"`
-	ArticleId string `json:"articleId"`
-}
+type ArticleLikedResponse = ArticleBindUserId
 
 type ArticleIsLikedResponse struct {
 	IsLiked bool `json:"isLiked"`
+}
+
+type ArticleFavorResponse = ArticleBindUserId
+
+type ArticleIsFavorResponse struct {
+	IsFavor bool `json:"isFavor"`
 }
