@@ -59,6 +59,7 @@ func RegisterTables(db *gorm.DB) {
 		system.SysArticleTags{},
 		system.SysArticleLiked{},
 		system.SysArticleFavors{},
+		system.SysArticleViews{},
 		system.SysArticleComment{},
 		system.SysTag{},
 		system.SysCategory{},

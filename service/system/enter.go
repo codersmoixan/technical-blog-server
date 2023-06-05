@@ -15,6 +15,7 @@ type ServiceGroup struct {
 	ArticleService article.Service
 	ArticleLikedService article.LikedService
 	ArticleFavorApi article.FavorService
+	ArticleViewsApi article.ViewsService
 	tag.TagService
 	category.CategoryService
 	link.LinkService
