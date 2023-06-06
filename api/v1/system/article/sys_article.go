@@ -170,5 +170,6 @@ func (api *Api) GetArticleById(c *gin.Context) {
 		response.FailWithMessage("error", c)
 	} else {
 		response.OkWithDetailed(article, "success", c)
+		viewsApi.RecordViews(c)
 	}
 }

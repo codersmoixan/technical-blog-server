@@ -16,7 +16,6 @@ func (article *ArticleRouter) SetupArticleRouter(Router *gin.RouterGroup) {
 	articleApi := v1.ApiGroupApp.SystemApiGroup.ArticleApi
 	articleLikedApi := v1.ApiGroupApp.SystemApiGroup.ArticleLikedApi
 	articleFavorApi := v1.ApiGroupApp.SystemApiGroup.ArticleFavorApi
-	articleViewsApi := v1.ApiGroupApp.SystemApiGroup.ArticleViewsApi
 	{
 		articleRouter.POST("add", articleApi.AddArticle)
 		articleRouter.PUT("update", articleApi.UpdateArticle)
@@ -27,6 +26,14 @@ func (article *ArticleRouter) SetupArticleRouter(Router *gin.RouterGroup) {
 		articleRouter.POST("favor/save", articleFavorApi.SaveFavor)
 		articleRouter.POST("favor/cancel", articleFavorApi.CancelFavor)
 		articleRouter.GET("favor/is", articleFavorApi.GetUserIsFavor)
-		articleRouter.POST("views/record", articleViewsApi.RecordViews)
+	}
+}
+
+func (article *ArticleRouter) SetupGuestArticleRouter(Router *gin.RouterGroup)  {
+	articleRouter := Router.Group("")
+	articleViewsApi := v1.ApiGroupApp.SystemApiGroup.ArticleViewsApi
+	{
+		// 请求文章详情时会自动调用，无需再次手动调用
+		articleRouter.POST("article/views/record", articleViewsApi.RecordViews)
 	}
 }
