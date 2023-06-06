@@ -63,3 +63,5 @@ type ArticleFavorResponse = ArticleBindUserId
 type ArticleIsFavorResponse struct {
 	IsFavor bool `json:"isFavor"`
 }
+
+type ArticleViewsResponse = ArticleBindUserId

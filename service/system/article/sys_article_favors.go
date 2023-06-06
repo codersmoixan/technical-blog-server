@@ -73,12 +73,12 @@ func (service *FavorService) DeleteFavorRecord(favor system.SysArticleFavors) (s
 	return true, nil
 }
 
-// GetUserIsFavor
+// GetUserFavor
 // @author: zhengji.su
 // @description: 查询用户是否已经收藏
 // @param: userId uuid.UUID
 // @return: likedList []responseParam.ArticleLikedResponse, err error
-func (service *FavorService) GetUserIsFavor(userId uuid.UUID) (favorList []responseParam.ArticleFavorResponse, err error) {
+func (service *FavorService) GetUserFavor(userId uuid.UUID) (favorList []responseParam.ArticleFavorResponse, err error) {
 	var list []responseParam.ArticleFavorResponse
 	db := global.TB_DB.Model(&system.SysArticleFavors{})
 	err = db.Where("user_id = ?", userId).First(&list).Error

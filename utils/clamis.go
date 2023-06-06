@@ -72,3 +72,7 @@ func GetUserInfo(c *gin.Context) *requestParams.CustomClaims {
 		return waitUse
 	}
 }
+
+func GetIsEmptyUserId(id uint) bool {
+	return id == 0
+}

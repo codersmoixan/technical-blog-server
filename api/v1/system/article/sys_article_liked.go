@@ -28,7 +28,7 @@ func (api *LikedApi) SaveLiked(c *gin.Context) {
 		return
 	}
 
-	list, _ := articleLikedService.GetUserIsLiked(likedParam.UserId)
+	list, _ := articleLikedService.GetUserLiked(likedParam.UserId)
 	if len(list) != 0 {
 		response.OkWithDetailed(responseParam.ArticleIsFavorResponse{
 			IsFavor: len(list) != 0,
@@ -72,7 +72,7 @@ func (api *LikedApi) CancelLiked(c *gin.Context) {
 		return
 	}
 
-	list, _ := articleLikedService.GetUserIsLiked(likedParam.UserId)
+	list, _ := articleLikedService.GetUserLiked(likedParam.UserId)
 	if len(list) == 0 {
 		response.OkWithDetailed(responseParam.ArticleIsFavorResponse{
 			IsFavor: len(list) != 0,
@@ -116,7 +116,7 @@ func (api *LikedApi) GetUserIsLiked(c *gin.Context) {
 		return
 	}
 
-	list, _ := articleLikedService.GetUserIsLiked(likedParam.UserId)
+	list, _ := articleLikedService.GetUserLiked(likedParam.UserId)
 
 	response.OkWithDetailed(responseParam.ArticleIsLikedResponse{
 		IsLiked: len(list) != 0,

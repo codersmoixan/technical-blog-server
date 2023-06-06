@@ -28,7 +28,7 @@ func (api *FavorApi)SaveFavor(c *gin.Context) {
 		return
 	}
 
-	list, _ := articleFavorService.GetUserIsFavor(favorParam.UserId)
+	list, _ := articleFavorService.GetUserFavor(favorParam.UserId)
 	if len(list) != 0 {
 		response.OkWithDetailed(responseParam.ArticleIsFavorResponse{
 			IsFavor: len(list) != 0,
@@ -72,7 +72,7 @@ func (api *FavorApi)CancelFavor(c *gin.Context)  {
 		return
 	}
 
-	list, _ := articleFavorService.GetUserIsFavor(favorParam.UserId)
+	list, _ := articleFavorService.GetUserFavor(favorParam.UserId)
 	if len(list) == 0 {
 		response.OkWithDetailed(responseParam.ArticleIsFavorResponse{
 			IsFavor: len(list) != 0,
@@ -116,7 +116,7 @@ func (api *FavorApi)GetUserIsFavor(c *gin.Context)  {
 		return
 	}
 
-	list, _ := articleFavorService.GetUserIsFavor(favorParam.UserId)
+	list, _ := articleFavorService.GetUserFavor(favorParam.UserId)
 
 	response.OkWithDetailed(responseParam.ArticleIsFavorResponse{
 		IsFavor: len(list) != 0,

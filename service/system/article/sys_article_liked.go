@@ -73,12 +73,12 @@ func (service *LikedService) DeleteLikedRecord(liked system.SysArticleLiked) (su
 	return true, nil
 }
 
-// GetUserIsLiked
+// GetUserLiked
 // @author: zhengji.su
 // @description: 查询用户是否已经点赞
 // @param: userId uuid.UUID
 // @return: likedList []responseParam.ArticleLikedResponse, err error
-func (service *LikedService) GetUserIsLiked(userId uuid.UUID) (likedList []responseParam.ArticleLikedResponse, err error) {
+func (service *LikedService) GetUserLiked(userId uuid.UUID) (likedList []responseParam.ArticleLikedResponse, err error) {
 	var list []responseParam.ArticleLikedResponse
 	db := global.TB_DB.Model(&system.SysArticleLiked{})
 	err = db.Where("user_id = ?", userId).First(&list).Error

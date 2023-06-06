@@ -20,25 +20,35 @@ type ViewsApi struct {}
 // @author: zhengji.su
 // @param: c *gin.Context
 func (api *ViewsApi) RecordViews(c *gin.Context) {
-	viewParam := articleUtils.GetArticleBindUserParams(c)
+	viewsParam := articleUtils.GetArticleBindUserParams(c)
 
-	if err := utils.Verify(viewParam, utils.ArticleBindUserVerify); err != nil {
+	if err := utils.Verify(viewsParam, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	var views = &system.SysArticleViews{
-		ArticleId: viewParam.ArticleId,
-		UserId: viewParam.UserId,
-	}
-	
-	_, err := articleViewsService.RecordViews(*views)
-	if err != nil {
-		response.FailWithMessage(err.Error(), c)
-		return
+	if !viewsParam.UserIsEmpty {
+		isView, err := articleViewsService.GetUserIsViews(viewsParam.UserId)
+
+		if isView {
+			articleViewsService.UpdateViewsDate(viewsParam.UserId)
+			response.OkWithDetailed("更新成功!","OK!", c)
+			return
+		}
+
+		var views = &system.SysArticleViews{
+			ArticleId: viewsParam.ArticleId,
+			UserId: viewsParam.UserId,
+		}
+
+		_, err = articleViewsService.RecordViews(*views)
+		if err != nil {
+			response.FailWithMessage(err.Error(), c)
+			return
+		}
 	}
 
-	article, err := articleViewsService.UpdateViews(viewParam.ArticleId)
+	article, err := articleViewsService.UpdateViews(viewsParam.ArticleId)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
