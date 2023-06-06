@@ -9,6 +9,7 @@ import (
 	"technical-blog-server/initialize/internal"
 	"technical-blog-server/model/resource"
 	"technical-blog-server/model/system"
+	"technical-blog-server/model/system/article"
 )
 
 // Gorm
@@ -55,12 +56,12 @@ func RegisterTables(db *gorm.DB) {
 	err := db.AutoMigrate(
 		//system.SysApi{},
 		//system.SysUser{},
-		system.SysArticle{},
-		system.SysArticleTags{},
-		system.SysArticleLiked{},
-		system.SysArticleFavors{},
-		system.SysArticleViews{},
-		system.SysArticleComment{},
+		article.SysArticle{},
+		article.SysArticleTags{},
+		article.SysArticleLiked{},
+		article.SysArticleFavors{},
+		article.SysArticleViews{},
+		article.SysArticleComment{},
 		system.SysTag{},
 		system.SysCategory{},
 		system.SysLink{},

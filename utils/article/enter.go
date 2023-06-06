@@ -3,12 +3,12 @@ package article
 import (
 	"github.com/gin-gonic/gin"
 	"technical-blog-server/model/common/request"
-	"technical-blog-server/model/system"
+	"technical-blog-server/model/system/article"
 	"technical-blog-server/utils"
 )
 
 type ArticleBindUser struct {
-	system.ArticleBindUser
+	article.ArticleBindUser
 	UserUintId uint `json:"userUintId"`
 	UserIsEmpty bool `json:"userIsEmpty"`
 }

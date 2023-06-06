@@ -8,7 +8,7 @@ import (
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
 	"technical-blog-server/model/common/response"
-	modelSystem "technical-blog-server/model/system"
+	article2 "technical-blog-server/model/system/article"
 	requestParams "technical-blog-server/model/system/request"
 	responseParams "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
@@ -78,7 +78,7 @@ func (api *Api) AddArticle(c *gin.Context) {
 		return
 	}
 
-	article := &modelSystem.SysArticle{
+	article := &article2.SysArticle{
 		ArticleId: id,
 		ArticleName:        articleParam.ArticleName,
 		Description: articleParam.Description,

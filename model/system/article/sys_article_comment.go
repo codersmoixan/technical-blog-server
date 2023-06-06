@@ -1,4 +1,4 @@
-package system
+package article
 
 import "technical-blog-server/global"
 

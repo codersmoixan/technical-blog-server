@@ -3,7 +3,7 @@ package article
 import (
 	"github.com/gin-gonic/gin"
 	"technical-blog-server/model/common/response"
-	"technical-blog-server/model/system"
+	"technical-blog-server/model/system/article"
 	"technical-blog-server/utils"
 	articleUtils "technical-blog-server/utils/article"
 )
@@ -36,7 +36,7 @@ func (api *ViewsApi) RecordViews(c *gin.Context) {
 			return
 		}
 
-		var views = &system.SysArticleViews{
+		var views = &article.SysArticleViews{
 			ArticleId: viewsParam.ArticleId,
 			UserId: viewsParam.UserId,
 		}

@@ -1,4 +1,4 @@
-package system
+package article
 
 import (
 	uuid "github.com/satori/go.uuid"

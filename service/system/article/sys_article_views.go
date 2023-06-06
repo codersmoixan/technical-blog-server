@@ -5,7 +5,7 @@ import (
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
-	"technical-blog-server/model/system"
+	"technical-blog-server/model/system/article"
 	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
 	"time"
@@ -19,7 +19,7 @@ type ViewsService struct {}
 // @param: id string
 // @return: articleInter responseParam.ArticleDetail, err error
 func (service *ViewsService) UpdateViews(id string) (articleInter responseParam.ArticleDetail, err error) {
-	db := global.TB_DB.Model(&system.SysArticle{})
+	db := global.TB_DB.Model(&article.SysArticle{})
 	err = db.Where("article_id = ?", id).Update("views", gorm.Expr("views + ?", 1)).Error
 	if err != nil {
 		return articleInter, err
@@ -35,7 +35,7 @@ func (service *ViewsService) UpdateViews(id string) (articleInter responseParam.
 // @description: 记录文章阅读
 // @param: id string
 // @return: articleInter responseParam.ArticleDetail, err error
-func (service *ViewsService) RecordViews(views system.SysArticleViews) (success bool, err error) {
+func (service *ViewsService) RecordViews(views article.SysArticleViews) (success bool, err error) {
 	err = global.TB_DB.Create(&views).Error
 
 	if err != nil {
@@ -51,7 +51,7 @@ func (service *ViewsService) RecordViews(views system.SysArticleViews) (success 
 // @param: id string
 // @return: articleInter responseParam.ArticleDetail, err error
 func (service *ViewsService) UpdateViewsDate(userId uuid.UUID) {
-	db := global.TB_DB.Model(&system.SysArticleViews{})
+	db := global.TB_DB.Model(&article.SysArticleViews{})
 	db.Where("user_id = ?", userId).Update("updated_at", time.Now())
 }
 
@@ -62,7 +62,7 @@ func (service *ViewsService) UpdateViewsDate(userId uuid.UUID) {
 // @return: []responseParam.ArticleDetail, error
 func (service *ViewsService) GetUserViews(userId uuid.UUID, pageInfo request.PageInfo) ([]responseParam.ArticleViewsResponse, error) {
 	limit, offset, _ := utils.GetPageLimitAndOffset(pageInfo)
-	db := global.TB_DB.Model(&system.SysArticleViews{})
+	db := global.TB_DB.Model(&article.SysArticleViews{})
 	var viewsList []responseParam.ArticleViewsResponse
 
 	err := db.Where("user_id = ?", userId).Limit(limit).Offset(offset).Find(&viewsList).Error
@@ -78,7 +78,7 @@ func (service *ViewsService) GetUserViews(userId uuid.UUID, pageInfo request.Pag
 func (service *ViewsService) GetUserIsViews(userId uuid.UUID) (bool, error) {
 	var list []responseParam.ArticleViewsResponse
 
-	db := global.TB_DB.Model(&system.SysArticleViews{})
+	db := global.TB_DB.Model(&article.SysArticleViews{})
 	err := db.Where("user_id = ?", userId).First(&list).Error
 
 	return len(list) != 0, err

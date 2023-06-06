@@ -4,7 +4,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
-	"technical-blog-server/model/system"
+	"technical-blog-server/model/system/article"
 	responseParam "technical-blog-server/model/system/response"
 )
 
@@ -16,7 +16,7 @@ type LikedService struct {}
 // @param: id string
 // @return: articleInter responseParam.ArticleDetail, err error
 func (service *LikedService) SaveLiked(id string) (articleInter responseParam.ArticleDetail, err error) {
-	db := global.TB_DB.Model(&system.SysArticle{})
+	db := global.TB_DB.Model(&article.SysArticle{})
 	err = db.Where("article_id = ?", id).Update("liked", gorm.Expr("liked + ?", 1)).Error
 	if err != nil {
 		return articleInter, err
@@ -33,7 +33,7 @@ func (service *LikedService) SaveLiked(id string) (articleInter responseParam.Ar
 // @param: id string
 // @return: articleInter responseParam.ArticleDetail, err error
 func (service *LikedService) CancelLiked(id string) (articleInter responseParam.ArticleDetail, err error) {
-	db := global.TB_DB.Model(&system.SysArticle{})
+	db := global.TB_DB.Model(&article.SysArticle{})
 	err = db.Where("article_id = ?", id).Update("liked", gorm.Expr("liked - ?", 1)).Error
 	if err != nil {
 		return articleInter, err
@@ -49,7 +49,7 @@ func (service *LikedService) CancelLiked(id string) (articleInter responseParam.
 // @description: 添加点赞记录
 // @param: liked system.SysArticleLiked
 // @return: success bool, err error
-func (service *LikedService) AddLikedRecord(liked system.SysArticleLiked) (success bool, err error) {
+func (service *LikedService) AddLikedRecord(liked article.SysArticleLiked) (success bool, err error) {
 	err = global.TB_DB.Create(&liked).Error
 
 	if err != nil {
@@ -64,8 +64,8 @@ func (service *LikedService) AddLikedRecord(liked system.SysArticleLiked) (succe
 // @description: 删除点赞记录
 // @param: liked system.SysArticleLiked
 // @return: success bool, err error
-func (service *LikedService) DeleteLikedRecord(liked system.SysArticleLiked) (success bool, err error) {
-	err = global.TB_DB.Where("user_id = ? AND article_id = ?", liked.UserId, liked.ArticleId).Delete(&system.SysArticleLiked{}).Error
+func (service *LikedService) DeleteLikedRecord(liked article.SysArticleLiked) (success bool, err error) {
+	err = global.TB_DB.Where("user_id = ? AND article_id = ?", liked.UserId, liked.ArticleId).Delete(&article.SysArticleLiked{}).Error
 	if err != nil {
 		return false, err
 	}
@@ -80,7 +80,7 @@ func (service *LikedService) DeleteLikedRecord(liked system.SysArticleLiked) (su
 // @return: likedList []responseParam.ArticleLikedResponse, err error
 func (service *LikedService) GetUserLiked(userId uuid.UUID) (likedList []responseParam.ArticleLikedResponse, err error) {
 	var list []responseParam.ArticleLikedResponse
-	db := global.TB_DB.Model(&system.SysArticleLiked{})
+	db := global.TB_DB.Model(&article.SysArticleLiked{})
 	err = db.Where("user_id = ?", userId).First(&list).Error
 
 	return list, err

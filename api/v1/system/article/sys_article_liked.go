@@ -3,7 +3,7 @@ package article
 import (
 	"github.com/gin-gonic/gin"
 	"technical-blog-server/model/common/response"
-	"technical-blog-server/model/system"
+	article2 "technical-blog-server/model/system/article"
 	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
 	articleUtils "technical-blog-server/utils/article"
@@ -36,7 +36,7 @@ func (api *LikedApi) SaveLiked(c *gin.Context) {
 		return
 	}
 
-	var like = &system.SysArticleLiked{
+	var like = &article2.SysArticleLiked{
 		ArticleId: likedParam.ArticleId,
 		UserId: likedParam.UserId,
 	}
@@ -80,7 +80,7 @@ func (api *LikedApi) CancelLiked(c *gin.Context) {
 		return
 	}
 
-	var like = &system.SysArticleLiked{
+	var like = &article2.SysArticleLiked{
 		ArticleId: likedParam.ArticleId,
 		UserId: likedParam.UserId,
 	}

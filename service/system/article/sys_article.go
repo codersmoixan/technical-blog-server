@@ -3,7 +3,7 @@ package article
 import (
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
-	modelSystem "technical-blog-server/model/system"
+	modelArticle "technical-blog-server/model/system/article"
 	responseParams "technical-blog-server/model/system/response"
 	"technical-blog-server/service/system/category"
 )
@@ -25,7 +25,7 @@ func (service *Service) GetArticleList(articleParams request.GetArticleListParam
 	limit := articleParams.PageSize
 	offset := articleParams.PageSize * (articleParams.Page - 1)
 	categoryId := articleParams.CategoryId
-	db := global.TB_DB.Model(&modelSystem.SysArticle{})
+	db := global.TB_DB.Model(&modelArticle.SysArticle{})
 
 	var articleList []responseParams.ArticleResponse
 
@@ -69,7 +69,7 @@ func (service *Service) GetArticleList(articleParams request.GetArticleListParam
 // @description: 新增文章
 // @param: b modelSystem.SysBlog
 // @return: blog modelSystem.SysArticle, err error
-func (service *Service) AddArticle(a modelSystem.SysArticle) (article modelSystem.SysArticle, err error) {
+func (service *Service) AddArticle(a modelArticle.SysArticle) (article modelArticle.SysArticle, err error) {
 	err = global.TB_DB.Create(&a).Error
 
 	return a, err
@@ -87,7 +87,7 @@ func (service *Service) UpdateArticle() {
 // @param: id string
 // @return: err error
 func (service *Service) DeleteArticle(id string) (err error) {
-	var article modelSystem.SysArticle
+	var article modelArticle.SysArticle
 	err = global.TB_DB.Where("article_id = ?", id).First(&article).Delete(&article).Error
 
 	return err
@@ -100,7 +100,7 @@ func (service *Service) DeleteArticle(id string) (err error) {
 // @return: articleInter responseParams.BlogResponse
 func (service *Service) GetArticleById(id string) (articleInter responseParams.ArticleDetail, err error)  {
 	var article responseParams.ArticleDetail
-	db := global.TB_DB.Model(&modelSystem.SysArticle{})
+	db := global.TB_DB.Model(&modelArticle.SysArticle{})
 	err = db.Where("article_id = ?", id).First(&article).Error
 
 	var articleTags []responseParams.ArticleTags
@@ -127,9 +127,9 @@ func (service *Service) GetArticleById(id string) (articleInter responseParams.A
 func (service *Service) AppendArticleTags(id string, t []string) error {
 	db := global.TB_DB
 
-	var tags []modelSystem.SysArticleTags
+	var tags []modelArticle.SysArticleTags
 	for _, tagId := range t {
-		tag := modelSystem.SysArticleTags{
+		tag := modelArticle.SysArticleTags{
 			ArticleId: id,
 			TagId: tagId,
 		}
