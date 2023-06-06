@@ -16,6 +16,7 @@ type ApiGroup struct {
 	ArticleLikedApi article.LikedApi
 	ArticleFavorApi article.FavorApi
 	ArticleViewsApi article.ViewsApi
+	ArticleCommentApi article.CommentApi
 	tag.TagApi
 	category.CategoryApi
 	link.LinkApi

@@ -11,7 +11,7 @@ import (
 type ViewsApi struct {}
 
 // RecordViews
-// @Tags 文章管理
+// @Tags 文章阅读量管理
 // @Summary 记录文章阅读数量(请求文章详情时会自动调用，无需再次手动调用)
 // @Description 记录文章阅读数量(请求文章详情时会自动调用，无需再次手动调用)
 // @Param id query string true "id"

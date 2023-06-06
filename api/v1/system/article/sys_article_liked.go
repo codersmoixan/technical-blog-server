@@ -12,7 +12,7 @@ import (
 type LikedApi struct {}
 
 // SaveLiked
-// @Tags 文章管理
+// @Tags 文章点赞管理
 // @Summary 文章点赞
 // @Description 文章点赞
 // @Param id query string true "id"
@@ -56,7 +56,7 @@ func (api *LikedApi) SaveLiked(c *gin.Context) {
 }
 
 // CancelLiked
-// @Tags 文章管理
+// @Tags 文章点赞管理
 // @Summary 文章取消点赞
 // @Description 文章取消点赞
 // @Param id query string true "id"
@@ -101,7 +101,7 @@ func (api *LikedApi) CancelLiked(c *gin.Context) {
 }
 
 // GetUserIsLiked
-// @Tags Base
+// @Tags 文章点赞管理
 // @Summary 文章是否已经点赞
 // @Description 文章是否已经点赞
 // @Param id query string true "id"

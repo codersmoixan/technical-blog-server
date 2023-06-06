@@ -2,6 +2,7 @@ package response_param
 
 import (
 	"technical-blog-server/global"
+	"technical-blog-server/model/system/article"
 )
 
 type ArticleTags struct {
@@ -65,3 +66,5 @@ type ArticleIsFavorResponse struct {
 }
 
 type ArticleViewsResponse = ArticleBindUserId
+
+type ArticleCommentResponse = article.SysArticleComment

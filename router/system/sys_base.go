@@ -10,17 +10,12 @@ type BaseRouter struct{}
 func (b *BaseRouter) SetupBaseRouter(Router *gin.RouterGroup) {
 	baseRouter := Router.Group("base")
 	userApi := v1.ApiGroupApp.SystemApiGroup.UserApi
-	articleApi := v1.ApiGroupApp.SystemApiGroup.ArticleApi
 	categoryApi := v1.ApiGroupApp.SystemApiGroup.CategoryApi
 	linkApi := v1.ApiGroupApp.SystemApiGroup.LinkApi
 	tagApi := v1.ApiGroupApp.SystemApiGroup.TagApi
 	{
 		baseRouter.POST("login/token", userApi.LoginToken)
 		baseRouter.POST("register", userApi.Register)
-	}
-	{
-		baseRouter.GET("article/list", articleApi.GetArticleList)
-		baseRouter.GET("article", articleApi.GetArticleById)
 	}
 	{
 		baseRouter.GET("category", categoryApi.GetCategoryById)

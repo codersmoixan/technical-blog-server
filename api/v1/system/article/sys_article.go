@@ -17,14 +17,14 @@ import (
 type Api struct{}
 
 // GetArticleList
-// @Tags Base
+// @Tags  文章管理
 // @Summary 获取文章列表
 // @Description 获取文章列表
 // @Param page query int true "当前页"
 // @Param pageSize query int true "每页请求数量"
 // @Param keyWord query string false "搜索内容"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /base/article/list [get]
+// @Router /article/list [get]
 // @author: zhengji.su
 // @param: c *gin.Context
 func (api *Api) GetArticleList(c *gin.Context) {
@@ -148,12 +148,12 @@ func (api *Api) DeleteArticle(c *gin.Context) {
 }
 
 // GetArticleById
-// @Tags Base
+// @Tags 文章管理
 // @Summary 根据id获取文章详情
 // @Description 根据id获取文章详情
 // @Param id query string true "id"
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
-// @Router /base/article [get]
+// @Router /article [get]
 // @author: zhengji.su
 // @param: c *gin.Context
 func (api *Api) GetArticleById(c *gin.Context) {

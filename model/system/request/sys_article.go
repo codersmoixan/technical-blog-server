@@ -16,3 +16,11 @@ type ArticleLikedRequest struct {
 	ArticleId string `json:"articleId"`
 	UserId uuid.UUID `json:"userId"`
 }
+
+type ArticleCommentRequest struct {
+	ArticleId string `json:"articleId"`
+	TargetId string `json:"targetId"`
+	Content string `json:"content"`
+	ParentId string `json:"parentId"`
+	UserId uuid.UUID `json:"userId"`
+}

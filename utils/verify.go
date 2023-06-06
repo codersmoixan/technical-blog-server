@@ -21,3 +21,7 @@ var (
 var (
 	ArticleBindUserVerify = Rules{"ArticleId": {NotEmpty()}, "UserId": {NotEmpty()}}
 )
+
+var (
+	ArticleCommentVerify = Rules{"ArticleId": {NotEmpty()}, "UserId": {NotEmpty()}, "TargetId": {NotEmpty()}, "Content": {NotEmpty()}}
+)

@@ -12,7 +12,7 @@ import (
 type FavorApi struct {}
 
 // SaveFavor
-// @Tags 文章管理
+// @Tags 文章收藏管理
 // @Summary 文章收藏
 // @Description 文章收藏
 // @Param id query string true "id"
@@ -56,7 +56,7 @@ func (api *FavorApi)SaveFavor(c *gin.Context) {
 }
 
 // CancelFavor
-// @Tags 文章管理
+// @Tags 文章收藏管理
 // @Summary 文章取消收藏
 // @Description 文章取消收藏
 // @Param id query string true "id"
@@ -101,7 +101,7 @@ func (api *FavorApi)CancelFavor(c *gin.Context)  {
 }
 
 // GetUserIsFavor
-// @Tags Base
+// @Tags 文章收藏管理
 // @Summary 文章是否已经收藏
 // @Description 文章是否已经收藏
 // @Param id query string true "id"
