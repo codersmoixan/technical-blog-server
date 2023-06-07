@@ -121,12 +121,12 @@ func (t *Api) DeleteTag(c *gin.Context) {
 		return
 	}
 
-	if err := tagService.DeleteTag(byId.String()); err != nil {
+	if err := tagService.DeleteTag(byId.ID); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "删除失败!", c)
 	} else {
 		response.OkWithDetailed(responseParams.TagDeleteResponse{
-			ID: byId.String(),
+			ID: byId.ID,
 		}, "删除成功!", c)
 	}
 }
@@ -149,7 +149,7 @@ func (t *Api) GetTagById(c *gin.Context)  {
 		return
 	}
 
-	if tag, err := tagService.GetTagById(byId.String()); err != nil {
+	if tag, err := tagService.GetTagById(byId.ID); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "查询失败!", c)
 	} else {

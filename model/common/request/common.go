@@ -1,5 +1,7 @@
 package request
 
+import "strconv"
+
 type PageInfo struct {
 	Page     int    `json:"page" form:"page"`
 	PageSize int    `json:"pageSize" form:"pageSize"`
@@ -8,17 +10,21 @@ type PageInfo struct {
 
 // GetById Find by id structure
 type GetById struct {
-	ID any `json:"id" form:"id"` // 主键ID
-}
-
-func (by *GetById) String() string {
-	return by.ID.(string)
+	ID string `json:"id" form:"id"` // 主键ID
 }
 
 func (by *GetById) Int() int {
-	return by.ID.(int)
+	if value, err := strconv.ParseInt(by.ID, 10, 64); err != nil {
+		return 0
+	} else {
+		return int(value)
+	}
 }
 
 func (by *GetById) Uint() uint {
-	return by.ID.(uint)
+	if value, err := strconv.ParseUint(by.ID, 10, 64); err != nil {
+		return 0
+	} else {
+		return uint(value)
+	}
 }

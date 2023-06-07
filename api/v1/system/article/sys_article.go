@@ -137,12 +137,12 @@ func (api *Api) DeleteArticle(c *gin.Context) {
 		return
 	}
 
-	if err := articleService.DeleteArticle(article.String()); err != nil {
+	if err := articleService.DeleteArticle(article.ID); err != nil {
 		global.TB_LOG.Error(fmt.Sprintf("%s%d%s", "日志:", article.ID, "删除失败!"), zap.Error(err))
 		response.FailWithMessage("删除失败!", c)
 	} else {
 		response.OkWithDetailed(responseParams.ArticleDeleteResponse{
-			ID: article.String(),
+			ID: article.ID,
 		}, "日志删除成功!", c)
 	}
 }
@@ -165,7 +165,7 @@ func (api *Api) GetArticleById(c *gin.Context) {
 		return
 	}
 
-	if article, err := articleService.GetArticleById(byId.String()); err != nil {
+	if article, err := articleService.GetArticleById(byId.ID); err != nil {
 		global.TB_LOG.Error(fmt.Sprintf("%s%d%s", "blog:", byId.ID, "查询失败!"), zap.Error(err))
 		response.FailWithMessage("error", c)
 	} else {

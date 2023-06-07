@@ -46,7 +46,7 @@ func (api *Api) Register(c *gin.Context) {
 	userReturn, err := userService.Register(*user)
 	if err != nil {
 		global.TB_LOG.Error("注册失败!", zap.Error(err))
-		response.FailWithDetailed(responseParams.SysUserResponse{User: userReturn}, "注册失败!", c)
+		response.FailWithMessage(err.Error(), c)
 	} else {
 		response.OkWithDetailed(responseParams.SysUserResponse{User: userReturn}, "注册成功!", c)
 	}

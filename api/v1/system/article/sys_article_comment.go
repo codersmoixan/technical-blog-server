@@ -35,7 +35,7 @@ func (api *CommentApi) GetCommentList(c *gin.Context) {
 		return
 	}
 
-	commentList, err := articleCommentService.GetCommentList(byId.String(), pageInfo)
+	commentList, err := articleCommentService.GetCommentList(byId.ID, pageInfo)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		global.TB_LOG.Error("评论获取失败!", zap.Error(err))

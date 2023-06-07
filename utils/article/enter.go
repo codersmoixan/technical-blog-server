@@ -19,7 +19,7 @@ func GetArticleBindUserParams(c *gin.Context) ArticleBindUser{
 	params := ArticleBindUser{
 		UserIsEmpty: userId == 0,
 	}
-	params.ArticleId = byId.String()
+	params.ArticleId = byId.ID
 	params.UserId = userId
 
 	return params

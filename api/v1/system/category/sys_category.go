@@ -123,12 +123,12 @@ func (cate *Api) DeleteCategory(c *gin.Context) {
 		return
 	}
 
-	if err := categoryService.DeleteCategory(byId.String()); err != nil {
+	if err := categoryService.DeleteCategory(byId.ID); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "删除失败!", c)
 	} else {
 		response.OkWithDetailed(responseParams.DeleteCategoryResponse{
-			ID: byId.String(),
+			ID: byId.ID,
 		}, "删除成功!", c)
 	}
 }
@@ -151,7 +151,7 @@ func (cate *Api) GetCategoryById(c *gin.Context)  {
 		return
 	}
 
-	if category, err := categoryService.GetCategoryById(byId.String()); err != nil {
+	if category, err := categoryService.GetCategoryById(byId.ID); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "查询失败!", c)
 	} else {
