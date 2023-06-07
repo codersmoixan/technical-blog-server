@@ -8,6 +8,8 @@ var (
 	articleFavorService = service.GroupApp.SystemServiceGroup.ArticleFavorApi
 	articleViewsService = service.GroupApp.SystemServiceGroup.ArticleViewsApi
 	articleCommentService = service.GroupApp.SystemServiceGroup.ArticleCommentService
+
+	userService = service.GroupApp.SystemServiceGroup.UserService
 )
 
 var viewsApi = new(ViewsApi)

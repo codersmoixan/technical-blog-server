@@ -1,7 +1,6 @@
 package article
 
 import (
-	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
@@ -33,7 +32,7 @@ func (service *ViewsService) UpdateViews(id string) (articleInter responseParam.
 // RecordViews
 // @author: zhengji.su
 // @description: 记录文章阅读
-// @param: id string
+// @param: views article.SysArticleViews
 // @return: articleInter responseParam.ArticleDetail, err error
 func (service *ViewsService) RecordViews(views article.SysArticleViews) (success bool, err error) {
 	err = global.TB_DB.Create(&views).Error
@@ -48,9 +47,9 @@ func (service *ViewsService) RecordViews(views article.SysArticleViews) (success
 // UpdateViewsDate
 // @author: zhengji.su
 // @description: 更新阅读时间
-// @param: id string
+// @param: userId uint
 // @return: articleInter responseParam.ArticleDetail, err error
-func (service *ViewsService) UpdateViewsDate(userId uuid.UUID) {
+func (service *ViewsService) UpdateViewsDate(userId uint) {
 	db := global.TB_DB.Model(&article.SysArticleViews{})
 	db.Where("user_id = ?", userId).Update("updated_at", time.Now())
 }
@@ -58,9 +57,9 @@ func (service *ViewsService) UpdateViewsDate(userId uuid.UUID) {
 // GetUserViews
 // @author: zhengji.su
 // @description: 用户阅读列表
-// @param: id string, pageInfo request.PageInfo
+// @param: userId uint, pageInfo request.PageInfo
 // @return: []responseParam.ArticleDetail, error
-func (service *ViewsService) GetUserViews(userId uuid.UUID, pageInfo request.PageInfo) ([]responseParam.ArticleViewsResponse, error) {
+func (service *ViewsService) GetUserViews(userId uint, pageInfo request.PageInfo) ([]responseParam.ArticleViewsResponse, error) {
 	limit, offset, _ := utils.GetPageLimitAndOffset(pageInfo)
 	db := global.TB_DB.Model(&article.SysArticleViews{})
 	var viewsList []responseParam.ArticleViewsResponse
@@ -73,9 +72,9 @@ func (service *ViewsService) GetUserViews(userId uuid.UUID, pageInfo request.Pag
 // GetUserIsViews
 // @author: zhengji.su
 // @description: 获取用户是否已经阅读
-// @param: id string
+// @param: userId uint
 // @return: bool, error
-func (service *ViewsService) GetUserIsViews(userId uuid.UUID) (bool, error) {
+func (service *ViewsService) GetUserIsViews(userId uint) (bool, error) {
 	var list []responseParam.ArticleViewsResponse
 
 	db := global.TB_DB.Model(&article.SysArticleViews{})

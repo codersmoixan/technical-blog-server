@@ -14,7 +14,7 @@ import (
 	"technical-blog-server/utils"
 )
 
-type UserApi struct{}
+type Api struct{}
 
 var store = base64Captcha.DefaultMemStore
 
@@ -28,7 +28,7 @@ var store = base64Captcha.DefaultMemStore
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
 // @Router /base/register [post]
 // @param: c *gin.Context
-func (u *UserApi) Register(c *gin.Context) {
+func (api *Api) Register(c *gin.Context) {
 	var param requestParams.Register
 	_ = c.ShouldBindJSON(&param)
 
@@ -62,7 +62,7 @@ func (u *UserApi) Register(c *gin.Context) {
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
 // @Router /user/list [get]
 // @param: c *gin.Context
-func (u *UserApi) GetUserList(c *gin.Context) {
+func (api *Api) GetUserList(c *gin.Context) {
 	var pageInfo request.PageInfo
 	_ = c.ShouldBindQuery(&pageInfo)
 
@@ -94,7 +94,7 @@ func (u *UserApi) GetUserList(c *gin.Context) {
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
 // @Router /base/login/token [post]
 // @param: c *gin.Context
-func (u *UserApi) LoginToken(c *gin.Context) {
+func (api *Api) LoginToken(c *gin.Context) {
 	var param requestParams.Login
 	_ = c.ShouldBindJSON(&param)
 
@@ -120,7 +120,7 @@ func (u *UserApi) LoginToken(c *gin.Context) {
 				return
 			}
 
-			u.TokenNext(c, *user)
+			api.TokenNext(c, *user)
 		}
 	} else {
 		response.FailWithMessage("验证码错误", c)
@@ -130,7 +130,7 @@ func (u *UserApi) LoginToken(c *gin.Context) {
 // TokenNext
 // @description: 签发token
 // @param: c *gin.Context, user modelSysUser
-func (u *UserApi) TokenNext(c *gin.Context, user modelSystem.SysUser) {
+func (api *Api) TokenNext(c *gin.Context, user modelSystem.SysUser) {
 	j := &utils.JWT{SigningKey: []byte(global.TB_CONFIG.JWT.SigningKey)} // 唯一签名
 	claims := j.CreateClaims(requestParams.BaseClaims{
 		UUID:        user.UUID,
@@ -161,8 +161,33 @@ func (u *UserApi) TokenNext(c *gin.Context, user modelSystem.SysUser) {
 // @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
 // @Router /user/me [get]
 // @param: c *gin.Context
-func (u *UserApi) GetMe(c *gin.Context) {
+func (api *Api) GetMe(c *gin.Context) {
 	// 解析token
 	uuid := utils.GetUserUuid(c)
 	fmt.Println(uuid)
+}
+
+// GetUserById
+// @Tags 用户管理
+// @Summary 根据id获取用户信息
+// @Description 根据id获取用户信息
+// @Param id query string true "用户id"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /user [get]
+// @param: c *gin.Context
+func (api *Api) GetUserById(c *gin.Context) {
+	var byId request.GetById
+	_ = c.ShouldBindQuery(&byId)
+
+	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if user, err := userService.GetUserById(byId.Uint()); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		global.TB_LOG.Error("获取用户信息失败!", zap.Error(err))
+	} else {
+		response.OkWithDetailed(user, "获取用户信息成功!", c)
+	}
 }

@@ -11,13 +11,13 @@ import (
 	responseParams "technical-blog-server/model/system/response"
 )
 
-type TagService struct{}
+type Service struct{}
 
 // GetTagList
 // @author: zhengji.su
 // @description: 获取tag列表
 // @return: list interface{}, total int64, err error
-func (service *TagService) GetTagList() (list interface{}, total int64, err error) {
+func (service *Service) GetTagList() (list interface{}, total int64, err error) {
 	db := global.TB_DB.Model(&modelSystem.SysTag{})
 
 	var tagList []responseParams.TagResponse
@@ -35,7 +35,7 @@ func (service *TagService) GetTagList() (list interface{}, total int64, err erro
 // @description: 添加标签
 // @param: tag modelSystem.SysTag
 // @return: tag modelSystem.SysTag, err error
-func (service *TagService) AddTag(t modelSystem.SysTag) (tagInter modelSystem.SysTag, err error) {
+func (service *Service) AddTag(t modelSystem.SysTag) (tagInter modelSystem.SysTag, err error) {
 	var tag modelSystem.SysTag
 
 	// todo 判断tag是否已经存在
@@ -63,7 +63,7 @@ func (service *TagService) AddTag(t modelSystem.SysTag) (tagInter modelSystem.Sy
 // @description: 更新标签
 // @param: update requestParams.UpdateTag
 // @return: tag modelSystem.SysTag, err error
-func (service *TagService) UpdateTag(update requestParams.UpdateTag) (tagInter modelSystem.SysTag, err error) {
+func (service *Service) UpdateTag(update requestParams.UpdateTag) (tagInter modelSystem.SysTag, err error) {
 	var tag modelSystem.SysTag
 	db := global.TB_DB.Model(&modelSystem.SysTag{})
 
@@ -85,7 +85,7 @@ func (service *TagService) UpdateTag(update requestParams.UpdateTag) (tagInter m
 // @description: 删除标签
 // @param: id string
 // @return: err error
-func (service *TagService) DeleteTag(id string) (err error) {
+func (service *Service) DeleteTag(id string) (err error) {
 	var tag modelSystem.SysTag
 	err = global.TB_DB.Where("tag_id = ?", id).First(&tag).Delete(&tag).Error
 
@@ -97,7 +97,7 @@ func (service *TagService) DeleteTag(id string) (err error) {
 // @description: 根据id获取tag信息
 // @param: id string
 // @return: tagInter modelSystem.SysTag, err error
-func (service *TagService) GetTagById(id string) (tagInter modelSystem.SysTag, err error) {
+func (service *Service) GetTagById(id string) (tagInter modelSystem.SysTag, err error) {
 	var tag modelSystem.SysTag
 	db := global.TB_DB.Model(&modelSystem.SysTag{})
 	err = db.Where("tag_id = ?", id).First(&tag).Error

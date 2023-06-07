@@ -28,6 +28,7 @@ func Routers() *gin.Engine {
 	{
 		systemRouter.SetupBaseRouter(PublicGroup)
 		systemRouter.SetupGuestArticleRouter(PublicGroup)
+		systemRouter.SetupGuestUserRouter(PublicGroup)
 	}
 
 	// 需要登录时才能访问的api

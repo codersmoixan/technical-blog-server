@@ -35,7 +35,7 @@ func (api *CommentApi) GetCommentList(c *gin.Context) {
 		return
 	}
 
-	commentList, err := articleCommentService.GetCommentList(byId.ID, pageInfo)
+	commentList, err := articleCommentService.GetCommentList(byId.String(), pageInfo)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		global.TB_LOG.Error("评论获取失败!", zap.Error(err))
@@ -60,10 +60,16 @@ func (api *CommentApi) GetCommentList(c *gin.Context) {
 func (api *CommentApi) SubmitComment(c *gin.Context) {
 	var commentParams requestParams.ArticleCommentRequest
 	_ = c.ShouldBindJSON(&commentParams)
-	commentParams.UserId = utils.GetUserUuid(c)
+	commentParams.UserId = utils.GetUserID(c)
 
 	if err := utils.Verify(commentParams, utils.ArticleCommentVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if _, err := userService.GetUserById(commentParams.TargetId); err != nil {
+		response.FailWithDetailed(nil, "查找用户失败!", c)
+		global.TB_LOG.Error("评论提交失败!", zap.Error(err))
 		return
 	}
 

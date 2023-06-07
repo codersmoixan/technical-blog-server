@@ -1,3 +1,3 @@
 package base
 
-type BaseApi struct{}
+type Api struct{}

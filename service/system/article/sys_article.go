@@ -14,7 +14,7 @@ type articleTag struct {
 	ArticleId string
 }
 
-var categoryService = new(category.CategoryService)
+var categoryService = new(category.Service)
 
 // GetArticleList
 // @author: zhengji.su

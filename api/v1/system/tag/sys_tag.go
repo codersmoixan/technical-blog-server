@@ -12,7 +12,7 @@ import (
 	"technical-blog-server/utils"
 )
 
-type TagApi struct{}
+type Api struct{}
 
 // GetTagList
 // @Tags Base
@@ -22,7 +22,7 @@ type TagApi struct{}
 // @Router /base/tag/list [get]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (t *TagApi) GetTagList(c *gin.Context) {
+func (t *Api) GetTagList(c *gin.Context) {
 	if list, total, err := tagService.GetTagList(); err != nil {
 		global.TB_LOG.Error("获取标签列表失败!", zap.Error(err))
 		response.FailWithMessage("获取标签列表失败!", c)
@@ -45,7 +45,7 @@ func (t *TagApi) GetTagList(c *gin.Context) {
 // @Router /tag/add [post]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (t *TagApi) AddTag(c *gin.Context) {
+func (t *Api) AddTag(c *gin.Context) {
 	var tagParam requestParams.TagContent
 	_ = c.ShouldBindJSON(&tagParam)
 
@@ -83,7 +83,7 @@ func (t *TagApi) AddTag(c *gin.Context) {
 // @Router /tag/update [put]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (t *TagApi) UpdateTag(c *gin.Context) {
+func (t *Api) UpdateTag(c *gin.Context) {
 	var updateContent requestParams.UpdateTag
 	_ = c.ShouldBindJSON(&updateContent)
 
@@ -112,21 +112,21 @@ func (t *TagApi) UpdateTag(c *gin.Context) {
 // @Router /tag/delete [delete]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (t *TagApi) DeleteTag(c *gin.Context) {
-	var tag request.GetById
-	_ = c.ShouldBindQuery(&tag)
+func (t *Api) DeleteTag(c *gin.Context) {
+	var byId request.GetById
+	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(tag, utils.IdVerify); err != nil {
+	if err := utils.Verify(byId, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if err := tagService.DeleteTag(tag.ID); err != nil {
+	if err := tagService.DeleteTag(byId.String()); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "删除失败!", c)
 	} else {
 		response.OkWithDetailed(responseParams.TagDeleteResponse{
-			ID: tag.ID,
+			ID: byId.String(),
 		}, "删除成功!", c)
 	}
 }
@@ -140,7 +140,7 @@ func (t *TagApi) DeleteTag(c *gin.Context) {
 // @Router /base/tag [get]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (t *TagApi) GetTagById(c *gin.Context)  {
+func (t *Api) GetTagById(c *gin.Context)  {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
@@ -149,7 +149,7 @@ func (t *TagApi) GetTagById(c *gin.Context)  {
 		return
 	}
 
-	if tag, err := tagService.GetTagById(byId.ID); err != nil {
+	if tag, err := tagService.GetTagById(byId.String()); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "查询失败!", c)
 	} else {

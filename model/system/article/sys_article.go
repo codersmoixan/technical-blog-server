@@ -1,7 +1,6 @@
 package article
 
 import (
-	uuid "github.com/satori/go.uuid"
 	"technical-blog-server/global"
 )
 
@@ -31,5 +30,5 @@ func (SysArticle) TableName() string {
 
 type ArticleBindUser struct {
 	ArticleId string `json:"articleId" gorm:"comment:文章ID"`
-	UserId uuid.UUID `json:"userId" gorm:"comment:用户ID"`
+	UserId uint `json:"userId" gorm:"comment:用户ID"`
 }

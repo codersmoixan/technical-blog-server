@@ -48,11 +48,11 @@ func (api *ViewsApi) RecordViews(c *gin.Context) {
 		}
 	}
 
-	article, err := articleViewsService.UpdateViews(viewsParam.ArticleId)
+	ar, err := articleViewsService.UpdateViews(viewsParam.ArticleId)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	response.OkWithDetailed(article, "OK", c)
+	response.OkWithDetailed(ar, "OK", c)
 }

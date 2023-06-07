@@ -73,6 +73,13 @@ func GetUserInfo(c *gin.Context) *requestParams.CustomClaims {
 	}
 }
 
+// GetUsername 从Gin的Context中获取从jwt解析出来的用户名
+func GetUsername(c *gin.Context) string {
+	userInfo := GetUserInfo(c)
+
+	return userInfo.Username
+}
+
 func GetIsEmptyUserId(id uint) bool {
 	return id == 0
 }

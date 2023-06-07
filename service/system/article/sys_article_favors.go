@@ -1,7 +1,6 @@
 package article
 
 import (
-	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	"technical-blog-server/model/system/article"
@@ -76,9 +75,9 @@ func (service *FavorService) DeleteFavorRecord(favor article.SysArticleFavors) (
 // GetUserFavor
 // @author: zhengji.su
 // @description: 查询用户是否已经收藏
-// @param: userId uuid.UUID
+// @param: userId uint
 // @return: likedList []responseParam.ArticleLikedResponse, err error
-func (service *FavorService) GetUserFavor(userId uuid.UUID) (favorList []responseParam.ArticleFavorResponse, err error) {
+func (service *FavorService) GetUserFavor(userId uint) (favorList []responseParam.ArticleFavorResponse, err error) {
 	var list []responseParam.ArticleFavorResponse
 	db := global.TB_DB.Model(&article.SysArticleFavors{})
 	err = db.Where("user_id = ?", userId).First(&list).Error

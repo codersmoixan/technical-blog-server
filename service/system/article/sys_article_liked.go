@@ -1,7 +1,6 @@
 package article
 
 import (
-	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	"technical-blog-server/model/system/article"
@@ -76,9 +75,9 @@ func (service *LikedService) DeleteLikedRecord(liked article.SysArticleLiked) (s
 // GetUserLiked
 // @author: zhengji.su
 // @description: 查询用户是否已经点赞
-// @param: userId uuid.UUID
+// @param: userId uint
 // @return: likedList []responseParam.ArticleLikedResponse, err error
-func (service *LikedService) GetUserLiked(userId uuid.UUID) (likedList []responseParam.ArticleLikedResponse, err error) {
+func (service *LikedService) GetUserLiked(userId uint) (likedList []responseParam.ArticleLikedResponse, err error) {
 	var list []responseParam.ArticleLikedResponse
 	db := global.TB_DB.Model(&article.SysArticleLiked{})
 	err = db.Where("user_id = ?", userId).First(&list).Error

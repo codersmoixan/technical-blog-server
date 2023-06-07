@@ -10,14 +10,14 @@ import (
 )
 
 type ApiGroup struct {
-	base.BaseApi
-	user.UserApi
+	BaseApi base.Api
+	UserApi user.Api
 	ArticleApi article.Api
 	ArticleLikedApi article.LikedApi
 	ArticleFavorApi article.FavorApi
 	ArticleViewsApi article.ViewsApi
 	ArticleCommentApi article.CommentApi
-	tag.TagApi
-	category.CategoryApi
-	link.LinkApi
+	TagApi tag.Api
+	CategoryApi category.Api
+	LinkApi link.Api
 }

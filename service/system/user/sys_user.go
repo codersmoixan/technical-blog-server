@@ -12,14 +12,14 @@ import (
 	"technical-blog-server/utils"
 )
 
-type UserService struct{}
+type Service struct{}
 
 // Register
 // @author: zhengji.su
 // @description: 用户注册
 // @param: u modeSystem.SysUSer
 // @return: userInter modelSystem.SysUser, err errors
-func (service *UserService) Register(u modelSystem.SysUser) (userInter modelSystem.SysUser, err error) {
+func (service *Service) Register(u modelSystem.SysUser) (userInter modelSystem.SysUser, err error) {
 	var user modelSystem.SysUser
 
 	// todo 判断用户名是否注册
@@ -40,7 +40,7 @@ func (service *UserService) Register(u modelSystem.SysUser) (userInter modelSyst
 // @description: 分页获取用户数据
 // @param: pageInfo request.PageInfo
 // @return: err error, list interface{}, total int64
-func (service *UserService) GetUserList(pageInfo request.PageInfo) (list interface{}, total int64, err error) {
+func (service *Service) GetUserList(pageInfo request.PageInfo) (list interface{}, total int64, err error) {
 	limit := pageInfo.PageSize
 	offset := pageInfo.PageSize * (pageInfo.Page - 1)
 	db := global.TB_DB.Model(&modelSystem.SysUser{})
@@ -58,15 +58,20 @@ func (service *UserService) GetUserList(pageInfo request.PageInfo) (list interfa
 // @author: zhengji.su
 // @description: 根据id获取用户数据
 // @param: id string
-func (service *UserService) GetUserById(id string) {
+// @return: modelSystem.SysUser, error
+func (service *Service) GetUserById(id uint) (modelSystem.SysUser, error) {
+	db := global.TB_DB.Model(&modelSystem.SysUser{})
+	var user modelSystem.SysUser
 
+	err := db.Where("id = ?", id).First(&user).Error
+	return user, err
 }
 
 // Login
 // @description: 用户登录
 // @param: u *system.SysUser
 // @return: userInter *system.SysUser, err error
-func (service *UserService) Login(u *modelSystem.SysUser) (userInter *modelSystem.SysUser, err error) {
+func (service *Service) Login(u *modelSystem.SysUser) (userInter *modelSystem.SysUser, err error) {
 	if global.TB_DB == nil {
 		return nil, fmt.Errorf("db not init")
 	}

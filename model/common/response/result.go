@@ -12,8 +12,9 @@ type Response struct {
 }
 
 const (
-	ERROR   = 7
-	SUCCESS = 0
+	ERROR   = 400
+	UNAUTHORIZED = 401
+	SUCCESS = 200
 )
 
 func Result(code int, data interface{}, msg string, c *gin.Context) {
@@ -34,4 +35,8 @@ func OkWithDetailed(data interface{}, msg string, c *gin.Context) {
 
 func FailWithDetailed(data interface{}, msg string, c *gin.Context) {
 	Result(ERROR, data, msg, c)
+}
+
+func UnauthorizedDetailed(data interface{}, msg string, c *gin.Context) {
+	Result(UNAUTHORIZED, data, msg, c)
 }

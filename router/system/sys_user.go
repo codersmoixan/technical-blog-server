@@ -19,3 +19,15 @@ func (s *UserRouter) SetupUserRouter(Router *gin.RouterGroup) {
 		userRouter.GET("me", userApi.GetMe)
 	}
 }
+
+// SetupGuestUserRouter
+// @author: zhengji.su
+// @description: 初始化用户路由
+// @param: Router *gin.RouterGroup
+func (s *UserRouter) SetupGuestUserRouter(Router *gin.RouterGroup) {
+	userRouter := Router.Group("")
+	userApi := v1.ApiGroupApp.SystemApiGroup.UserApi
+	{
+		userRouter.GET("user", userApi.GetUserById)
+	}
+}

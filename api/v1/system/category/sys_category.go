@@ -12,7 +12,7 @@ import (
 	"technical-blog-server/utils"
 )
 
-type CategoryApi struct{}
+type Api struct{}
 
 // GetCategoryList
 // @Tags Base
@@ -25,7 +25,7 @@ type CategoryApi struct{}
 // @Router /base/category/list [get]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (cate *CategoryApi) GetCategoryList(c *gin.Context) {
+func (cate *Api) GetCategoryList(c *gin.Context) {
 	if list, total, err := categoryService.GetCategoryList(); err != nil {
 		global.TB_LOG.Error("获取分类列表失败!", zap.Error(err))
 		response.FailWithMessage("获取分类列表失败!", c)
@@ -48,7 +48,7 @@ func (cate *CategoryApi) GetCategoryList(c *gin.Context) {
 // @Router /category/add [post]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (cate *CategoryApi) AddCategory(c *gin.Context) {
+func (cate *Api) AddCategory(c *gin.Context) {
 	var categoryParam requestParams.CategoryContent
 	_ = c.ShouldBindJSON(&categoryParam)
 
@@ -85,7 +85,7 @@ func (cate *CategoryApi) AddCategory(c *gin.Context) {
 // @Router /category/update [put]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (cate *CategoryApi) UpdateCategory(c *gin.Context) {
+func (cate *Api) UpdateCategory(c *gin.Context) {
 	var updateContent requestParams.UpdateCategoryContent
 	_ = c.ShouldBindJSON(&updateContent)
 
@@ -114,21 +114,21 @@ func (cate *CategoryApi) UpdateCategory(c *gin.Context) {
 // @Router /category/delete [delete]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (cate *CategoryApi) DeleteCategory(c *gin.Context) {
-	var category request.GetById
-	_ = c.ShouldBindQuery(&category)
+func (cate *Api) DeleteCategory(c *gin.Context) {
+	var byId request.GetById
+	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(category, utils.IdVerify); err != nil {
+	if err := utils.Verify(byId, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if err := categoryService.DeleteCategory(category.ID); err != nil {
+	if err := categoryService.DeleteCategory(byId.String()); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "删除失败!", c)
 	} else {
 		response.OkWithDetailed(responseParams.DeleteCategoryResponse{
-			ID: category.ID,
+			ID: byId.String(),
 		}, "删除成功!", c)
 	}
 }
@@ -142,7 +142,7 @@ func (cate *CategoryApi) DeleteCategory(c *gin.Context) {
 // @Router /base/category [get]
 // @author: zhengji.su
 // @param: c *gin.Context
-func (cate *CategoryApi) GetCategoryById(c *gin.Context)  {
+func (cate *Api) GetCategoryById(c *gin.Context)  {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
@@ -151,7 +151,7 @@ func (cate *CategoryApi) GetCategoryById(c *gin.Context)  {
 		return
 	}
 
-	if category, err := categoryService.GetCategoryById(byId.ID); err != nil {
+	if category, err := categoryService.GetCategoryById(byId.String()); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		response.FailWithDetailed(err.Error(), "查询失败!", c)
 	} else {
