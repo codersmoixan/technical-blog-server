@@ -11,6 +11,7 @@ require (
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/matoous/go-nanoid/v2 v2.0.0
 	github.com/mojocn/base64Captcha v1.3.5
+	github.com/samber/lo v1.38.1
 	github.com/satori/go.uuid v1.2.0
 	github.com/songzhibin97/gkit v1.2.7
 	github.com/spf13/viper v1.14.0
@@ -69,6 +70,7 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	golang.org/x/arch v0.3.0 // indirect
+	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
 	golang.org/x/image v0.1.0 // indirect
 	golang.org/x/net v0.9.0 // indirect
 	golang.org/x/sys v0.8.0 // indirect

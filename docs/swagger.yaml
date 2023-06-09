@@ -1,8 +1,14 @@
 definitions:
-  request.BlogDetail:
+  request.ArticleDetail:
     properties:
-      blogImage:
+      articleCoverKey:
+        description: 文章封面key
+        type: string
+      articleCoverUrl:
         description: 文章封面
+        type: string
+      articleName:
+        description: 博客名称
         type: string
       category:
         description: 文章类型
@@ -13,16 +19,15 @@ definitions:
       description:
         description: 文章简要
         type: string
-      name:
-        description: 博客名称
-        type: string
-      tag:
+      tags:
         description: 文章标签
-        type: string
+        items:
+          type: string
+        type: array
     type: object
   request.CategoryContent:
     properties:
-      label:
+      categoryName:
         type: string
     type: object
   request.Login:
@@ -53,14 +58,14 @@ definitions:
     type: object
   request.TagContent:
     properties:
-      label:
+      tagName:
         type: string
     type: object
   request.UpdateCategoryContent:
     properties:
-      id:
+      categoryName:
         type: string
-      label:
+      id:
         type: string
     type: object
   request.UpdateTag:
@@ -68,15 +73,15 @@ definitions:
       id:
         description: 主键ID
         type: string
-      label:
+      tagName:
         type: string
     type: object
 info:
   contact: {}
 paths:
-  /base/blog:
+  /article:
     get:
-      description: 根据id获取博客详情
+      description: 根据id获取文章详情
       parameters:
       - description: id
         in: query
@@ -88,12 +93,34 @@ paths:
           description: '{"code": "200", "msg": "", "data": ""}'
           schema:
             type: string
-      summary: 根据id获取博客详情
+      summary: 根据id获取文章详情
       tags:
-      - Base
-  /base/blog/list:
+      - 文章管理
+  /article/add:
+    post:
+      consumes:
+      - application/json
+      description: 新增文章
+      parameters:
+      - description: 博客信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.ArticleDetail'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code": "200", "msg": "", "data": ""}'
+          schema:
+            type: string
+      summary: 新增文章
+      tags:
+      - 文章管理
+  /article/comment/list:
     get:
-      description: 获取博客列表
+      description: 获取评论列表
       parameters:
       - description: 当前页
         in: query
@@ -114,9 +141,171 @@ paths:
           description: '{"code": "200", "msg": "", "data": ""}'
           schema:
             type: string
-      summary: 获取博客列表
+      summary: 获取评论列表
       tags:
-      - Base
+      - 文章评论管理
+  /article/delete:
+    delete:
+      description: 删除文章
+      parameters:
+      - description: 当前页
+        in: query
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: '{"code": "200", "msg": "", "data": ""}'
+          schema:
+            type: string
+      summary: 删除文章
+      tags:
+      - 文章管理
+  /article/favor/cancel:
+    post:
+      description: 文章取消收藏
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"code": "200", "msg": "", "data": ""}'
+          schema:
+            type: string
+      summary: 文章取消收藏
+      tags:
+      - 文章收藏管理
+  /article/favor/is:
+    get:
+      description: 文章是否已经收藏
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"code": "200", "msg": "", "data": ""}'
+          schema:
+            type: string
+      summary: 文章是否已经收藏
+      tags:
+      - 文章收藏管理
+  /article/favor/save:
+    post:
+      description: 文章收藏
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"code": "200", "msg": "", "data": ""}'
+          schema:
+            type: string
+      summary: 文章收藏
+      tags:
+      - 文章收藏管理
+  /article/liked/cancel:
+    post:
+      description: 文章取消点赞
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"code": "200", "msg": "", "data": ""}'
+          schema:
+            type: string
+      summary: 文章取消点赞
+      tags:
+      - 文章点赞管理
+  /article/liked/is:
+    get:
+      description: 文章是否已经点赞
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"code": "200", "msg": "", "data": ""}'
+          schema:
+            type: string
+      summary: 文章是否已经点赞
+      tags:
+      - 文章点赞管理
+  /article/liked/save:
+    post:
+      description: 文章点赞
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"code": "200", "msg": "", "data": ""}'
+          schema:
+            type: string
+      summary: 文章点赞
+      tags:
+      - 文章点赞管理
+  /article/list:
+    get:
+      description: 获取文章列表
+      parameters:
+      - description: 当前页
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 每页请求数量
+        in: query
+        name: pageSize
+        required: true
+        type: integer
+      - description: 搜索内容
+        in: query
+        name: keyWord
+        type: string
+      responses:
+        "200":
+          description: '{"code": "200", "msg": "", "data": ""}'
+          schema:
+            type: string
+      summary: 获取文章列表
+      tags:
+      - 文章管理
+  /article/views/record:
+    post:
+      description: 记录文章阅读数量(请求文章详情时会自动调用，无需再次手动调用)
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"code": "200", "msg": "", "data": ""}'
+          schema:
+            type: string
+      summary: 记录文章阅读数量(请求文章详情时会自动调用，无需再次手动调用)
+      tags:
+      - 文章阅读量管理
   /base/category:
     get:
       description: 根据id获取分类详情
@@ -232,45 +421,6 @@ paths:
       summary: 获取标签列表
       tags:
       - Base
-  /blog/add:
-    post:
-      consumes:
-      - application/json
-      description: 新增博客
-      parameters:
-      - description: 博客信息
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/request.BlogDetail'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: '{"code": "200", "msg": "", "data": ""}'
-          schema:
-            type: string
-      summary: 新增博客
-      tags:
-      - 博客管理
-  /blog/delete:
-    delete:
-      description: 删除博客
-      parameters:
-      - description: 当前页
-        in: query
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: '{"code": "200", "msg": "", "data": ""}'
-          schema:
-            type: string
-      summary: 删除博客
-      tags:
-      - 博客管理
   /category/add:
     post:
       consumes:

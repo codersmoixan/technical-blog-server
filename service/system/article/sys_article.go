@@ -46,7 +46,7 @@ func (service *Service) GetArticleList(articleParams request.GetArticleListParam
 		articleIds = append(articleIds, article.ArticleId)
 	}
 
-	articleTags := service.GetArticleTags(articleIds)
+	articleTags, _ := service.GetArticleTags(articleIds)
 
 	for index, article := range articleList {
 		var tags []responseParams.ArticleTags
@@ -104,7 +104,7 @@ func (service *Service) GetArticleById(id string) (articleInter responseParams.A
 	err = db.Where("article_id = ?", id).First(&article).Error
 
 	var articleTags []responseParams.ArticleTags
-	tags := service.GetArticleTags([]string{id})
+	tags, _ := service.GetArticleTags([]string{id})
 	for _, tag := range tags {
 		articleTags = append(articleTags, responseParams.ArticleTags{
 			TagId: tag.TagId,
@@ -143,7 +143,7 @@ func (service *Service) AppendArticleTags(id string, t []string) error {
 	return nil
 }
 
-func (service *Service) GetArticleTags(ids []string) []articleTag {
+func (service *Service) GetArticleTags(ids []string) ([]articleTag, error) {
 	sql := `
 		SELECT tags.*, tag.tag_name 
 		FROM sys_article_tags tags 
@@ -153,7 +153,7 @@ func (service *Service) GetArticleTags(ids []string) []articleTag {
  	`
 
 	var tags []articleTag
-	global.TB_DB.Raw(sql, ids).Scan(&tags)
+	err := global.TB_DB.Raw(sql, ids).Scan(&tags).Error
 
-	return tags
+	return tags, err
 }

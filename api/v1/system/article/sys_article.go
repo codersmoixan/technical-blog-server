@@ -78,8 +78,10 @@ func (api *Api) AddArticle(c *gin.Context) {
 		return
 	}
 
+	userId := utils.GetUserID(c)
 	article := &article2.SysArticle{
 		ArticleId: id,
+		AuthorId: userId,
 		ArticleName:        articleParam.ArticleName,
 		Description: articleParam.Description,
 		Content:     articleParam.Content,
@@ -101,11 +103,25 @@ func (api *Api) AddArticle(c *gin.Context) {
 		return
 	}
 
+	// 获取文章标签
+	tags, _ := articleService.GetArticleTags([]string{id})
+	var articleTags []responseParams.ArticleTags
+	for _, tag := range tags {
+		articleTags = append(articleTags, responseParams.ArticleTags{
+			TagId: tag.TagId,
+			TagName: tag.TagName,
+		})
+	}
+
+	// 获取分类
+	category, _ := categoryService.GetCategoryById(article.CategoryId)
+
 	response.OkWithDetailed(responseParams.ArticleAddResponse{
 		ArticleName:        article.ArticleName,
 		Description: article.Description,
-		TagId:         article.TagId,
+		Tags:         articleTags,
 		CategoryId:    article.CategoryId,
+		CategoryName: category.CategoryName,
 		ArticleCoverUrl:   article.ArticleCoverUrl,
 		ArticleCoverKey: article.ArticleCoverKey,
 	}, "文章保存成功!", c)

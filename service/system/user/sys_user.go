@@ -67,6 +67,19 @@ func (service *Service) GetUserById(id uint) (modelSystem.SysUser, error) {
 	return user, err
 }
 
+// GetUserByIds
+// @author: zhengji.su
+// @description: 根据id组获取用户组
+// @param: ids []uint
+// @return: []modelSystem.SysUser, error
+func (service *Service) GetUserByIds(ids []uint) ([]modelSystem.SysUser, error) {
+	db := global.TB_DB.Model(&modelSystem.SysUser{})
+	var userList []modelSystem.SysUser
+
+	err := db.Where("id IN (?)", ids).Find(&userList).Error
+	return userList, err
+}
+
 // Login
 // @description: 用户登录
 // @param: u *system.SysUser

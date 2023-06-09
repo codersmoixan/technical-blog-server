@@ -21,5 +21,5 @@ type ArticleCommentRequest struct {
 	Content string `json:"content"`
 	ParentId uint `json:"parentId"`
 	ParentCommentId uint `json:"parentCommentId"`
-	UserId uint `json:"userId"`
+	OriginId uint `json:"originId"`
 }

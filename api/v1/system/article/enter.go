@@ -10,6 +10,7 @@ var (
 	articleCommentService = service.GroupApp.SystemServiceGroup.ArticleCommentService
 
 	userService = service.GroupApp.SystemServiceGroup.UserService
+	categoryService = service.GroupApp.SystemServiceGroup.CategoryService
 )
 
 var viewsApi = new(ViewsApi)

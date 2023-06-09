@@ -43,8 +43,9 @@ type ArticleDetail struct {
 type ArticleAddResponse struct {
 	ArticleName        string `json:"articleName"`
 	Description string `json:"description"`
-	TagId         string `json:"tagId"`
+	Tags         []ArticleTags `json:"tags"`
 	CategoryId    string `json:"categoryId"`
+	CategoryName string `json:"categoryName"`
 	ArticleCoverUrl   string `json:"articleCoverUrl"`
 	ArticleCoverKey string `json:"articleCoverKey"`
 }
@@ -67,4 +68,9 @@ type ArticleIsFavorResponse struct {
 
 type ArticleViewsResponse = ArticleBindUserId
 
-type ArticleCommentResponse = article.SysArticleComment
+type ArticleCommentResponse struct {
+	article.SysArticleComment
+	OriginName string `json:"originName"`
+	TargetName string `json:"targetName"`
+	ParentName string `json:"parentName"`
+}

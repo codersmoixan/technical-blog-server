@@ -16,13 +16,13 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/base/blog": {
+        "/article": {
             "get": {
-                "description": "根据id获取博客详情",
+                "description": "根据id获取文章详情",
                 "tags": [
-                    "Base"
+                    "文章管理"
                 ],
-                "summary": "根据id获取博客详情",
+                "summary": "根据id获取文章详情",
                 "parameters": [
                     {
                         "type": "string",
@@ -42,13 +42,47 @@ const docTemplate = `{
                 }
             }
         },
-        "/base/blog/list": {
-            "get": {
-                "description": "获取博客列表",
-                "tags": [
-                    "Base"
+        "/article/add": {
+            "post": {
+                "description": "新增文章",
+                "consumes": [
+                    "application/json"
                 ],
-                "summary": "获取博客列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "新增文章",
+                "parameters": [
+                    {
+                        "description": "博客信息",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ArticleDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/article/comment/list": {
+            "get": {
+                "description": "获取评论列表",
+                "tags": [
+                    "文章评论管理"
+                ],
+                "summary": "获取评论列表",
                 "parameters": [
                     {
                         "type": "integer",
@@ -69,6 +103,253 @@ const docTemplate = `{
                         "description": "搜索内容",
                         "name": "keyWord",
                         "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/article/delete": {
+            "delete": {
+                "description": "删除文章",
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "删除文章",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "当前页",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/article/favor/cancel": {
+            "post": {
+                "description": "文章取消收藏",
+                "tags": [
+                    "文章收藏管理"
+                ],
+                "summary": "文章取消收藏",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/article/favor/is": {
+            "get": {
+                "description": "文章是否已经收藏",
+                "tags": [
+                    "文章收藏管理"
+                ],
+                "summary": "文章是否已经收藏",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/article/favor/save": {
+            "post": {
+                "description": "文章收藏",
+                "tags": [
+                    "文章收藏管理"
+                ],
+                "summary": "文章收藏",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/article/liked/cancel": {
+            "post": {
+                "description": "文章取消点赞",
+                "tags": [
+                    "文章点赞管理"
+                ],
+                "summary": "文章取消点赞",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/article/liked/is": {
+            "get": {
+                "description": "文章是否已经点赞",
+                "tags": [
+                    "文章点赞管理"
+                ],
+                "summary": "文章是否已经点赞",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/article/liked/save": {
+            "post": {
+                "description": "文章点赞",
+                "tags": [
+                    "文章点赞管理"
+                ],
+                "summary": "文章点赞",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/article/list": {
+            "get": {
+                "description": "获取文章列表",
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "获取文章列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "当前页",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页请求数量",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "搜索内容",
+                        "name": "keyWord",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/article/views/record": {
+            "post": {
+                "description": "记录文章阅读数量(请求文章详情时会自动调用，无需再次手动调用)",
+                "tags": [
+                    "文章阅读量管理"
+                ],
+                "summary": "记录文章阅读数量(请求文章详情时会自动调用，无需再次手动调用)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -247,66 +528,6 @@ const docTemplate = `{
                     "Base"
                 ],
                 "summary": "获取标签列表",
-                "responses": {
-                    "200": {
-                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/blog/add": {
-            "post": {
-                "description": "新增博客",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "博客管理"
-                ],
-                "summary": "新增博客",
-                "parameters": [
-                    {
-                        "description": "博客信息",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.BlogDetail"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/blog/delete": {
-            "delete": {
-                "description": "删除博客",
-                "tags": [
-                    "博客管理"
-                ],
-                "summary": "删除博客",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "当前页",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "{\"code\": \"200\", \"msg\": \"\", \"data\": \"\"}",
@@ -563,11 +784,19 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "request.BlogDetail": {
+        "request.ArticleDetail": {
             "type": "object",
             "properties": {
-                "blogImage": {
+                "articleCoverKey": {
+                    "description": "文章封面key",
+                    "type": "string"
+                },
+                "articleCoverUrl": {
                     "description": "文章封面",
+                    "type": "string"
+                },
+                "articleName": {
+                    "description": "博客名称",
                     "type": "string"
                 },
                 "category": {
@@ -582,20 +811,19 @@ const docTemplate = `{
                     "description": "文章简要",
                     "type": "string"
                 },
-                "name": {
-                    "description": "博客名称",
-                    "type": "string"
-                },
-                "tag": {
+                "tags": {
                     "description": "文章标签",
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
         "request.CategoryContent": {
             "type": "object",
             "properties": {
-                "label": {
+                "categoryName": {
                     "type": "string"
                 }
             }
@@ -641,7 +869,7 @@ const docTemplate = `{
         "request.TagContent": {
             "type": "object",
             "properties": {
-                "label": {
+                "tagName": {
                     "type": "string"
                 }
             }
@@ -649,10 +877,10 @@ const docTemplate = `{
         "request.UpdateCategoryContent": {
             "type": "object",
             "properties": {
-                "id": {
+                "categoryName": {
                     "type": "string"
                 },
-                "label": {
+                "id": {
                     "type": "string"
                 }
             }
@@ -664,7 +892,7 @@ const docTemplate = `{
                     "description": "主键ID",
                     "type": "string"
                 },
-                "label": {
+                "tagName": {
                     "type": "string"
                 }
             }

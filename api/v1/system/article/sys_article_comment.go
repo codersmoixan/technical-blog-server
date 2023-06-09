@@ -8,6 +8,7 @@ import (
 	"technical-blog-server/model/common/response"
 	"technical-blog-server/model/system/article"
 	requestParams "technical-blog-server/model/system/request"
+	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
 )
 
@@ -35,14 +36,22 @@ func (api *CommentApi) GetCommentList(c *gin.Context) {
 		return
 	}
 
-	commentList, err := articleCommentService.GetCommentList(byId.ID, pageInfo)
-	if err != nil {
+	if commentList, total, err := articleCommentService.GetCommentList(byId.ID, pageInfo); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		global.TB_LOG.Error("评论获取失败!", zap.Error(err))
-		return
+	} else {
+		response.OkWithDetailed(struct {
+			List []responseParam.ArticleCommentResponse `json:"list"`
+			Page int `json:"page"`
+			PageSize int `json:"pageSize"`
+			Total int64 `json:"total"`
+		}{
+			List: commentList,
+			Total: total,
+			Page: pageInfo.Page,
+			PageSize: pageInfo.PageSize,
+		}, "评论获取成功!", c)
 	}
-
-	response.OkWithDetailed(commentList, "评论获取成功!", c)
 }
 
 // SubmitComment
@@ -60,7 +69,7 @@ func (api *CommentApi) GetCommentList(c *gin.Context) {
 func (api *CommentApi) SubmitComment(c *gin.Context) {
 	var commentParams requestParams.ArticleCommentRequest
 	_ = c.ShouldBindJSON(&commentParams)
-	commentParams.UserId = utils.GetUserID(c)
+	commentParams.OriginId = utils.GetUserID(c)
 
 	if err := utils.Verify(commentParams, utils.ArticleCommentVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
@@ -75,7 +84,7 @@ func (api *CommentApi) SubmitComment(c *gin.Context) {
 
 	articleComment := &article.SysArticleComment{
 		ArticleId: commentParams.ArticleId,
-		UserId: commentParams.UserId,
+		OriginId: commentParams.OriginId,
 		Content: commentParams.Content,
 		ParentId: commentParams.ParentId,
 		TargetId: commentParams.TargetId,

@@ -18,6 +18,9 @@ type SysUser struct {
 	Enable      int       `json:"enable" gorm:"default:1;comment:用户是否被冻结 1正常 2冻结"`
 	Github      string    `json:"github" gorm:"comment:github帐号"`
 	Gitee       string    `json:"gitee" gorm:"comment:gitee帐号"`
+	Avatar string `json:"avatar" gorm:"comment:用户头像"`
+	Gender int `json:"gender" gorm:"comment:性别"`
+	Age int `json:"age" gorm:"comment:年龄"`
 }
 
 func (SysUser) TableName() string {

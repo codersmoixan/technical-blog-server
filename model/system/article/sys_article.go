@@ -7,11 +7,8 @@ import (
 type SysArticle struct {
 	global.TB_MODEL
 	ArticleId      string `json:"id" gorm:"comment:文章唯一标识"`
-	Author      string `json:"author" gorm:"comment:作者"`
+	AuthorId      uint `json:"authorId" gorm:"comment:作者id"`
 	ArticleName        string `json:"articleName" gorm:"comment:文章名"`
-	Tag string `json:"tag" gorm:"comment:标签"`
-	TagId         string `json:"tagId" gorm:"comment:标签ID"`
-	Category string `json:"category" gorm:"comment:类别"`
 	CategoryId    string `json:"categoryId" gorm:"comment:类别ID"`
 	Description string `json:"description" gorm:"comment:文章简要"`
 	Content     string `json:"content" gorm:"comment:文章内容;type:text"`
