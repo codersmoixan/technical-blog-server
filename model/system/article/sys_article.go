@@ -26,6 +26,7 @@ func (SysArticle) TableName() string {
 }
 
 type ArticleBindUser struct {
+	ID uint `json:"id"`
 	ArticleId string `json:"articleId" gorm:"comment:文章ID"`
 	UserId uint `json:"userId" gorm:"comment:用户ID"`
 }

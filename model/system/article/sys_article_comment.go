@@ -7,13 +7,10 @@ import (
 type SysArticleComment struct {
 	global.TB_MODEL
 	ArticleId string `json:"articleId" gorm:"comment:文章ID"`
-	ParentId uint `json:"parentId" gorm:"comment:父ID"`
-	ParentCommentId uint `json:"parentCommentId" gorm:"comment:父评论id"`
-	TargetId uint `json:"targetId" gorm:"comment:回复目标者ID"`
-	OriginId uint `json:"originId" gorm:"comment:回复者id"`
-	ArticleAuthorId uint `json:"articleAuthorId" gorm:"comment:文章作者id"`
-	Content string `json:"content" gorm:"comment:回复内容;type:text"`
+	CommentContent string `json:"commentContent" gorm:"comment:回复内容;type:text"`
+	CommentId string `json:"commentId" gorm:"comment:评论id"`
 	Liked int `json:"liked" gorm:"comment:点赞数量;default:0"`
+	UserId uint `json:"userId" gorm:"comment:评论用户ID"`
 }
 
 func (SysArticleComment) TableName() string {

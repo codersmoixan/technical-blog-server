@@ -7,7 +7,6 @@ import (
 	"technical-blog-server/model/common/request"
 	"technical-blog-server/model/common/response"
 	"technical-blog-server/model/system/article"
-	requestParams "technical-blog-server/model/system/request"
 	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
 )
@@ -67,30 +66,17 @@ func (api *CommentApi) GetCommentList(c *gin.Context) {
 // @author: zhengji.su
 // @param: c *gin.Context
 func (api *CommentApi) SubmitComment(c *gin.Context) {
-	var commentParams requestParams.ArticleCommentRequest
+	var commentParams article.SysArticleComment
 	_ = c.ShouldBindJSON(&commentParams)
-	commentParams.OriginId = utils.GetUserID(c)
+	commentParams.UserId = utils.GetUserID(c)
+	commentParams.CommentId = utils.GenerateIntStringUUID()
 
 	if err := utils.Verify(commentParams, utils.ArticleCommentVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if _, err := userService.GetUserById(commentParams.TargetId); err != nil {
-		response.FailWithDetailed(nil, "查找用户失败!", c)
-		global.TB_LOG.Error("评论提交失败!", zap.Error(err))
-		return
-	}
-
-	articleComment := &article.SysArticleComment{
-		ArticleId: commentParams.ArticleId,
-		OriginId: commentParams.OriginId,
-		Content: commentParams.Content,
-		ParentId: commentParams.ParentId,
-		TargetId: commentParams.TargetId,
-	}
-
-	if comment, err := articleCommentService.SubmitComment(*articleComment); err != nil {
+	if comment, err := articleCommentService.SubmitComment(commentParams); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		global.TB_LOG.Error("评论提交失败!", zap.Error(err))
 	} else {

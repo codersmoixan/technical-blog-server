@@ -23,5 +23,5 @@ var (
 )
 
 var (
-	ArticleCommentVerify = Rules{"ArticleId": {NotEmpty()}, "OriginId": {NotEmpty()}, "TargetId": {NotEmpty()}, "Content": {NotEmpty()}}
+	ArticleCommentVerify = Rules{"ArticleId": {NotEmpty()}, "UserId": {NotEmpty()}, "CommentContent": {NotEmpty()}}
 )

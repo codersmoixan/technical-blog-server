@@ -3,12 +3,12 @@ package tag
 import (
 	"errors"
 	"fmt"
-	goNanoid "github.com/matoous/go-nanoid/v2"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	modelSystem "technical-blog-server/model/system"
 	requestParams "technical-blog-server/model/system/request"
 	responseParams "technical-blog-server/model/system/response"
+	"technical-blog-server/utils"
 )
 
 type Service struct{}
@@ -47,10 +47,7 @@ func (service *Service) AddTag(t modelSystem.SysTag) (tagInter modelSystem.SysTa
 	// todo 如果不存在那么就新建一个tag
 	// 生成一个唯一标识
 	//id, er := goNanoid.Generate(t.Label, 54)
-	id, er := goNanoid.New()
-	if er != nil {
-		return tagInter, er
-	}
+	id := utils.GenerateIntStringUUID()
 
 	t.TagId = id
 	err = global.TB_DB.Create(&t).Error

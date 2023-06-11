@@ -3,7 +3,6 @@ package article
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	goNanoid "github.com/matoous/go-nanoid/v2"
 	"go.uber.org/zap"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
@@ -72,11 +71,7 @@ func (api *Api) AddArticle(c *gin.Context) {
 		return
 	}
 
-	id, err := goNanoid.New()
-	if err != nil {
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
+	id := utils.GenerateIntStringUUID()
 
 	userId := utils.GetUserID(c)
 	article := &article2.SysArticle{
@@ -145,20 +140,20 @@ func (api *Api) UpdateArticle(c *gin.Context) {
 // @author: zhengji.su
 // @param: c *gin.Context
 func (api *Api) DeleteArticle(c *gin.Context) {
-	var article request.GetById
-	_ = c.ShouldBindQuery(&article)
+	var byId request.GetById
+	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(article, utils.IdVerify); err != nil {
+	if err := utils.Verify(byId, utils.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if err := articleService.DeleteArticle(article.ID); err != nil {
-		global.TB_LOG.Error(fmt.Sprintf("%s%d%s", "日志:", article.ID, "删除失败!"), zap.Error(err))
+	if err := articleService.DeleteArticle(byId.ID); err != nil {
+		global.TB_LOG.Error(fmt.Sprintf("%s%d%s", "日志:", byId.ID, "删除失败!"), zap.Error(err))
 		response.FailWithMessage("删除失败!", c)
 	} else {
 		response.OkWithDetailed(responseParams.ArticleDeleteResponse{
-			ID: article.ID,
+			ID: byId.ID,
 		}, "日志删除成功!", c)
 	}
 }
@@ -181,11 +176,10 @@ func (api *Api) GetArticleById(c *gin.Context) {
 		return
 	}
 
-	if article, err := articleService.GetArticleById(byId.ID); err != nil {
+	if _, err := articleService.GetArticleById(byId.ID); err != nil {
 		global.TB_LOG.Error(fmt.Sprintf("%s%d%s", "blog:", byId.ID, "查询失败!"), zap.Error(err))
 		response.FailWithMessage("error", c)
 	} else {
-		response.OkWithDetailed(article, "success", c)
 		viewsApi.RecordViews(c)
 	}
 }

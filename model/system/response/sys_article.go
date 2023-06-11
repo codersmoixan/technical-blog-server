@@ -2,6 +2,7 @@ package response_param
 
 import (
 	"technical-blog-server/global"
+	"technical-blog-server/model/system"
 	"technical-blog-server/model/system/article"
 )
 
@@ -69,8 +70,6 @@ type ArticleIsFavorResponse struct {
 type ArticleViewsResponse = ArticleBindUserId
 
 type ArticleCommentResponse struct {
-	article.SysArticleComment
-	OriginName string `json:"originName"`
-	TargetName string `json:"targetName"`
-	ParentName string `json:"parentName"`
+	CommentInfo article.SysArticleComment `json:"commentInfo"`
+	UserInfo system.SysUser `json:"userInfo"`
 }

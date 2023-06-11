@@ -2,12 +2,12 @@ package category
 
 import (
 	"errors"
-	goNanoid "github.com/matoous/go-nanoid/v2"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	modelSystem "technical-blog-server/model/system"
 	request "technical-blog-server/model/system/request"
 	responseParams "technical-blog-server/model/system/response"
+	"technical-blog-server/utils"
 )
 
 type Service struct{}
@@ -43,10 +43,7 @@ func (service *Service) AddCategory(c modelSystem.SysCategory) (categoryInter mo
 
 	// todo 如不不存在就新建一个categories
 	// 生成一个唯一标识
-	id, er := goNanoid.New()
-	if er != nil {
-		return categoryInter, er
-	}
+	id := utils.GenerateIntStringUUID()
 
 	c.CategoryId = id
 	err = global.TB_DB.Create(&c).Error
