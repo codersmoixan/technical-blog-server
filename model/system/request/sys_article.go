@@ -23,3 +23,8 @@ type ArticleCommentRequest struct {
 	ParentCommentId uint `json:"parentCommentId"`
 	OriginId uint `json:"originId"`
 }
+
+type GetReplyListIds struct {
+	ArticleId string `json:"articleId"`
+	ReplyCommentId string `json:"replyCommentId"`
+}

@@ -72,8 +72,8 @@ func (api *Api) AddArticle(c *gin.Context) {
 	}
 
 	id := utils.GenerateIntStringUUID()
+	userId := utils.GetUserId(c)
 
-	userId := utils.GetUserID(c)
 	article := &article2.SysArticle{
 		ArticleId: id,
 		AuthorId: userId,

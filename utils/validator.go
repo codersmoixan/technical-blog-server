@@ -45,6 +45,13 @@ func Verify(st interface{}, roleMap Rules) (err error) {
 	for i := 0; i < num; i++ {
 		tagVal := typ.Field(i)
 		val := val.Field(i)
+
+		if val.Kind() == reflect.Struct {
+			if err := Verify(val.Interface(), roleMap); err != nil {
+				return err
+			}
+		}
+
 		if len(roleMap[tagVal.Name]) > 0 {
 			for _, v := range roleMap[tagVal.Name] {
 				switch {
@@ -52,8 +59,7 @@ func Verify(st interface{}, roleMap Rules) (err error) {
 					if IsEmpty(val) {
 						return errors.New(tagVal.Name + "值不能为空")
 					}
-				case strings.Split(v, "=")[0] == "regexp":
-					if !RegexpMatch(strings.Split(v, "=")[1], val.String()) {
+					if len(strings.Split(v, "=")) > 1 && !RegexpMatch(strings.Split(v, "=")[1], val.String()) {
 						return errors.New(tagVal.Name + "格式校验不通过")
 					}
 				case compareMap[strings.Split(v, "=")[0]]:

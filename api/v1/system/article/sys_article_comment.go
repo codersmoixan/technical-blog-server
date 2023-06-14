@@ -68,7 +68,7 @@ func (api *CommentApi) GetCommentList(c *gin.Context) {
 func (api *CommentApi) SubmitComment(c *gin.Context) {
 	var commentParams article.SysArticleComment
 	_ = c.ShouldBindJSON(&commentParams)
-	commentParams.UserId = utils.GetUserID(c)
+	commentParams.UserId = utils.GetUserId(c)
 	commentParams.CommentId = utils.GenerateIntStringUUID()
 
 	if err := utils.Verify(commentParams, utils.ArticleCommentVerify); err != nil {

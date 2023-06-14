@@ -7,7 +7,7 @@ import (
 type SysArticleFavors struct {
 	global.TB_MODEL
 	ArticleId string `json:"articleId" gorm:"comment:文章ID"`
-	UserId uint `json:"userId" gorm:"comment:用户ID"`
+	UserId string `json:"userId" gorm:"comment:用户ID"`
 }
 
 func (SysArticleFavors) TableName() string {

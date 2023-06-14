@@ -14,9 +14,10 @@ type ServiceGroup struct {
 	UserService user.Service
 	ArticleService article.Service
 	ArticleLikedService article.LikedService
-	ArticleFavorApi article.FavorService
-	ArticleViewsApi article.ViewsService
+	ArticleFavorService article.FavorService
+	ArticleViewsService article.ViewsService
 	ArticleCommentService article.CommentService
+	ArticleReplyService article.ReplyService
 	TagService tag.Service
 	CategoryService category.Service
 	LinkService link.Service

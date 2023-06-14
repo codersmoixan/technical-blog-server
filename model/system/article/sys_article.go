@@ -7,7 +7,7 @@ import (
 type SysArticle struct {
 	global.TB_MODEL
 	ArticleId      string `json:"id" gorm:"comment:文章唯一标识"`
-	AuthorId      uint `json:"authorId" gorm:"comment:作者id"`
+	AuthorId      string `json:"authorId" gorm:"comment:作者id"`
 	ArticleName        string `json:"articleName" gorm:"comment:文章名"`
 	CategoryId    string `json:"categoryId" gorm:"comment:类别ID"`
 	Description string `json:"description" gorm:"comment:文章简要"`
@@ -28,5 +28,5 @@ func (SysArticle) TableName() string {
 type ArticleBindUser struct {
 	ID uint `json:"id"`
 	ArticleId string `json:"articleId" gorm:"comment:文章ID"`
-	UserId uint `json:"userId" gorm:"comment:用户ID"`
+	UserId string `json:"userId" gorm:"comment:用户ID"`
 }

@@ -17,7 +17,7 @@ type SysArticle = article.SysArticleComment
 // GetCommentList
 // @author: zhengji.su
 // @description: 获取评论列表
-// @param: id string
+// @param: id string pageInfo request.PageInfo
 // @return: []responseParam.ArticleCommentResponse, error
 func (service *CommentService) GetCommentList(id string, pageInfo request.PageInfo) ([]CommentRes, int64, error) {
 	limit, offset, _ := utils.GetPageLimitAndOffset(pageInfo)
@@ -31,8 +31,8 @@ func (service *CommentService) GetCommentList(id string, pageInfo request.PageIn
 	}
 
 	err := db.Where("article_id = ?", id).Limit(limit).Offset(offset).Find(&list).Error
-	userIds := lodash.Reduce[SysArticle, uint](list, func(item SysArticle, _ int, result []uint) []uint {
-		var ids []uint
+	userIds := lodash.Reduce[SysArticle, string](list, func(item SysArticle, _ int, result []string) []string {
+		var ids []string
 		val := lo.IndexOf(result, item.UserId)
 		if val == -1 {
 			ids = append(ids, item.UserId)
@@ -48,7 +48,7 @@ func (service *CommentService) GetCommentList(id string, pageInfo request.PageIn
 	commentList := make([]CommentRes, len(list))
 	for index, comment := range list {
 		for _, user := range userList {
-			if comment.UserId == user.ID {
+			if comment.UserId == user.UserId {
 				commentList[index].UserInfo = user
 			}
 		}

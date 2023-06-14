@@ -3,7 +3,6 @@ package user
 import (
 	"errors"
 	"fmt"
-	uuid "github.com/satori/go.uuid"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
@@ -29,7 +28,7 @@ func (service *Service) Register(u modelSystem.SysUser) (userInter modelSystem.S
 
 	// todo 如果没有注册附加uuid，密码进行hash加密，然后注册
 	u.Password = utils.BcryptHash(u.Password)
-	u.UUID = uuid.NewV4()
+	u.UserId = utils.GenerateIntStringUUID()
 	err = global.TB_DB.Create(&u).Error
 
 	return u, err
@@ -70,13 +69,13 @@ func (service *Service) GetUserById(id uint) (modelSystem.SysUser, error) {
 // GetUserByIds
 // @author: zhengji.su
 // @description: 根据id组获取用户组
-// @param: ids []uint
+// @param: ids []string
 // @return: []modelSystem.SysUser, error
-func (service *Service) GetUserByIds(ids []uint) ([]modelSystem.SysUser, error) {
+func (service *Service) GetUserByIds(ids []string) ([]modelSystem.SysUser, error) {
 	db := global.TB_DB.Model(&modelSystem.SysUser{})
 	var userList []modelSystem.SysUser
 
-	err := db.Where("id IN (?)", ids).Omit("password").Find(&userList).Error
+	err := db.Where("uuid IN (?)", ids).Omit("password").Find(&userList).Error
 	return userList, err
 }
 

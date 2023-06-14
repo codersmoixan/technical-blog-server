@@ -56,15 +56,18 @@ func RegisterTables(db *gorm.DB) {
 	err := db.AutoMigrate(
 		//system.SysApi{},
 		system.SysUser{},
+		system.SysTag{},
+		system.SysCategory{},
+		system.SysLink{},
+
 		article.SysArticle{},
 		article.SysArticleTags{},
 		article.SysArticleLiked{},
 		article.SysArticleFavors{},
 		article.SysArticleViews{},
 		article.SysArticleComment{},
-		system.SysTag{},
-		system.SysCategory{},
-		system.SysLink{},
+		article.SysArticleReply{},
+		article.SysArticleReplyLiked{},
 
 		resource.ResFile{},
 	)

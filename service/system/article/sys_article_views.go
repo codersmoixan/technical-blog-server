@@ -47,9 +47,9 @@ func (service *ViewsService) RecordViews(views article.SysArticleViews) (success
 // UpdateViewsDate
 // @author: zhengji.su
 // @description: 更新阅读时间
-// @param: userId uint
+// @param: userId string
 // @return: articleInter responseParam.ArticleDetail, err error
-func (service *ViewsService) UpdateViewsDate(userId uint) {
+func (service *ViewsService) UpdateViewsDate(userId string) {
 	db := global.TB_DB.Model(&article.SysArticleViews{})
 	db.Where("user_id = ?", userId).Update("updated_at", time.Now())
 }
@@ -72,9 +72,9 @@ func (service *ViewsService) GetUserViews(userId uint, pageInfo request.PageInfo
 // GetUserIsViews
 // @author: zhengji.su
 // @description: 获取用户是否已经阅读
-// @param: userId uint
+// @param: userId string
 // @return: bool, error
-func (service *ViewsService) GetUserIsViews(userId uint) (bool, error) {
+func (service *ViewsService) GetUserIsViews(userId string) (bool, error) {
 	var list []responseParam.ArticleViewsResponse
 
 	db := global.TB_DB.Model(&article.SysArticleViews{})

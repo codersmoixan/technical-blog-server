@@ -15,9 +15,9 @@ type ArticleBindUser struct {
 func GetArticleBindUserParams(c *gin.Context) ArticleBindUser{
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
-	userId := utils.GetUserID(c)
+	userId := utils.GetUserId(c)
 	params := ArticleBindUser{
-		UserIsEmpty: userId == 0,
+		UserIsEmpty: len(userId) == 0,
 	}
 	params.ArticleId = byId.ID
 	params.UserId = userId

@@ -133,7 +133,7 @@ func (api *Api) LoginToken(c *gin.Context) {
 func (api *Api) TokenNext(c *gin.Context, user modelSystem.SysUser) {
 	j := &utils.JWT{SigningKey: []byte(global.TB_CONFIG.JWT.SigningKey)} // 唯一签名
 	claims := j.CreateClaims(requestParams.BaseClaims{
-		UUID:        user.UUID,
+		UserId:        user.UserId,
 		ID:          user.ID,
 		NickName:    user.NickName,
 		Username:    user.Username,
@@ -163,7 +163,7 @@ func (api *Api) TokenNext(c *gin.Context, user modelSystem.SysUser) {
 // @param: c *gin.Context
 func (api *Api) GetMe(c *gin.Context) {
 	// 解析token
-	uuid := utils.GetUserUuid(c)
+	uuid := utils.GetUserId(c)
 	fmt.Println(uuid)
 }
 

@@ -1,13 +1,12 @@
 package system
 
 import (
-	uuid "github.com/satori/go.uuid"
 	"technical-blog-server/global"
 )
 
 type SysUser struct {
 	global.TB_MODEL
-	UUID        uuid.UUID `json:"uuid" gorm:"comment:用户UUID"`
+	UserId        string `json:"uuid" gorm:"comment:用户UUID"`
 	Username    string    `json:"username" gorm:"comment:用户登录名"`
 	Password    string    `json:"password" gorm:"comment:密码"`
 	NickName    string    `json:"nick_name" gorm:"default:系统用户;comment:用户昵称"`
