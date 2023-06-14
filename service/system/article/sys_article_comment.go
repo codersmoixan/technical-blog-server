@@ -4,10 +4,10 @@ import (
 	lo "github.com/samber/lo"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
+	"technical-blog-server/model/system"
 	"technical-blog-server/model/system/article"
 	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
-	"technical-blog-server/utils/lodash"
 )
 
 type CommentService struct {}
@@ -31,14 +31,12 @@ func (service *CommentService) GetCommentList(id string, pageInfo request.PageIn
 	}
 
 	err := db.Where("article_id = ?", id).Limit(limit).Offset(offset).Find(&list).Error
-	userIds := lodash.Reduce[SysArticle, string](list, func(item SysArticle, _ int, result []string) []string {
-		var ids []string
-		val := lo.IndexOf(result, item.UserId)
-		if val == -1 {
-			ids = append(ids, item.UserId)
+	userIds := lo.Reduce[SysArticle, []string](list, func(agg []string, item SysArticle, index int) []string {
+		if lo.IndexOf(agg, item.UserId) == -1 {
+			agg = append(agg, item.UserId)
 		}
-		return ids
-	})
+		return agg
+	}, make([]string, 0))
 
 	userList, err := userService.GetUserByIds(userIds)
 	if err != nil {
@@ -46,14 +44,13 @@ func (service *CommentService) GetCommentList(id string, pageInfo request.PageIn
 	}
 
 	commentList := make([]CommentRes, len(list))
-	for index, comment := range list {
-		for _, user := range userList {
-			if comment.UserId == user.UserId {
-				commentList[index].UserInfo = user
-			}
-		}
+	lo.ForEach(list, func(comment article.SysArticleComment, index int) {
+		userInfo, _ := lo.Find(userList, func(u system.SysUser) bool {
+			return u.UserId == comment.UserId
+		})
+		commentList[index].UserInfo = userInfo
 		commentList[index].CommentInfo = comment
-	}
+	})
 
 	return commentList, total, err
 }

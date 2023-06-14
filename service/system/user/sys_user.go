@@ -75,7 +75,7 @@ func (service *Service) GetUserByIds(ids []string) ([]modelSystem.SysUser, error
 	db := global.TB_DB.Model(&modelSystem.SysUser{})
 	var userList []modelSystem.SysUser
 
-	err := db.Where("uuid IN (?)", ids).Omit("password").Find(&userList).Error
+	err := db.Where("user_id IN (?)", ids).Omit("password").Find(&userList).Error
 	return userList, err
 }
 

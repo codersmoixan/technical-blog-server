@@ -73,3 +73,9 @@ type ArticleCommentResponse struct {
 	CommentInfo article.SysArticleComment `json:"commentInfo"`
 	UserInfo system.SysUser `json:"userInfo"`
 }
+
+type ArticleReplyResponse struct {
+	ReplyInfo article.SysArticleReply `json:"replyInfo"`
+	ReplyUserInfo system.SysUser `json:"replyUserInfo"`
+	ReplyToUserInfo system.SysUser `json:"replyToUserInfo"`
+}
