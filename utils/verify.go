@@ -28,9 +28,14 @@ var (
 	}
 	ArticleBindUserVerify = Rules{"ArticleId": {NotEmpty()}, "UserId": {NotEmpty()}}
 	ArticleCommentVerify = Rules{"ArticleId": {NotEmpty()}, "UserId": {NotEmpty()}, "CommentContent": {NotEmpty()}}
-	ArticleReplyVefify = Rules{
+	ArticleReplyVerify = Rules{
 		"ArticleId": {NotEmpty()},
 		"ReplyContent": {NotEmpty()},
 		"ReplyCommentId": {NotEmpty()},
+	}
+	ArticleReplyLikedVerify = Rules{
+		"ArticleId": {NotEmpty()},
+		"ReplyCommentId": {NotEmpty()},
+		"ReplyId": {NotEmpty()},
 	}
 )

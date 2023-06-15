@@ -24,6 +24,7 @@ type SysArticleReplyLiked struct {
 	ArticleId string `json:"articleId" gorm:"文章id"`
 	ReplyId string `json:"replyId" gorm:"被点赞的id"`
 	ReplyCommentId string `json:"replyCommentId" gorm:"comment:被点赞的回复的评论id"`
+	UserId string `json:"userId" gorm:"comment:点赞的用户id"`
 }
 
 func (SysArticleReplyLiked) TableName() string {

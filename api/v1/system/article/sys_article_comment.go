@@ -2,10 +2,12 @@ package article
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/samber/lo"
 	"go.uber.org/zap"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
 	"technical-blog-server/model/common/response"
+	"technical-blog-server/model/system"
 	"technical-blog-server/model/system/article"
 	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
@@ -35,22 +37,37 @@ func (api *CommentApi) GetCommentList(c *gin.Context) {
 		return
 	}
 
-	if commentList, total, err := articleCommentService.GetCommentList(byId.ID, pageInfo); err != nil {
+	list, total, err := articleCommentService.GetCommentList(byId.ID, pageInfo)
+	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		global.TB_LOG.Error("评论获取失败!", zap.Error(err))
-	} else {
-		response.OkWithDetailed(struct {
-			List []responseParam.ArticleCommentResponse `json:"list"`
-			Page int `json:"page"`
-			PageSize int `json:"pageSize"`
-			Total int64 `json:"total"`
-		}{
-			List: commentList,
-			Total: total,
-			Page: pageInfo.Page,
-			PageSize: pageInfo.PageSize,
-		}, "评论获取成功!", c)
+		return
 	}
+
+	userIds := lo.Reduce[article.SysArticleComment, []string](list, func(agg []string, item article.SysArticleComment, index int) []string {
+		if lo.IndexOf(agg, item.UserId) == -1 {
+			agg = append(agg, item.UserId)
+		}
+		return agg
+	}, make([]string, 0))
+
+	userList, _ := userService.GetUserByIds(userIds)
+
+	commentList := make([]responseParam.ArticleCommentResponse, len(list))
+	lo.ForEach(list, func(comment article.SysArticleComment, index int) {
+		userInfo, _ := lo.Find(userList, func(u system.SysUser) bool {
+			return u.UserId == comment.UserId
+		})
+		commentList[index].UserInfo = userInfo
+		commentList[index].CommentInfo = comment
+	})
+
+	response.OkWithDetailed(response.PageResult{
+		List: commentList,
+		Total: total,
+		Page: pageInfo.Page,
+		PageSize: pageInfo.PageSize,
+	}, "评论获取成功!", c)
 }
 
 // SubmitComment
