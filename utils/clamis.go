@@ -2,9 +2,8 @@ package utils
 
 import (
 	"github.com/gin-gonic/gin"
-	uuid "github.com/satori/go.uuid"
 	"technical-blog-server/global"
-	requestParams "technical-blog-server/model/system/request_params"
+	requestParams "technical-blog-server/model/system/request"
 )
 
 func GetClaims(c *gin.Context) (*requestParams.CustomClaims, error) {
@@ -17,8 +16,8 @@ func GetClaims(c *gin.Context) (*requestParams.CustomClaims, error) {
 	return claims, err
 }
 
-// GetUserID 从Gin的Context中获取从jwt解析出来的用户ID
-func GetUserID(c *gin.Context) uint {
+// GetUserKeyID 从Gin的Context中获取从jwt解析出来的用户ID
+func GetUserKeyID(c *gin.Context) uint {
 	if claims, exists := c.Get("claims"); !exists {
 		if cl, err := GetClaims(c); err != nil {
 			return 0
@@ -31,17 +30,17 @@ func GetUserID(c *gin.Context) uint {
 	}
 }
 
-// GetUserUuid 从Gin的Context中获取从jwt解析出来的用户UUID
-func GetUserUuid(c *gin.Context) uuid.UUID {
+// GetUserId 从Gin的Context中获取从jwt解析出来的用户UUID
+func GetUserId(c *gin.Context) string {
 	if claims, exists := c.Get("claims"); !exists {
 		if cl, err := GetClaims(c); err != nil {
-			return uuid.UUID{}
+			return ""
 		} else {
-			return cl.UUID
+			return cl.UserId
 		}
 	} else {
 		waitUse := claims.(*requestParams.CustomClaims)
-		return waitUse.UUID
+		return waitUse.UserId
 	}
 }
 
@@ -71,4 +70,15 @@ func GetUserInfo(c *gin.Context) *requestParams.CustomClaims {
 		waitUse := claims.(*requestParams.CustomClaims)
 		return waitUse
 	}
+}
+
+// GetUsername 从Gin的Context中获取从jwt解析出来的用户名
+func GetUsername(c *gin.Context) string {
+	userInfo := GetUserInfo(c)
+
+	return userInfo.Username
+}
+
+func GetIsEmptyUserId(id uint) bool {
+	return id == 0
 }

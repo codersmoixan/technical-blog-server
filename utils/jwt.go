@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/golang-jwt/jwt/v4"
 	"technical-blog-server/global"
-	"technical-blog-server/model/system/request_params"
+	"technical-blog-server/model/system/request"
 	"time"
 )
 

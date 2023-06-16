@@ -27,11 +27,13 @@ func Routers() *gin.Engine {
 	PublicGroup := Router.Group("")
 	{
 		systemRouter.SetupBaseRouter(PublicGroup)
+		systemRouter.SetupGuestArticleRouter(PublicGroup)
+		systemRouter.SetupGuestUserRouter(PublicGroup)
 	}
 
 	// 需要登录时才能访问的api
 	PrivateGroup := Router.Group("")
-	//PrivateGroup.Use(middleware.JwtAuth())
+	PrivateGroup.Use(middleware.JwtAuth())
 	{
 		systemRouter.SetupUserRouter(PrivateGroup)
 		systemRouter.SetupArticleRouter(PrivateGroup)

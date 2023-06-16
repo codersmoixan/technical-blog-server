@@ -3,15 +3,16 @@ module technical-blog-server
 go 1.19
 
 require (
+	github.com/cheekybits/genny v1.0.0
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/google/uuid v1.1.2
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
-	github.com/matoous/go-nanoid/v2 v2.0.0
 	github.com/mojocn/base64Captcha v1.3.5
-	github.com/satori/go.uuid v1.2.0
+	github.com/samber/lo v1.38.1
 	github.com/songzhibin97/gkit v1.2.7
 	github.com/spf13/viper v1.14.0
 	github.com/swaggo/files v1.0.1
@@ -69,6 +70,7 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	golang.org/x/arch v0.3.0 // indirect
+	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
 	golang.org/x/image v0.1.0 // indirect
 	golang.org/x/net v0.9.0 // indirect
 	golang.org/x/sys v0.8.0 // indirect
