@@ -11,6 +11,7 @@ type SysArticleComment struct {
 	CommentId string `json:"commentId" gorm:"comment:评论id"`
 	Liked int `json:"liked" gorm:"comment:点赞数量;default:0"`
 	UserId string `json:"userId" gorm:"comment:评论用户ID"`
+	ReplyCount int `json:"replyCount" gorm:"comment:回复数量;default:0"`
 }
 
 func (SysArticleComment) TableName() string {

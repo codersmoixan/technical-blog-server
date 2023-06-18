@@ -2,7 +2,6 @@ package tag
 
 import (
 	"errors"
-	"fmt"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	modelSystem "technical-blog-server/model/system"
@@ -40,7 +39,6 @@ func (service *Service) AddTag(t modelSystem.SysTag) (tagInter modelSystem.SysTa
 
 	// todo 判断tag是否已经存在
 	if !errors.Is(global.TB_DB.Where("tag_name = ?", t.TagName).First(&tag).Error, gorm.ErrRecordNotFound) {
-		fmt.Println(tag, 9899)
 		return tagInter, errors.New("标签已存在")
 	}
 

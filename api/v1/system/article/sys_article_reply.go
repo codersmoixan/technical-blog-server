@@ -1,18 +1,16 @@
 package article
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/samber/lo"
 	"go.uber.org/zap"
 	"technical-blog-server/global"
 	requestParam "technical-blog-server/model/common/request"
 	"technical-blog-server/model/common/response"
-	"technical-blog-server/model/system"
 	"technical-blog-server/model/system/article"
 	"technical-blog-server/model/system/request"
-	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
+	articleUtils "technical-blog-server/utils/article"
 )
 
 type ReplyApi struct {}
@@ -68,22 +66,9 @@ func (api *ReplyApi) GetReplyList(c *gin.Context) {
 		return agg
 	}, make([]string, 0))
 
-	fmt.Println(userIds, 1253)
-
 	userList, _ := userService.GetUserByIds(userIds)
 
-	replyList := make([]responseParam.ArticleReplyResponse, len(list))
-	lo.ForEach(list, func(reply article.SysArticleReply, index int) {
-		replyUserInfo, _ := lo.Find(userList, func(u system.SysUser) bool {
-			return u.UserId == reply.ReplyUserId
-		})
-		replyToUserInfo, _ := lo.Find(userList, func(u system.SysUser) bool {
-			return u.UserId == reply.ReplyToUserId
-		})
-		replyList[index].ReplyInfo = reply
-		replyList[index].ReplyUserInfo = replyUserInfo
-		replyList[index].ReplyToUserInfo = replyToUserInfo
-	})
+	replyList := articleUtils.GetFormatReply(list, userList)
 
 	response.OkWithDetailed(response.PageResult{
 		List: replyList,

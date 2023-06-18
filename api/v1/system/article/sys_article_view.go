@@ -22,7 +22,8 @@ type ViewsApi struct {}
 func (api *ViewsApi) RecordViews(c *gin.Context) {
 	viewsParam := articleUtils.GetArticleBindUserParams(c)
 
-	if err := utils.Verify(viewsParam, utils.IdVerify); err != nil {
+	verify := utils.Rules{"ArticleId": {utils.NotEmpty()}}
+	if err := utils.Verify(viewsParam, verify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

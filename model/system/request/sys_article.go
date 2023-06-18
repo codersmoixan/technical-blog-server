@@ -28,3 +28,8 @@ type GetReplyListIds struct {
 	ArticleId string `json:"articleId"`
 	ReplyCommentId string `json:"replyCommentId"`
 }
+
+type GetReplyGroupIds struct {
+	ArticleId string `json:"articleId"`
+	ReplyCommentIds []string `json:"replyCommentIds"`
+}

@@ -116,3 +116,23 @@ func (service *ReplyService) GetUserLiked(liked article.SysArticleReplyLiked) ([
 
 	return list, err
 }
+
+// GetGroupReply
+// @author: zhengji.su
+// @description: 查询用户点赞记录
+// @param: reply requestParams.GetReplyGroupIds, size int
+// @return: []article.SysArticleReply, error
+func (service *ReplyService) GetGroupReply(ids requestParams.GetReplyGroupIds, size int) ([]article.SysArticleReply, error) {
+	sql := `
+		SELECT *
+		FROM (SELECT *,ROW_NUMBER() OVER (PARTITION BY reply_comment_id) num
+    		FROM sys_article_reply
+    		WHERE article_id = ? AND reply_comment_id IN (?)) tmp
+		WHERE num <= ?;
+	`
+
+	var replyList []article.SysArticleReply
+	err := global.TB_DB.Raw(sql, ids.ArticleId, ids.ReplyCommentIds, size).Scan(&replyList).Error
+
+	return replyList, err
+}

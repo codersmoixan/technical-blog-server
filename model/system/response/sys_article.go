@@ -7,8 +7,8 @@ import (
 )
 
 type ArticleTags struct {
-	TagId string
-	TagName string
+	TagId string `json:"tagId"`
+	TagName string `json:"tagName"`
 }
 
 type ArticleResponse struct {
@@ -18,7 +18,7 @@ type ArticleResponse struct {
 	ArticleName        string `json:"articleName" gorm:"comment:文章名"`
 	TagId         string `json:"tagId" gorm:"comment:标签ID"`
 	Tag			string `json:"tag" gorm:"comment:标签"`
-	Tags []ArticleTags
+	Tags []ArticleTags `json:"tags"`
 	CategoryId    string `json:"categoryId" gorm:"comment:类别ID"`
 	Category    string `json:"category" gorm:"comment:类别"`
 	Description string `json:"description" gorm:"comment:文章简要"`
@@ -70,11 +70,14 @@ type ArticleIsFavorResponse struct {
 type ArticleViewsResponse = ArticleBindUserId
 
 type ArticleCommentResponse struct {
+	CommentId string `json:"commentId"`
 	CommentInfo article.SysArticleComment `json:"commentInfo"`
 	UserInfo system.SysUser `json:"userInfo"`
+	ReplyInfos []ArticleReplyResponse `json:"replyInfos"`
 }
 
 type ArticleReplyResponse struct {
+	ReplyId string `json:"replyId"`
 	ReplyInfo article.SysArticleReply `json:"replyInfo"`
 	ReplyUserInfo system.SysUser `json:"replyUserInfo"`
 	ReplyToUserInfo system.SysUser `json:"replyToUserInfo"`
