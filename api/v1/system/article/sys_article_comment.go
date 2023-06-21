@@ -73,10 +73,10 @@ func (api *CommentApi) GetCommentList(c *gin.Context) {
 		userInfo, _ := lo.Find(userList, func(u system.SysUser) bool {
 			return u.UserId == comment.UserId
 		})
-		replyList := lo.Filter(replyList, func(item article.SysArticleReply, index int) bool {
+		filterReplyList := lo.Filter(replyList, func(item article.SysArticleReply, index int) bool {
 			return item.ReplyCommentId == comment.CommentId
 		})
-		replyInfos := articleUtils.GetFormatReply(replyList, userList)
+		replyInfos := articleUtils.GetFormatReply(filterReplyList, userList)
 		commentList[index].CommentId = comment.CommentId
 		commentList[index].UserInfo = userInfo
 		commentList[index].CommentInfo = comment

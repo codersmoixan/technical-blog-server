@@ -31,16 +31,18 @@ func GetArticleBindUserParams(c *gin.Context) ArticleBindUser{
 func GetFormatReply(list []article.SysArticleReply, userList []system.SysUser) []responseParam.ArticleReplyResponse {
 	replyList := make([]responseParam.ArticleReplyResponse, len(list))
 	lo.ForEach(list, func(reply article.SysArticleReply, index int) {
-		replyUserInfo, _ := lo.Find(userList, func(u system.SysUser) bool {
+		if replyUserInfo, isFind := lo.Find(userList, func(u system.SysUser) bool {
 			return u.UserId == reply.ReplyUserId
-		})
-		replyToUserInfo, _ := lo.Find(userList, func(u system.SysUser) bool {
+		}); isFind {
+			replyList[index].ReplyUserInfo = &replyUserInfo
+		}
+		if replyToUserInfo, isFind := lo.Find(userList, func(u system.SysUser) bool {
 			return u.UserId == reply.ReplyToUserId
-		})
+		}); isFind {
+			replyList[index].ReplyToUserInfo = &replyToUserInfo
+		}
 		replyList[index].ReplyId = reply.ReplyId
-		replyList[index].ReplyInfo = reply
-		replyList[index].ReplyUserInfo = replyUserInfo
-		replyList[index].ReplyToUserInfo = replyToUserInfo
+		replyList[index].ReplyInfo = &reply
 	})
 
 	return replyList

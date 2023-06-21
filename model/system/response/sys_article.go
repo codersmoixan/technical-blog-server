@@ -78,7 +78,7 @@ type ArticleCommentResponse struct {
 
 type ArticleReplyResponse struct {
 	ReplyId string `json:"replyId"`
-	ReplyInfo article.SysArticleReply `json:"replyInfo"`
-	ReplyUserInfo system.SysUser `json:"replyUserInfo"`
-	ReplyToUserInfo system.SysUser `json:"replyToUserInfo"`
+	ReplyInfo *article.SysArticleReply `json:"replyInfo"`
+	ReplyUserInfo *system.SysUser `json:"replyUserInfo"`
+	ReplyToUserInfo *system.SysUser `json:"replyToUserInfo"`
 }

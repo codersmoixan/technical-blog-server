@@ -1,6 +1,7 @@
 package article
 
 import (
+	"errors"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
@@ -133,6 +134,9 @@ func (service *ReplyService) GetGroupReply(ids requestParams.GetReplyGroupIds, s
 
 	var replyList []article.SysArticleReply
 	err := global.TB_DB.Raw(sql, ids.ArticleId, ids.ReplyCommentIds, size).Scan(&replyList).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		replyList = nil
+	}
 
 	return replyList, err
 }
