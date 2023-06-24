@@ -2,12 +2,16 @@ package article
 
 import (
 	"errors"
+	"github.com/samber/lo"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
 	"technical-blog-server/model/system/article"
 	requestParams "technical-blog-server/model/system/request"
+	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
+	articleUtils "technical-blog-server/utils/article"
 )
 
 type ReplyService struct {}
@@ -19,6 +23,16 @@ type ReplyService struct {}
 // @return: error
 func (service *ReplyService) AddReply(replyParams article.SysArticleReply) error {
 	err := global.TB_DB.Create(&replyParams).Error
+	if err != nil {
+		global.TB_LOG.Error("回复提交失败!", zap.Error(err))
+		return err
+	}
+
+	// 更新回复数量
+	err = articleCommentService.UpdateReplyCount(replyParams.ArticleId, replyParams.ReplyCommentId, 1)
+	if err != nil {
+		global.TB_LOG.Error("回复条数统计更新失败!", zap.Error(err))
+	}
 
 	return err
 }
@@ -28,19 +42,36 @@ func (service *ReplyService) AddReply(replyParams article.SysArticleReply) error
 // @description: 获取回复列表
 // @param: ids requestParams.GetReplyListIds, pageInfo request.PageInfo
 // @return: []article.SysArticleReply, error
-func (service *ReplyService) GetReplyList(ids requestParams.GetReplyListIds, pageInfo request.PageInfo) ([]article.SysArticleReply, int64, error) {
+func (service *ReplyService) GetReplyList(ids requestParams.GetReplyListIds, pageInfo request.PageInfo) ([]responseParam.ArticleReplyResponse, int64, error) {
 	limit, offset, _ := utils.GetPageLimitAndOffset(pageInfo)
 	db := global.TB_DB.Model(article.SysArticleReply{})
 
-	var replyList []article.SysArticleReply
+	var list []article.SysArticleReply
 	var total int64
 
 	if err := db.Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
-	if err := db.Where("article_id = ? AND reply_comment_id = ?", ids.ArticleId, ids.ReplyCommentId).Limit(limit).Offset(offset).Find(&replyList).Error; err != nil {
-		return replyList, 0, err
+	if err := db.Where("article_id = ? AND reply_comment_id = ?", ids.ArticleId, ids.ReplyCommentId).Limit(limit).Offset(offset).Find(&list).Error; err != nil {
+		return nil, 0, err
 	}
+
+	userIds := lo.Reduce[article.SysArticleReply, []string](list, func(agg []string, item article.SysArticleReply, index int) []string {
+		if lo.IndexOf(agg, item.ReplyUserId) == -1 {
+			agg = append(agg, item.ReplyUserId)
+		}
+		if lo.IndexOf(agg, item.ReplyToReplyId) == -1 {
+			agg = append(agg, item.ReplyToReplyId)
+		}
+		return agg
+	}, make([]string, 0))
+
+	userList, _ := userService.GetUserByIds(userIds)
+
+	replyList := articleUtils.GetFormatReply(articleUtils.FormatReplyParams{
+		ReplyList: list,
+		UserList: userList,
+	})
 
 	return replyList, total, nil
 }
@@ -132,11 +163,36 @@ func (service *ReplyService) GetGroupReply(ids requestParams.GetReplyGroupIds, s
 		WHERE num <= ?;
 	`
 
+	return service.ScanReplyList(sql, ids.ArticleId, ids.ReplyCommentIds, 2)
+}
+
+// ScanReplyList
+// @author: zhengji.su
+// @description: 自定义sql语句查询
+// @param: sql string, values ...interface{}
+// @return: []article.SysArticleReply, error
+func (service *ReplyService) ScanReplyList(sql string, values ...interface{}) ([]article.SysArticleReply, error) {
 	var replyList []article.SysArticleReply
-	err := global.TB_DB.Raw(sql, ids.ArticleId, ids.ReplyCommentIds, size).Scan(&replyList).Error
+	err := global.TB_DB.Raw(sql, values...).Scan(&replyList).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		replyList = nil
 	}
 
 	return replyList, err
+}
+
+// GetParentReplyList
+// @author: zhengji.su
+// @description: 查询被回复者的回复信息
+// @param: ids requestParams.GetReplyGroupIds, size int
+// @return: []article.SysArticleReply, error
+func (service *ReplyService) GetParentReplyList(ids requestParams.GetReplyGroupIds, size int) ([]article.SysArticleReply, error) {
+	sql := `
+		SELECT reply.* FROM (SELECT *
+		FROM (SELECT *,ROW_NUMBER() OVER (PARTITION BY reply_comment_id) num
+    		FROM sys_article_reply
+    		WHERE article_id = ? AND reply_comment_id IN (?)) tmp
+		WHERE num <= ?) g JOIN sys_article_reply reply ON g.reply_to_reply_id = reply.reply_id
+	`
+	return service.ScanReplyList(sql, ids.ArticleId, ids.ReplyCommentIds, size)
 }

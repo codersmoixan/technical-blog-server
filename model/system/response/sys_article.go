@@ -81,4 +81,5 @@ type ArticleReplyResponse struct {
 	ReplyInfo *article.SysArticleReply `json:"replyInfo"`
 	ReplyUserInfo *system.SysUser `json:"replyUserInfo"`
 	ReplyToUserInfo *system.SysUser `json:"replyToUserInfo"`
+	ParentReply *article.SysArticleReply `json:"parentReply"`
 }

@@ -2,7 +2,6 @@ package article
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/samber/lo"
 	"go.uber.org/zap"
 	"technical-blog-server/global"
 	requestParam "technical-blog-server/model/common/request"
@@ -10,7 +9,6 @@ import (
 	"technical-blog-server/model/system/article"
 	"technical-blog-server/model/system/request"
 	"technical-blog-server/utils"
-	articleUtils "technical-blog-server/utils/article"
 )
 
 type ReplyApi struct {}
@@ -44,7 +42,7 @@ func (api *ReplyApi) GetReplyList(c *gin.Context) {
 		return
 	}
 
-	list, total, err := articleReplyService.GetReplyList(request.GetReplyListIds{
+	replyList, total, err := articleReplyService.GetReplyList(request.GetReplyListIds{
 		ArticleId: replyParams.ArticleId,
 		ReplyCommentId: replyParams.ReplyCommentId,
 	}, requestParam.PageInfo{
@@ -55,20 +53,6 @@ func (api *ReplyApi) GetReplyList(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-
-	userIds := lo.Reduce[article.SysArticleReply, []string](list, func(agg []string, item article.SysArticleReply, index int) []string {
-		if lo.IndexOf(agg, item.ReplyUserId) == -1 {
-			agg = append(agg, item.ReplyUserId)
-		}
-		if lo.IndexOf(agg, item.ReplyToReplyId) == -1 {
-			agg = append(agg, item.ReplyToReplyId)
-		}
-		return agg
-	}, make([]string, 0))
-
-	userList, _ := userService.GetUserByIds(userIds)
-
-	replyList := articleUtils.GetFormatReply(list, userList)
 
 	response.OkWithDetailed(response.PageResult{
 		List: replyList,
@@ -104,7 +88,6 @@ func (api *ReplyApi) AddReply(c *gin.Context) {
 	replyParams.ReplyUserId = userId
 
 	if err := articleReplyService.AddReply(replyParams); err != nil {
-		global.TB_LOG.Error("回复提交失败!", zap.Error(err))
 		response.FailWithMessage("回复提交失败!", c)
 		return
 	}

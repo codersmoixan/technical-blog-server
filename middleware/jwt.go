@@ -2,6 +2,8 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+	"net/http"
 	"strconv"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/response"
@@ -14,6 +16,7 @@ func JwtAuth() gin.HandlerFunc {
 		// 我们这里jwt鉴权取头部信息 x-token 登录时回返回token信息 这里前端需要把token存储到cookie或者本地localStorage中 不过需要跟后端协商过期时间 可以约定刷新令牌或者重新登录
 		token := c.Request.Header.Get("x-token")
 		if token == "" {
+			c.AbortWithStatus(http.StatusUnauthorized)
 			response.UnauthorizedDetailed(gin.H{"reload": true}, "未登录或非法访问", c)
 			c.Abort()
 			return
@@ -23,17 +26,19 @@ func JwtAuth() gin.HandlerFunc {
 		// 解析token包含的信息
 		claims, err := j.ParseToken(token)
 		if err != nil {
+			c.AbortWithStatus(http.StatusUnauthorized)
 			if err == utils.TokenExpired {
 				response.UnauthorizedDetailed(gin.H{"reload": true}, "授权已过期", c)
 				c.Abort()
 				return
 			}
-			response.UnauthorizedDetailed(gin.H{"reload": true}, err.Error(), c)
+			global.TB_LOG.Error("解析token失败: ", zap.Error(err))
+			response.UnauthorizedDetailed(gin.H{"reload": true}, "未登录或授权已过期", c)
 			c.Abort()
 			return
 		}
 
-		if claims.ExpiresAt-time.Now().Unix() < claims.BufferTime {
+		if claims.ExpiresAt - time.Now().Unix() < claims.BufferTime {
 			claims.ExpiresAt = time.Now().Unix() + global.TB_CONFIG.JWT.ExpiresTime
 			newToken, _ := j.CreateTokenByOldToken(token, *claims)
 			newClaims, _ := j.ParseToken(newToken)

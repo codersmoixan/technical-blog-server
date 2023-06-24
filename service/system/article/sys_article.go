@@ -1,9 +1,11 @@
 package article
 
 import (
+	"fmt"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
 	modelArticle "technical-blog-server/model/system/article"
+	requestParams "technical-blog-server/model/system/request"
 	responseParams "technical-blog-server/model/system/response"
 	"technical-blog-server/service/system/category"
 )
@@ -67,12 +69,57 @@ func (service *Service) GetArticleList(articleParams request.GetArticleListParam
 // AddArticle
 // @author: zhengji.su
 // @description: 新增文章
-// @param: b modelSystem.SysBlog
-// @return: blog modelSystem.SysArticle, err error
-func (service *Service) AddArticle(a modelArticle.SysArticle) (article modelArticle.SysArticle, err error) {
-	err = global.TB_DB.Create(&a).Error
+// @param: articleParams requestParams.ArticleDetail
+// @return: responseParams.ArticleAddResponse, error
+func (service *Service) AddArticle(articleParams requestParams.ArticleDetail) (*responseParams.ArticleAddResponse, error) {
+	article := &modelArticle.SysArticle{
+		ArticleId: articleParams.ArticleId,
+		AuthorId: articleParams.UserId,
+		ArticleName:        articleParams.ArticleName,
+		Description: articleParams.Description,
+		Content:     articleParams.Content,
+		CategoryId:    articleParams.Category,
+		ArticleCoverUrl:   articleParams.ArticleCoverUrl,
+		ArticleCoverKey: articleParams.ArticleCoverKey,
+	}
 
-	return a, err
+	if err := global.TB_DB.Create(&article).Error; err != nil {
+		return nil, err
+	}
+
+	// 保存文章标签
+	if err := articleService.AppendArticleTags(articleParams.ArticleId, articleParams.Tags); err != nil {
+		global.TB_LOG.Error(fmt.Sprintf("TBError: 创建标签表失败！%v", err))
+		return nil, err
+	}
+
+	// 获取文章标签
+	tags, err := articleService.GetArticleTags([]string{articleParams.ArticleId})
+	var articleTags []responseParams.ArticleTags
+	for _, tag := range tags {
+		articleTags = append(articleTags, responseParams.ArticleTags{
+			TagId: tag.TagId,
+			TagName: tag.TagName,
+		})
+	}
+
+	// 获取分类
+	articleCategory, err := categoryService.GetCategoryById(article.CategoryId)
+	if err != nil {
+		return nil, err
+	}
+
+	articleDetail := responseParams.ArticleAddResponse{
+		ArticleName:        article.ArticleName,
+		Description: article.Description,
+		Tags:         articleTags,
+		CategoryId:    article.CategoryId,
+		CategoryName: articleCategory.CategoryName,
+		ArticleCoverUrl:   article.ArticleCoverUrl,
+		ArticleCoverKey: article.ArticleCoverKey,
+	}
+
+	return &articleDetail, err
 }
 
 // UpdateArticle

@@ -15,6 +15,12 @@ type ArticleBindUser struct {
 	UserIsEmpty bool `json:"userIsEmpty"`
 }
 
+type FormatReplyParams struct {
+	ReplyList []article.SysArticleReply
+	UserList []system.SysUser
+	ParentReplyList []article.SysArticleReply
+}
+
 func GetArticleBindUserParams(c *gin.Context) ArticleBindUser{
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
@@ -28,7 +34,10 @@ func GetArticleBindUserParams(c *gin.Context) ArticleBindUser{
 	return params
 }
 
-func GetFormatReply(list []article.SysArticleReply, userList []system.SysUser) []responseParam.ArticleReplyResponse {
+func GetFormatReply(listObj FormatReplyParams) []responseParam.ArticleReplyResponse {
+	list := listObj.ReplyList
+	userList := listObj.UserList
+	parentReplyList := listObj.ParentReplyList
 	replyList := make([]responseParam.ArticleReplyResponse, len(list))
 	lo.ForEach(list, func(reply article.SysArticleReply, index int) {
 		if replyUserInfo, isFind := lo.Find(userList, func(u system.SysUser) bool {
@@ -43,6 +52,15 @@ func GetFormatReply(list []article.SysArticleReply, userList []system.SysUser) [
 		}
 		replyList[index].ReplyId = reply.ReplyId
 		replyList[index].ReplyInfo = &reply
+
+		if len(parentReplyList) != 0 {
+			if parentList, isFind := lo.Find(parentReplyList, func(item article.SysArticleReply) bool {
+				return reply.ReplyToReplyId == item.ReplyId
+			}); isFind {
+				replyList[index].ParentReply = &parentList
+			}
+		}
+
 	})
 
 	return replyList

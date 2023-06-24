@@ -27,10 +27,10 @@ var (
 		"ArticleImage": {NotEmpty()},
 	}
 	ArticleBindUserVerify = Rules{"ArticleId": {NotEmpty()}, "UserId": {NotEmpty()}}
-	ArticleCommentVerify = Rules{"ArticleId": {NotEmpty()}, "UserId": {NotEmpty()}, "CommentContent": {NotEmpty()}}
+	ArticleCommentVerify = Rules{"ArticleId": {NotEmpty()}, "UserId": {NotEmpty()}, "Content": {NotEmpty()}}
 	ArticleReplyVerify = Rules{
 		"ArticleId": {NotEmpty()},
-		"ReplyContent": {NotEmpty()},
+		"Content": {NotEmpty()},
 		"ReplyCommentId": {NotEmpty()},
 	}
 	ArticleReplyLikedVerify = Rules{
