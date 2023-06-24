@@ -37,27 +37,33 @@ func (service *CommentService) GetCommentList(id string, pageInfo request.PageIn
 
 	err := db.Where("article_id = ?", id).Limit(limit).Offset(offset).Find(&list).Error
 
-	var commentIds CommentIds
+	var ids CommentIds
 	lo.ForEach(list, func(item article.SysArticleComment, index int) {
-		if lo.IndexOf(commentIds.userIds, item.UserId) == -1 {
-			commentIds.userIds = append(commentIds.userIds, item.UserId)
+		if lo.IndexOf(ids.userIds, item.UserId) == -1 {
+			ids.userIds = append(ids.userIds, item.UserId)
 		}
 		if item.ReplyCount > 0 {
-			commentIds.commentIds = append(commentIds.commentIds, item.CommentId)
+			ids.commentIds = append(ids.commentIds, item.CommentId)
+		}
+	})
+
+	// 获取评论回复列表
+	replyList, _ := articleReplyService.GetGroupReply(request2.GetReplyGroupIds{
+		ArticleId: id,
+		ReplyCommentIds: ids.commentIds,
+	}, 2)
+	lo.ForEach(replyList, func(item article.SysArticleReply, index int) {
+		if lo.IndexOf(ids.userIds, item.ReplyUserId) == -1 {
+			ids.userIds = append(ids.userIds, item.ReplyUserId)
 		}
 	})
 
 	// 获取用户信息
-	userList, _ := userService.GetUserByIds(commentIds.userIds)
-	// 获取评论回复列表
-	replyList, _ := articleReplyService.GetGroupReply(request2.GetReplyGroupIds{
-		ArticleId: id,
-		ReplyCommentIds: commentIds.commentIds,
-	}, 2)
+	userList, _ := userService.GetUserByIds(ids.userIds)
 	// 获取父回复列表
 	parentReplyList, _ := articleReplyService.GetParentReplyList(request2.GetReplyGroupIds{
 		ArticleId: id,
-		ReplyCommentIds: commentIds.commentIds,
+		ReplyCommentIds: ids.commentIds,
 	}, 1)
 
 	commentList := make([]responseParam.ArticleCommentResponse, len(list))
