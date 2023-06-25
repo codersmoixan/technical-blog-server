@@ -21,11 +21,11 @@ type ReplyService struct {}
 // @description: 新增回复
 // @param: replyParams article.SysArticleReply
 // @return: error
-func (service *ReplyService) AddReply(replyParams article.SysArticleReply) error {
+func (service *ReplyService) AddReply(replyParams article.SysArticleReply) (*responseParam.ArticleReplyResponse, error) {
 	err := global.TB_DB.Create(&replyParams).Error
 	if err != nil {
 		global.TB_LOG.Error("回复提交失败!", zap.Error(err))
-		return err
+		return nil, err
 	}
 
 	// 更新回复数量
@@ -34,7 +34,20 @@ func (service *ReplyService) AddReply(replyParams article.SysArticleReply) error
 		global.TB_LOG.Error("回复条数统计更新失败!", zap.Error(err))
 	}
 
-	return err
+	var list []article.SysArticleReply
+	sql := `article_id = ? AND reply_comment_id = ? AND reply_id = ?`
+	if err := global.TB_DB.Model(article.SysArticleReply{}).Where(sql, replyParams.ArticleId, replyParams.ReplyCommentId, replyParams.ReplyId).First(&list).Error; err != nil {
+		return nil, err
+	}
+
+	if replyList := service.GetFormatReplyList(list, requestParams.GetReplyListIds{
+		ArticleId: replyParams.ArticleId,
+		ReplyCommentId: replyParams.ReplyCommentId,
+	}); len(replyList) > 0 {
+		return &replyList[0], nil
+	}
+
+	return nil, errors.New("查询为空！")
 }
 
 // GetReplyList
@@ -56,24 +69,50 @@ func (service *ReplyService) GetReplyList(ids requestParams.GetReplyListIds, pag
 		return nil, 0, err
 	}
 
-	userIds := lo.Reduce[article.SysArticleReply, []string](list, func(agg []string, item article.SysArticleReply, index int) []string {
-		if lo.IndexOf(agg, item.ReplyUserId) == -1 {
-			agg = append(agg, item.ReplyUserId)
-		}
-		if lo.IndexOf(agg, item.ReplyToReplyId) == -1 {
-			agg = append(agg, item.ReplyToReplyId)
-		}
-		return agg
-	}, make([]string, 0))
+	replyList := service.GetFormatReplyList(list, ids)
 
+	return replyList, total, nil
+}
+
+// GetFormatReplyList
+// @author: zhengji.su
+// @description: 获取整理的回复列表
+// @param: list []article.SysArticleReply, ids requestParams.GetReplyListIds
+// @return: []responseParam.ArticleReplyResponse, error
+func (service *ReplyService) GetFormatReplyList(list []article.SysArticleReply, ids requestParams.GetReplyListIds) []responseParam.ArticleReplyResponse {
+	var parentReplyIds []string
+	var userIds []string
+	lo.ForEach(list, func(item article.SysArticleReply, index int) {
+		if lo.IndexOf(userIds, item.ReplyUserId) == -1 {
+			userIds = append(userIds, item.ReplyUserId)
+		}
+		if lo.IndexOf(userIds, item.ReplyToReplyId) == -1 {
+			userIds = append(userIds, item.ReplyToReplyId)
+		}
+		parentReplyIds = append(parentReplyIds, item.ReplyToReplyId)
+	})
+
+	parentReplyList, _ := service.GetReplyListByIds(ids.ArticleId, ids.ReplyCommentId, parentReplyIds)
 	userList, _ := userService.GetUserByIds(userIds)
-
 	replyList := articleUtils.GetFormatReply(articleUtils.FormatReplyParams{
 		ReplyList: list,
 		UserList: userList,
+		ParentReplyList: parentReplyList,
 	})
 
-	return replyList, total, nil
+	return replyList
+}
+
+// GetReplyListByIds
+// @author: zhengji.su
+// @description: 根据id获取回复列表
+// @param: articleId, commentId string, ids []string
+// @return: []article.SysArticleReply, error
+func (service *ReplyService) GetReplyListByIds(articleId, commentId string, ids []string) ([]article.SysArticleReply, error) {
+	var list []article.SysArticleReply
+	db := global.TB_DB.Model(article.SysArticleReply{})
+	err := db.Where("article_id = ? AND reply_comment_id = ? AND reply_id IN (?)", articleId, commentId, ids).Find(&list).Error
+	return list, err
 }
 
 // DeleteReply

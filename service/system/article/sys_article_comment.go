@@ -7,7 +7,7 @@ import (
 	"technical-blog-server/model/common/request"
 	"technical-blog-server/model/system"
 	"technical-blog-server/model/system/article"
-	request2 "technical-blog-server/model/system/request"
+	requestParam "technical-blog-server/model/system/request"
 	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
 	articleUtils "technical-blog-server/utils/article"
@@ -48,7 +48,7 @@ func (service *CommentService) GetCommentList(id string, pageInfo request.PageIn
 	})
 
 	// 获取评论回复列表
-	replyList, _ := articleReplyService.GetGroupReply(request2.GetReplyGroupIds{
+	replyList, _ := articleReplyService.GetGroupReply(requestParam.GetReplyGroupIds{
 		ArticleId: id,
 		ReplyCommentIds: ids.commentIds,
 	}, 2)
@@ -61,10 +61,10 @@ func (service *CommentService) GetCommentList(id string, pageInfo request.PageIn
 	// 获取用户信息
 	userList, _ := userService.GetUserByIds(ids.userIds)
 	// 获取父回复列表
-	parentReplyList, _ := articleReplyService.GetParentReplyList(request2.GetReplyGroupIds{
+	parentReplyList, _ := articleReplyService.GetParentReplyList(requestParam.GetReplyGroupIds{
 		ArticleId: id,
 		ReplyCommentIds: ids.commentIds,
-	}, 1)
+	}, 2)
 
 	commentList := make([]responseParam.ArticleCommentResponse, len(list))
 	lo.ForEach(list, func(comment article.SysArticleComment, index int) {

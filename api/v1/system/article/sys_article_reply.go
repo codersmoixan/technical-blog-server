@@ -87,12 +87,13 @@ func (api *ReplyApi) AddReply(c *gin.Context) {
 	replyParams.ReplyId = id
 	replyParams.ReplyUserId = userId
 
-	if err := articleReplyService.AddReply(replyParams); err != nil {
+	reply, err := articleReplyService.AddReply(replyParams)
+	if err != nil {
 		response.FailWithMessage("回复提交失败!", c)
 		return
 	}
 
-	response.OkWithDetailed(true, "提交回复成功!", c)
+	response.OkWithDetailed(reply, "提交回复成功!", c)
 }
 
 // DeleteReply
