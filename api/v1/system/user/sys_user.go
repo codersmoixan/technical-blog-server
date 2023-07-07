@@ -184,7 +184,7 @@ func (api *Api) GetUserById(c *gin.Context) {
 		return
 	}
 
-	if user, err := userService.GetUserById(byId.Uint()); err != nil {
+	if user, err := userService.GetUserById(byId.ID); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		global.TB_LOG.Error("获取用户信息失败!", zap.Error(err))
 	} else {

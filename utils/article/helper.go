@@ -19,6 +19,7 @@ type FormatReplyParams struct {
 	ReplyList []article.SysArticleReply
 	UserList []system.SysUser
 	ParentReplyList []article.SysArticleReply
+	Article responseParam.ArticleDetail
 }
 
 func GetArticleBindUserParams(c *gin.Context) ArticleBindUser{
@@ -38,11 +39,14 @@ func GetFormatReply(listObj FormatReplyParams) []responseParam.ArticleReplyRespo
 	list := listObj.ReplyList
 	userList := listObj.UserList
 	parentReplyList := listObj.ParentReplyList
+	articleInfo := listObj.Article
+
 	replyList := make([]responseParam.ArticleReplyResponse, len(list))
 	lo.ForEach(list, func(reply article.SysArticleReply, index int) {
 		if replyUserInfo, isFind := lo.Find(userList, func(u system.SysUser) bool {
 			return u.UserId == reply.ReplyUserId
 		}); isFind {
+			replyList[index].IsAuthor = reply.ReplyUserId == articleInfo.AuthorId
 			replyList[index].ReplyUserInfo = &replyUserInfo
 		}
 		if replyToUserInfo, isFind := lo.Find(userList, func(u system.SysUser) bool {

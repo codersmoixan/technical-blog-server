@@ -2,6 +2,7 @@ package article
 
 import (
 	"fmt"
+	"github.com/samber/lo"
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
 	modelArticle "technical-blog-server/model/system/article"
@@ -152,16 +153,17 @@ func (service *Service) GetArticleById(id string) (articleInter responseParams.A
 
 	var articleTags []responseParams.ArticleTags
 	tags, _ := service.GetArticleTags([]string{id})
-	for _, tag := range tags {
+	lo.ForEach(tags, func(tag articleTag, index int) {
 		articleTags = append(articleTags, responseParams.ArticleTags{
 			TagId: tag.TagId,
 			TagName: tag.TagName,
 		})
-	}
+	})
 
 	articleCategory, _ := categoryService.GetCategoryById(article.CategoryId)
 	article.Category = articleCategory.CategoryName
 	article.Tags = articleTags
+	article.AuthorInfo, _ = userService.GetUserById(article.AuthorId)
 
 	return article, err
 }
@@ -175,13 +177,12 @@ func (service *Service) AppendArticleTags(id string, t []string) error {
 	db := global.TB_DB
 
 	var tags []modelArticle.SysArticleTags
-	for _, tagId := range t {
-		tag := modelArticle.SysArticleTags{
+	lo.ForEach(t, func(tag string, index int) {
+		tags = append(tags, modelArticle.SysArticleTags{
 			ArticleId: id,
-			TagId: tagId,
-		}
-		tags = append(tags, tag)
-	}
+			TagId: tag,
+		})
+	})
 
 	if err := db.Create(&tags).Error; err != nil {
 		return err

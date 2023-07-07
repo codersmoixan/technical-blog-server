@@ -3,7 +3,6 @@ package article
 import (
 	"github.com/gin-gonic/gin"
 	"technical-blog-server/model/common/response"
-	"technical-blog-server/model/system/article"
 	"technical-blog-server/utils"
 	articleUtils "technical-blog-server/utils/article"
 )
@@ -28,28 +27,7 @@ func (api *ViewsApi) RecordViews(c *gin.Context) {
 		return
 	}
 
-	if !viewsParam.UserIsEmpty {
-		isView, err := articleViewsService.GetUserIsViews(viewsParam.UserId)
-
-		if isView {
-			articleViewsService.UpdateViewsDate(viewsParam.UserId)
-			response.OkWithDetailed("更新成功!","OK!", c)
-			return
-		}
-
-		var views = &article.SysArticleViews{
-			ArticleId: viewsParam.ArticleId,
-			UserId: viewsParam.UserId,
-		}
-
-		_, err = articleViewsService.RecordViews(*views)
-		if err != nil {
-			response.FailWithMessage(err.Error(), c)
-			return
-		}
-	}
-
-	ar, err := articleViewsService.UpdateViews(viewsParam.ArticleId)
+	ar, err := articleViewsService.UpdateViews(viewsParam)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return

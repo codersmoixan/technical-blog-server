@@ -31,11 +31,11 @@ func (service *CommentService) GetCommentList(id string, pageInfo request.PageIn
 	var list []Comment
 	var total int64
 
-	if err := db.Count(&total).Error; err != nil {
-		return nil, 0, err
-	}
+	//if err := db.Where("article_id = ?", id).Count(&total).Error; err != nil {
+	//	return nil, 0, err
+	//}
 
-	err := db.Where("article_id = ?", id).Limit(limit).Offset(offset).Find(&list).Error
+	err := db.Where("article_id = ?", id).Count(&total).Limit(limit).Offset(offset).Find(&list).Error
 
 	var ids CommentIds
 	lo.ForEach(list, func(item article.SysArticleComment, index int) {

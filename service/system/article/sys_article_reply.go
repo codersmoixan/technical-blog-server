@@ -62,7 +62,7 @@ func (service *ReplyService) GetReplyList(ids requestParams.GetReplyListIds, pag
 	var list []article.SysArticleReply
 	var total int64
 
-	if err := db.Count(&total).Error; err != nil {
+	if err := db.Where("article_id = ? AND reply_comment_id = ?", ids.ArticleId, ids.ReplyCommentId).Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
 	if err := db.Where("article_id = ? AND reply_comment_id = ?", ids.ArticleId, ids.ReplyCommentId).Limit(limit).Offset(offset).Find(&list).Error; err != nil {
@@ -92,12 +92,14 @@ func (service *ReplyService) GetFormatReplyList(list []article.SysArticleReply, 
 		parentReplyIds = append(parentReplyIds, item.ReplyToReplyId)
 	})
 
+	articleInfo, _ := articleService.GetArticleById(ids.ArticleId)
 	parentReplyList, _ := service.GetReplyListByIds(ids.ArticleId, ids.ReplyCommentId, parentReplyIds)
 	userList, _ := userService.GetUserByIds(userIds)
 	replyList := articleUtils.GetFormatReply(articleUtils.FormatReplyParams{
 		ReplyList: list,
 		UserList: userList,
 		ParentReplyList: parentReplyList,
+		Article: articleInfo,
 	})
 
 	return replyList

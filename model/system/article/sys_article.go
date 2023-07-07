@@ -6,7 +6,7 @@ import (
 
 type SysArticle struct {
 	global.TB_MODEL
-	ArticleId      string `json:"id" gorm:"comment:文章唯一标识"`
+	ArticleId      string `json:"articleId" gorm:"comment:文章唯一标识"`
 	AuthorId      string `json:"authorId" gorm:"comment:作者id"`
 	ArticleName        string `json:"articleName" gorm:"comment:文章名"`
 	CategoryId    string `json:"categoryId" gorm:"comment:类别ID"`
