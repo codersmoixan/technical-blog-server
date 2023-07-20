@@ -229,5 +229,14 @@ func (api *ReplyApi) CancelReplyLiked(c *gin.Context) {
 // @author: zhengji.su
 // @param: c *gin.Context
 func (api *ReplyApi) GetReplyLikedRecord(c *gin.Context) {
+	var byId requestParam.GetById
+	_ = c.ShouldBindQuery(&byId)
 
+	if list, err := articleReplyLikedService.GetReplyLikedList(byId.ID); err != nil {
+		response.FailWithMessage("查询失败!", c)
+		global.TB_LOG.Error(err.Error())
+		return
+	} else {
+		response.OkWithDetailed(list, "查询成功", c)
+	}
 }

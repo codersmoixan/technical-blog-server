@@ -72,9 +72,5 @@ func (service *CommentLikedService) GetCommentLikedList(id string) ([]string, er
 		return nil, err
 	}
 
-	//commentIds := lo.Map(list, func(item article.SysArticleCommentLiked, index int) string {
-	//	return item.CommentId
-	//})
-
 	return commentIds, nil
 }

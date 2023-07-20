@@ -69,3 +69,18 @@ func (service *ReplyLikedService) ResetReplyLikedDeletedAt(liked article.SysArti
 
 	return err
 }
+
+// GetReplyLikedList
+// @author: zhengji.su
+// @description: 获取回复点赞列表
+// @param: params string
+// @return: []string, error
+func (service *ReplyLikedService) GetReplyLikedList(id string) ([]string, error) {
+	var replyIds []string
+	db := global.TB_DB.Model(&article.SysArticleReplyLiked{})
+	if err := db.Where("article_id = ?", id).Select("reply_id").Find(&replyIds).Error; err != nil {
+		return nil, err
+	}
+
+	return replyIds, nil
+}
