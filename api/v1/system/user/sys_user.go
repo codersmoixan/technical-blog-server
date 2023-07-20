@@ -12,6 +12,7 @@ import (
 	requestParams "technical-blog-server/model/system/request"
 	responseParams "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
+	"technical-blog-server/utils/verify"
 )
 
 type Api struct{}
@@ -32,7 +33,7 @@ func (api *Api) Register(c *gin.Context) {
 	var param requestParams.Register
 	_ = c.ShouldBindJSON(&param)
 
-	if err := utils.Verify(param, utils.RegisterVerify); err != nil {
+	if err := verify.Verify(param, verify.RegisterVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -66,7 +67,7 @@ func (api *Api) GetUserList(c *gin.Context) {
 	var pageInfo request.PageInfo
 	_ = c.ShouldBindQuery(&pageInfo)
 
-	if err := utils.Verify(pageInfo, utils.PageInfoVerify); err != nil {
+	if err := verify.Verify(pageInfo, verify.PageInfoVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -98,7 +99,7 @@ func (api *Api) LoginToken(c *gin.Context) {
 	var param requestParams.Login
 	_ = c.ShouldBindJSON(&param)
 
-	if err := utils.Verify(param, utils.LoginVerify); err != nil {
+	if err := verify.Verify(param, verify.LoginVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -179,7 +180,7 @@ func (api *Api) GetUserById(c *gin.Context) {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+	if err := verify.Verify(byId, verify.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

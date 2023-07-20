@@ -10,6 +10,7 @@ import (
 	requestParams "technical-blog-server/model/system/request"
 	responseParams "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
+	"technical-blog-server/utils/verify"
 )
 
 type Api struct{}
@@ -29,7 +30,7 @@ func (api *Api) GetArticleList(c *gin.Context) {
 	var articleParams request.GetArticleListParams
 	_ = c.ShouldBindQuery(&articleParams)
 
-	if err := utils.Verify(articleParams, utils.PageInfoVerify); err != nil {
+	if err := verify.Verify(articleParams, verify.PageInfoVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -65,7 +66,7 @@ func (api *Api) AddArticle(c *gin.Context) {
 	var articleParams requestParams.ArticleDetail
 	_ = c.ShouldBindJSON(&articleParams)
 
-	if err := utils.Verify(articleParams, utils.ArticleDetailVerify); err != nil {
+	if err := verify.Verify(articleParams, verify.ArticleDetailVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -104,7 +105,7 @@ func (api *Api) DeleteArticle(c *gin.Context) {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+	if err := verify.Verify(byId, verify.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -132,7 +133,7 @@ func (api *Api) GetArticleById(c *gin.Context) {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+	if err := verify.Verify(byId, verify.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

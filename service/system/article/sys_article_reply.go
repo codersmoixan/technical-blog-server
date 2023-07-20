@@ -61,11 +61,12 @@ func (service *ReplyService) GetReplyList(ids requestParams.GetReplyListIds, pag
 
 	var list []article.SysArticleReply
 	var total int64
+	sql := `article_id = ? AND reply_comment_id = ?`
 
-	if err := db.Where("article_id = ? AND reply_comment_id = ?", ids.ArticleId, ids.ReplyCommentId).Count(&total).Error; err != nil {
+	if err := db.Where(sql, ids.ArticleId, ids.ReplyCommentId).Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
-	if err := db.Where("article_id = ? AND reply_comment_id = ?", ids.ArticleId, ids.ReplyCommentId).Limit(limit).Offset(offset).Find(&list).Error; err != nil {
+	if err := db.Where(sql, ids.ArticleId, ids.ReplyCommentId).Limit(limit).Offset(offset).Find(&list).Error; err != nil {
 		return nil, 0, err
 	}
 
@@ -126,68 +127,6 @@ func (service *ReplyService) DeleteReply(id string) error  {
 	var reply article.SysArticleReply
 	err := global.TB_DB.Where("reply_id = ?", id).First(&reply).Delete(&reply).Error
 	return err
-}
-
-// UpdateReplyLiked
-// @author: zhengji.su
-// @description: 回复点赞
-// @param: liked article.SysArticleReplyLiked, count int64
-// @return: error
-func (service *ReplyService) UpdateReplyLiked(liked article.SysArticleReplyLiked, count int) error  {
-	sql := `article_id = ? AND reply_comment_id = ? AND reply_id = ?`
-	db := global.TB_DB.Model(&article.SysArticleReply{})
-	err := db.Where(sql, liked.ArticleId, liked.ReplyCommentId, liked.ReplyId).Update("reply_liked", gorm.Expr("reply_liked + ?", count)).Error
-
-	return err
-}
-
-// ResetReplyLikedDeletedAt
-// @author: zhengji.su
-// @description: 回复点赞
-// @param: liked article.SysArticleReplyLiked, count int64
-// @return: error
-func (service *ReplyService) ResetReplyLikedDeletedAt(liked article.SysArticleReplyLiked) error {
-	sql := `article_id = ? AND reply_comment_id = ? AND reply_id = ? AND user_id = ?`
-	db := global.TB_DB.Model(&article.SysArticleReplyLiked{})
-	err := db.Unscoped().Where(sql, liked.ArticleId, liked.ReplyCommentId, liked.ReplyId, liked.UserId).Update("deleted_at", nil).Error
-
-	return err
-}
-
-// AddLikedRecord
-// @author: zhengji.su
-// @description: 添加点赞记录
-// @param: liked article.SysArticleReplyLiked
-// @return: error
-func (service *ReplyService) AddLikedRecord(liked article.SysArticleReplyLiked) error {
-	err := global.TB_DB.Create(&liked).Error
-	return err
-}
-
-// CancelLikedRecord
-// @author: zhengji.su
-// @description: 取消点赞
-// @param: liked article.SysArticleReplyLiked
-// @return: error
-func (service *ReplyService) CancelLikedRecord(liked article.SysArticleReplyLiked) error {
-	sql := `article_id = ? AND reply_comment_id = ? AND reply_id = ? AND user_id = ?`
-	err := global.TB_DB.Where(sql, liked.ArticleId, liked.ReplyCommentId, liked.ReplyId, liked.UserId).Delete(&article.SysArticleReplyLiked{}).Error
-
-	return err
-}
-
-// GetUserLiked
-// @author: zhengji.su
-// @description: 查询用户点赞记录
-// @param: liked article.SysArticleReplyLiked
-// @return: error
-func (service *ReplyService) GetUserLiked(liked article.SysArticleReplyLiked) ([]article.SysArticleReplyLiked, error) {
-	var list []article.SysArticleReplyLiked
-	sql := `article_id = ? AND reply_comment_id = ? AND reply_id = ? AND user_id = ?`
-	db := global.TB_DB.Model(&article.SysArticleReplyLiked{})
-	err := db.Unscoped().Where(sql, liked.ArticleId, liked.ReplyCommentId, liked.ReplyId, liked.UserId).First(&list).Error
-
-	return list, err
 }
 
 // GetGroupReply

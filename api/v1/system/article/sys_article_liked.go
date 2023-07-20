@@ -5,8 +5,8 @@ import (
 	"technical-blog-server/model/common/response"
 	article2 "technical-blog-server/model/system/article"
 	responseParam "technical-blog-server/model/system/response"
-	"technical-blog-server/utils"
 	articleUtils "technical-blog-server/utils/article"
+	"technical-blog-server/utils/verify"
 )
 
 type LikedApi struct {}
@@ -23,7 +23,7 @@ type LikedApi struct {}
 func (api *LikedApi) SaveLiked(c *gin.Context) {
 	likedParam := articleUtils.GetArticleBindUserParams(c)
 
-	if err := utils.Verify(likedParam, utils.ArticleBindUserVerify); err != nil {
+	if err := verify.Verify(likedParam, verify.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -67,7 +67,7 @@ func (api *LikedApi) SaveLiked(c *gin.Context) {
 func (api *LikedApi) CancelLiked(c *gin.Context) {
 	likedParam := articleUtils.GetArticleBindUserParams(c)
 
-	if err := utils.Verify(likedParam, utils.ArticleBindUserVerify); err != nil {
+	if err := verify.Verify(likedParam, verify.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -111,7 +111,7 @@ func (api *LikedApi) CancelLiked(c *gin.Context) {
 // @param: c *gin.Context
 func (api *LikedApi) GetUserIsLiked(c *gin.Context) {
 	likedParam := articleUtils.GetArticleBindUserParams(c)
-	if err := utils.Verify(likedParam, utils.ArticleBindUserVerify); err != nil {
+	if err := verify.Verify(likedParam, verify.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

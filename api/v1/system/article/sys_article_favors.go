@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"technical-blog-server/model/common/response"
 	responseParam "technical-blog-server/model/system/response"
-	"technical-blog-server/utils"
 	articleUtils "technical-blog-server/utils/article"
+	"technical-blog-server/utils/verify"
 )
 
 type FavorApi struct {}
@@ -22,7 +22,7 @@ type FavorApi struct {}
 func (api *FavorApi)SaveFavor(c *gin.Context) {
 	favorParams := articleUtils.GetArticleBindUserParams(c)
 
-	if err := utils.Verify(favorParams, utils.ArticleBindUserVerify); err != nil {
+	if err := verify.Verify(favorParams, verify.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -48,7 +48,7 @@ func (api *FavorApi)SaveFavor(c *gin.Context) {
 func (api *FavorApi)CancelFavor(c *gin.Context)  {
 	favorParams := articleUtils.GetArticleBindUserParams(c)
 
-	if err := utils.Verify(favorParams, utils.ArticleBindUserVerify); err != nil {
+	if err := verify.Verify(favorParams, verify.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -73,7 +73,7 @@ func (api *FavorApi)CancelFavor(c *gin.Context)  {
 // @param: c *gin.Context
 func (api *FavorApi)GetUserIsFavor(c *gin.Context)  {
 	favorParam := articleUtils.GetArticleBindUserParams(c)
-	if err := utils.Verify(favorParam, utils.ArticleBindUserVerify); err != nil {
+	if err := verify.Verify(favorParam, verify.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

@@ -9,6 +9,7 @@ import (
 	"technical-blog-server/model/system/article"
 	"technical-blog-server/model/system/request"
 	"technical-blog-server/utils"
+	"technical-blog-server/utils/verify"
 )
 
 type ReplyApi struct {}
@@ -34,10 +35,10 @@ func (api *ReplyApi) GetReplyList(c *gin.Context) {
 		requestParam.PageInfo
 		request.GetReplyListIds
 	}
-	var idVerify = utils.Rules{"ArticleId": {utils.NotEmpty()}, "ReplyCommentId": {utils.NotEmpty()}}
+	var idVerify = verify.Rules{"ArticleId": {verify.NotEmpty()}, "ReplyCommentId": {verify.NotEmpty()}}
 	_ = c.ShouldBindJSON(&replyParams)
 
-	if err := utils.Verify(replyParams, utils.MergeMaps[string, []string](idVerify, utils.PageInfoVerify)); err != nil {
+	if err := verify.Verify(replyParams, utils.MergeMaps[string, []string](idVerify, verify.PageInfoVerify)); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -77,7 +78,7 @@ func (api *ReplyApi) AddReply(c *gin.Context) {
 	var replyParams article.SysArticleReply
 	_ = c.ShouldBindJSON(&replyParams)
 
-	if err := utils.Verify(replyParams, utils.ArticleReplyVerify); err != nil {
+	if err := verify.Verify(replyParams, verify.ArticleReplyVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -111,7 +112,7 @@ func (api *ReplyApi) DeleteReply(c *gin.Context) {
 	var byId requestParam.GetById
 	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+	if err := verify.Verify(byId, verify.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -140,13 +141,13 @@ func (api *ReplyApi) SaveReplyLiked(c *gin.Context) {
 	_ = c.ShouldBindJSON(&likedParams)
 	likedParams.UserId = utils.GetUserId(c)
 
-	if err := utils.Verify(likedParams, utils.ArticleReplyLikedVerify); err != nil {
+	if err := verify.Verify(likedParams, verify.ArticleReplyLikedVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
 	// 查询该用户是否已经点赞
-	list, _ := articleReplyService.GetUserLiked(likedParams)
+	list, _ := articleReplyLikedService.GetUserLiked(likedParams)
 	// 如果有点赞记录将不再点赞
 	if len(list) != 0 {
 		// 记录是否为软删除
@@ -157,18 +158,18 @@ func (api *ReplyApi) SaveReplyLiked(c *gin.Context) {
 		}
 
 		// 如果点赞记录是软删除的，重置deleted_at为空
-		if err := articleReplyService.ResetReplyLikedDeletedAt(likedParams); err != nil {
+		if err := articleReplyLikedService.ResetReplyLikedDeletedAt(likedParams); err != nil {
 			replyLikedFailed(c, err)
 			return
 		}
 	} else {
-		if err := articleReplyService.AddLikedRecord(likedParams); err != nil {
+		if err := articleReplyLikedService.AddLikedRecord(likedParams); err != nil {
 			replyLikedFailed(c, err)
 			return
 		}
 	}
 
-	if err := articleReplyService.UpdateReplyLiked(likedParams, 1); err != nil {
+	if err := articleReplyLikedService.UpdateReplyLiked(likedParams, 1); err != nil {
 		replyLikedFailed(c, err)
 		return
 	}
@@ -192,28 +193,41 @@ func (api *ReplyApi) CancelReplyLiked(c *gin.Context) {
 	_ = c.ShouldBindJSON(&likedParams)
 	likedParams.UserId = utils.GetUserId(c)
 
-	if err := utils.Verify(likedParams, utils.ArticleReplyLikedVerify); err != nil {
+	if err := verify.Verify(likedParams, verify.ArticleReplyLikedVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	list, _ := articleReplyService.GetUserLiked(likedParams)
+	list, _ := articleReplyLikedService.GetUserLiked(likedParams)
 	if len(list) == 0 || (len(list) != 0 && list[0].DeletedAt.Valid) {
 		response.FailWithMessage("未点赞，不能取消点赞!", c)
 		return
 	}
 
-	if err := articleReplyService.CancelLikedRecord(likedParams); err != nil {
+	if err := articleReplyLikedService.CancelLikedRecord(likedParams); err != nil {
 		response.FailWithMessage("取消失败!", c)
 		global.TB_LOG.Error("取消失败!", zap.Error(err))
 		return
 	}
 
-	if err := articleReplyService.UpdateReplyLiked(likedParams, -1); err != nil {
+	if err := articleReplyLikedService.UpdateReplyLiked(likedParams, -1); err != nil {
 		response.FailWithMessage("取消失败!", c)
 		global.TB_LOG.Error("取消失败!", zap.Error(err))
 		return
 	}
 
 	response.OkWithDetailed("OK", "取消成功!", c)
+}
+
+// GetReplyLikedRecord
+// @Tags 文章评论回复管理
+// @Summary 获取文章回复点赞记录
+// @Description 获取文章回复点赞记录
+// @Param articleId query string true "文章id"
+// @Success 200 {string json "{"code": 200, "msg": "", "data": ""}"
+// @Router /article/reply/liked/record [get]
+// @author: zhengji.su
+// @param: c *gin.Context
+func (api *ReplyApi) GetReplyLikedRecord(c *gin.Context) {
+
 }

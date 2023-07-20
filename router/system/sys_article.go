@@ -29,6 +29,7 @@ func (article *ArticleRouter) SetupArticleRouter(Router *gin.RouterGroup) {
 		articleRouter.POST("favor/cancel", articleFavorApi.CancelFavor)
 		articleRouter.GET("favor/is", articleFavorApi.GetUserIsFavor)
 		articleRouter.POST("comment/submit", articleCommentApi.SubmitComment)
+		articleRouter.POST("comment/liked/save", articleCommentApi.SaveCommentLiked)
 		articleRouter.POST("reply/add", articleReplyApi.AddReply)
 		articleRouter.POST("reply/delete", articleReplyApi.DeleteReply)
 		articleRouter.POST("reply/liked/save", articleReplyApi.SaveReplyLiked)
@@ -48,6 +49,8 @@ func (article *ArticleRouter) SetupGuestArticleRouter(Router *gin.RouterGroup)  
 		// 请求文章详情时会自动调用，无需再次手动调用
 		articleRouter.POST("article/views/record", articleViewsApi.RecordViews)
 		articleRouter.POST("article/comment/list", articleCommentApi.GetCommentList)
+		articleRouter.GET("article/comment/liked/record", articleCommentApi.GetCommentLikedRecord)
 		articleRouter.POST("article/reply/list", articleReplyApi.GetReplyList)
+		articleRouter.GET("article/reply/liked/record", articleReplyApi.GetReplyLikedRecord)
 	}
 }

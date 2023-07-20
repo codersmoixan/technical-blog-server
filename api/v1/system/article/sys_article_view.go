@@ -3,8 +3,8 @@ package article
 import (
 	"github.com/gin-gonic/gin"
 	"technical-blog-server/model/common/response"
-	"technical-blog-server/utils"
 	articleUtils "technical-blog-server/utils/article"
+	verify2 "technical-blog-server/utils/verify"
 )
 
 type ViewsApi struct {}
@@ -21,8 +21,8 @@ type ViewsApi struct {}
 func (api *ViewsApi) RecordViews(c *gin.Context) {
 	viewsParam := articleUtils.GetArticleBindUserParams(c)
 
-	verify := utils.Rules{"ArticleId": {utils.NotEmpty()}}
-	if err := utils.Verify(viewsParam, verify); err != nil {
+	verify := verify2.Rules{"ArticleId": {verify2.NotEmpty()}}
+	if err := verify2.Verify(viewsParam, verify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

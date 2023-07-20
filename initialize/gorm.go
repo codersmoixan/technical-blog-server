@@ -66,6 +66,7 @@ func RegisterTables(db *gorm.DB) {
 		article.SysArticleFavors{},
 		article.SysArticleViews{},
 		article.SysArticleComment{},
+		article.SysArticleCommentLiked{},
 		article.SysArticleReply{},
 		article.SysArticleReplyLiked{},
 

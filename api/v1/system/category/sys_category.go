@@ -9,7 +9,7 @@ import (
 	modelSystem "technical-blog-server/model/system"
 	requestParams "technical-blog-server/model/system/request"
 	responseParams "technical-blog-server/model/system/response"
-	"technical-blog-server/utils"
+	"technical-blog-server/utils/verify"
 )
 
 type Api struct{}
@@ -52,7 +52,7 @@ func (cate *Api) AddCategory(c *gin.Context) {
 	var categoryParam requestParams.CategoryContent
 	_ = c.ShouldBindJSON(&categoryParam)
 
-	if err := utils.Verify(categoryParam, utils.CategoriesVerify); err != nil {
+	if err := verify.Verify(categoryParam, verify.CategoryVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -89,7 +89,7 @@ func (cate *Api) UpdateCategory(c *gin.Context) {
 	var updateContent requestParams.UpdateCategoryContent
 	_ = c.ShouldBindJSON(&updateContent)
 
-	if err := utils.Verify(updateContent, utils.UpdateCategoriesVerify); err != nil {
+	if err := verify.Verify(updateContent, verify.UpdateCategoryVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -118,7 +118,7 @@ func (cate *Api) DeleteCategory(c *gin.Context) {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+	if err := verify.Verify(byId, verify.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -146,7 +146,7 @@ func (cate *Api) GetCategoryById(c *gin.Context)  {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+	if err := verify.Verify(byId, verify.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
