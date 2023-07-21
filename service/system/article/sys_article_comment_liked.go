@@ -6,9 +6,7 @@ import (
 	"technical-blog-server/model/system/article"
 )
 
-type CommentLikedService struct {
-
-}
+type CommentLikedService struct {}
 
 // GetUserLiked
 // @author: zhengji.su
@@ -73,4 +71,16 @@ func (service *CommentLikedService) GetCommentLikedList(id string) ([]string, er
 	}
 
 	return commentIds, nil
+}
+
+// CancelLikedRecord
+// @author: zhengji.su
+// @description: 取消点赞
+// @param: liked article.SysArticleReplyLiked
+// @return: error
+func (service *CommentLikedService) CancelLikedRecord(params article.SysArticleCommentLiked) error {
+	sql := `article_id = ? AND comment_id = ? AND user_id = ?`
+	err := global.TB_DB.Where(sql, params.ArticleId, params.CommentId, params.UserId).Delete(&article.SysArticleCommentLiked{}).Error
+
+	return err
 }

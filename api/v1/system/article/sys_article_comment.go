@@ -131,6 +131,48 @@ func (api *CommentApi) SaveCommentLiked(c *gin.Context) {
 	response.OkWithDetailed("OK", "点赞成功!", c)
 }
 
+// CancelCommentLiked
+// @Tags 文章评论管理
+// @Summary 评论取消点赞
+// @Description 评论取消点赞
+// @Accept json
+// @Produce json
+// @Param data body article.SysArticleCommentLiked true "取消回复信息"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /article/comment/liked/cancel [post]
+// @author: zhengji.su
+// @param: c *gin.Context
+func (api *CommentApi) CancelCommentLiked(c *gin.Context) {
+	var commentLikedParams article.SysArticleCommentLiked
+	_ = c.ShouldBindJSON(&commentLikedParams)
+	commentLikedParams.UserId = utils.GetUserId(c)
+
+	if err := verify.Verify(commentLikedParams, verify.ArticleCommentLikedVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	list, _ := articleCommentLikedService.GetUserLiked(commentLikedParams)
+	if len(list) == 0 || (len(list) != 0 && list[0].DeletedAt.Valid) {
+		response.FailWithMessage("未点赞，不能取消点赞!", c)
+		return
+	}
+
+	if err := articleCommentLikedService.CancelLikedRecord(commentLikedParams); err != nil {
+		response.FailWithMessage("取消失败!", c)
+		global.TB_LOG.Error("取消失败!", zap.Error(err))
+		return
+	}
+
+	if err := articleCommentLikedService.UpdateCommentLiked(commentLikedParams, -1); err != nil {
+		response.FailWithMessage("取消失败!", c)
+		global.TB_LOG.Error("取消失败!", zap.Error(err))
+		return
+	}
+
+	response.OkWithDetailed("OK", "取消成功!", c)
+}
+
 // GetCommentLikedRecord
 // @Tags 文章评论管理
 // @Summary 获取文章评论点赞记录

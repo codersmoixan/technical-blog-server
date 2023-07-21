@@ -30,6 +30,7 @@ func (article *ArticleRouter) SetupArticleRouter(Router *gin.RouterGroup) {
 		articleRouter.GET("favor/is", articleFavorApi.GetUserIsFavor)
 		articleRouter.POST("comment/submit", articleCommentApi.SubmitComment)
 		articleRouter.POST("comment/liked/save", articleCommentApi.SaveCommentLiked)
+		articleRouter.POST("comment/liked/cancel", articleCommentApi.CancelCommentLiked)
 		articleRouter.POST("reply/add", articleReplyApi.AddReply)
 		articleRouter.POST("reply/delete", articleReplyApi.DeleteReply)
 		articleRouter.POST("reply/liked/save", articleReplyApi.SaveReplyLiked)
@@ -44,10 +45,11 @@ func (article *ArticleRouter) SetupGuestArticleRouter(Router *gin.RouterGroup)  
 	articleCommentApi := v1.ApiGroupApp.SystemApiGroup.ArticleCommentApi
 	articleReplyApi := v1.ApiGroupApp.SystemApiGroup.ArticleReplyApi
 	{
-		articleRouter.GET("article/list", articleApi.GetArticleList)
-		articleRouter.GET("article", articleApi.GetArticleById)
 		// 请求文章详情时会自动调用，无需再次手动调用
 		articleRouter.POST("article/views/record", articleViewsApi.RecordViews)
+
+		articleRouter.GET("article/list", articleApi.GetArticleList)
+		articleRouter.GET("article", articleApi.GetArticleById)
 		articleRouter.POST("article/comment/list", articleCommentApi.GetCommentList)
 		articleRouter.GET("article/comment/liked/record", articleCommentApi.GetCommentLikedRecord)
 		articleRouter.POST("article/reply/list", articleReplyApi.GetReplyList)
