@@ -3,10 +3,9 @@ package article
 import (
 	"github.com/gin-gonic/gin"
 	"technical-blog-server/model/common/response"
-	article2 "technical-blog-server/model/system/article"
 	responseParam "technical-blog-server/model/system/response"
-	"technical-blog-server/utils"
 	articleUtils "technical-blog-server/utils/article"
+	"technical-blog-server/utils/verify"
 )
 
 type FavorApi struct {}
@@ -21,32 +20,14 @@ type FavorApi struct {}
 // @author: zhengji.su
 // @param: c *gin.Context
 func (api *FavorApi)SaveFavor(c *gin.Context) {
-	favorParam := articleUtils.GetArticleBindUserParams(c)
+	favorParams := articleUtils.GetArticleBindUserParams(c)
 
-	if err := utils.Verify(favorParam, utils.ArticleBindUserVerify); err != nil {
+	if err := verify.Verify(favorParams, verify.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	list, _ := articleFavorService.GetUserFavor(favorParam.UserId)
-	if len(list) != 0 {
-		response.OkWithDetailed(responseParam.ArticleIsFavorResponse{
-			IsFavor: len(list) != 0,
-		}, "文章已在收藏列表中，无法继续添加。", c)
-		return
-	}
-
-	var favor = &article2.SysArticleFavors{
-		ArticleId: favorParam.ArticleId,
-		UserId: favorParam.UserId,
-	}
-	_, err := articleFavorService.AddFavorRecord(*favor)
-	if err != nil {
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
-
-	article, er := articleFavorService.SaveFavor(favorParam.ArticleId)
+	article, er := articleFavorService.SaveFavor(favorParams)
 	if er != nil {
 		response.FailWithMessage(er.Error(), c)
 		return
@@ -65,33 +46,14 @@ func (api *FavorApi)SaveFavor(c *gin.Context) {
 // @author: zhengji.su
 // @param: c *gin.Context
 func (api *FavorApi)CancelFavor(c *gin.Context)  {
-	favorParam := articleUtils.GetArticleBindUserParams(c)
+	favorParams := articleUtils.GetArticleBindUserParams(c)
 
-	if err := utils.Verify(favorParam, utils.ArticleBindUserVerify); err != nil {
+	if err := verify.Verify(favorParams, verify.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	list, _ := articleFavorService.GetUserFavor(favorParam.UserId)
-	if len(list) == 0 {
-		response.OkWithDetailed(responseParam.ArticleIsFavorResponse{
-			IsFavor: len(list) != 0,
-		}, "该文章并未收藏，无法移除收藏列表。", c)
-		return
-	}
-
-	var favor = &article2.SysArticleFavors{
-		ArticleId: favorParam.ArticleId,
-		UserId: favorParam.UserId,
-	}
-	_, err := articleFavorService.DeleteFavorRecord(*favor)
-
-	if err != nil {
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
-
-	article, err := articleFavorService.CancelFavor(favorParam.ArticleId)
+	article, err := articleFavorService.CancelFavor(favorParams)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
@@ -111,7 +73,7 @@ func (api *FavorApi)CancelFavor(c *gin.Context)  {
 // @param: c *gin.Context
 func (api *FavorApi)GetUserIsFavor(c *gin.Context)  {
 	favorParam := articleUtils.GetArticleBindUserParams(c)
-	if err := utils.Verify(favorParam, utils.ArticleBindUserVerify); err != nil {
+	if err := verify.Verify(favorParam, verify.ArticleBindUserVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

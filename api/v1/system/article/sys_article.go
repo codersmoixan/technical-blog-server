@@ -7,10 +7,10 @@ import (
 	"technical-blog-server/global"
 	"technical-blog-server/model/common/request"
 	"technical-blog-server/model/common/response"
-	article2 "technical-blog-server/model/system/article"
 	requestParams "technical-blog-server/model/system/request"
 	responseParams "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
+	"technical-blog-server/utils/verify"
 )
 
 type Api struct{}
@@ -30,7 +30,7 @@ func (api *Api) GetArticleList(c *gin.Context) {
 	var articleParams request.GetArticleListParams
 	_ = c.ShouldBindQuery(&articleParams)
 
-	if err := utils.Verify(articleParams, utils.PageInfoVerify); err != nil {
+	if err := verify.Verify(articleParams, verify.PageInfoVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -63,63 +63,25 @@ func (api *Api) GetArticleList(c *gin.Context) {
 // @description: 新增文章
 // @param: c *gin.Context
 func (api *Api) AddArticle(c *gin.Context) {
-	var articleParam requestParams.ArticleDetail
-	_ = c.ShouldBindJSON(&articleParam)
+	var articleParams requestParams.ArticleDetail
+	_ = c.ShouldBindJSON(&articleParams)
 
-	if err := utils.Verify(articleParam, utils.ArticleDetailVerify); err != nil {
+	if err := verify.Verify(articleParams, verify.ArticleDetailVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	id := utils.GenerateIntStringUUID()
-	userId := utils.GetUserId(c)
+	articleParams.ArticleId = utils.GenerateIntStringUUID()
+	articleParams.UserId = utils.GetUserId(c)
 
-	article := &article2.SysArticle{
-		ArticleId: id,
-		AuthorId: userId,
-		ArticleName:        articleParam.ArticleName,
-		Description: articleParam.Description,
-		Content:     articleParam.Content,
-		CategoryId:    articleParam.Category,
-		ArticleCoverUrl:   articleParam.ArticleCoverUrl,
-		ArticleCoverKey: articleParam.ArticleCoverKey,
-	}
 	// 保存文章
-	if _, err := articleService.AddArticle(*article); err != nil {
+	article, err := articleService.AddArticle(articleParams)
+	if err != nil {
 		response.FailWithMessage(err.Error(), c)
-		global.TB_LOG.Error(err.Error())
 		return
 	}
 
-	// 保存文章标签
-	if err := articleService.AppendArticleTags(id, articleParam.Tags); err != nil {
-		response.FailWithMessage("TBError: 创建标签表失败！", c)
-		global.TB_LOG.Error(fmt.Sprintf("TBError: 创建标签表失败！%v", err))
-		return
-	}
-
-	// 获取文章标签
-	tags, _ := articleService.GetArticleTags([]string{id})
-	var articleTags []responseParams.ArticleTags
-	for _, tag := range tags {
-		articleTags = append(articleTags, responseParams.ArticleTags{
-			TagId: tag.TagId,
-			TagName: tag.TagName,
-		})
-	}
-
-	// 获取分类
-	category, _ := categoryService.GetCategoryById(article.CategoryId)
-
-	response.OkWithDetailed(responseParams.ArticleAddResponse{
-		ArticleName:        article.ArticleName,
-		Description: article.Description,
-		Tags:         articleTags,
-		CategoryId:    article.CategoryId,
-		CategoryName: category.CategoryName,
-		ArticleCoverUrl:   article.ArticleCoverUrl,
-		ArticleCoverKey: article.ArticleCoverKey,
-	}, "文章保存成功!", c)
+	response.OkWithDetailed(article, "文章保存成功!", c)
 }
 
 // UpdateArticle
@@ -143,7 +105,7 @@ func (api *Api) DeleteArticle(c *gin.Context) {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+	if err := verify.Verify(byId, verify.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -171,7 +133,7 @@ func (api *Api) GetArticleById(c *gin.Context) {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+	if err := verify.Verify(byId, verify.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}

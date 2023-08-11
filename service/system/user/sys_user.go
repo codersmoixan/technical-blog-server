@@ -58,12 +58,12 @@ func (service *Service) GetUserList(pageInfo request.PageInfo) (list interface{}
 // @description: 根据id获取用户数据
 // @param: id string
 // @return: modelSystem.SysUser, error
-func (service *Service) GetUserById(id uint) (modelSystem.SysUser, error) {
+func (service *Service) GetUserById(id string) (*modelSystem.SysUser, error) {
 	db := global.TB_DB.Model(&modelSystem.SysUser{})
 	var user modelSystem.SysUser
 
-	err := db.Where("id = ?", id).First(&user).Error
-	return user, err
+	err := db.Where("user_id = ?", id).Omit("password").First(&user).Error
+	return &user, err
 }
 
 // GetUserByIds

@@ -7,6 +7,7 @@ import (
 	"technical-blog-server/model/system/article"
 	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
+	articleUtils "technical-blog-server/utils/article"
 	"time"
 )
 
@@ -15,18 +16,35 @@ type ViewsService struct {}
 // UpdateViews
 // @author: zhengji.su
 // @description: 文章阅读量+1
-// @param: id string
-// @return: articleInter responseParam.ArticleDetail, err error
-func (service *ViewsService) UpdateViews(id string) (articleInter responseParam.ArticleDetail, err error) {
-	db := global.TB_DB.Model(&article.SysArticle{})
-	err = db.Where("article_id = ?", id).Update("views", gorm.Expr("views + ?", 1)).Error
-	if err != nil {
-		return articleInter, err
+// @param: viewParams articleUtils.ArticleBindUser
+// @return: responseParam.ArticleDetail, error
+func (service *ViewsService) UpdateViews(viewParams articleUtils.ArticleBindUser) (*responseParam.ArticleDetail, error) {
+	articleInter, err := articleService.GetArticleById(viewParams.ArticleId)
+
+	if !viewParams.UserIsEmpty {
+		isView, err := articleViewsService.GetUserIsViews(viewParams.UserId)
+
+		if isView {
+			articleViewsService.UpdateViewsDate(viewParams.UserId)
+			return &articleInter, nil
+		}
+
+		var views = &article.SysArticleViews{
+			ArticleId: viewParams.ArticleId,
+			UserId: viewParams.UserId,
+		}
+
+		if _, err = articleViewsService.RecordViews(*views); err != nil {
+			return nil, err
+		}
 	}
 
-	articleInter, err = articleService.GetArticleById(id)
+	db := global.TB_DB.Model(&article.SysArticle{})
+	if err := db.Where("article_id = ?", viewParams.ArticleId).Update("views", gorm.Expr("views + ?", 1)).Error; err != nil {
+		return nil, err
+	}
 
-	return articleInter, err
+	return &articleInter, err
 }
 
 // RecordViews

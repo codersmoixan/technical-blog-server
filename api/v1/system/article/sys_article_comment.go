@@ -7,8 +7,8 @@ import (
 	"technical-blog-server/model/common/request"
 	"technical-blog-server/model/common/response"
 	"technical-blog-server/model/system/article"
-	responseParam "technical-blog-server/model/system/response"
 	"technical-blog-server/utils"
+	"technical-blog-server/utils/verify"
 )
 
 type CommentApi struct {}
@@ -30,27 +30,23 @@ func (api *CommentApi) GetCommentList(c *gin.Context) {
 	_ = c.ShouldBindQuery(&byId)
 	_ = c.ShouldBindJSON(&pageInfo)
 
-	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+	if err := verify.Verify(byId, verify.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	if commentList, total, err := articleCommentService.GetCommentList(byId.ID, pageInfo); err != nil {
+	commentList, total, err := articleCommentService.GetCommentList(byId.ID, pageInfo)
+	if err != nil {
 		response.FailWithMessage(err.Error(), c)
-		global.TB_LOG.Error("评论获取失败!", zap.Error(err))
-	} else {
-		response.OkWithDetailed(struct {
-			List []responseParam.ArticleCommentResponse `json:"list"`
-			Page int `json:"page"`
-			PageSize int `json:"pageSize"`
-			Total int64 `json:"total"`
-		}{
-			List: commentList,
-			Total: total,
-			Page: pageInfo.Page,
-			PageSize: pageInfo.PageSize,
-		}, "评论获取成功!", c)
+		return
 	}
+
+	response.OkWithDetailed(response.PageResult{
+		List: commentList,
+		Total: total,
+		Page: pageInfo.Page,
+		PageSize: pageInfo.PageSize,
+	}, "评论获取成功!", c)
 }
 
 // SubmitComment
@@ -71,7 +67,7 @@ func (api *CommentApi) SubmitComment(c *gin.Context) {
 	commentParams.UserId = utils.GetUserId(c)
 	commentParams.CommentId = utils.GenerateIntStringUUID()
 
-	if err := utils.Verify(commentParams, utils.ArticleCommentVerify); err != nil {
+	if err := verify.Verify(commentParams, verify.ArticleCommentVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -81,5 +77,120 @@ func (api *CommentApi) SubmitComment(c *gin.Context) {
 		global.TB_LOG.Error("评论提交失败!", zap.Error(err))
 	} else {
 		response.OkWithDetailed(comment, "评论提交成功!", c)
+	}
+}
+
+// SaveCommentLiked
+// @Tags 文章评论管理
+// @Summary 评论点赞
+// @Description 评论点赞
+// @Accept json
+// @Produce json
+// @Param data body article.SysArticleReplyLiked true "回复点赞信息"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /article/reply/liked/save [post]
+// @author: zhengji.su
+// @param: c *gin.Context
+func (api *CommentApi) SaveCommentLiked(c *gin.Context) {
+	var commentLikedParams article.SysArticleCommentLiked
+	_ = c.ShouldBindJSON(&commentLikedParams)
+	commentLikedParams.UserId = utils.GetUserId(c)
+
+	if err := verify.Verify(commentLikedParams, verify.ArticleCommentLikedVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	// 查询该用户是否已经点赞
+	list, _ := articleCommentLikedService.GetUserLiked(commentLikedParams)
+	if len(list) != 0 {
+		// 记录是否为软删除
+		isDelete := list[0].DeletedAt.Valid
+		if !isDelete {
+			response.FailWithMessage("用户已点赞，无法再次点赞!", c)
+			return
+		}
+
+		// 如果点赞记录是软删除的，重置deleted_at为空
+		if err := articleCommentLikedService.ResetCommentLikedDeletedAt(commentLikedParams); err != nil {
+			replyLikedFailed(c, err)
+			return
+		}
+	} else {
+		if err := articleCommentLikedService.AddLikedRecord(commentLikedParams); err != nil {
+			replyLikedFailed(c, err)
+			return
+		}
+	}
+
+	if err := articleCommentLikedService.UpdateCommentLiked(commentLikedParams, 1); err != nil {
+		replyLikedFailed(c, err)
+		return
+	}
+
+	response.OkWithDetailed("OK", "点赞成功!", c)
+}
+
+// CancelCommentLiked
+// @Tags 文章评论管理
+// @Summary 评论取消点赞
+// @Description 评论取消点赞
+// @Accept json
+// @Produce json
+// @Param data body article.SysArticleCommentLiked true "取消回复信息"
+// @Success 200 {string} json "{"code": "200", "msg": "", "data": ""}"
+// @Router /article/comment/liked/cancel [post]
+// @author: zhengji.su
+// @param: c *gin.Context
+func (api *CommentApi) CancelCommentLiked(c *gin.Context) {
+	var commentLikedParams article.SysArticleCommentLiked
+	_ = c.ShouldBindJSON(&commentLikedParams)
+	commentLikedParams.UserId = utils.GetUserId(c)
+
+	if err := verify.Verify(commentLikedParams, verify.ArticleCommentLikedVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	list, _ := articleCommentLikedService.GetUserLiked(commentLikedParams)
+	if len(list) == 0 || (len(list) != 0 && list[0].DeletedAt.Valid) {
+		response.FailWithMessage("未点赞，不能取消点赞!", c)
+		return
+	}
+
+	if err := articleCommentLikedService.CancelLikedRecord(commentLikedParams); err != nil {
+		response.FailWithMessage("取消失败!", c)
+		global.TB_LOG.Error("取消失败!", zap.Error(err))
+		return
+	}
+
+	if err := articleCommentLikedService.UpdateCommentLiked(commentLikedParams, -1); err != nil {
+		response.FailWithMessage("取消失败!", c)
+		global.TB_LOG.Error("取消失败!", zap.Error(err))
+		return
+	}
+
+	response.OkWithDetailed("OK", "取消成功!", c)
+}
+
+// GetCommentLikedRecord
+// @Tags 文章评论管理
+// @Summary 获取文章评论点赞记录
+// @Description 获取文章评论点赞记录
+// @Param id query string true "文章id"
+// @Success 200 {string json "{"code": 200, "msg": "", "data": ""}"
+// @Router /article/comment/liked/record [get]
+// @author: zhengji.su
+// @param: c *gin.Context
+func (api *CommentApi) GetCommentLikedRecord(c *gin.Context) {
+	var byId request.GetById
+	_ = c.ShouldBindQuery(&byId)
+
+	if list, err := articleCommentLikedService.GetCommentLikedList(byId.ID); err != nil {
+		response.FailWithMessage("查询失败!", c)
+		global.TB_LOG.Error(err.Error())
+		return
+	} else {
+		response.OkWithDetailed(list, "查询成功", c)
 	}
 }

@@ -9,7 +9,7 @@ import (
 	modelSystem "technical-blog-server/model/system"
 	requestParams "technical-blog-server/model/system/request"
 	responseParams "technical-blog-server/model/system/response"
-	"technical-blog-server/utils"
+	"technical-blog-server/utils/verify"
 )
 
 type Api struct{}
@@ -49,7 +49,7 @@ func (t *Api) AddTag(c *gin.Context) {
 	var tagParam requestParams.TagContent
 	_ = c.ShouldBindJSON(&tagParam)
 
-	if err := utils.Verify(tagParam, utils.TagContentVerify); err != nil {
+	if err := verify.Verify(tagParam, verify.TagContentVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -87,7 +87,7 @@ func (t *Api) UpdateTag(c *gin.Context) {
 	var updateContent requestParams.UpdateTag
 	_ = c.ShouldBindJSON(&updateContent)
 
-	if err := utils.Verify(updateContent, utils.UpdateTagVerify); err != nil {
+	if err := verify.Verify(updateContent, verify.UpdateTagVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -116,7 +116,7 @@ func (t *Api) DeleteTag(c *gin.Context) {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+	if err := verify.Verify(byId, verify.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -144,7 +144,7 @@ func (t *Api) GetTagById(c *gin.Context)  {
 	var byId request.GetById
 	_ = c.ShouldBindQuery(&byId)
 
-	if err := utils.Verify(byId, utils.IdVerify); err != nil {
+	if err := verify.Verify(byId, verify.IdVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
